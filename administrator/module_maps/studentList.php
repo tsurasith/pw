@@ -80,7 +80,7 @@
 			<td class="key" width="160px" align="center">หมู่บ้าน</td>
 			<td class="key" width="80px" align="center">ใช้เวลา<br/>มา ร.ร.</td>
 			<td class="key" width="70px"  align="center">แผนที่</td>
-            <td class="key" width="60px" align="center">รูปบ้าน</td>
+			<td class="key" width="70px"  align="center">ภาพถ่าย</td>
 		</tr>
 		<?	$sqlStudent = "select id,prefix,firstname,lastname,nickname,howlong,p_village,utm_coordinate_x,utm_coordinate_y,studstatus
 						 from students   where xlevel = '". $xlevel . "' and xyearth = '" . $xyearth . "' 
@@ -111,12 +111,12 @@
                     	-
                     <? } ?>
 				</td>
-                <td align="center">
+				<td align="center">
                 	<?php
 						$_homeImage = "/pk/images/studhome/id" . $_dat['id'] . ".jpg";
 						if(file_exists($_SERVER["DOCUMENT_ROOT"] . $_homeImage))
 						{ 
-							echo "<a href=$_homeImage target='_blank'>";
+							echo "<a href='module_maps/displayHomeImage.php?student_id=" . $_dat['id'] . "' target='_blank'>";
 							echo "แสดง";
 							echo "</a>";
 						}
@@ -124,7 +124,6 @@
 						{
 							echo "-";
 						}
-					
 					?>
                 </td>
 			</tr>

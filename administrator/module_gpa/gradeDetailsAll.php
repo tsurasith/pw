@@ -30,7 +30,7 @@
         <tr>
           <th colspan="10">
                 ผลสัมฤทธิ์ทางการเรียน<br/>
-                ภาคเรียนที่ <?=$acadsemester-1;?> ปีการศึกษา <?=$acadyear;?><br/>
+                ภาคเรียนที่ <?=$acadsemester;?> ปีการศึกษา <?=$acadyear;?><br/>
                 ของ <?=$_REQUEST['name']?> เลขประจำตัว <?=$_REQUEST['student_id']?> นักเรียนชั้นมัธยมศึกษาปีที่ <?=$xlevel==3?$xyearth:($xyearth+3)?>/<?=$_REQUEST['room']?><br/>
           </th>
         </tr>

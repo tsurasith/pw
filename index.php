@@ -4,38 +4,19 @@
 	$username = "";
 	$password = "";
 	$type = "";
-
-	if($_SESSION['pw-logined']) {	
-		if($_SESSION['pw-type'] == 'admin')
-					{
-						?><meta http-equiv="refresh" content="0;url=administrator/index.php"><?
-						exit(0);
-					}
-					if($_SESSION['pw-type'] == 'teacher')
-					{
-						$_SESSION['teacher_id'] = $data->TeacCode;
-						?><meta http-equiv="refresh" content="0;url=teacher/index.php"><?
-						exit(0);
-					}
-					if($_SESSION['pw-type'] == 'student')
-					{
-						$_SESSION['name'] = $data->PREFIX . $data->FIRSTNAME ." ".  $data->LASTNAME;
-						?><meta http-equiv="refresh" content="0;url=student/index.php"><?
-						exit(0);
-					}
-	} else if(!@$_SESSION['pw-logined']) {
+	if(!@$_SESSION['pw-logined']) {
 		$classtext = array("", "");
 		$classbox = array("noborder2", "noborder2");
-		$message = "";
+		$message = "กรุณาป้อนข้อมูลชื่อผู้ใช้งาน รหัสผ่านและสิทธิการใช้งาน";
 		if(isset($_REQUEST['action'])) {
 			$username = $_REQUEST['username'];
 			$password = $_REQUEST['password'];
 			if(empty($_REQUEST['username']) && empty($_REQUEST['password'])) {
-				$message = "กรุณากรอกชื่อผู้ใช้และรหัสผ่านของท่านด้วย";
+				$message = "<span class=\"red\">กรุณากรอกชื่อผู้ใช้และรหัสผ่านของท่านด้วย</span>";
 			} else if(empty($_REQUEST['username']) && !empty($_REQUEST['password'])) {
-				$message = "กรุณากรอกชื่อผู้ใช้ของท่านด้วย";
+				$message = "<span class=\"red\">กรุณากรอกชื่อผู้ใช้ของท่านด้วย</span>";
 			} else if(!empty($_REQUEST['username']) && empty($_REQUEST['password'])) {
-				$message = "กรุณากรอกรหัสผ่านของท่านด้วย";
+				$message = "<span class=\"red\">กรุณากรอกรหัสผ่านของท่านด้วย</span>";
 			} else {
 				$sql = "";
 				switch ($_REQUEST['type']) {
@@ -45,13 +26,12 @@
 				}
 				$result = $link->query($sql);
 				if($link->num_rows() == 0) {
-					$message = "ข้อมูลที่ใช้ล็อกอินของท่านไม่ถูกต้อง";
+					$message = "<span class=\"red\">ข้อมูลของท่านไม่ถูกต้อง กรุณาตรวจสอบข้อมูลด้วย</span>";
 				} else {
 					$data = mysql_fetch_object($result);
-					$_SESSION['pw-logined'] 	= true;
-					$_SESSION['username'] 		= $_REQUEST['username'];
-					$_SESSION['fullname'] 		= $data->PREFIX . $data->FIRSTNAME ." ".  $data->LASTNAME;
-					$_SESSION['user-account'] 	= $data->FIRSTNAME . " ".  $data->LASTNAME;
+					$_SESSION['pw-logined'] = true;
+					$_SESSION['username'] = $_REQUEST['username'];
+					$_SESSION['name'] = $data->PREFIX . $data->FIRSTNAME ." ".  $data->LASTNAME;
 					$_SESSION['pw-type'] = $_REQUEST['type'] ;
 						if($data->TeacCode == "999" || $data->superuser == "1")
 						{ $_SESSION['superAdmin'] = true; }
@@ -86,11 +66,7 @@
 	<meta name="author" content="Mr.Surasith Taokok" />
 	<meta name="keywords" content="โรงเรียนเพชรวิทยาคาร" />
 	<meta name="description" content="Student Information Project" />	
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-	
-    <link href="css2/bootstrap/css/bootstrap.css" type=text/css rel=stylesheet>
-    <link href="css2/bootstrap/css/bootstrap-login.css" type=text/css rel=stylesheet>
-    
+    <link href="css/main.css" type=text/css rel=stylesheet>
 	<link rel="shortcut icon" href="images/favicon.ico" />
 	
 	<title>-:- ระบบสารสนเทศกิจการนักเรียนโรงเรียนเพชรวิทยาคาร -:-</title>
@@ -98,38 +74,52 @@
     
     
 </head>
-<body >
-
-    <div class="container">
-        <div class="row">
-            <div class="col-sm-6 col-md-4 col-md-offset-4">
-                <!--<h1 class="text-center login-title">Welcome to</h1>-->
-                <div class="account-wall">
-                    <img class="profile-img" src="images/school_logo.png"alt="">
-                    <p class="profile-name">ระบบสารสนเทศกิจการนักเรียน</p>
-                    <span class="profile-email">โรงเรียนเพชรวิทยาคาร</span>
-                    <form class="form-signin" id="login" method="post" action="" autocomplete="off">
-                        <div class="login-errorMessage text-center"><?=$message?></div>
+<body onLoad="document.login.username.focus();">
+<div id="maincontent">
+	<div id="loginform">
+		<h2>ระบบสารสนเทศ<span class="green">กิจการนักเรียน</span></h2>
+		<form name="login" id="login" method="post" action="" autocomplete="off">
+			<?php echo $message; ?>
+			<table align="right">
+            	<tr>
+                	<td><label for="username">ชื่อผู้ใช้ :</label></td>
+                    <td><input type="text" name="username" id="username" class="<?php echo $classbox[0]; ?>"  value="<?php echo $username; ?>"  onclick="this.value=''" /></td>
+                </tr>
+                <tr>
+                	<td><label for="password">รหัสผ่าน :</label></td>
+                    <td><input type="password" name="password" id="password" class="<?php echo $classbox[1]; ?>"  value="<?php echo $password; ?>"  onclick="this.value=''" /></td>
+                </tr>
+                <tr>
+                	<td><label for="type">สิทธิเข้าใช้งาน :</label></td>
+                    <td align="left">
                         <input type="hidden" name="action" id="action" value="login"> 
-                        <input type="text"     class="form-control" placeholder="Username" required autofocus name="username" id="username" value="<?=$username;?>" />
-                        <input type="password" class="form-control" placeholder="Password" required autofocus name="password" id="password">
-                        
-                        <select name="type" class="form-control" id="type">
+                        <select name="type" class="loginSelect" id="type">
                             <option value="admin">ผู้ดูแลระบบ</option>
                             <option value="teacher">ครูที่ปรึกษา</option>
                             <option value="student">นักเรียน</option>
                         </select>
-                        <button class="btn btn-lg btn-primary btn-block" name="button" type="submit">
-                        เข้าสู่ระบบ</button>
-                        <!--<a href="#" class="need-help">Need help? </a><span class="clearfix"></span>-->
-                        <span class="clearfix"></span>
-                    </form>
-                </div>
-                <div class="text-center new-account">พัฒนาระบบโดย: <a href="mailto:taokok@gmail.com">Mr.Surasith Taokok</a>, Tel:+66873708079</div>
-            </div>
-        </div>
-    </div>
-
+                    </td>
+               </tr>
+               <tr>
+               		<td>&nbsp;</td>
+                    <td>
+                        <input name="button" type="submit" class="button" id="button" value="เข้าสู่ระบบ"   />
+                        <input name="button2" type="button" class="button" id="button2" value="ยกเลิก" onClick="window.location='index.php'" /><br />
+                 	</td>
+            	</tr>
+                <tr>
+                	<td colspan="2">
+                    	<div style="line-height: 18px">
+                            <br />
+                            ระบบจัดการสารสนเทศกิจการนักเรียน<br />
+                            ออกแบบและพัฒนาระบบ: <a href="mailto:taokok@gmail.com">นายสุรสิทธิ์  ท้าวกอก</a>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+		</form>
+	</div>
+</div>
 
 </body>
 </html>

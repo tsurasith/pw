@@ -6,7 +6,7 @@
     </head>
     <body>
     
-    	<img src="../../../pk/grades/<?=$_REQUEST['id']?>" />
+    	<img src="../../../bn/grades/<?=$_REQUEST['id']?>" />
         
     </body>
 </html>

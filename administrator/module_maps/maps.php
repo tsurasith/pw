@@ -2,40 +2,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:v="urn:schemas-microsoft-com:vml">
   <head>
     <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
-    <title>Google Maps API - แผนที่บ้านจากโรงเรียนไปบ้านของนักเรียน - <?=$_REQUEST['stName']?></title>
-    <script src="http://maps.google.com/maps?file=api&amp;sensor=false" type="text/javascript"></script>
-    <script type="text/javascript">
+    <title>Google Maps API - แผนที่บ้านจากโรงเรียนไปบ้านของนักเรียน - <?=$_REQUEST['stName']?></title>   
 
-    // Create a directions object and register a map and DIV to hold the 
-    // resulting computed directions
-    
-    var map;
-    var directionsPanel;
-    var directions;
-    var target = "";
-		target = "<?=$_REQUEST['lat']?>" + "," + "<?=$_REQUEST['long']?>";
-    function initialize() {
-      map = new GMap2(document.getElementById("map_canvas"));
-      map.setCenter(new GLatLng(16.886860, 101.908080), 15);
-      directionsPanel = document.getElementById("route");
-	  directions = new GDirections(map, directionsPanel);
-      directions.load("16.886860, 101.908080 to: " + target);
-	  
-	   var mapTypeControl = new GMapTypeControl();
-        var topRight = new GControlPosition(G_ANCHOR_TOP_RIGHT, new GSize(10,10));
-        var bottomRight = new GControlPosition(G_ANCHOR_BOTTOM_RIGHT, new GSize(10,10));
-        map.addControl(mapTypeControl, topRight);
-        GEvent.addListener(map, "dblclick", function() {
-          map.removeControl(mapTypeControl);
-          map.addControl(new GMapTypeControl(), bottomRight);
-        });
-        map.addControl(new GSmallMapControl());
-      
-    }
-    
-
-    </script>
-    
     <style>
 		body{
 			margin:0;
@@ -57,7 +25,7 @@
 			color:#FFFFFF;
 			text-shadow:#F00;
 		}
-		#map_canvas{
+		#map{
 			width: 70%; 
 			float:left; 
 			border: 1px solid #000000;
@@ -79,17 +47,50 @@
 			top:48px;
 		}
 	</style>
-  </head>
 </head> 
-  <body onload="initialize()" onunload="GUnload()" style="font-family: Arial;border: 0 none;">
+<body>
   	<div id="studentInfo">
     	แผนที่การเดินทางไปบ้านนักเรียน 
         เลขประจำตัว <b><?=$_REQUEST['id']?> </b>
         ชื่อ <b><?=$_REQUEST['stName']?></b>
         ที่อยู่ <b><?=$_REQUEST['p_village']?></b>
     </div>
-    <div id="map_canvas" ></div>
+    <div id="map"></div>
     <div id="route" ></div>
-    <br/>
+<script>	  
+ function initMap() {
+        var directionsDisplay = new google.maps.DirectionsRenderer;
+        var directionsService = new google.maps.DirectionsService;
+        var map = new google.maps.Map(document.getElementById('map'), {
+          zoom: 15,
+          center: {lat: 15.764025, lng: 101.557868}
+        });
+        directionsDisplay.setMap(map);
+        directionsDisplay.setPanel(document.getElementById('route'));
+        calculateAndDisplayRoute(directionsService, directionsDisplay);
+
+      }
+
+	  
+	  
+      function calculateAndDisplayRoute(directionsService, directionsDisplay) {
+        var start = {lat: 15.764068, lng: 101.558248};
+        var end = {lat: <?=$_REQUEST['lat']?>, lng: <?=$_REQUEST['long']?>};
+        directionsService.route({
+          origin: start,
+          destination: end,
+          travelMode: 'DRIVING'
+        }, function(response, status) {
+          if (status === 'OK') {
+            directionsDisplay.setDirections(response);
+          } else {
+            window.alert('Directions request failed due to ' + status);
+          }
+        });
+      }
+	  
+    </script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBoeQwHJsfpDFV_K8szdkAbClLYnK9io7U&callback=initMap" async defer></script>
+    
   </body>
 </html>

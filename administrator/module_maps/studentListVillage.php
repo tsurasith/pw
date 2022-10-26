@@ -34,7 +34,7 @@
 <? if(isset($_POST['p_village'])) { ?>
   <table class="admintable" width="100%"  cellpadding="1" cellspacing="1" border="0" align="center">
     <tr> 
-      <th colspan="8" align="center">
+      <th colspan="9" align="center">
 	  		<img src="../images/school_logo.png" width="120px"><br/>
 			รายชื่อนักเรียนหมู่บ้าน  <?=$_POST['p_village']==""?"ไม่ระบุ":$_POST['p_village']?><br/>
 			ภาคเรียนที่ <?php echo $acadsemester; ?> ปีการศึกษา <?php echo $acadyear; ?></th>
@@ -43,11 +43,12 @@
 		<td class="key" width="40px" align="center">เลขที่</td>
       	<td class="key" width="70px" align="center">เลขประจำตัว</td>
       	<td class="key" width="200px" align="center">ชื่อ - นามสกุล</td>
-		<td class="key" align="center">ห้องเรียน</td>
+		<td class="key" width="60px" align="center">ห้องเรียน</td>
       	<td class="key" width="100px"  align="center">สถานภาพ<br/>ปัจจุบัน</td>
 		<td class="key" width="150px" align="center">การเดินทางมาโรงเรียน</td>
       	<td class="key" width="80px" align="center">เวลาที่ใช้<br/>(นาที)</td>
       	<td class="key" width="70px"  align="center">แผนที่</td>
+		<td class="key" width="70px" align="center">ภาพถ่าย</td>
     </tr>
 	<?php
 		$sqlStudent = "select id,prefix,firstname,lastname,xlevel,xyearth,room,
@@ -84,6 +85,20 @@
 			{
 				echo "<td align='center'>-</td>";
 			}
+			
+			echo "<td align='center'>";
+						$_homeImage = "/pk/images/studhome/id" . $dat['id'] . ".jpg";
+						if(file_exists($_SERVER["DOCUMENT_ROOT"] . $_homeImage))
+						{ 
+							echo "<a href='module_maps/displayHomeImage.php?student_id=" . $dat['id'] . "' target='_blank'>";
+							echo "แสดง";
+							echo "</a>";
+						}
+						else 
+						{
+							echo "-";
+						}
+            echo "</td>";
 			echo "</tr>";
 			$ordinal++;
 		}

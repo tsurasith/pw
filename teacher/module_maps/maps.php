@@ -16,10 +16,10 @@
 		target = "<?=$_REQUEST['lat']?>" + "," + "<?=$_REQUEST['long']?>";
     function initialize() {
       map = new GMap2(document.getElementById("map_canvas"));
-      map.setCenter(new GLatLng(16.886860, 101.908080), 15);
+      map.setCenter(new GLatLng(15.764025, 101.557868), 15);
       directionsPanel = document.getElementById("route");
 	  directions = new GDirections(map, directionsPanel);
-      directions.load("16.886860, 101.908080 to: " + target);
+      directions.load("15.764025, 101.557868 to: " + target);
 	  
 	   var mapTypeControl = new GMapTypeControl();
         var topRight = new GControlPosition(G_ANCHOR_TOP_RIGHT, new GSize(10,10));

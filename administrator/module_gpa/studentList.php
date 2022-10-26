@@ -110,7 +110,7 @@
 							room = '" . $room . "'  and 
 							xedbe = '" . $acadyear . "' and 
 							acadyear = '" . $acadyear . "' and 
-							acadsemester = '" . ($acadsemester-1) . "' ";
+							acadsemester = '" . ($acadsemester) . "' ";
 		if($_POST['studstatus']=="1,2") $sqlStudent .= " and studstatus in (1,2) ";
 		$sqlStudent .= "group by student_id ";
 		$sqlStudent .= "order by sex,id ";

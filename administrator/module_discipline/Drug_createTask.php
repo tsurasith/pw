@@ -57,7 +57,11 @@
 <? if(isset($_POST['create']) && $_POST['date'] != "") { ?>
 	<?
 		$sql = 'SELECT distinct room_id FROM rooms where acadyear = ' . $acadyear .' and acadsemester = ' .$acadsemester ;
-		$sql2 = "select distinct month(task_date) from student_drug_task where month(task_date) = '" . substr($_POST['date'],5,2) . "'" ;
+		$sql2 = "select distinct month(task_date) from student_drug_task 
+						where 
+							month(task_date) = '" . substr($_POST['date'],5,2) . "' and 
+							acadyear = '" . $acadyear .' and 
+							acadsemester = ' .$acadsemester . "'" ;
 	?>
 	<table class="admintable" width="100%">
 		<tr><td class="key">การสร้างงานบันทึกการคัดกรองประจำเดือน</td></tr>

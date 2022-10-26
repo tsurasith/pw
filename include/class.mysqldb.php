@@ -27,7 +27,7 @@
 			return mysql_fetch_object($this->result);
 		}
 		function num_rows() {
-			return @mysql_num_rows($this->result); 
+			return mysql_num_rows($this->result); 
 		}
 		function show_error($errmsg, $func) {
 			echo "<b><font color=red>" . $func . "</font></b> : " . $errmsg . "<BR>\n";

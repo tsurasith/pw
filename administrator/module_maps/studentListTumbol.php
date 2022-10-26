@@ -45,7 +45,7 @@
 <? if(isset($_POST['p_tumbol']) && $_POST['sex'] != "") { ?>
   <table class="admintable" align="center">
     <tr> 
-      <th colspan="9" align="center">
+      <th colspan="10" align="center">
 	  		<img src="../images/school_logo.png" width="120px"><br/>
 			รายชื่อนักเรียนตำบล  <?=$_POST['p_tumbol']; ?><br/>
 			ภาคเรียนที่ <?php echo $acadsemester; ?> ปีการศึกษา <?php echo $acadyear; ?></th>
@@ -60,6 +60,7 @@
 		<td class="key" width="140px" align="center">การเดินทาง<br/>มาโรงเรียน</td>
       	<td class="key" width="40px" align="center">เวลาที่ใช้<br/>(นาที)</td>
       	<td class="key" width="40px"  align="center">แผนที่</td>
+		<td class="key" width="70px" align="center">ภาพถ่าย</td>
     </tr>
 	<? $sqlStudent = "select id,prefix,firstname,lastname,xlevel,xyearth,room,p_village,
 								howlong,travelby,utm_coordinate_x,utm_coordinate_y,studstatus
@@ -94,6 +95,21 @@
                     	-
                     <? } ?>
 				</td>
+			<td align="center">
+                	<?php
+						$_homeImage = "/pk/images/studhome/id" . $dat['id'] . ".jpg";
+						if(file_exists($_SERVER["DOCUMENT_ROOT"] . $_homeImage))
+						{ 
+							echo "<a href='module_maps/displayHomeImage.php?student_id=" . $dat['id'] . "' target='_blank'>";
+							echo "แสดง";
+							echo "</a>";
+						}
+						else 
+						{
+							echo "-";
+						}
+					?>
+                </td>
 		</tr>
 	<? } //end while?>
 	<tr>

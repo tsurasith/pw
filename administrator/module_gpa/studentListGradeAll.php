@@ -109,8 +109,8 @@
 					   		students.xlevel = '". $xlevel . "' and 
 							xyearth = '" . $xyearth . "' and 
 							room = '" . $room . "'  and 
-							xedbe = '" . $acadyear . "' and
-							grade in ('0','ร','มส','') ";
+							xedbe = '" . $acadyear . "'";
+							// and	grade in ('0','ร','มส','') ";
 		if($_POST['studstatus']=="1,2") $sqlStudent .= " and studstatus in (1,2) ";
 		$sqlStudent .= "group by student_id ";
 		$sqlStudent .= "order by sex,id ";

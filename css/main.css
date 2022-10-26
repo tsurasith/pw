@@ -1,4 +1,7 @@
-
+* { 
+	margin: 0; 
+	padding-top: 0;
+}
 html, body { 
 	font: 13px Tahoma; 
 	color: #454545; 
@@ -243,7 +246,7 @@ h3 {
 	float: left;
 }
 
-#cpanel {  text-align: center;  vertical-align: middle; align-self: center; }
+#cpanel {  text-align: center;  vertical-align: middle; }
 
 #cpanel div.icon   { margin: 3px; }
 #cpanel div.icon a {
@@ -252,9 +255,10 @@ h3 {
         height: 100px;
         width: 108px !important;
         width: 110px;
+        vertical-align: middle;
         text-decoration : none;
         border: 1px solid #DDD;
-        padding: 2px 5px 2px 5px;
+        padding: 2px 5px 1px 5px;
 }
 
 #cpanel div.icon a:link    {  color : #808080;  }
@@ -272,7 +276,7 @@ h3 {
 
 #left { 
 	float: left;
-	margin-right: 3;
+	margin-right: 2;
 	width: 100%;
 }
 /* navigation */

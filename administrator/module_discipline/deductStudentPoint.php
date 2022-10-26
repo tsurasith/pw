@@ -1,7 +1,7 @@
 ﻿<script language="javascript" type="text/javascript">
-	function checkValue()
+	function checkDeduct()
 	{
-			if(isNaN(document.getElementById('deduct').value.trim()))
+			if(document.getElementById('deduct').value.trim()!='')
 			{
 				document.myform.submit();
 			}
@@ -12,6 +12,18 @@
 			}
 	}
 </script>
+<? $_flag = 2; ?>
+<? if(isset($_POST['deduct'])){
+	$_sql = "update students 
+				set points = '" . ($_POST['oldPoints'] - $_POST['deduct']) . "' 
+					where id = '" . $_POST['studentid'] . "' and 
+			 	  xedbe = '" . $acadyear . "'";
+	 if(mysql_query($_sql)) $_flag = 1;
+	 else $_flag = 0;
+	 //echo $_sql;
+	}
+?>
+
 <div id="content">
 
 <table width="100%"  align="center" border="0" cellspacing="10" cellpadding="0"  class="header">
@@ -46,7 +58,7 @@
 		  <table width="100%" align="center" cellspacing="1" class="admintable" border="0" cellpadding="0">
 			<tr>
 				<td colspan="2" class="key">ข้อมูลนักเรียนและรายการหักคะแนนความประพฤตินักเรียน </td>
-                <td rowspan="5" align="right"><img src="../images/studphoto/id<?=$_POST['studentid']?>.jpg" width="100px" height="110px" alt="รูปนักเรียน" align="top" style="border:solid 1px #003399"/></td>
+                <td rowspan="7" align="right"><img src="../images/studphoto/id<?=$_POST['studentid']?>.jpg" width="140px" height="200px" alt="รูปนักเรียน" align="top" style="border:solid 1px #003399"/></td>
 			</tr>
 			<tr>
 				<td width="200px" align="right">เลขประจำตัว :</td>
@@ -68,11 +80,26 @@
             	<td align="right">สถานภาพปัจจุบัน :</td>
                 <td><?=displayStudentStatusColor($_dat['studstatus'])?></td>
             </tr>
-            
-            <? if(isset($_POST['save'])){ ?>
-            		
-            <? } ?>
-            
+                    <? if($_flag==1){ ?>
+                    		<tr>
+                            	<td></td>
+                                <td colspan="2">
+                                	<b>รายละเอียดผลการดำเนินการ</b><br/>
+                                    คะแนนเดิม <?=displayPoint($_POST['oldPoints'])?> คะแนน <br/>
+                                    หักคะแนนความประพฤติ <?=displayPoint($_POST['deduct'])?> คะแนน <br/>
+                                    คงเหลือ <?=displayPoint($_dat['points'])?> คะแนน
+                                </td>
+                            </tr>
+                    <? } else if ($_flag==0) { ?>
+                    		<tr>
+                            	<td></td>
+                                <td colspan="2">
+                                	<font color="#cc0000">
+                                    	เกิดข้อผิดพลาดระหว่างประมวลผลเนื่องจาก : <?=mysql_error();?>
+                                    </font>
+                                </td>
+                            </tr>
+                    <? } ?>            
             <tr>
             	<td align="right">คะแนนพฤติกรรมที่หัก :</td>
                 <td>
@@ -86,7 +113,7 @@
             	<td></td>
                 <td>
                 	<br/>
-                    <input type="button" name="save" value="บันทึก" class="button" onclick="checkValue()" />
+                    <input type="button" name="save" value="บันทึก" class="button" onclick="checkDeduct()" />
                     <input type="reset" value="ยกเลิก" class="button" />
                 </td>
             </tr>

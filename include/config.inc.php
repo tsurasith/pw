@@ -1,14 +1,14 @@
 <?php
 	# configuration for default Time
-	$acadyear = 2557;
-	$acadsemester = 2;
+	$acadyear = 2565;
+	$acadsemester = 1;
 	
 	# configuration for database
 	$_config['database']['hostname'] = "localhost";
 	$_config['database']['username'] = "root";
-	// $_config['database']['password'] = "Toby0123456789";
 	$_config['database']['password'] = "12345678";
-	$_config['database']['database'] = "saais_pw";
+	// $_config['database']['password'] = "meroot";
+	$_config['database']['database'] = "pnk";
 		
 	# configuration for module grade
 	$_config['grade'] = array("tc004","admin","tc208");
@@ -20,5 +20,4 @@
 	$link->query("SET NAMES 'utf8'");
 	
 	@session_start();
-	
 ?>

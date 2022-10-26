@@ -22,6 +22,10 @@
 			<td>&nbsp;</td>
 			<td><a href="index.php?option=module_gpa/studentListFailsLevel">1.3 ผลสัมฤทธิ์ไม่พึงประสงค์ตามระดับชั้น</a></td>
 		</tr>
+        <tr>
+			<td>&nbsp;</td>
+			<td><a href="index.php?option=module_gpa/studentListRegradeLevel">1.4 รายชื่อนักเรียนที่ส่งผลสอบแก้ไขผลการเรียนแล้ว</a></td>
+		</tr>
 	   <tr>
 		<td class="key" colspan="2">2. แผนภูมิ </td>
 	   </tr>
@@ -31,6 +35,9 @@
 		<tr>
 			<td>&nbsp;</td>
 			<td><a href="#">2.2 ภาพรวมผลสัมฤทธิ์ทั้งโรงเรียน</a></td> </tr>
+       <!-- <tr>
+			<td>&nbsp;</td>
+			<td><a href="http://122.154.151.154/download/grades.xls" target="_blank">2.3 ดาวน์โหลดผลการเรียนสำหรับสร้างรายงาน Pivot Table</a></td> </tr> -->
             
        <? if(in_array($_SESSION['username'],$_config['grade'])) { ?>
        <tr>

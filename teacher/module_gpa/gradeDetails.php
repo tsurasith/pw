@@ -18,7 +18,6 @@
         <form name="filter" method="post">
         	เลือกภาคเรียนเพื่อแสดงผลการเรียน
             <select name="term" class="inputboxUpdate" onChange="document.filter.submit();">
-            	<option value=""></option>
                 <? while($_term = mysql_fetch_assoc($_result)){ ?>
                 		<option value="<?=$_term['display']?>" <?=$_term['display']==$_POST['term']?"selected":""?>><?=$_term['display']?></option>
                 <? } ?>

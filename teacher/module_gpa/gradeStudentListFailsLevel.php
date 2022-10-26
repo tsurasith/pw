@@ -72,7 +72,7 @@
                 <td align="center"><b><?=displayGrade($_dat['grade'])?></b></td>
                 <td align="center"><b><?=$_dat['regrade']==""?"":displayGrade($_dat['regrade'])?></b></td>
                 <td align="center">
-                	<? 	$_fileAttached = $_SERVER["DOCUMENT_ROOT"] . "/pk/grades/"; ?>
+                	<? 	$_fileAttached = $_SERVER["DOCUMENT_ROOT"] . "/bn/grades/"; ?>
 					<? 	$_fileAttached .= $_dat['acadyear'].$_dat['acadsemester'].$_REQUEST['student_id'].$_dat['groupsara'].substr($_dat['psubjectcode'],-5).".jpg"; ?>
                     <?  	 if($_dat['regrade']!="") {
 								if(file_exists($_fileAttached)) {

@@ -18,9 +18,13 @@
         <form name="filter" method="post">
         	เลือกภาคเรียนเพื่อแสดงผลการเรียน
             <select name="term" class="inputboxUpdate" onChange="document.filter.submit();">
-            	<option value=""></option>
                 <? while($_term = mysql_fetch_assoc($_result)){ ?>
                 		<option value="<?=$_term['display']?>" <?=$_term['display']==$_POST['term']?"selected":""?>><?=$_term['display']?></option>
+						<?
+							$_dd = explode("/",$_term['display']);
+							$Qacadyear =   $_dd[1];
+							$Qacadsemester = $_dd[0];
+						?>
                 <? } ?>
             </select>
         </form>
@@ -30,14 +34,14 @@
   </table>
 
   <?php
-	  $Qacadyear =  $acadyear;
-	  $Qacadsemester = $acadsemester;
+	  //$Qacadyear =  $acadyear;
+	  //$Qacadsemester = $acadsemester;
 	  
 	  $_credit = 0.0;
 	  $_unitPoint = 0.0;
 	  $_gpa = "";
 	  
-	  if(isset($_POST['term']))
+	  if(isset($_POST['term']) || $_POST['term'] != "")
 	  {
 			$_dd = explode("/",$_POST['term']);
 			$Qacadyear =   $_dd[1];

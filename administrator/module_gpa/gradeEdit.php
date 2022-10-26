@@ -14,7 +14,7 @@
 			
 			if($_FILES["file"]["name"] != "") {
 						
-						$_target = $_SERVER["DOCUMENT_ROOT"] . "/pk/grades/";
+						$_target = $_SERVER["DOCUMENT_ROOT"] . "/bn/grades/";
 						$_fileName = $_POST['acadyear'] . $_POST['acadsemester'] . $_POST['student_id'] . $_POST['groupsara'] . substr(trim($_POST['subject_id']),-5);
 						$_uploadError = 0;
 						
@@ -205,7 +205,7 @@
                             <tr>
                             	<td align="right">เอกสารแนบ :</td>
                                 <td>
-                                		<? $_fileAttached = $_SERVER["DOCUMENT_ROOT"] . "/pk/grades/"; ?>
+                                		<? $_fileAttached = $_SERVER["DOCUMENT_ROOT"] . "/bn/grades/"; ?>
 										<? $_fileAttached .= $Qacadyear . $Qacadsemester . $_POST['student_id'] . $_datG['groupsara'] . substr(trim($_POST['subject_id']),-5) . ".jpg"; ?>
 										<? if(file_exists($_fileAttached)){?>
                                                 <a target="_blank" href="module_gpa/displayFileAttached.php?id=<?=substr($_fileAttached,-20);?>">

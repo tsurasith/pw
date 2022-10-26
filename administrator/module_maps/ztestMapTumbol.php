@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 		include("../../include/class.mysqldb.php");
 		include("../../include/config.inc.php");
 		$_zIndex = 1;
@@ -23,7 +23,7 @@
 		function initialize() {
 			  var myOptions = {
 				zoom: 14,
-				center: new google.maps.LatLng(16.886, 101.908),
+				center: new google.maps.LatLng(15.764, 101.557),
 				mapTypeId: google.maps.MapTypeId.SATELLITE
 			  }
 			  map = new google.maps.Map(document.getElementById("map_canvas"),myOptions);
@@ -35,7 +35,7 @@
 			<? $_room = ($_dat['xlevel']==3?$_dat['xyearth']:$_dat['xyearth']+3) . '/' . $_dat['room']; ?>
 				['<?=$_dat['id'] . ' ' . $_dat['prefix'] . $_dat['firstname'] . ' ' . $_dat['lastname']?>', <?=$_dat['utm_coordinate_x']?>, <?=$_dat['utm_coordinate_y']?>, <?=$_zIndex++?>,'<?=$_dat['id']?>', '<?=displayStatus($_dat['studstatus'])?>' ,<?=$_dat['howlong']?>,'<?=displayTravel($_dat['travelby'])?>','<?=$_room?>','<?=displayFlag($_dat['studstatus'])?>'],
 			<? } ?>
-				['โรงเรียนเพชรวิทยาคาร', 15.505492, 101.689576, 1000,'00000','ปกติ',0,'เดิน','พิเศษ','<?=displayFlag(2)?>']
+				['โรงเรียนเพชรวิทยาคาร', 15.764025, 101.557868, 1000,'00000','ปกติ',0,'เดิน','พิเศษ','<?=displayFlag(2)?>']
 				//[id+ชื่อ-สกุล,lat,long,zindex,id,status,howlong,travelby,flag path]				
 		];
 			
