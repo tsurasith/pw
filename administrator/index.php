@@ -1,10 +1,29 @@
-﻿<?php
-	include("../include/class.mysqldb.php");
-	include("../include/config.inc.php");
-	include("../include/shareFunction.php");
+<?php
+    session_start();
+
 	if(!isset($_SESSION['pw-logined']) && $_SESSION['pw-type'] != 'admin') {
-		echo "<meta http-equiv='refresh' content='0;url=../index.php'>";
-	} else {
+
+        $_host  = $_SERVER['HTTP_HOST'];
+        $_uris  = rtrim(dirname($_SERVER['PHP_SELF']),'/\\');
+        $_uri   = explode("/",$_uris);
+        $_page  = "index.php";
+
+        //echo $_uris . "<br/>";
+        //echo $_uri[1] . "<br/>";
+        //echo "Location: http://$_host/$_uri[1]/$_page";
+
+        header("Location: http://$_host/$_uri[1]/$_page");
+        exit;
+	}
+    
+    
+    else {
+
+        
+	include("../include/config.inc.php");
+    include("../include/mysqli.php");
+	include("../include/shareFunction.php");
+
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
@@ -202,5 +221,5 @@
 </html>
 <?php
 	}// end-else
-	$link->closeConnect();
+	
 ?>
