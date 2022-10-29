@@ -19,7 +19,7 @@
 			$_room = (int) substr($_REQUEST['room_id'],1,2);
 		?>
 		<? $_sqlCheckStudent = "select id from students where xedbe = '" . $_xedbe . "' and xlevel = '" . $_xlevel . "' and xyearth = '" . $_xyearth . "' and room = '" . $_room ."'";?>
-		<? $_resCheckStudent = mysql_query($_sqlCheckStudent); ?>
+		<? $_resCheckStudent = mysqli_query($_connection,$_sqlCheckStudent); ?>
 		
 		<table class="admintable" width="100%">
 			<tr>
@@ -27,17 +27,17 @@
 			</tr>
 			<tr>
 				<td align="center">
-					<? if(mysql_num_rows($_resCheckStudent)>0){?>
+					<? if(mysqli_num_rows($_resCheckStudent)>0){?>
 							<font color="#FF0000"><br/>
 							ไม่สามารถทำการลบห้อง <?=displayRoom($_REQUEST['room_id'])?> 
 							ออกจากภาคเรียนที่ <?=$_REQUEST['acadsemester']?> ปีการศึกษา <?=$_REQUEST['acadyear']?> ได้ <br/>
-							เนื่องจากมีนักเรียนที่อยู่ในห้องเรียนนี้จำนวน <?=mysql_num_rows($_resCheckStudent)?> คน ถ้าหากต้องการ
+							เนื่องจากมีนักเรียนที่อยู่ในห้องเรียนนี้จำนวน <?=mysqli_num_rows($_resCheckStudent)?> คน ถ้าหากต้องการ
 							'ลบ' ต้องแก้ไขประวัตินักเรียนโดยทำการย้ายห้องเรียนเสียก่อน
 							</font><br/><br/><br/>
 							<input type="button" value="ย้อนกลับ" onclick="history.go(-1)" />
 					<? } else { ?> 
 							<? $_sqlDel = "delete from rooms where room_id = '" . $_REQUEST['room_id'] . "' and acadyear = '" . $_REQUEST['acadyear'] . "' and acadsemester = '" . $_REQUEST['acadsemester'] . "'";?>
-							<? if(mysql_query($_sqlDel)){ ?>
+							<? if(mysqli_query($_connection,$_sqlDel)){ ?>
 									<font color="#008000">
 									ได้ทำการลบข้อมูลห้อง <?=displayRoom($_REQUEST['room_id'])?> ออกจากระบบแล้ว
 									</font><br/><br/><br/>
@@ -45,7 +45,7 @@
 							<? } else
 								{ 
 									echo "<font color='red'>";
-									echo "<br/>ไม่สามารถทำการลบห้อง " . displayRoom($_REQUEST['room_id']) . " ได้ เนื่องจาก - " . mysql_error() ;
+									echo "<br/>ไม่สามารถทำการลบห้อง " . displayRoom($_REQUEST['room_id']) . " ได้ เนื่องจาก - " . mysqli_error() ;
 									echo "</font>";
 									echo "<br/><br/><br/><input type='button' value='ย้อนกลับ' onclick='history.go(-1)'/>";
 								}

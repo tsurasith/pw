@@ -11,7 +11,7 @@
       <td><strong><font color="#990000" size="4">ปรับแต่งระบบ</font></strong><br />
         <span class="normal"><font color="#0066FF"><strong>3.1 เพิ่ม/ลบ ห้องเรียนที่ใช้ในระบบ</strong></font></span></td>
       <td>
-	  	<?php
+	  	<?php		
 			if(isset($_REQUEST['acadyear'])) { $acadyear = $_REQUEST['acadyear']; }
 			if(isset($_REQUEST['acadsemester'])) { $acadsemester = $_REQUEST['acadsemester']; }
 		?>
@@ -53,7 +53,7 @@
 				<? } //end check isempty ?>
 				
 				<? if(isset($_POST['save']) && $_POST['room_id'] != "" && strlen($_POST['room_id']) == 3) { ?>
-						<? if(mysql_num_rows(mysql_query("select * from rooms where acadyear = '" .$_POST['acadyear']."' and acadsemester = '" .$_POST['acadsemester'] ."' and room_id = '" .$_POST['room_id']."'"))>0){ ?>
+						<? if(mysqli_num_rows(mysqli_query($_connection,"select * from rooms where acadyear = '" .$_POST['acadyear']."' and acadsemester = '" .$_POST['acadsemester'] ."' and room_id = '" .$_POST['room_id']."'"))>0){ ?>
 								<font color="#FF0000"><br/>การเพิ่มห้องเรียนผิดพลาด เนื่องจากมีการเพิ่มห้องเรียนนี้ในภาคเรียนที่ <?=$_POST['acadsemester']?> ปีการศึกษา <?=$_POST['acadyear']?> แล้ว !<br/><br/></font>
 						<? } 
 							else
@@ -63,8 +63,8 @@
 											'000','000','',
 											'" . $_POST['acadsemester']. "',
 											'" . $_POST['acadyear']."')";
-								if(mysql_query($_sqlInsert)){ echo "<font color='green'><br/><b>ได้ทำการบันทึกห้อง " . displayRoom($_POST['room_id']) . " เรียบร้อยแล้ว<b><br/><br/> </font>";}
-								else { echo "<font color='red'><br/>เกิดข้อผิดพลาดเนื่องจาก - " . mysql_error() . "</font>";}
+								if(mysqli_query($_connection,$_sqlInsert)){ echo "<font color='green'><br/><b>ได้ทำการบันทึกห้อง " . displayRoom($_POST['room_id']) . " เรียบร้อยแล้ว<b><br/><br/> </font>";}
+								else { echo "<font color='red'><br/>เกิดข้อผิดพลาดเนื่องจาก - " . mysqli_error() . "</font>";}
 							}
 						?>
 				<? } //end submit valid value ?>
@@ -79,8 +79,8 @@
 				<? $_sqlH = "select xlevel,xyearth,room,count(id) as student from students
 						where xedbe = '" . $acadyear . "'
 						group by room,xyearth,xlevel order by xlevel,xyearth,room"; ?>
-				<? $_resH = mysql_query($_sqlH); ?>
-				<? if(mysql_num_rows($_resH)>0){ ?>
+				<? $_resH = mysqli_query($_connection,$_sqlH); ?>
+				<? if(mysqli_num_rows($_resH)>0){ ?>
 						<table>
 							<tr>
 								<td class="key" align="center">ที่</td>
@@ -88,7 +88,7 @@
 								<td class="key" align="center" width="140px">จำนวน<br/>นักเรียน</td>
 							</tr>
 							<? $_cRoomH = 1;?>
-							<? while($_dat = mysql_fetch_assoc($_resH)){ ?>
+							<? while($_dat = mysqli_fetch_assoc($_resH)){ ?>
 							<tr onMouseOver="this.style.backgroundColor='#FFCCFF'; this.style.cursor='hand';" onMouseOut=this.style.backgroundColor="#FFFFFF">
 								<td align="center"><?=$_cRoomH++?></td>
 								<td align="center"><?=$_dat['xlevel']==3?$_dat['xyearth']:$_dat['xyearth']+3?>/<?=$_dat['room']?></td>
@@ -100,8 +100,8 @@
 			</td>
 			<td align="center" valign="top">
 				<? $_sqlS = "select * from rooms where acadyear = '" . $acadyear . "' and acadsemester = '" . $acadsemester . "' order by room_id";?>
-				<? $_resS = mysql_query($_sqlS); ?>
-				<? if(mysql_num_rows($_resS)>0){ ?>
+				<? $_resS = mysqli_query($_connection,$_sqlS); ?>
+				<? if(mysqli_num_rows($_resS)>0){ ?>
 						<table>
 							<tr>
 								<td class="key" align="center">ที่</td>
@@ -111,7 +111,7 @@
 								<td class="key" align="center" width="60px">ลบ<br/>ห้องเรียน</td>
 							</tr>
 							<? $_cRoomS = 1;?>
-							<? while($_dat = mysql_fetch_assoc($_resS)){ ?>
+							<? while($_dat = mysqli_fetch_assoc($_resS)){ ?>
 							<tr onMouseOver="this.style.backgroundColor='#FFCCFF'; this.style.cursor='hand';" onMouseOut=this.style.backgroundColor="#FFFFFF">
 								<td align="center"><?=$_cRoomS++?></td>
 								<td align="center"><?=displayRoom($_dat['room_id'])?></td>
