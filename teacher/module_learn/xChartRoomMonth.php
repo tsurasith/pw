@@ -49,12 +49,12 @@
 					$_sqlMonth = "select distinct month(check_date)as m,year(check_date)+543 as y
 									from student_learn where acadyear = '" . $acadyear . "' and acadsemester = '" . $acadsemester . "'
 									order by year(check_date),month(check_date)";
-					$_resMonth = mysql_query($_sqlMonth);
-					while($_datMonth = mysql_fetch_assoc($_resMonth))
+					$_resMonth = mysqli_query($_connection,$_sqlMonth);
+					while($_datMonth = mysqli_fetch_assoc($_resMonth))
 					{
 						$_select = (isset($_POST['month'])&&$_POST['month'] == $_datMonth['m']?"selected":"");
 						echo "<option value='" . $_datMonth['m'] . "' $_select >" . displayMonth($_datMonth['m']) . ' ' . $_datMonth['y'] . "</option>";
-					} mysql_free_result($_resMonth);
+					} mysqli_free_result($_resMonth);
 				?>
 			 </select>
 			 <input type="submit" value="เรียกดู" class="button" name="search"/> 
@@ -75,8 +75,8 @@
 									and month(check_date) = '" . $_POST['month'] . "'
 								group by class_id
 								order by class_id";
-			$resStudent = mysql_query($sqlStudent);
-			@$totalRows = mysql_num_rows($resStudent);
+			$resStudent = mysqli_query($_connection,$sqlStudent);
+			@$totalRows = mysqli_num_rows($resStudent);
 			if($totalRows < 1)
 			{
 				echo "<tr><td align='center'><font color='red'> <br/>ยังไม่มีการบันทึกข้อมูลในรายการที่คุณเลือก </font></td></tr>";
@@ -93,7 +93,7 @@
 				<?php
 					$_strXML = "<?xml version='1.0' encoding='UTF-8' ?>" ;
 					$_strXML = $_strXML . "<graph  xAxisName='ห้อง' yAxisName='Units' decimalPrecision='0' formatNumberScale='0'>";
-					while($dat = mysql_fetch_assoc($resStudent))
+					while($dat = mysqli_fetch_assoc($resStudent))
 					{
 						$_strXML .= " <set name='" . getFullRoomFormat($dat['class_id']) . "' value='" . $dat['late'] . "' color='" . getFCColor()  . "' /> ";
 					}

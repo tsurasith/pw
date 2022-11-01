@@ -32,13 +32,13 @@
         <input type="submit" value="เรียกดู" class="button" name="search"/> 
         <br/>
         เลือกวิธีการเดินทาง
-			<? $_resTravel = mysql_query("select * from ref_travel order by 1"); ?>
+			<? $_resTravel = mysqli_query($_connection,"select * from ref_travel order by 1"); ?>
 			<select name="travelby" class="inputboxUpdate">
 				<option value=""></option>
-				<? while($_datTravel = mysql_fetch_assoc($_resTravel)) { ?>
+				<? while($_datTravel = mysqli_fetch_assoc($_resTravel)) { ?>
 					<option value="<?=$_datTravel['travel_id']?>" <?=$_POST['travelby']==$_datTravel['travel_id']?"selected":""?>><?=$_datTravel['travel_description']?></option>
 				<? } //end-while ?>
-				<? mysql_free_result($_resTravel); ?>
+				<? mysqli_free_result($_resTravel); ?>
 			</select> 
 			เพศ
 			<select name="sex" class="inputboxUpdate">
@@ -70,9 +70,9 @@
 		if($_POST['sex'] != "all") $sqlStudent .= " and sex = '" . $_POST['sex'] . "' ";
 		if($_POST['roomID'] != "all") $sqlStudent .= " and xlevel = '" . substr($_POST['roomID'],0,1) . "' and xyearth = '" . substr($_POST['roomID'],-1) . "' ";
 		$sqlStudent .= " order by xlevel,xyearth,room,sex,id";
-		$resStudent = mysql_query($sqlStudent);
+		$resStudent = mysqli_query($_connection,$sqlStudent);
 		$ordinal = 1; ?>
-	<? if(mysql_num_rows($resStudent)>0) { ?>
+	<? if(mysqli_num_rows($resStudent)>0) { ?>
 		  <table class="admintable" align="center" width="800px">
 			<tr>
 				<th colspan="5" align="center">
@@ -83,7 +83,7 @@
 				</th>
 			</tr>
 		<?	
-				$totalRows = mysql_num_rows($resStudent);
+				$totalRows = mysqli_num_rows($resStudent);
 				$_cols = 5;
 				for($i = 0; $i < $totalRows/5 ; $i++)
 				{
@@ -91,7 +91,7 @@
 					for($_j = 0 ; $_j < 5 ; $_j++)
 					{
 						if($ordinal > $totalRows) continue;
-						$dat = mysql_fetch_array($resStudent);
+						$dat = mysqli_fetch_array($resStudent);
 						echo "<td align='center' width='160px'>";
 						echo "<font color='red'><b>$ordinal</b></font>";
 						if(file_exists($_SERVER["DOCUMENT_ROOT"] . "/pk/images/studphoto/id" . $dat['id'] . ".jpg"))

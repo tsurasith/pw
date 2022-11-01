@@ -22,7 +22,7 @@
 								from student_800
 								where student_id = '" . $_SESSION['username'] . "'
 								group by student_id,acadyear,acadsemester";
-				$_res = mysql_query($_sql);
+				$_res = mysqli_query($_connection,$_sql);
 	?>
       <td class="key" align="center" width="190px"><br/>
 	  	<img src="../images/studphoto/id<?=$_SESSION['username']?>.jpg" width="160px">
@@ -33,7 +33,7 @@
 	  		<font color="#663366"><b>
 	  		รายงานการเข้าร่วมกิจกรรมหน้าเสาธงนักเรียน<br/>
 			</b></font>
-			<?php if(mysql_num_rows($_res) > 0 ) {  ?>
+			<?php if(mysqli_num_rows($_res) > 0 ) {  ?>
 				<table cellspacing="1" cellpadding="2" bgcolor="#FFCCFF">
 					<tr >
 						<td width="160px" align="center"><b>ภาคเรียน/ปีการศึกษา</b></td>
@@ -44,7 +44,7 @@
 						<td width="60px" align="center"><b>ขาด</b></td>
 						<td width="80px" align="center"><b>รวม</b></td>
 						</tr>
-					<? while($_dat = mysql_fetch_assoc($_res)) { ?>
+					<? while($_dat = mysqli_fetch_assoc($_res)) { ?>
 					<tr bgcolor="#FFFFFF">
 					  <td align="center"><?=$_dat['acadsemester'].'/'.$_dat['acadyear']?></td>
 					  <td align="center"><?=($_dat['a']!=""?$_dat['a']:"-")?></td>

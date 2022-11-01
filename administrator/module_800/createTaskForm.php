@@ -34,21 +34,21 @@
     <td><font size="2"  >ตรวจสอบวันที่ทำการบันทึก</font></td>
     <?php
 		
-		$c_date = mysql_query($sql2);
-		$rows = mysql_num_rows($c_date);
+		$c_date = mysqli_query($_connection,$sql2);
+		$rows = mysqli_num_rows($c_date);
 		if($_POST['date'] != "")
 		{
 			if($rows == 0)
 			{
-				$result = mysql_query($sql);
-				while ($data = mysql_fetch_assoc($result))
+				$result = mysqli_query($_connection,$sql);
+				while ($data = mysqli_fetch_assoc($result))
 				{
 					$sql_insert = "insert into student_800_task values ( null,'". $_POST['date'] ."','" . $data['room_id'] . "','0', '" . $acadyear . "','" .$acadsemester ."') ";
-					mysql_query($sql_insert) or die ('Error - ' . mysql_error());
+					mysqli_query($_connection,$sql_insert) or die ('Error - ' . mysqli_error());
 					//echo $sql_insert . "<br/>";
 				}
 				echo "<td><font color=\"#009900\" size=\"2\" face=\"Tahoma, sans-serif\"><strong>บันทึกข้อมูลเรียบร้อยแล้ว</strong></font></td>";
-				mysql_free_result($result);
+				mysqli_free_result($result);
 			}
 			else
 			{

@@ -54,8 +54,8 @@
 						where acadyear = '" . $acadyear . "' and acadsemester = '". $acadsemester . "' and timecheck_id = '02'
 						group by class_id
 						order by class_id";
-	$resStudent = mysql_query($sqlStudent);
-	$totalRows = mysql_num_rows($resStudent);
+	$resStudent = mysqli_query($_connection,$sqlStudent);
+	$totalRows = mysqli_num_rows($resStudent);
 	if($totalRows == 0)
 	{
 		echo "<td align='center'><font color='red'>ยังไม่มีการบันทึกข้อมูลในรายการที่คุณเลือก</center></td></tr>";
@@ -77,13 +77,13 @@
 						<td class="key" align="center" width="130px">จำนวนนักเรียนที่<br/>เข้าเรียนสาย(ครั้ง)</td>
 					</tr>
 					<? $_sum = 0; ?>
-					<? while($dat = mysql_fetch_assoc($resStudent)) { ?>
+					<? while($dat = mysqli_fetch_assoc($resStudent)) { ?>
 					<tr>
 						<td align="center">ชั้นมัธยมศึกษาปีที่ <?=getFullRoomFormat($dat['class_id'])?></td>
 						<td align="right" style="padding-right:40px"><b><?=$dat['late']?></b></td>
 					</tr>
 					<? $_sum += $dat['late'];?>
-					<?	} mysql_free_result($resStudent); //end while ?>
+					<?	} mysqli_free_result($resStudent); //end while ?>
 					<tr height="30px">
 						<td class="key" align="center">รวม</td>
 						<td class="key" align="right" style="padding-right:40px"><?=number_format($_sum,0,'',',')?></td>

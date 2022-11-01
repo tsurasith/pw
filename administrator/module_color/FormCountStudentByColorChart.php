@@ -38,7 +38,7 @@
 			where xedbe = '" . $acadyear . "'  and studstatus in (1,2)
 			group by color
 			order by color";
-	$_result = mysql_query($_sql);
+	$_result = mysqli_query($_connection,$_sql);
 	if($_result)
 	{ ?>
 		<table class="admintable"  cellpadding="1" cellspacing="1" border="0" align="center" >
@@ -67,7 +67,7 @@
 					$_setA = "<dataset seriesname='ม.ต้น' color='FF0000' showValue='1'>";
 					$_setB = "<dataset seriesname='ม.ปลาย' color='0000FF' showValue='1'>";
 
-					while($_dat = mysql_fetch_assoc($_result))
+					while($_dat = mysqli_fetch_assoc($_result))
 					{
 						$_catXML .= "<category name='" . (strlen($_dat['color'])>2?$_dat['color']:"ไม่ระบุ") . "' hoverText=''/>";
 						$_setA .= "<set value='" . $_dat['a'] . "' />";

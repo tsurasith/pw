@@ -68,11 +68,11 @@
 	<table class="admintable" width="100%" align="center">
 		<tr>
 			<td class="key" colspan="2">
-				<? $_res = mysql_query("select project_id,project_name from project where acadyear = '" . $acadyear . "' and acadsemester = '" . $acadsemester . "' "); ?>
+				<? $_res = mysqli_query($_connection,"select project_id,project_name from project where acadyear = '" . $acadyear . "' and acadsemester = '" . $acadsemester . "' "); ?>
 				ชื่อกิจกรรมโครงการ 
 				<select name="project_id" class="inputboxUpdate">
 					<option value=""></option>
-					<? while($_dat = mysql_fetch_assoc($_res)) { ?>
+					<? while($_dat = mysqli_fetch_assoc($_res)) { ?>
 						<option value="<?=$_dat['project_id']?>" <?=$_POST['project_id']==$_dat['project_id']?"selected":""?>><?=strlen(trim($_dat['project_name']))>102?(substr($_dat['project_name'],0,102) . "..."):$_dat['project_name']?></option>
 					<? }//end while ?>
 				</select> <input type="submit" class="button" name="search" value="เรียกดู" />
@@ -92,9 +92,9 @@
 					budget_income = '" . $_POST['budget_income'] . "',
 					budget_academic = '" . $_POST['budget_academic'] . "'
 					where project_id = '" . $_POST['project_id'] ."'";
-		if(mysql_query($_sql)) { ?>
+		if(mysqli_query($_connection,$_sql)) { ?>
 			<center><br/><font color="#008000">บันทึกแก้ไขกิจกรรมโครงการเรียบร้อยแล้ว</font></center>
-	<?  } else { echo "<center><font color='red'><br/>ผิดพลาดเนื่องจาก - " . mysql_error . "</font></center>";} ?>
+	<?  } else { echo "<center><font color='red'><br/>ผิดพลาดเนื่องจาก - " . mysqli_error . "</font></center>";} ?>
 <? } //end update ?>
 
 <? if(isset($_POST['search']) && $_POST['project_id'] == "") { ?>
@@ -103,9 +103,9 @@
 
 <? if(isset($_POST['search']) && $_POST['project_id'] != ""){ ?>
 <? $_sql = "select * from project where project_id ='" . $_POST['project_id'] ."'"; ?>
-<? $_res = @mysql_query($_sql); ?>
-<? if(@mysql_num_rows($_res)>0) { ?>
-	<?	$_dat = mysql_fetch_assoc($_res); ?>
+<? $_res = @mysqli_query($_connection,$_sql); ?>
+<? if(@mysqli_num_rows($_res)>0) { ?>
+	<?	$_dat = mysqli_fetch_assoc($_res); ?>
 <form method="post" name="myform" autocomplete="off">
 	<table class="admintable" width="100%" align="center">
 		<tr>

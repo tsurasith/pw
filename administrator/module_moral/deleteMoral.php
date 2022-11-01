@@ -26,13 +26,13 @@
 	</form>
 <? } else { // end if?> 
 	<?
-		$_p = mysql_fetch_assoc(mysql_query("select point,student_id,acadyear from student_moral where id = '" . $_POST['num_id'] . "'"));
+		$_p = mysqli_fetch_assoc(mysqli_query($_connection,"select point,student_id,acadyear from student_moral where id = '" . $_POST['num_id'] . "'"));
 		if($_p['point']>0){
 			$_point = "update students set points = points - " . $_p['point'] . " 
 				where id = '" . $_p['student_id'] ."' and xedbe = '" . $_p['acadyear'] . "'";
-			mysql_query($_point);
+			mysqli_query($_connection,$_point);
 		}
-		mysql_query("delete from student_moral where id = '" . $_POST['num_id'] . "'");
+		mysqli_query($_connection,"delete from student_moral where id = '" . $_POST['num_id'] . "'");
 	?>
 	<table class="admintable" width="100%">
 		<tr>

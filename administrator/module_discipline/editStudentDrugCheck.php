@@ -22,7 +22,7 @@
 				 where student_id = '" . $_POST['student_id'] ."' and drugtype = '" . $_POST['drugtype'][$_i] . "' and
 					   check_date = '" . $_POST['month'] . "'";
 		//echo $_sql . "<br/>";
-		if(isset($_POST['drugtype'][$_i]) && $_POST['drugtype'][$_i] != "") mysql_query($_sql);
+		if(isset($_POST['drugtype'][$_i]) && $_POST['drugtype'][$_i] != "") mysqli_query($_connection,$_sql);
 	}
  } //end if 
 ?>
@@ -41,12 +41,12 @@
 					$_sqlMonth = "select distinct month(task_date)as m,year(task_date)+543 as y
 									from student_drug_task where acadyear = '" . $acadyear . "' and acadsemester = '" . $acadsemester . "'
 									order by year(task_date),month(task_date)";
-					$_resMonth = mysql_query($_sqlMonth);
-					while($_datMonth = mysql_fetch_assoc($_resMonth))
+					$_resMonth = mysqli_query($_connection,$_sqlMonth);
+					while($_datMonth = mysqli_fetch_assoc($_resMonth))
 					{
 						$_select = (isset($_POST['month'])&&$_POST['month'] == $_datMonth['m']?"selected":"");
 						echo "<option value=\"" . $_datMonth['m'] . "\" $_select >" . displayMonth($_datMonth['m']) . ' ' . $_datMonth['y'] . "</option>";
-					} mysql_free_result($_resMonth);
+					} mysqli_free_result($_resMonth);
 				?>
 		  </select>
 		</td>
@@ -67,9 +67,9 @@
 					and acadyear = '" . $acadyear . "' and acadsemester ='" . $acadsemester . "'
 					and check_date = '" . $_POST['month'] . "'
 				order by drugtype";
-		$_res = mysql_query($_sql);	?>
-		<? if(@mysql_num_rows($_res) > 0) { ?>
-			<? $_datStud = mysql_fetch_assoc(mysql_query("select id,prefix,firstname,lastname,nickname,p_village,xlevel,xyearth,room  from students where xedbe = '" . $acadyear . "' and id = '" . $_POST['student_id'] . "'")) ?>
+		$_res = mysqli_query($_connection,$_sql);	?>
+		<? if(@mysqli_num_rows($_res) > 0) { ?>
+			<? $_datStud = mysqli_fetch_assoc(mysqli_query($_connection,"select id,prefix,firstname,lastname,nickname,p_village,xlevel,xyearth,room  from students where xedbe = '" . $acadyear . "' and id = '" . $_POST['student_id'] . "'")) ?>
 			<form method="post">
 			<table class="admintable" width="100%" align="center">
 				<tr>
@@ -97,7 +97,7 @@
 						<?=isset($_POST['update'])?"<font color='green' size='4'> !! ระบบได้บันทึกการแก้ไขเรียบร้อยแล้ว</font>":""?>
 					</td>
 				</tr>
-				<? while($_dat = mysql_fetch_assoc($_res)){ ?>
+				<? while($_dat = mysqli_fetch_assoc($_res)){ ?>
 				<tr>
 					<td align="right">
 						<b><?=displayDrug($_dat['drugType'])?></b>

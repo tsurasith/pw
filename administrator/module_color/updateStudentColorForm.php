@@ -41,13 +41,13 @@
 					$year = $acadyear;
 					$semester = $acadsemester;
 					$sql = "select replace(room_id,'0','/') as room_id,acadyear,acadsemester from rooms where acadyear = '" . $year . "' and acadsemester = '" . $semester . "' order by room_id";
-					$result = mysql_query($sql) or die ('<tr><td>Error - ' . mysql_error() . '</td></tr>');
-					$y = mysql_num_rows($result);
+					$result = mysqli_query($_connection,$sql) or die ('<tr><td>Error - ' . mysqli_error() . '</td></tr>');
+					$y = mysqli_num_rows($result);
 					if($y > 0){
 						for($_i = 1; $_i <=6 ; $_i++){
 							echo "<tr><td class='key' colspan='10' align='left'> ระดับชั้นมัธยมศึกษาปีที่ " . $_i . "</td></tr>";
 							echo "<tr>";
-							while($dat = mysql_fetch_assoc($result))
+							while($dat = mysqli_fetch_assoc($result))
 							{
 								if(substr($dat['room_id'],0,1) == $_i)
 								{

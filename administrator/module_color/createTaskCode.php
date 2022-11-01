@@ -6,9 +6,9 @@
 
 <?php require_once('../../Connections/bn.php'); ?>
 <?php
-mysql_select_db($database_nn, $nn);
-mysql_query("SET Character set utf8");
-mysql_query("set collation_connection = 'utf8'");
+mysqli_select_db($database_nn, $nn);
+mysqli_query($_connection,"SET Character set utf8");
+mysqli_query($_connection,"set collation_connection = 'utf8'");
 $sql = 'SELECT distinct room_id FROM rooms';
 $sql2 = "select distinct task_date from student_color_task where task_date = '" . $_POST['date'] . "'" ;
 ?>
@@ -24,17 +24,17 @@ $sql2 = "select distinct task_date from student_color_task where task_date = '" 
     <td><font size="2" face="Tahoma">ตรวจสอบวันที่ทำการบันทึก</font></td>
     <?php
 
-$c_date = mysql_query($sql2,$nn);
-$rows = mysql_num_rows($c_date);
+$c_date = mysqli_query($_connection,$sql2,$nn);
+$rows = mysqli_num_rows($c_date);
 if($_POST['date'] != "")
 {
 	if($rows == 0)
 	{
-		$result = mysql_query($sql,$nn);
-		while ($data = mysql_fetch_assoc($result))
+		$result = mysqli_query($_connection,$sql,$nn);
+		while ($data = mysqli_fetch_assoc($result))
 		{
 			$sql_insert = "insert into student_color_task values ( null,'". $_POST['date'] ."','" . $data['room_id'] . "','0') ";
-			mysql_query($sql_insert) or die ('Error - ' . mysql_error());
+			mysqli_query($_connection,$sql_insert) or die ('Error - ' . mysqli_error());
 			//echo $sql_insert . "<br/>";
 		}
 		echo "<td><font color=\"#009900\" size=\"2\" face=\"Tahoma\"><strong>บันทึกข้อมูลเรียบร้อยแล้ว</strong></font></td>";
@@ -48,7 +48,7 @@ else
 {
 	echo "<td><font color=\"red\" size=\"2\" face=\"Tahoma\"><strong>ผิดพลาดเนื่องจากคุณยังไม่ได้เลือกวันที่จะบันทึกข้อมูล !</strong></font></td>";
 }
-		mysql_close($nn);
+		mysqli_close($nn);
 ?>
   </tr>
 </table>

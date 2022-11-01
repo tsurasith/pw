@@ -51,7 +51,7 @@
   	$_sql = "select travelby,count(*)as c from students where xedbe = '" . $acadyear . "'  ";
 	if($_POST['studstatus']=="1,2") $_sql .= "and studstatus in (1,2) ";
 	$_sql .= " group by travelby order by 1 ";
-	$_totalStudent = mysql_fetch_assoc(mysql_query("select count(*) as total from students where xedbe = '" . $acadyear . "'" . ($_POST['studstatus']=="1,2"?"and studstatus in (1,2)":"")));
+	$_totalStudent = mysqli_fetch_assoc(mysqli_query($_connection,"select count(*) as total from students where xedbe = '" . $acadyear . "'" . ($_POST['studstatus']=="1,2"?"and studstatus in (1,2)":"")));
   }
   else
   {
@@ -60,10 +60,10 @@
 					and xyearth = '" . substr($_POST['roomID'],2,1) . "' ";
 	if($_POST['studstatus']=="1,2") $_sql .= "and studstatus in (1,2) ";
 	$_sql .= " group by travelby order by 1 ";
-	$_totalStudent = mysql_fetch_assoc(mysql_query("select count(*) as total from students where xedbe = '" . $acadyear . "' and xlevel = '" . substr($_POST['roomID'],0,1) . "' and xyearth = '" . substr($_POST['roomID'],2,1) . "' " . ($_POST['studstatus']=="1,2"?"and studstatus in (1,2)":"")));
+	$_totalStudent = mysqli_fetch_assoc(mysqli_query($_connection,"select count(*) as total from students where xedbe = '" . $acadyear . "' and xlevel = '" . substr($_POST['roomID'],0,1) . "' and xyearth = '" . substr($_POST['roomID'],2,1) . "' " . ($_POST['studstatus']=="1,2"?"and studstatus in (1,2)":"")));
   }
-  $_result = mysql_query($_sql);
-  if(mysql_num_rows($_result)>0) {
+  $_result = mysqli_query($_connection,$_sql);
+  if(mysqli_num_rows($_result)>0) {
   ?>
  <table class="admintable" width="100%"  cellpadding="1" cellspacing="1" border="0" align="center">
     <tr> 
@@ -81,7 +81,7 @@
 				if($_POST['chartType'] == "column")	{ $_strXML = $_strXML . "<graph caption='' xAxisName='วิธีการเดินทาง' yAxisName='Units' decimalPrecision='0'  formatNumberScale='0' >";}
 				else{$_strXML = $_strXML . "<graph caption='' decimalPrecision='0' showNames='1' numberSuffix=' คน' pieSliceDepth='30' formatNumberScale='0'>";}
 				
-				while($_dat = mysql_fetch_assoc($_result))
+				while($_dat = mysqli_fetch_assoc($_result))
 				{
 					$_strXML = $_strXML . "<set name='" . displayTravel($_dat['travelby']) . "' value='" . $_dat['c'] . "' color='" . getFCColor()  . "' showname='1'/> ";
 				}

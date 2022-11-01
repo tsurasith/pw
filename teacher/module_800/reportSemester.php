@@ -78,8 +78,8 @@
 							order by class_id";
 			}
 			
-			$resStudent = mysql_query($sqlStudent);
-			$totalRows = mysql_num_rows($resStudent);
+			$resStudent = mysqli_query($_connection,$sqlStudent);
+			$totalRows = mysqli_num_rows($resStudent);
 			if($totalRows <2) { echo "<br/><br/><center><font color='red'>ยังไม่มีการบันทึกข้อมูลในรายการที่คุณเลือก</font></center>"; }
 			else {
 	?>
@@ -111,7 +111,7 @@
 					<th width="70px">% ขาด</th>
 				</tr>
 				<? $_a=0; $_b=0; $_c=0; $_d=0; $_e=0; $_sum=0; ?>
-				<? while($dat = mysql_fetch_assoc($resStudent)){ ?>
+				<? while($dat = mysqli_fetch_assoc($resStudent)){ ?>
 				<tr bgcolor="white">
 					<td align="center"><?=$dat['class_id']=="TOS"?"รวม":getFullRoomFormat($dat['class_id'])?></td>
 					<td align='right'><?=number_format($dat['a'],0,'.',',')?></td>
@@ -123,7 +123,7 @@
 					<td align='right' bgcolor='#FEEFEF'><b><?=number_format((100 * $dat['e']/$dat['sum']),2,'.',',')?></b></td>
 				</tr>
 				<? $_a+=$dat['a']; $_b+=$dat['b']; $_c+=$dat['c']; $_d+=$dat['d']; $_e+=$dat['e']; $_sum+=$dat['sum'];  ?>
-				<?	} mysql_free_result($resStudent); ?>
+				<?	} mysqli_free_result($resStudent); ?>
 				<tr bgcolor='#FEEFEF'>
 				  <td align="center"><b>ร้อยละ</b></td>
 				  <td align='right'><b><?=number_format(100*$_a/$_sum,2,'.',',')?></b></td>

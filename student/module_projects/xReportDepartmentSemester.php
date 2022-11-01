@@ -46,8 +46,8 @@
 <? if($_POST['budget_academic']==""){ ?>  
 <?php
 	$_sql = "select budget_academic,count(project_id) as num,sum(budget_income) as income from project where acadyear = '" .$acadyear. "' and acadsemester = '" . $acadsemester ."' group by budget_academic";
-	$_result = mysql_query($_sql);
-	if(mysql_num_rows($_result)>0)
+	$_result = mysqli_query($_connection,$_sql);
+	if(mysqli_num_rows($_result)>0)
 	{
 		$_xmlColumn = "<?xml version='1.0' encoding='UTF-8' ?>";
 		$_xmlPie = "<?xml version='1.0' encoding='UTF-8' ?>";
@@ -72,7 +72,7 @@
 							<td class="key" align="center" width="150px">จำนวนเงิน<br/>(บาท)</td>
 						</tr>
 						<? $_proj = 0; $_budget = 0; ?>
-						<? while($_dat = mysql_fetch_assoc($_result)) { ?>
+						<? while($_dat = mysqli_fetch_assoc($_result)) { ?>
 							<tr>
 								<td align="left" style="padding-left:15px"><?=$_dat['budget_academic']?></td>
 								<td align="right" style="padding-right:20px"><?=$_dat['num']?></td>
@@ -142,8 +142,8 @@
 					where acadyear = '" . $acadyear . "' and acadsemester = '" . $acadsemester . "' and a.budget_academic = '" . $_POST['budget_academic'] . "'
 					group by a.project_id
 					order by finish_date"; //echo $_sql; ?>
-		<? $_res = mysql_query($_sql); $_x=1; ?>
-		<? if(mysql_num_rows($_res)>0){ ?>
+		<? $_res = mysqli_query($_connection,$_sql); $_x=1; ?>
+		<? if(mysqli_num_rows($_res)>0){ ?>
 		<table class="admintable" width="100%" align="center" >
 			<tr>
 				<th colspan="6" align="center">
@@ -163,7 +163,7 @@
 				<td class="key" align="center" width="100px">คงเหลือ</td>
 			</tr>
 			<? $_a = 0; $_b=0; $_sum=0; ?>
-			<? while($_dat = mysql_fetch_assoc($_res)){ ?>
+			<? while($_dat = mysqli_fetch_assoc($_res)){ ?>
 			<tr onMouseOver="this.style.backgroundColor='#FFCCFF'; this.style.cursor='hand';" onMouseOut=this.style.backgroundColor="#FFFFFF" >
 				<td align="center" valign="top"><?=$_x++?></td>
 				<td>

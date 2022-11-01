@@ -1,7 +1,7 @@
 ﻿
 <? 
 	$_sqlStudent = "select id,prefix,firstname,lastname,xlevel,xyearth,room,xedbe from students where id = '" . $_SESSION['username'] . "' order by xedbe desc";
-	$_datStudent = mysql_fetch_assoc(@mysql_query($_sqlStudent));
+	$_datStudent = mysqli_fetch_assoc(@mysqli_query($_connection,$_sqlStudent));
 ?>
 
 <div id="content">
@@ -32,11 +32,11 @@
 				      grade in ('0','ร','มส') 
 				order by a.acadyear desc,a.acadsemester desc,b.groupsara";
 	  // echo $_sql;
-	  @$_result = mysql_query($_sql);
+	  @$_result = mysqli_query($_connection,$_sql);
 	  $_no = 1;
   ?>
 
-<? if(mysql_num_rows($_result)>0){ ?>
+<? if(mysqli_num_rows($_result)>0){ ?>
         <div align="center">
               <table class="admintable"  cellpadding="1" cellspacing="1" border="0" align="center">
                 <tr> 
@@ -69,7 +69,7 @@
 			$_xYear = "";
 			$_xSemester = "";
 		?>
-        <? while($_dat = mysql_fetch_assoc($_result)) { ?>
+        <? while($_dat = mysqli_fetch_assoc($_result)) { ?>
 	        <tr>
         		<td align="center"><?=$_dat['acadyear']==$_xYear?"":$_dat['acadyear']?></td>
                 <td align="center"><?=$_dat['acadsemester']==$_xSemester && $_dat['acadyear']==$_xYear?"":$_dat['acadsemester']?></td>

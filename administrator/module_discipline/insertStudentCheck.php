@@ -13,7 +13,7 @@
 									'" . date('Y-m-d') . "',
 									'" . $_POST['acadyear'] . "','" . $_POST['acadsemester'] . "','" . $_SESSION['name']  . "')"; 
 		//echo $sql_insert_student . '<br/>';
-		mysql_query($sql_insert_student) or die ('Error - ' . mysql_error());  // บันทึกข้อมูลการเช็ค
+		mysqli_query($_connection,$sql_insert_student) or die ('Error - ' . mysqli_error());  // บันทึกข้อมูลการเช็ค
 	}
 	updateTask($_POST['month'],$_POST['room_id'],$_POST['drugType'],$_POST['acadyear']); // อัพเดทสถานะงานเป็น "บันทึก" แล้ว
 	
@@ -25,7 +25,7 @@
 			else{$row_id = $_POST['month'] . '-' . $_POST['room_id'] . '-' . $_POST['drugCheck00'] . '-' .$loop;}
 			$sql_insert_studentX = 'INSERT INTO student_drug VALUES (\'' . $row_id . '\', \'' . $_POST['student_id'][$loop]  . '\', \''. $_POST['room_id'] .'\', \'' . $_POST['drugCheck00'] .'\' , \'' . timecheck_id($_POST['check'][$loop]) .'\', \''. $_POST['month'] . '\',\'' . date('Y-m-d') . '\', \'' . $_POST['acadyear'] . '\', \'' . $_POST['acadsemester']  . '\', \''. $_SESSION['name']  . '\');'; 
 			//echo $sql_insert_studentX . "<br/>";
-			$aa = mysql_query($sql_insert_studentX)or die ('Error - ' . mysql_error());  // บันทึกข้อมูลการเช็ค
+			$aa = mysqli_query($_connection,$sql_insert_studentX)or die ('Error - ' . mysqli_error());  // บันทึกข้อมูลการเช็ค
 		} //end for
 		updateTask($_POST['month'],$_POST['room_id'],$_POST['drugCheck00'],$_POST['acadyear']); // อัพเดทสถานะงานเป็น "บันทึก" แล้ว
 	}
@@ -38,7 +38,7 @@
 			else{$row_id = $_POST['month'] . '-' . $_POST['room_id'] . '-' . $_POST['drugCheck01'] . '-' .$loop;}
 			$sql_insert_studentX = 'INSERT INTO student_drug VALUES (\'' . $row_id . '\', \'' . $_POST['student_id'][$loop]  . '\', \''. $_POST['room_id'] .'\', \'' . $_POST['drugCheck01'] .'\' , \'' . timecheck_id($_POST['check'][$loop]) .'\', \''. $_POST['month'] . '\',\'' . date('Y-m-d') . '\', \'' . $_POST['acadyear'] . '\', \'' . $_POST['acadsemester']  . '\', \''. $_SESSION['name']  . '\');'; 
 			//echo $sql_insert_studentX . "<br/>";
-			$aa = mysql_query($sql_insert_studentX)or die ('Error - ' . mysql_error());  // บันทึกข้อมูลการเช็ค
+			$aa = mysqli_query($_connection,$sql_insert_studentX)or die ('Error - ' . mysqli_error());  // บันทึกข้อมูลการเช็ค
 		} //end for
 		updateTask($_POST['month'],$_POST['room_id'],$_POST['drugCheck01'],$_POST['acadyear']); // อัพเดทสถานะงานเป็น "บันทึก" แล้ว
 	}
@@ -51,7 +51,7 @@
 			else{$row_id = $_POST['month'] . '-' . $_POST['room_id'] . '-' . $_POST['drugCheck02'] . '-' .$loop;}
 			$sql_insert_studentX = 'INSERT INTO student_drug VALUES (\'' . $row_id . '\', \'' . $_POST['student_id'][$loop]  . '\', \''. $_POST['room_id'] .'\', \'' . $_POST['drugCheck02'] .'\' , \'' . timecheck_id($_POST['check'][$loop]) .'\', \''. $_POST['month'] . '\',\'' . date('Y-m-d') . '\', \'' . $_POST['acadyear'] . '\', \'' . $_POST['acadsemester']  . '\', \''. $_SESSION['name']  . '\');'; 
 			//echo $sql_insert_studentX . "<br/>";
-			$aa = mysql_query($sql_insert_studentX)or die ('Error - ' . mysql_error());  // บันทึกข้อมูลการเช็ค
+			$aa = mysqli_query($_connection,$sql_insert_studentX)or die ('Error - ' . mysqli_error());  // บันทึกข้อมูลการเช็ค
 		} //end for
 		updateTask($_POST['month'],$_POST['room_id'],$_POST['drugCheck02'],$_POST['acadyear']); // อัพเดทสถานะงานเป็น "บันทึก" แล้ว
 	}
@@ -64,7 +64,7 @@
 			else{$row_id = $_POST['month'] . '-' . $_POST['room_id'] . '-' . $_POST['drugCheck03'] . '-' .$loop;}
 			$sql_insert_studentX = 'INSERT INTO student_drug VALUES (\'' . $row_id . '\', \'' . $_POST['student_id'][$loop]  . '\', \''. $_POST['room_id'] .'\', \'' . $_POST['drugCheck03'] .'\' , \'' . timecheck_id($_POST['check'][$loop]) .'\', \''. $_POST['month'] . '\',\'' . date('Y-m-d') . '\', \'' . $_POST['acadyear'] . '\', \'' . $_POST['acadsemester']  . '\', \''. $_SESSION['name']  . '\');'; 
 			//echo $sql_insert_studentX . "<br/>";
-			$aa = mysql_query($sql_insert_studentX)or die ('Error - ' . mysql_error());  // บันทึกข้อมูลการเช็ค
+			$aa = mysqli_query($_connection,$sql_insert_studentX)or die ('Error - ' . mysqli_error());  // บันทึกข้อมูลการเช็ค
 		} //end for
 		updateTask($_POST['month'],$_POST['room_id'],$_POST['drugCheck03'],$_POST['acadyear']); // อัพเดทสถานะงานเป็น "บันทึก" แล้ว
 	}
@@ -117,6 +117,6 @@ function timecheck_id($value) {
 function updateTask($month,$room_id,$drugType,$acadyear) {
 	$sql = "update student_drug_task set task_status = '1' where month(task_date) = '" . $month . "' and task_roomid = '" . $room_id . "' and drug_id = '" . $drugType . "' and acadyear = '" . $acadyear . "'" ;
 	//echo $sql . "<br/>";
-	mysql_query($sql) or die ('Error - ' . mysql_error());
+	mysqli_query($_connection,$sql) or die ('Error - ' . mysqli_error());
 }
 ?>

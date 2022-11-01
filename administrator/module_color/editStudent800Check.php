@@ -1,8 +1,8 @@
 ﻿<?php
 require_once('../Connections/bn.php'); 
-mysql_select_db($database_nn, $nn);
-mysql_query("SET Character set utf8");
-mysql_query("set collation_connection = 'utf8'");
+mysqli_select_db($database_nn, $nn);
+mysqli_query($_connection,"SET Character set utf8");
+mysqli_query($_connection,"set collation_connection = 'utf8'");
 
 ?>
 
@@ -83,16 +83,16 @@ function check(name,value)
 					$sql = "select * from student_800 where student_id = '" . $_POST['studentid'] . "' and check_date = '" . $_POST['date'] . "'" ;
 
 					//echo $sql . '<br/>';
-					$result = mysql_query($sql);
+					$result = mysqli_query($_connection,$sql);
 					if($result)
 					{
-						if(mysql_num_rows($result) > 0)
+						if(mysqli_num_rows($result) > 0)
 						{
 							echo "<tr><td>วันที่บันทึก</td><td><font color=\"darkblue\">" . $_POST['date'] ."</font><input type=\"hidden\" value=\"" . $_POST['date'] . "\" name=\"date\"></td></tr>";
 							echo '<tr>';
 							$sql_student = "select prefix , firstname , lastname, studstatus from students where id = '" . $_POST['studentid'] . "'";
-							$res_student = mysql_query($sql_student);
-							$dat_student = mysql_fetch_assoc($res_student);
+							$res_student = mysqli_query($_connection,$sql_student);
+							$dat_student = mysqli_fetch_assoc($res_student);
 							echo "<td>ชื่อ - สกุล</td>";
 							echo "<td><font color=\"darkblue\">" . $dat_student['prefix'] . $dat_student['firstname'] . ' ' . $dat_student['lastname'] . "</font></td>";
 							echo "</tr>";
@@ -102,7 +102,7 @@ function check(name,value)
 							echo "</tr>";
 							$periodRows = 1;
 							
-							while($dat = mysql_fetch_assoc($result))
+							while($dat = mysqli_fetch_assoc($result))
 							{	echo "<tr  >";
 								echo "<td align=\"right\">การมาเข้าแถว</td>";
 								echo "<td id=\"check[$periodRows]\">";
@@ -152,7 +152,7 @@ function check(name,value)
 					$sqlEdit = $sqlEdit . " timecheck_id = '" . timecheck_id($_POST['check'][1]) . "'";
 					$sqlEdit = $sqlEdit . " where student_id = '" . $_POST['studentid'] . "'" ;
 					$sqlEdit = $sqlEdit . " and check_date = '" . $_POST['date']  . "'" ;
-					$update = mysql_query($sqlEdit) or die ('Error - ' . mysql_error());
+					$update = mysqli_query($_connection,$sqlEdit) or die ('Error - ' . mysqli_error());
 					if($update)
 					{
 						echo "<font color='green' >บันทึกการแก้ไขข้อมูลเรียบร้อยแล้ว</font>";

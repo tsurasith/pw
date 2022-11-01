@@ -55,8 +55,8 @@ else
 </table>
 <?php
 	$_sql = "select id,prefix,firstname,sex,lastname,nickname,p_village from students where id ='" . $_studentID . "' and xedbe = '" . $_acadyear . "'";
-	$_result = mysql_query($_sql);
-	$_dat = mysql_fetch_assoc($_result);
+	$_result = mysqli_query($_connection,$_sql);
+	$_dat = mysqli_fetch_assoc($_result);
 ?>
 <br/>
 

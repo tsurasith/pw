@@ -58,21 +58,21 @@
 		<table class="admintable" width="100%">
 			<tr><td class="key"> ผลการคัดลอกพฤติกรรมไม่พึงประสงค์</td></tr>
 			<?					
-					if(mysql_query($sql)) {
-						$_resNumberID = mysql_query("select dis_id from student_discipline
+					if(mysqli_query($_connection,$sql)) {
+						$_resNumberID = mysqli_query($_connection,"select dis_id from student_discipline
 											 where dis_studentid ='" . $_POST['student_id'] . "'
 												and dis_date = '" . $_POST['dis_date'] . "'
 												and dis_detail = '" . $_POST['dis_detail'] . "'
 												and dis_time = '" . $_POST['dis_time'] ."'");
-						$_datID = mysql_fetch_assoc($_resNumberID) or die (mysql_error());
+						$_datID = mysqli_fetch_assoc($_resNumberID) or die (mysqli_error());
 						//insert ลงในตาราง student_disciplinestatus,student_investigate
 						$_disStatus = "insert into student_disciplinestatus select '" . $_POST['student_id'] . "'," . $_datID['dis_id'] . ",dis_status,sanc_status,point,acadyear,acadsemester from student_disciplinestatus where dis_id = '"  . $_POST['dis_id'] . "'";
-						mysql_query($_disStatus);
+						mysqli_query($_connection,$_disStatus);
 						
 						$_disInvest = "insert into student_investigation 
 										select " . $_datID['dis_id'] . ",'" . $_POST['student_id'] . "',dis_type,dis_level,dis_investdetail,
 										dis_sanction,dis_investor,dis_investdate from student_investigation where dis_id = '" . $_POST['dis_id'] . "'";
-						mysql_query($_disInvest);
+						mysqli_query($_connection,$_disInvest);
 						//-----
 						echo "<tr><td align='center'>
 								<font color='green'>บันทึกข้อมูลเรียบร้อยแล้ว<br/>
@@ -80,7 +80,7 @@
 								<a href='index.php?option=module_discipline/disciplineSanction&dis_id=" .  $_datID['dis_id'] . "&acadyear=". $acadyear . "&acadsemester=". $acadsemester . "'>"
 								. $_datID['dis_id'] ."</a></b></font></td></tr>";
 					}
-					else{ showError("การบันทึกข้อมูลผิดพลาด เนื่องจาก ". mysql_error()); } ?>
+					else{ showError("การบันทึกข้อมูลผิดพลาด เนื่องจาก ". mysqli_error()); } ?>
 		</table>
 		</form>
 	<? } ?>
@@ -100,9 +100,9 @@
 						left outer join student_investigation on student_discipline.dis_id = student_investigation.dis_id
 						where student_discipline.dis_id = '" . $_disID . "' 
 						and acadyear = '" . $acadyear . "' and acadsemester = '" . $acadsemester . "' and dis_status = 2";
-		$_result = mysql_query($_sql);
-		if(mysql_num_rows($_result)>0){ ?>
-			<? 	$_dat = mysql_fetch_assoc($_result); ?>
+		$_result = mysqli_query($_connection,$_sql);
+		if(mysqli_num_rows($_result)>0){ ?>
+			<? 	$_dat = mysqli_fetch_assoc($_result); ?>
 			<input type="hidden" name="dis_id" value="<?=$_dat['dis_id']?>" />
 			<input type="hidden" name="dis_type" value="<?=$_dat['dis_type']?>" />
 			<table width="100%" align="center" cellspacing="1" class="admintable" cellpadding="3">
@@ -171,9 +171,9 @@
 			
 			
 			<? if(isset($_POST['view']) && $_POST['student_id'] != ""){ ?>
-				<? $_res = mysql_query("select id,prefix,firstname,lastname,xlevel,xyearth,sex,room,p_village,p_tumbol,studstatus from students where xedbe = '" . $acadyear . "' and id = '" . $_POST['student_id'] . "'"); ?>
-				<? if(mysql_num_rows($_res)>0){ ?>
-					<? $_datS = mysql_fetch_assoc($_res); ?>
+				<? $_res = mysqli_query($_connection,"select id,prefix,firstname,lastname,xlevel,xyearth,sex,room,p_village,p_tumbol,studstatus from students where xedbe = '" . $acadyear . "' and id = '" . $_POST['student_id'] . "'"); ?>
+				<? if(mysqli_num_rows($_res)>0){ ?>
+					<? $_datS = mysqli_fetch_assoc($_res); ?>
 					<table class="admintable" width="100%" align="center">
 						<tr>
 							<td align="right" width="250px">ชื่อ - สกุล :</td>
@@ -219,8 +219,8 @@
 	function studentData($_id,$acadyear)
 	{
 		$_sql = "select id,prefix,firstname,lastname,xlevel,xyearth,room,p_village from students where xedbe = '" . $acadyear  ."' and id = '". $_id . "'";
-		$_result = mysql_query($_sql);
-		$_dat = mysql_fetch_assoc($_result);
+		$_result = mysqli_query($_connection,$_sql);
+		$_dat = mysqli_fetch_assoc($_result);
 		$str = "";
 		$str = $str . "เลขประจำตัว: " . $_dat['id'] . "<br/>ชื่อ-สกุล: ". $_dat['prefix'] . $_dat['firstname'] . ' ' . $_dat['lastname'] . "<br/>";
 		$str = $str . "ระดับชั้น: " .($_dat['xlevel']==4?$_dat['xyearth']+3:$_dat['xyearth']) . "/" . $_dat['room'] . "<br/>";

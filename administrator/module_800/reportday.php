@@ -65,8 +65,8 @@
 								group by class_id order by class_id";
 					}
 					
-					$result = mysql_query($sql);
-					if(!$result || mysql_num_rows($result) == 0)
+					$result = mysqli_query($_connection,$sql);
+					if(!$result || mysqli_num_rows($result) == 0)
 					{
 						echo "<br/><br/><font color='red'>ไม่พบข้อมูลที่ค้นหา อาจเนื่องมาจากยังไม่บันทึกข้อมูลวันที่ค้นหา หรือ รูปแบบวันที่ผิดพลาด</font>";
 					}
@@ -85,7 +85,7 @@
 						echo "<td width=\"60px\">ขาด</td><td width=\"60px\">รวม</td>";
 						echo "</tr>";
 						$_00 = 0;	$_01 = 0;	$_02 = 0;	$_03 = 0; $_04 = 0; $_sum = 0;
-						while($dat = mysql_fetch_assoc($result))
+						while($dat = mysqli_fetch_assoc($result))
 						{
 							echo "<tr bgcolor=\"white\">";
 							echo "<td align=\"center\">" . getFullRoomFormat($dat['class_id']) . "</td>";
@@ -122,7 +122,7 @@
 						echo "<td align=\"right\"><b><font color='red'>" . number_format(($_sum/$_sum)*100,2,'.',',') . "</font></b></td>";
 						echo "</tr>";
 						echo "</table>";
-						mysql_free_result($result);
+						mysqli_free_result($result);
 					}
 				}
 			?>

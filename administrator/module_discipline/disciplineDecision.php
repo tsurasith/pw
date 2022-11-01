@@ -73,9 +73,9 @@
 						left outer join student_investigation on student_discipline.dis_id = student_investigation.dis_id
 						where student_discipline.dis_id = '" . $_disID . "' 
 						and acadyear = '" . $acadyear . "' and acadsemester = '" . $acadsemester . "' and dis_status in(5)"; ?>
-		<? $_result = mysql_query($_sql); ?>
-		<? if(mysql_num_rows($_result)>0){ ?>
-				<? $_dat = mysql_fetch_assoc($_result); ?>
+		<? $_result = mysqli_query($_connection,$_sql); ?>
+		<? if(mysqli_num_rows($_result)>0){ ?>
+				<? $_dat = mysqli_fetch_assoc($_result); ?>
 				<input type="hidden" name="student_id" value="<?=$_dat['dis_studentid']?>" />
 				<input type="hidden" name="dis_id" value="<?=$_dat['dis_id']?>" />
 				<input type="hidden" name="dis_type" value="<?=$_dat['dis_type']?>" />
@@ -123,8 +123,8 @@
 					</tr>
 				</table>
 		<?	$_sqlSanc = "select * from student_sanction where dis_id = '" . $_dat['dis_id'] . "' order by id "; ?>
-		<?	$_resSanc = mysql_query($_sqlSanc);	?>
-		<?	if(mysql_num_rows($_resSanc) > 1){ ?>
+		<?	$_resSanc = mysqli_query($_connection,$_sqlSanc);	?>
+		<?	if(mysqli_num_rows($_resSanc) > 1){ ?>
 				<table width="100%" class="admintable">
 					<tr>
 						<td align="center" class="key">ครั้งที่</td>
@@ -134,9 +134,9 @@
 						<td align="center" class="key">วันที่ทำกิจกรรม</td>
 					</tr>
 					<? $_i = 0; ?>
-					<? while($_datSanc = mysql_fetch_assoc($_resSanc)){ ?>
+					<? while($_datSanc = mysqli_fetch_assoc($_resSanc)){ ?>
 					<? $_timeAll =  $_timeAll + $_datSanc['sanc_alltime'] ;	?>
-					<? if($_i == 0){ $_datSanc = mysql_fetch_assoc($_resSanc); } ?>
+					<? if($_i == 0){ $_datSanc = mysqli_fetch_assoc($_resSanc); } ?>
 					<? $_timeCount = $_timeCount + $_datSanc['sanc_time'] ; ?>
 					<tr>
 						<td align="center" valign="top"><?=++$_i?></td>
@@ -211,16 +211,16 @@
 			$_sql2 = "insert into student_decision values('" . $_POST['dis_id'] . "','" . $_POST['dec_detail'] . "','" . $_POST['dec_date'] . "','" . $_POST['dec_point'] . "')";
 			$_sql3 = "update students set points = (points - '" .$_POST['point'] . "') where ID = '" . $_POST['student_id'] . "' and xEDBE = '" . $acadyear . "'";
 
-			$_result1 = mysql_query($_sql);
-			$_result2 = mysql_query($_sql2);				
-			$_result3 = mysql_query($_sql3);
+			$_result1 = mysqli_query($_connection,$_sql);
+			$_result2 = mysqli_query($_connection,$_sql2);				
+			$_result3 = mysqli_query($_connection,$_sql3);
 			if($_result1 && $_result2 && $_result3) { 
 					echo "<center><font color='green'><br/>บันทึกข้อมูลการพิจารณาคดีเรียบร้อยแล้ว <br/>
 							ดำเนินการต่อคลิกที่ : <a href='index.php?option=module_discipline/disciplineFinished&dis_id=" .  $_POST['dis_id'] . "&acadyear=". $acadyear . "&acadsemester=". $acadsemester . "'>"
 								.  $_POST['dis_id'] ."</a>
 							</font></center>"; 
 			}
-			else { echo "<center><font color='red'><br/>เกิดข้อผิดพลาดเนื่องจาก - " . mysql_error(). "</font></center>"; }
+			else { echo "<center><font color='red'><br/>เกิดข้อผิดพลาดเนื่องจาก - " . mysqli_error(). "</font></center>"; }
 	}
 ?>
 </div>
@@ -231,8 +231,8 @@
 	function studentData($_id,$acadyear)
 	{
 		$_sql = "select id,prefix,firstname,lastname,xlevel,xyearth,room,p_village from students where xedbe = '" . $acadyear  ."' and id = '". $_id . "'";
-		$_result = mysql_query($_sql);
-		$_dat = mysql_fetch_assoc($_result);
+		$_result = mysqli_query($_connection,$_sql);
+		$_dat = mysqli_fetch_assoc($_result);
 		$str = "";
 		$str = $str . "เลขประจำตัว: " . $_dat['id'] . "<br/>ชื่อ-สกุล: ". $_dat['prefix'] . $_dat['firstname'] . ' ' . $_dat['lastname'] . "<br/>";
 		$str = $str . "ระดับชั้น: " .($_dat['xlevel']==4?$_dat['xyearth']+3:$_dat['xyearth']) . "/" . $_dat['room'] . "<br/>";
@@ -273,8 +273,8 @@
 	function disSanction($_disID)
 	{
 		$_sql = "select * from student_sanction where dis_id = '" . $_disID . "' order by id ";
-		$_result = mysql_query($_sql);
-		$_dat = mysql_fetch_assoc($_result);
+		$_result = mysqli_query($_connection,$_sql);
+		$_dat = mysqli_fetch_assoc($_result);
 		
 		$_str = "";
 		$_str = $_str . $_dat['sanc_detail'] . "<br/>"

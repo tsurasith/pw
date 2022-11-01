@@ -86,10 +86,10 @@
 						on student_discipline.dis_id = student_disciplinestatus.dis_id
 						where student_discipline.dis_id = '" . $_disID . "' 
 						and acadyear = '" . $acadyear . "' and acadsemester = '" . $acadsemester . "' and dis_status = 1";
-		$_result = mysql_query($_sql);
-		if(mysql_num_rows($_result)>0)	{ ?>
+		$_result = mysqli_query($_connection,$_sql);
+		if(mysqli_num_rows($_result)>0)	{ ?>
 			<form name="myform"  method="post">
-			<? $_dat = mysql_fetch_assoc($_result); ?>
+			<? $_dat = mysqli_fetch_assoc($_result); ?>
 			<table width="100%" align="center" cellspacing="1" class="admintable" border="0" cellpadding="3">
 				<tr>
 					<td align="right" width="250px"><b>หมายเลขคดี</b></td>
@@ -154,12 +154,12 @@
 					<td align="right" valign="top"><b>ครูผู้สอบสวน</b></td>
 					<td>
 						<? $_sqlTeacher = "select teaccode,prefix,firstname,lastname from teachers where type in ('admin','teacher') order by firstname"; ?>
-						<? $_resTeacher = mysql_query($_sqlTeacher); ?>
+						<? $_resTeacher = mysqli_query($_connection,$_sqlTeacher); ?>
 						<select id="teacher" name="teacher" class="inputboxUpdate">
 							<option value=""></option>
-						<? while($_dat = mysql_fetch_assoc($_resTeacher)){ ?>
+						<? while($_dat = mysqli_fetch_assoc($_resTeacher)){ ?>
 							<option value="<?=$_dat['prefix'].$_dat['firstname'].' '.$_dat['lastname']?>" <?=$_dat['teaccode']==$_datRoom['teacher_id']?"selected":""?> ><?=$_dat['prefix'].$_dat['firstname'].' '.$_dat['lastname']?></option>
-						<? } mysql_free_result($_resTeacher);//end while ?>
+						<? } mysqli_free_result($_resTeacher);//end while ?>
 						</select>
 					</td>
 				</tr>
@@ -195,14 +195,14 @@
 																	'" . $_POST['investigate'] . "','02',
 																	'" . $_POST['teacher'] . "',
 																	'" . $_POST['invest_date'] . "')";
-				$_result1 = mysql_query($_sql);
-				$_result2 = mysql_query($_sql2);				
+				$_result1 = mysqli_query($_connection,$_sql);
+				$_result2 = mysqli_query($_connection,$_sql2);				
 				if($_result1 && $_result2){
 					echo "<br/><center><font color='green'>บันทึกข้อมูลการสอบสวนเรียบร้อยแล้ว<br/>
 							ดำเนินการต่อคลิกที่ : <a href='index.php?option=module_discipline/disciplineSanction&dis_id=" .  $_POST['dis_id'] . "&acadyear=". $acadyear . "&acadsemester=". $acadsemester . "'>"
 								.  $_POST['dis_id'] ."</a></font></center>"; 
 				}
-				else{ echo "<br/><center><font color=\"red\">เกิดข้อผิดพลาด เนื่องจาก - " . mysql_error() . "</font></center>"; }
+				else{ echo "<br/><center><font color=\"red\">เกิดข้อผิดพลาด เนื่องจาก - " . mysqli_error() . "</font></center>"; }
 	}//end if
 	else
 	{
@@ -217,14 +217,14 @@
 																	'" . $_POST['investigate'] . "','01',
 																	'" . $_POST['teacher'] . "',
 																	'" . $_POST['invest_date'] . "')";
-				$_result1 = mysql_query($_sql);
-				$_result2 = mysql_query($_sql2);
+				$_result1 = mysqli_query($_connection,$_sql);
+				$_result2 = mysqli_query($_connection,$_sql2);
 				if($_result1 && $_result2){ 
 					echo "<br/><center><font color=\"green\">บันทึกข้อมูลการสอบสวนเรียบร้อยแล้ว<br/>
 							ดำเนินการต่อคลิกที่ : <a href='index.php?option=module_discipline/disciplineFinished&dis_id=" .  $_POST['dis_id'] . "&acadyear=". $acadyear . "&acadsemester=". $acadsemester . "'>"
 								.  $_POST['dis_id'] ."</a></font></center>"; 
 				}
-				else{ echo "<br/><center><font color=\"red\">เกิดข้อผิดพลาด เนื่องจาก - " . mysql_error() . "</font></center>"; }
+				else{ echo "<br/><center><font color=\"red\">เกิดข้อผิดพลาด เนื่องจาก - " . mysqli_error() . "</font></center>"; }
 			}
 	}
 ?>
@@ -235,8 +235,8 @@
 	function studentData($_id,$acadyear)
 	{
 		$_sql = "select id,prefix,firstname,lastname,xlevel,xyearth,room,p_village from students where xedbe = '" . $acadyear  ."' and id = '". $_id . "'";
-		$_result = mysql_query($_sql);
-		$_dat = mysql_fetch_assoc($_result);
+		$_result = mysqli_query($_connection,$_sql);
+		$_dat = mysqli_fetch_assoc($_result);
 		$str = "";
 		$str = $str . "เลขประจำตัว: " . $_dat['id'] . "<br/>ชื่อ-สกุล: ". $_dat['prefix'] . $_dat['firstname'] . ' ' . $_dat['lastname'] . "<br/>";
 		$str = $str . "ระดับชั้น: " .($_dat['xlevel']==4?$_dat['xyearth']+3:$_dat['xyearth']) . "/" . $_dat['room'] . "<br/>";

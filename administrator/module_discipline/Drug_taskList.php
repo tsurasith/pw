@@ -38,15 +38,15 @@
 			<? $_sqlMonth = "select distinct month(task_date) as m,year(task_date) as y from student_drug_task 
 								where acadyear = '" . $acadyear . "' and acadsemester = '" . $acadsemester . "' and task_status = '0' 
 								order by year(task_date),month(task_date)";
-				$_resMonth = mysql_query($_sqlMonth);
+				$_resMonth = mysqli_query($_connection,$_sqlMonth);
 			?>
 			<select name="month" class="inputboxUpdate">
 				<option value=""></option>
-				<? while($_datMonth = mysql_fetch_assoc($_resMonth)) { ?>
+				<? while($_datMonth = mysqli_fetch_assoc($_resMonth)) { ?>
 					<option value="<?=$_datMonth['m']?>" <?=isset($_POST['month'])&&$_POST['month']==$_datMonth['m']?"selected":""?>>
 					<?=displayMonth($_datMonth['m']) .' '. ($_datMonth['y']+543)?>
 					</option>
-				<? } mysql_free_result($_resMonth); ?>
+				<? } mysqli_free_result($_resMonth); ?>
 			</select>
 			<input type="submit" name="search" value="เรียกดู" class="button" />
 			</form>
@@ -67,7 +67,7 @@
 			where acadyear = '" . $acadyear . "' and acadsemester = '" . $acadsemester . "'
 				and month(task_date) = '" . $_POST['month'] . "'
 			group by task_date,task_roomid";
-		$_res = mysql_query($_sql);
+		$_res = mysqli_query($_connection,$_sql);
 		$_i = 1;
 	?>
 	<table class="admintable" align="center">
@@ -83,7 +83,7 @@
 			<td align="center" width="70px" class="key">ยาบ้า</td>
 			<td align="center" width="70px" class="key">สารระเหย</td>
 		</tr>
-		<? while($_dat = mysql_fetch_assoc($_res)) { ?>
+		<? while($_dat = mysqli_fetch_assoc($_res)) { ?>
 		<tr onMouseOver="this.style.backgroundColor='#FFCCFF'; this.style.cursor='hand';" onMouseOut=this.style.backgroundColor="#FFFFFF" >
 			<td align="center"><?=$_i++?></td>
 			<td align="center"><?=getFullRoomFormat($_dat['task_roomid'])?></td>

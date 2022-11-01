@@ -57,12 +57,12 @@
 			 where acadyear ='" . $acadyear . "' and 
 			 		acadsemester ='" . $acadsemester . "' and 
 					concat(teacher_id,teacher_id2) like '%" . $_SESSION['teacher_id'] . "%'";
-	$_resCheckAdvisor = mysql_query($_sqlCheckAdvisor);
+	$_resCheckAdvisor = mysqli_query($_connection,$_sqlCheckAdvisor);
 	
 	// echo $_sqlCheckAdvisor;
 
-	if(mysql_num_rows($_resCheckAdvisor)>0) {
-		$_x = mysql_fetch_assoc($_resCheckAdvisor);
+	if(mysqli_num_rows($_resCheckAdvisor)>0) {
+		$_x = mysqli_fetch_assoc($_resCheckAdvisor);
 		$xlevel = (substr($_x['room_id'],0,1)>3?4:3);
 		$xyearth = (substr($_x['room_id'],0,1)>3?substr($_x['room_id'],0,1)-3:substr($_x['room_id'],0,1));
 		$room = substr($_x['room_id'],2,1);
@@ -92,13 +92,13 @@
 											and xedbe = '" . $acadyear . "' and b.acadyear = '" . $acadyear . "' 
 											and b.semester = '" . $acadsemester . "' 
 									order by sex,id,ordinal ";
-					$resStudent = mysql_query($sqlStudent);
+					$resStudent = mysqli_query($_connection,$sqlStudent);
 					$ordinal = 1;
-					$totalRows = mysql_num_rows($resStudent);
+					$totalRows = mysqli_num_rows($resStudent);
 					for($i = 0; $i < $totalRows ; $i++)
 					{ ?>
 						<tr onMouseOver="this.style.backgroundColor='#FFCCFF'; this.style.cursor='hand';" onMouseOut=this.style.backgroundColor="#FFFFFF" >
-						<? $dat = mysql_fetch_array($resStudent); ?>
+						<? $dat = mysqli_fetch_array($resStudent); ?>
 						<td align="center"><?=$ordinal++?></td>
 						<td align="center"><?=$dat['id']?></td>
 						<td><?=$dat['prefix'] . $dat['firstname'] . " " . $dat['lastname']?></td>

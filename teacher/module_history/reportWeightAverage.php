@@ -60,8 +60,8 @@
 					<td class="key" align="center" width="60px">ชาย</td>
 					<td class="key" align="center" width="60px">หญิง</td>
 				</tr>
-				<? $_res = mysql_query($_sql); $_f=0;$_m=0; ?>
-				<? while($_dat = mysql_fetch_assoc($_res)) { ?>
+				<? $_res = mysqli_query($_connection,$_sql); $_f=0;$_m=0; ?>
+				<? while($_dat = mysqli_fetch_assoc($_res)) { ?>
 				<tr>
 					<td style="padding-left:20px">ชั้นมัธยมศึกษาปีที่ <?=$_dat['xlevel']==3?$_dat['xyearth']:$_dat['xyearth']+3?><?=$_POST['detail']==1?"/" . $_dat['room']:""?></td>
 					<td align="right" style="padding-right:15px"><?=$_dat['Male']!=0?number_format($_dat['Male'],0,'',','):"-"?></td>
@@ -104,10 +104,10 @@
 			</tr>
 			<? $_sqlMale = $_sql . "and sex = 1 order by weight desc limit 0,10";
 			   $_sqlFemale = $_sql . "and sex = 2 order by weight desc limit 0,10"; 
-			   $_resM = mysql_query($_sqlMale);
-			   $_resF = mysql_query($_sqlFemale); ?>
+			   $_resM = mysqli_query($_connection,$_sqlMale);
+			   $_resF = mysqli_query($_connection,$_sqlFemale); ?>
 			<? for($_i = 1; $_i <= 10; $_i++) { ?>
-			<? $_datM = mysql_fetch_assoc($_resM); $_datF = mysql_fetch_assoc($_resF); ?>
+			<? $_datM = mysqli_fetch_assoc($_resM); $_datF = mysqli_fetch_assoc($_resF); ?>
 			<tr onMouseOver="this.style.backgroundColor='#FFCCFF'; this.style.cursor='hand';" onMouseOut=this.style.backgroundColor="#FFFFFF">	
 				<td >
 					<?=$_i?>. 

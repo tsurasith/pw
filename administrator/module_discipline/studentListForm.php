@@ -49,11 +49,11 @@
                                             and task_roomid = '" . $_REQUEST['room'] . "' 
                                             and acadyear = '" . $_REQUEST['acadyear'] ."'
                                         order by drug_id" ;
-                            $p_res = mysql_query($p_sql) or dir(mysql_error());
+                            $p_res = mysqli_query($_connection,$p_sql) or dir(mysqli_error());
                         ?>
                         <table cellspacing="2" cellpadding="2" class="admintable">
                             <tr>
-                            <? while($_datP = mysql_fetch_assoc($p_res)) { ?>
+                            <? while($_datP = mysqli_fetch_assoc($p_res)) { ?>
                                 <? if($_datP['task_status']=="0" && $_datP['drug_id'] != $_REQUEST['drugType']){ ?>
                                     <td <?=($_datP['drug_id']==$_REQUEST['drugType'])?"":"class='key'"?>>
                                         <input type="checkbox" name="drugCheck<?=$_datP['drug_id']?>" value="<?=$_datP['drug_id']?>" />
@@ -88,10 +88,10 @@
                                     WHERE xlevel = '" . $xlevel . "' AND xyearth = '" . $xyear . "' 
                                         and room = '" . $room_id  .  "' and xedbe = '" .$acadyear . "'  
                                         and studstatus = '1' order by sex,id ";
-                        $result = mysql_query($sql) or die ('Error  - ' . mysql_error());
+                        $result = mysqli_query($_connection,$sql) or die ('Error  - ' . mysqli_error());
                         $i = 1;
                         $j = 0;
-                        $rows = mysql_num_rows($result);
+                        $rows = mysqli_num_rows($result);
                     ?>
                     <table width="638px" border="0" cellspacing="1" cellpadding="1" align="center" bgcolor="#3366FF" class="admintable">
                         <tr align="center"> 
@@ -106,7 +106,7 @@
                             <td width="10%"  class="key">เคยลอง</td>
                             <td width="10%"  class="key">ติด</td>
                         </tr>
-                        <? while($data = mysql_fetch_array($result)) { ?>
+                        <? while($data = mysqli_fetch_array($result)) { ?>
                         <tr id="check[<?=$j?>]"  bgcolor='#FFFFFF' >
                             <td align="center"><?=$i?></td>
                             <td align="center">

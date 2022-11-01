@@ -43,12 +43,12 @@
 					$_sqlMonth = "select distinct month(check_date)as m,year(check_date)+543 as y
 									from student_800 where acadyear = '" . $acadyear . "' and acadsemester = '" . $acadsemester . "'
 									order by year(check_date),month(check_date)";
-					$_resMonth = mysql_query($_sqlMonth);
-					while($_datMonth = mysql_fetch_assoc($_resMonth))
+					$_resMonth = mysqli_query($_connection,$_sqlMonth);
+					while($_datMonth = mysqli_fetch_assoc($_resMonth))
 					{
 						$_select = (isset($_POST['month'])&&$_POST['month'] == $_datMonth['m']?"selected":"");
 						echo "<option value=\"" . $_datMonth['m'] . "\" $_select>" . displayMonth($_datMonth['m']) . ' ' . $_datMonth['y'] . "</option>";
-					} mysql_free_result($_resMonth);
+					} mysqli_free_result($_resMonth);
 				?>
 			 </select> <input type="submit" value="เรียกดู" class="button" name="search"/> <br/>
 			 <input type="checkbox" name="studstatus" value="1,2"  <?=$_POST['studstatus']=="1,2"?"checked='checked'":""?> />
@@ -119,8 +119,8 @@
 							from student_800 where month(check_date) = '" . $_POST['month'] . "' and acadyear = '" . $acadyear . "' and acadsemester = '" . $acadsemester . "')
 							order by class_id";
 			}
-			$resStudent = mysql_query($sqlStudent);
-			$totalRows = mysql_num_rows($resStudent);
+			$resStudent = mysqli_query($_connection,$sqlStudent);
+			$totalRows = mysqli_num_rows($resStudent);
 			if($totalRows == 0)
 			{
 				echo "<td>ยังไม่มีการบันทึกข้อมูลในรายการที่คุณเลือก</td></tr>";
@@ -147,7 +147,7 @@
 					<td width="60px" class="key">รวม</td>
 					<td width="70px" class="key">% ขาด</td>
 				</tr>
-				<? while($dat = mysql_fetch_assoc($resStudent)) { ?>
+				<? while($dat = mysqli_fetch_assoc($resStudent)) { ?>
 					<? $_header = ($dat['class_id']=="TOS"?"class='key'":""); ?>
 					<tr>
 					<td align="center" <?=$_header?>><?=$dat['class_id']=="TOS"?"รวม":getFullRoomFormat($dat['class_id'])?></td>
@@ -159,7 +159,7 @@
 					<td align="right" <?=$_header?>><b><?=number_format($dat['sum'],0,'.',',')?></b></td>
 					<td align='right' <?=$_header?>><b><?=number_format((100 * $dat['e']/$dat['sum']),2,'.',',')?></b></td>
 					</tr>
-				<? } mysql_free_result($resStudent); ?>
+				<? } mysqli_free_result($resStudent); ?>
 			</table>
 		</td>
     </tr>

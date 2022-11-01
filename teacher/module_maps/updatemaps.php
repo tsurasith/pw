@@ -19,7 +19,7 @@
 								howlong = '" . $_POST['howlong'] . "',
 								travelby = '" . $_POST['travelby'] . "'
 							where id = '" . $_POST['student_id'] . "' and xedbe = '" . $acadyear . "'";
-		@mysql_query($_sqlUpdate);
+		@mysqli_query($_connection,$_sqlUpdate);
 	}
 ?>
 <div id="content">
@@ -43,8 +43,8 @@
 						 from students 
 						 where id = '" . $_studentID . "' and xedbe = '" . $acadyear . "'";
 						 
-	$resStudent = mysql_query($sqlStudent);
-	$_dat = mysql_fetch_assoc($resStudent);
+	$resStudent = mysqli_query($_connection,$sqlStudent);
+	$_dat = mysqli_fetch_assoc($resStudent);
   ?>
 
   	<table class="admintable"  cellpadding="1" width="100%" cellspacing="1" border="0" align="center">
@@ -82,11 +82,11 @@
 		  <td >
 		  		<select name="travelby" class="inputboxUpdate">
 				<?php
-					$_resTravel = mysql_query("SELECT * FROM ref_travel");
-					while($_datTravel = mysql_fetch_assoc($_resTravel))
+					$_resTravel = mysqli_query($_connection,"SELECT * FROM ref_travel");
+					while($_datTravel = mysqli_fetch_assoc($_resTravel))
 					{  ?>
 						<option value="<?=$_datTravel['travel_id']?>" <?=($_dat['travelby']==$_datTravel['travel_id']?"SELECTED":"")?>><?=$_datTravel['travel_description']?></option>
-				<?	} mysql_free_result($_resTravel);
+				<?	} mysqli_free_result($_resTravel);
 				?>
 				</select>
 		  </td>

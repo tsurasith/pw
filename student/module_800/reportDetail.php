@@ -46,15 +46,15 @@
 				on a.timecheck_id = b.check_id
 				where a.student_id =  '" . $_SESSION['username'] . "' and acadyear = '" . $acadyear . "' 
 					and acadsemester = '" . $acadsemester . "' order by a.check_date";
-		$result = mysql_query($sql);
+		$result = mysqli_query($_connection,$sql);
 		showData($result,$_SESSION['username']);
   ?>
 
   <?php
   	function showData($result,$s_id){
 	$sqlStudent = "select id,prefix,firstname,lastname,xlevel,xyearth,room from students where id = '" . $s_id . "'";
-	$resStudent = mysql_query($sqlStudent);
-	$datStudent = mysql_fetch_assoc($resStudent);	
+	$resStudent = mysqli_query($_connection,$sqlStudent);
+	$datStudent = mysqli_fetch_assoc($resStudent);	
   ?>
   <table class="admintable"  cellpadding="1" cellspacing="1" border="0" align="center" width="100%">
 	<tr>
@@ -65,10 +65,10 @@
 	</tr>
 	<tr>
 	 <?php
-		if(mysql_num_rows($result) > 0)
+		if(mysqli_num_rows($result) > 0)
 		{
 			$i = 1;
-			while($dat = mysql_fetch_assoc($result))
+			while($dat = mysqli_fetch_assoc($result))
 			{
 				echo "<tr>";
 				echo "<td align=\"center\">" . $i++ . "</td>";
@@ -76,7 +76,7 @@
 				echo "<td >" . displayTimecheckColor($dat['check_id']) . "</td>";	
 				if($i == 2)
 				{
-					echo "<td valign=\"top\" rowspan=\"" . mysql_num_rows($result) . "\">" . resultData($s_id,$datStudent) ."</td>";
+					echo "<td valign=\"top\" rowspan=\"" . mysqli_num_rows($result) . "\">" . resultData($s_id,$datStudent) ."</td>";
 				}
 				echo "</tr>";
 			}
@@ -108,7 +108,7 @@
 					from  student_800
 					where student_id = '" . $studentID . "'
 					group by acadsemester,acadyear,student_id order by acadyear,acadsemester ";
-		$_result = mysql_query($_sql);
+		$_result = mysqli_query($_connection,$_sql);
 		$view = "";
 		$view = $view . "<table width=\"100%\" cellspacing=\"1\" cellpadding=\"1\" bgcolor=\"#FFEEDD\">";
 		$view = $view . "<tr bgcolor=\"#FFFFFF\"><td colspan=\"7\">";
@@ -120,7 +120,7 @@
 		$view = $view . "</td></tr>";
 		$view = $view . "<tr bgcolor=\"#FFFFFF\">";
 		$view = $view . "<th align=\"center\">ปีการศึกษา/ภาคเรียน</th><th width=\"40px\" align=\"center\">มา</th><th width=\"40px\" align=\"center\">กิจกรรม</th><th width=\"40px\" align=\"center\">สาย</th><th width=\"40px\" align=\"center\">ลา</th><th width=\"40px\" align=\"center\">ขาด</th><th align=\"center\" >รวม</th></tr>";
-		while($_dat = mysql_fetch_assoc($_result))
+		while($_dat = mysqli_fetch_assoc($_result))
 		{
 			$view = $view . "<tr bgcolor='white'>";
 			$view = $view . "<td align=\"center\">" . $_dat['acadyear'] . '/' . $_dat['acadsemester'] . "</td>";
@@ -133,7 +133,7 @@
 			$view = $view . "</tr>";
 		}
 		$view = $view . "</table>";
-		mysql_free_result($_result);
+		mysqli_free_result($_result);
 		return $view ;
 	}
 

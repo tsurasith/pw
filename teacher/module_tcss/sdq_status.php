@@ -45,8 +45,8 @@
 					  and d.acadyear = '" . $acadyear . "' and d.semester = '". $acadsemester . "'
 					group by xlevel,xyearth,room
 					order by xlevel,xyearth,room";
-	$_res = mysql_query($_sqlCheck);
-	if(mysql_num_rows($_res)>0)
+	$_res = mysqli_query($_connection,$_sqlCheck);
+	if(mysqli_num_rows($_res)>0)
 	{
 ?>
 		<table width="100%" align="center" class="admintable">
@@ -74,7 +74,7 @@
 							<td class="key"><img src='../images/delete.png' alt='ยังไม่ได้ประเมิน' /></td><td align="center" class="key"><img src="../images/ball_green.png" alt="ประเมินแล้ว"/></td>
 						</tr>
 						<? $_b0 = 0; $_c0 = 0; $_d0 = 0; ?>
-						<? while($_dat = mysql_fetch_assoc($_res)){ ?>
+						<? while($_dat = mysqli_fetch_assoc($_res)){ ?>
 						<tr bgcolor='<?=($_i%2==0?"#FFFFFF":"#FAF9FB")?>'>
 							<td align='center'><?=($_dat['xlevel']==4?$_dat['xyearth']+3:$_dat['xyearth']) . "/" . $_dat['room']?></td>
 							<td align='right'><font color='red' size='4'><?=$_dat['b0']==0?"-":$_dat['b0']?></font></td>

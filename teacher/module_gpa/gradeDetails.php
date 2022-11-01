@@ -11,14 +11,14 @@
             <input type="hidden" name="roomID" 
             	value="<?=displayRoomTable($_REQUEST['xlevel'],$_REQUEST['xyearth']) . (strlen(trim($_REQUEST['room']))>1?$_REQUEST['room']:("0".$_REQUEST['room']));?>"/>
         </form>
-        <? $_result = mysql_query("select distinct concat(acadsemester,'/',acadyear) as display 
+        <? $_result = mysqli_query($_connection,"select distinct concat(acadsemester,'/',acadyear) as display 
 									from grades where student_id = '" . $_REQUEST['student_id'] . "' order by acadyear,acadsemester"); ?>
         <br/>
         <font size="2" color="#000000">
         <form name="filter" method="post">
         	เลือกภาคเรียนเพื่อแสดงผลการเรียน
             <select name="term" class="inputboxUpdate" onChange="document.filter.submit();">
-                <? while($_term = mysql_fetch_assoc($_result)){ ?>
+                <? while($_term = mysqli_fetch_assoc($_result)){ ?>
                 		<option value="<?=$_term['display']?>" <?=$_term['display']==$_POST['term']?"selected":""?>><?=$_term['display']?></option>
                 <? } ?>
             </select>
@@ -57,7 +57,7 @@
 					  b.acadyear = '" . $Qacadyear . "'
 				order by b.groupsara";
 	  // echo $_sql;
-	  @$_result = mysql_query($_sql);
+	  @$_result = mysqli_query($_connection,$_sql);
 	  $_no = 1;
   ?>
 
@@ -89,7 +89,7 @@
             <td class="key" width="90px" align="center" >ผลการเรียนเดิม</td>
             <td class="key" width="80px" align="center" >หมายเหตุ</td>
         </tr>
-        <? while($_dat = mysql_fetch_assoc($_result)) { ?>
+        <? while($_dat = mysqli_fetch_assoc($_result)) { ?>
 	        <tr>
         		<td align="center"><?=$_no++?></td>
                 <td style="padding-left:20px;"><?=$_dat['psubjectcode']?></td>

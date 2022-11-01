@@ -17,11 +17,11 @@
 			if(isset($_REQUEST['acadsemester'])) { $acadsemester = $_REQUEST['acadsemester']; }
 		?>
 <br/>
-<? $_dat = mysql_fetch_assoc(mysql_query("select id,prefix,firstname,lastname,xlevel,xyearth,room,studstatus,a_name from students where id = '" . $_REQUEST['student_id'] . "' and xedbe = '" . $acadyear . "'")); ?>
-<? $_s = mysql_fetch_assoc(mysql_query("select * from sdq_student where student_id = '" . $_REQUEST['student_id'] . "' and acadyear = '" . $acadyear . "' and semester = '" . $acadsemester . "'")); ?>
-<? $_p = mysql_fetch_assoc(mysql_query("select * from sdq_parent where student_id = '" . $_REQUEST['student_id'] . "' and acadyear = '" . $acadyear . "' and semester = '" . $acadsemester . "'")); ?>
-<? $_t = mysql_fetch_assoc(mysql_query("select * from sdq_teacher where student_id = '" . $_REQUEST['student_id'] . "' and acadyear = '" . $acadyear . "' and semester = '" . $acadsemester . "'")); ?>
-<? $_all = mysql_fetch_assoc(mysql_query("select student_id,
+<? $_dat = mysqli_fetch_assoc(mysqli_query($_connection,"select id,prefix,firstname,lastname,xlevel,xyearth,room,studstatus,a_name from students where id = '" . $_REQUEST['student_id'] . "' and xedbe = '" . $acadyear . "'")); ?>
+<? $_s = mysqli_fetch_assoc(mysqli_query($_connection,"select * from sdq_student where student_id = '" . $_REQUEST['student_id'] . "' and acadyear = '" . $acadyear . "' and semester = '" . $acadsemester . "'")); ?>
+<? $_p = mysqli_fetch_assoc(mysqli_query($_connection,"select * from sdq_parent where student_id = '" . $_REQUEST['student_id'] . "' and acadyear = '" . $acadyear . "' and semester = '" . $acadsemester . "'")); ?>
+<? $_t = mysqli_fetch_assoc(mysqli_query($_connection,"select * from sdq_teacher where student_id = '" . $_REQUEST['student_id'] . "' and acadyear = '" . $acadyear . "' and semester = '" . $acadsemester . "'")); ?>
+<? $_all = mysqli_fetch_assoc(mysqli_query($_connection,"select student_id,
 			  sum(if(questioner='student',a.all,0)) as s,
 			  sum(if(questioner='parent',a.all,0)) as p,
 			  sum(if(questioner='teacher',a.all,0)) as t from sdq_result a

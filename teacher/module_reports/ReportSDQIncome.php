@@ -70,8 +70,8 @@
 							a_earn between 90001 and 120000,a_earn between 120001 and 150000,
 							a_earn between 150001 and 200000,a_earn>200000 order by 1 desc"; ?>
 	<? //echo $_sql; ?>
-	<? $_result = mysql_query($_sql); ?>
-	<? if(mysql_num_rows($_result)>0){ ?>
+	<? $_result = mysqli_query($_connection,$_sql); ?>
+	<? if(mysqli_num_rows($_result)>0){ ?>
 	<? $_xmlColumn = "<?xml version='1.0' encoding='UTF-8' ?>";
 		$_xmlPie = "<?xml version='1.0' encoding='UTF-8' ?>";
 		$_xmlColumn .= "<graph caption='' xAxisName='' yAxisName='Person' formatNumberScale='0' decimalPrecision='0'>";
@@ -113,7 +113,7 @@
 							<td class="key" align="center" width="60px">มีปัญหา</td>
 						</tr>
 						<? $_n3=0; $_r3=0; $_d3=0; $_n4=0; $_r4=0; $_d4=0; $_na=0; ?>
-							<? while($_dat = mysql_fetch_assoc($_result)) { ?>
+							<? while($_dat = mysqli_fetch_assoc($_result)) { ?>
 								<? $_catXML .= "<category name='" . ($_dat['a_earn']==""?"ไม่ระบุ":number_format($_dat['a_earn'],0,'',',')) . "' hoverText=''/>"; ?>
 								<? $_setA .= "<set value='" . ($_dat['normal3']+$_dat['normal4']) . "' />"; ?>
 								<? $_setB .= "<set value='" . ($_dat['risk3']+$_dat['risk4']) . "'  />"; ?>

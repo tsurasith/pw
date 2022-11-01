@@ -50,8 +50,8 @@
 								where acadyear = '" . $acadyear . "' and acadsemester = '". $acadsemester . "' and timecheck_id = '02'
 								group by class_id
 								order by class_id";
-			$resStudent = mysql_query($sqlStudent);
-			@$totalRows = mysql_num_rows($resStudent);
+			$resStudent = mysqli_query($_connection,$sqlStudent);
+			@$totalRows = mysqli_num_rows($resStudent);
 			if($totalRows < 1)
 			{
 				echo "<tr><td align='center'><font color='red'> <br/>ยังไม่มีการบันทึกข้อมูลในรายการที่คุณเลือก </font></td></tr>";
@@ -68,7 +68,7 @@
 				<?php
 					$_strXML = "<?xml version='1.0' encoding='UTF-8' ?>" ;
 					$_strXML = $_strXML . "<graph  xAxisName='ห้อง' yAxisName='Units' decimalPrecision='0' formatNumberScale='0'>";
-					while($dat = mysql_fetch_assoc($resStudent))
+					while($dat = mysqli_fetch_assoc($resStudent))
 					{
 						$_strXML .= " <set name='" . getFullRoomFormat($dat['class_id']) . "' value='" . $dat['late'] . "' color='" . getFCColor()  . "' /> ";
 					}

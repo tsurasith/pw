@@ -37,9 +37,9 @@
 						b.id as num_id,mdate,place,mlevel,mdesc,mprize,mtype,mteacher,academic,point,image
 					 from students a right outer join student_moral b on a.id = b.student_id
 					 where b.id = '" . $_numID . "' and xedbe = '" . $acadyear . "'" ;?>
-		<? $result = mysql_query($sql); ?>
-		<? if($result && mysql_num_rows($result) > 0){ ?>
-		<? $dat = mysql_fetch_array($result); ?>
+		<? $result = mysqli_query($_connection,$sql); ?>
+		<? if($result && mysqli_num_rows($result) > 0){ ?>
+		<? $dat = mysqli_fetch_array($result); ?>
 		<form method="post">
 		<table width="100%" class="admintable">
 			<tr><td class="key" colspan="3" height="30px">รายละเอียดพฤติกรรมที่พึงประสงค์ </td></tr>
@@ -77,33 +77,33 @@
 				<td align="right">ประเภทของพฤติกรรมที่พึงประสงค์ :</td>
 				<td colspan="2">
 					<?php
-						$_resMoral = mysql_query("SELECT moral_description FROM ref_moral where moral_id = '" . $dat['mtype'] . "'");
-						$_datMoral = mysql_fetch_assoc($_resMoral)
+						$_resMoral = mysqli_query($_connection,"SELECT moral_description FROM ref_moral where moral_id = '" . $dat['mtype'] . "'");
+						$_datMoral = mysqli_fetch_assoc($_resMoral)
 					?>
 					<input type="text" class="noborder2" name="mtype" size="50" value="<?=$_datMoral['moral_description']?>" readonly="true"/>
-					<? mysql_free_result($_resMoral); ?>
+					<? mysqli_free_result($_resMoral); ?>
 				</td>
 			</tr>
 			<tr>
 				<td align="right">ระดับของกิจกรรม :</td>
 				<td colspan="2" >
 					<?php
-						$_resMoral = mysql_query("SELECT morallev_description FROM ref_morallevel where morallev_id = '" . $dat['mlevel'] . "'");
-						$_datMoral = mysql_fetch_assoc($_resMoral)
+						$_resMoral = mysqli_query($_connection,"SELECT morallev_description FROM ref_morallevel where morallev_id = '" . $dat['mlevel'] . "'");
+						$_datMoral = mysqli_fetch_assoc($_resMoral)
 					?>
 					<input type="text" class="noborder2" name="mlevel" size="50" value="<?=$_datMoral['morallev_description']?>" readonly="true" />
-					<? mysql_free_result($_resMoral); ?>
+					<? mysqli_free_result($_resMoral); ?>
 				</td>
 			</tr>
 			<tr>
 				<td align="right">รางวัลที่ได้รับ :</td>
 				<td colspan="2">
 					<?php
-						$_resMoral = mysql_query("SELECT moraljoin_description FROM ref_moraljoin where moraljoin_id = '" . $dat['mprize'] . "'");
-						$_datMoral = mysql_fetch_assoc($_resMoral)
+						$_resMoral = mysqli_query($_connection,"SELECT moraljoin_description FROM ref_moraljoin where moraljoin_id = '" . $dat['mprize'] . "'");
+						$_datMoral = mysqli_fetch_assoc($_resMoral)
 					?>
 					<input type="text" class="noborder2" name="mprize" size="50" value="<?=$_datMoral['moraljoin_description']?>" readonly="true"/>
-					<? mysql_free_result($_resMoral); ?>
+					<? mysqli_free_result($_resMoral); ?>
 				</td>
 			</tr>
 			<tr>
@@ -114,11 +114,11 @@
 				<td align="right">กลุ่มสาระการเรียนรู้ :</td>
 				<td colspan="2">
 					<?php
-						$_resMoral = mysql_query("SELECT academic_description FROM ref_academic where academic_id = '" . $dat['academic'] . "'");
-						$_datMoral = mysql_fetch_assoc($_resMoral)
+						$_resMoral = mysqli_query($_connection,"SELECT academic_description FROM ref_academic where academic_id = '" . $dat['academic'] . "'");
+						$_datMoral = mysqli_fetch_assoc($_resMoral)
 					?>
 					<input type="text" class="noborder2" name="academic" size="50" value="<?=$_datMoral['academic_description']?>" readonly="true" />
-					<? mysql_free_result($_resMoral); ?>
+					<? mysqli_free_result($_resMoral); ?>
 				</td>
 			</tr>
 			<tr>

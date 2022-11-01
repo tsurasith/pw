@@ -32,10 +32,10 @@
 		การพักอาศัย
 			<select name="inservice" class="inputboxUpdate">
 				<option value=""></option>
-				<? $_resInService = mysql_query("SELECT * FROM ref_inservice"); ?>
-				<? while($_datInService = mysql_fetch_assoc($_resInService)) {  ?>
+				<? $_resInService = mysqli_query($_connection,"SELECT * FROM ref_inservice"); ?>
+				<? while($_datInService = mysqli_fetch_assoc($_resInService)) {  ?>
 						<option value="<?=$_datInService['service_id']?>" <?=($_POST['inservice']==$_datInService['service_id']?"SELECTED":"")?>><?=$_datInService['service_description']?></option>
-				<?	} mysql_free_result($_resInService); ?>
+				<?	} mysqli_free_result($_resInService); ?>
 				<option value="all" <?=isset($_POST['search'])&&$_POST['inservice']=="all"?"selected":""?>>ทั้งหมด</option>
 			</select>
 	  		<input type="submit" value="เรียกดู" class="button" name="search"/> <br/>
@@ -75,12 +75,12 @@
 		if($_POST['studstatus']=="1,2") $sqlStudent .= " and studstatus in (1,2) ";
 		$sqlStudent .= "order by xlevel,xyearth,room,sex,id";
 		
-		$resStudent = mysql_query($sqlStudent);
+		$resStudent = mysqli_query($_connection,$sqlStudent);
 		$ordinal = 1;
-		$totalRows = mysql_num_rows($resStudent);
+		$totalRows = mysqli_num_rows($resStudent);
 		for($i = 0; $i < $totalRows ; $i++)
 		{ ?>
-			<? $dat = mysql_fetch_array($resStudent); ?>
+			<? $dat = mysqli_fetch_array($resStudent); ?>
 			<tr onMouseOver="this.style.backgroundColor='#FFCCFF'; this.style.cursor='hand';" onMouseOut=this.style.backgroundColor="#FFFFFF">
 			<td align="center"><?=$ordinal++?></td>
 			<td align="center"><?=$dat['id']?></td>
@@ -103,7 +103,7 @@
 		</tr>
 		<tr>
 			<td align="center">
-				<? $_result = mysql_query("select xlevel,xyearth,
+				<? $_result = mysqli_query($_connection,"select xlevel,xyearth,
 								  sum(if(inservice=1,1,0)) as a,
 								  sum(if(inservice=2,1,0)) as b,
 								  sum(if(inservice=3,1,0)) as c,
@@ -129,7 +129,7 @@
 						<td class="key" align="center" width="70px">ไม่ระบุ</td>
 					</tr>
 					<? $_a = 0;$_b = 0; $_c = 0; $_d = 0; $_e = 0; $_f=0; $_sum = 0; ?>
-					<? while($_dat = mysql_fetch_assoc($_result)) { ?>
+					<? while($_dat = mysqli_fetch_assoc($_result)) { ?>
 					<tr bgcolor="#FFFFFF">
 						<td style="padding-left:20px">ชั้นมัธยมศึกษาปีที่ <?=$_dat['xlevel']==3?$_dat['xyearth']:$_dat['xyearth']+3?></td>
 						<td style="padding-right:20px" align="right"><?=$_dat['a']==0?"-":number_format($_dat['a'],0,'',',')?></td>
@@ -142,7 +142,7 @@
 						<? $_a += $_dat['a']; $_b += $_dat['b']; $_c += $_dat['c']; $_f += $_dat['f'];
 						   $_d += $_dat['d']; $_e += $_dat['e']; $_sum += ($_dat['a']+$_dat['b']+$_dat['c']+$_dat['d']+$_dat['e']+$_dat['f']); ?>
 					</tr>
-					<? } mysql_free_result($_result); ?>
+					<? } mysqli_free_result($_result); ?>
 					<tr height="30px">
 					  <td class="key" align="center">รวม</th>
 					  <td class="key" style="padding-right:20px" align="right"><?=number_format($_a,0,'',',')?></td>

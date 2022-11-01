@@ -76,12 +76,12 @@
 			if($_POST['split']=="split"){$_sql.= " and dis_id in (select dis_id from student_discipline where dis_detail not like '%การเข้าร่วมกิจกรรมหน้าเสาธง%')";}
 			$_sql .= " group by dis_status order by dis_status";
 		}
-		$_res = mysql_query($_sql);
-		if(mysql_num_rows($_res) > 0) {			
+		$_res = mysqli_query($_connection,$_sql);
+		if(mysqli_num_rows($_res) > 0) {			
 			$_strXML = "<?xml version='1.0' encoding='UTF-8' ?>" ;
 			if($_POST['chartType'] == "column") { $_strXML = $_strXML . "<graph caption='' xAxisName='สถานะ' yAxisName='Units' decimalPrecision='0' formatNumberScale='0' >"; }
 			else { $_strXML = $_strXML . "<graph caption='' decimalPrecision='0' showNames='1' numberSuffix=' คดี' pieSliceDepth='30' formatNumberScale='0'>"; }
-			while($_dat = mysql_fetch_assoc($_res))
+			while($_dat = mysqli_fetch_assoc($_res))
 			{
 				if($_dat['cc']>0)
 				{ $_strXML = $_strXML . "<set name='" . $_dat['status_detail'] . "' value='" . $_dat['cc'] . "' color='" . getFCColor()  . "' showname='0'/> "; }

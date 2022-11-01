@@ -53,20 +53,20 @@
 				on a.timecheck_id = b.check_id
 				where a.student_id =  '" . $s_id . "' and acadyear = '" . $acadyear . "' 
 					and acadsemester = '" . $acadsemester . "' order by a.check_date";
-		$_res800 = mysql_query($sql);
+		$_res800 = mysqli_query($_connection,$sql);
 
 		$sqlStudent = "select id,prefix,firstname,lastname,xlevel,xyearth,room from students where id = '" . $s_id . "' order by xedbe desc limit 0,1";
-		$resStudent = mysql_query($sqlStudent);
-		$datStudent = mysql_fetch_assoc($resStudent);	
+		$resStudent = mysqli_query($_connection,$sqlStudent);
+		$datStudent = mysqli_fetch_assoc($resStudent);	
   ?>
-  <? if(mysql_num_rows($resStudent)>0) { ?>
+  <? if(mysqli_num_rows($resStudent)>0) { ?>
   <table class="admintable" >
     <tr> 
       <td  class="key" colspan="4">รายละเอียดการเข้าร่วมกิจกรรมหน้าเสาธง ภาคเรียนที่ <?=$acadsemester?> ปีการศึกษา <?=$acadyear?></td>
     </tr>
 	<tr>
 		<td align="center" valign="top" >
-			<? if(mysql_num_rows($_res800) > 0) { ?>
+			<? if(mysqli_num_rows($_res800) > 0) { ?>
 			<table>
 				<tr bgcolor="#BEDED0">
 					<th align="center" width="60px">ลำดับที่</th>
@@ -74,7 +74,7 @@
 					<th align="center" width="80px">สถานะ</th>
 				</tr>
 				<? $i = 1; ?>
-				<? while($dat = mysql_fetch_assoc($_res800)) { ?>
+				<? while($dat = mysqli_fetch_assoc($_res800)) { ?>
 				<tr onMouseOver="this.style.backgroundColor='#FFCCFF'; this.style.cursor='hand';" onMouseOut=this.style.backgroundColor="#FFFFFF">
 					<td align="center"><?=$i++?></td>
 					<td align="center"><?=displayFullDate($dat['check_date'])?></td>
@@ -96,7 +96,7 @@
 					  sum(if(timecheck_id = '04',timecheck_id,null))/4 as e ,
 					  count(class_id) as sum
 					from  student_800 where student_id = '" . $s_id . "' group by acadsemester,acadyear,student_id order by acadyear,acadsemester ";
-				$_result = mysql_query($_sql); ?>
+				$_result = mysqli_query($_connection,$_sql); ?>
 			<table width="100%" cellspacing="1" cellpadding="1" bgcolor="#FFEEDD">
 				<tr bgcolor="#FFFFFF">
 					<td colspan="5">เลขประจำตัว : <?=displayText($datStudent['id'])?><br/>
@@ -118,7 +118,7 @@
 				<? $_xmlPie = "<?xml version='1.0' encoding='UTF-8' ?>"; ?>
 				<? $_xmlPie .="<graph caption='' decimalPrecision='0' showPercentageValues='1' showNames='1'  showValues='1'  pieYScale='45' pieSliceDepth='25' pieRadius='100'>"; ?>
 				<? $_ix = 0;?>
-				<? while($_dat = mysql_fetch_assoc($_result)) { ?>
+				<? while($_dat = mysqli_fetch_assoc($_result)) { ?>
 				<tr bgcolor="#FFFFFF">
 					<td align="center"><?=$_dat['acadsemester'] . '/' . $_dat['acadyear']?></td>
 					<td align="right"><?=displayText($_dat['a'])?></td>

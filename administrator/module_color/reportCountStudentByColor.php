@@ -30,8 +30,8 @@
 			  sum(if(xlevel=4&&sex=1,1,0)) as 'bm',
 			  sum(if(xlevel=4&&sex=2,1,0)) as 'bf',
 			  count(id) as 'sum' from students where xedbe = '" . $acadyear . "' " .($_POST['studstatus']=="1,2"?" and studstatus in (1,2) ":""). " group by color order by 6 desc"; ?>
-	<? $_result = mysql_query($_sql); ?>
-	<? if(mysql_num_rows($_result)>0) { ?>
+	<? $_result = mysqli_query($_connection,$_sql); ?>
+	<? if(mysqli_num_rows($_result)>0) { ?>
 		<table class="admintable"  cellpadding="1" cellspacing="1" border="0" align="center" >
 			<tr>
 				<th align="center" colspan="6">
@@ -58,7 +58,7 @@
 				<td class="key" align="center" width="60px">หญิง</td>
 			</tr>
 			<? $_a;$_b;$_c;$_d;$_sum; ?>
-			<? while($_dat = mysql_fetch_assoc($_result)) { ?>
+			<? while($_dat = mysqli_fetch_assoc($_result)) { ?>
 			<tr>
 				<td align="left" style="padding-left:15px;"><?=$_dat['color']!="9"?$_dat['color']:"ไม่ระบุ"?></td>
 				<td style="padding-right:15px;" align="right"><?=$_dat['am']>0?$_dat['am']:"-"?></td>

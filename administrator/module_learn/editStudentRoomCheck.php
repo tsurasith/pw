@@ -81,16 +81,16 @@ function check(name,value)
 					$sql = "select * from student_learn where student_id = '" . $_POST['studentid'] . "' and check_date = '" . $_POST['date'] . "' order by period " ;
 
 					//echo $sql . '<br/>';
-					$result = mysql_query($sql);
+					$result = mysqli_query($_connection,$sql);
 					if($result)
 					{
-						if(mysql_num_rows($result) > 0)
+						if(mysqli_num_rows($result) > 0)
 						{
 							echo "<tr><td align='right'>วันที่บันทึก :</td><td><font color=\"darkblue\"><b>" . displayDate($_POST['date']). ' - [' . $_POST['date'] ."]</b></font><input type=\"hidden\" value=\"" . $_POST['date'] . "\" name=\"date\"></td></tr>";
 							echo '<tr>';
 							$sql_student = "select prefix , firstname , lastname, studstatus from students where id = '" . $_POST['studentid'] . "'";
-							$res_student = mysql_query($sql_student);
-							$dat_student = mysql_fetch_assoc($res_student);
+							$res_student = mysqli_query($_connection,$sql_student);
+							$dat_student = mysqli_fetch_assoc($res_student);
 							echo "<td align='right'>ชื่อ - สกุล :</td>";
 							echo "<td><font color=\"darkblue\"><b>" . $dat_student['prefix'] . $dat_student['firstname'] . ' ' . $dat_student['lastname'] . "</b></font></td>";
 							echo "</tr>";
@@ -100,7 +100,7 @@ function check(name,value)
 							echo "</tr>";
 							$periodRows = 1;
 							echo "<tr><td></td><td><table>";
-							while($dat = mysql_fetch_assoc($result))
+							while($dat = mysqli_fetch_assoc($result))
 							{	echo "<tr  >";
 								echo "<td align=\"right\">คาบที่ $periodRows</td>";
 								echo "<td id=\"check[$periodRows]\">";
@@ -150,7 +150,7 @@ function check(name,value)
 						$sqlEdit = $sqlEdit . " where student_id = '" . $_POST['studentid'] . "'" ;
 						$sqlEdit = $sqlEdit . " and check_date = '" . $_POST['date']  . "'" ;
 						$sqlEdit = $sqlEdit . " and period = '" . $cc . "'" ;
-						$update = mysql_query($sqlEdit) or die ('Error - ' . mysql_error());
+						$update = mysqli_query($_connection,$sqlEdit) or die ('Error - ' . mysqli_error());
 						if($update and $cc == 8)
 						{
 							echo "<font color='green' >บันทึกการแก้ไขข้อมูลเรียบร้อยแล้ว</font>";

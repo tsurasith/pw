@@ -46,8 +46,8 @@
 	<?  $sqlStudent .= ($_POST['studstatus']=="1,2"?" and studstatus in (1,2) ":"") ; ?>
 	<?  $sqlStudent .= " group by month(check_date) order by year(check_date),month(check_date)"; ?>
 
-	<? $resStudent = mysql_query($sqlStudent); ?>
-	<? if(mysql_num_rows($resStudent)>0) { ?>
+	<? $resStudent = mysqli_query($_connection,$sqlStudent); ?>
+	<? if(mysqli_num_rows($resStudent)>0) { ?>
 		<table class="admintable" width="100%">
 			<tr>
 				<th align="center">
@@ -77,7 +77,7 @@
 							<td class="key" align="center" width="100px">รวม<?=displayTimecheck($_POST['check'])?>(ครั้ง)</td>
 							<td class="key" align="center" width="70px">ร้อยละ</td>
 						</tr>
-						<? while($dat = mysql_fetch_assoc($resStudent)) { ?>
+						<? while($dat = mysqli_fetch_assoc($resStudent)) { ?>
 							<tr>
 								<td align="left" style="padding-left:15px;"><?=displayMonth($dat['month'])?></td>
 								<td align="right" style="padding-right:10px;"><?=$dat['x']==0?"-":number_format($dat['x'],0,'',',')?></td>

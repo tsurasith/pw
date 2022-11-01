@@ -65,8 +65,8 @@
 							from student_800 where acadyear = '" . $acadyear . "' and acadsemester = '" . $acadsemester . "' and class_id like '" . $_POST['class'] . "%'
 							group by class_id order by class_id";
 			}
-			$resStudent = mysql_query($sqlStudent);
-			$totalRows = mysql_num_rows($resStudent);
+			$resStudent = mysqli_query($_connection,$sqlStudent);
+			$totalRows = mysqli_num_rows($resStudent);
 			if($totalRows <2) { echo "<tr><td align='center'><font color='red'><br/><br/>ยังไม่มีการบันทึกข้อมูลในรายการที่คุณเลือก</font></td></tr>"; }
 			else
 			{
@@ -84,7 +84,7 @@
 					$_setA = "<dataset seriesname='สาย' color='FFFF00' showValue='1'>";
 					$_setB = "<dataset seriesname='ลา' color='0000FF' showValue='1'>";
 					$_setC = "<dataset seriesname='ขาด' color='FF0000' showValue='1'>";
-					while($dat = mysql_fetch_assoc($resStudent))
+					while($dat = mysqli_fetch_assoc($resStudent))
 					{
 						$_catXML .= "<category name='" . getFullRoomFormat($dat['class_id']) . "' hoverText=''/>";
 						$_setA .= "<set value='" . $dat['c'] . "' />";

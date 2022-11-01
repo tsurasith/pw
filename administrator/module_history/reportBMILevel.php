@@ -79,12 +79,12 @@
 		if($_POST['studstatus']=="1,2") $sqlStudent .= " and studstatus in (1,2) ";
 		$sqlStudent .= "order by xlevel,xyearth,room,sex,id";
 		
-		$resStudent = mysql_query($sqlStudent);
+		$resStudent = mysqli_query($_connection,$sqlStudent);
 		$ordinal = 1;
-		$totalRows = mysql_num_rows($resStudent);
+		$totalRows = mysqli_num_rows($resStudent);
 		for($i = 0; $i < $totalRows ; $i++)
 		{ ?>
-			<? $dat = mysql_fetch_array($resStudent); ?>
+			<? $dat = mysqli_fetch_array($resStudent); ?>
 			<tr onMouseOver="this.style.backgroundColor='#FFCCFF'; this.style.cursor='hand';" onMouseOut=this.style.backgroundColor="#FFFFFF">	
 			<td align="center"><?=$ordinal++?></td>
 			<td align="center"><?=$dat['id']?></td>
@@ -111,7 +111,7 @@
 		</tr>
 		<tr>
 			<td colspan="10" align="center">
-				<? $_result = mysql_query("select xlevel,xyearth,
+				<? $_result = mysqli_query($_connection,"select xlevel,xyearth,
 								  sum(if(bmi>=30,1,0)) as a,
 								  sum(if(bmi>=25 and bmi<30,1,0)) as b,
 								  sum(if(bmi>=18.5 and bmi<25,1,0)) as c,
@@ -135,7 +135,7 @@
 						<td class="key" align="center" width="70px">ไม่ระบุ</td>
 					</tr>
 					<? $_a = 0;$_b = 0; $_c = 0; $_d = 0; $_e = 0; $_sum = 0; ?>
-					<? while($_dat = mysql_fetch_assoc($_result)) { ?>
+					<? while($_dat = mysqli_fetch_assoc($_result)) { ?>
 					<tr bgcolor="#FFFFFF">
 						<td style="padding-left:20px">ชั้นมัธยมศึกษาปีที่ <?=$_dat['xlevel']==3?$_dat['xyearth']:$_dat['xyearth']+3?></td>
 						<td style="padding-right:30px" align="right"><?=$_dat['a']==0?"-":number_format($_dat['a'],0,'',',')?></td>
@@ -147,7 +147,7 @@
 						<? $_a += $_dat['a']; $_b += $_dat['b']; $_c += $_dat['c'];
 						   $_d += $_dat['d']; $_e += $_dat['e']; $_sum += ($_dat['a']+$_dat['b']+$_dat['c']+$_dat['d']+$_dat['e']); ?>
 					</tr>
-					<? } mysql_free_result($_result); ?>
+					<? } mysqli_free_result($_result); ?>
 					<tr height="30px">
 					  <td class="key" align="center">รวม</td>
 					  <td class="key" style="padding-right:30px" align="right"><?=$_a==0?"-":number_format($_a,0,'',',')?></td>

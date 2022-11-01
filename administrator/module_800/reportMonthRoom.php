@@ -41,19 +41,19 @@
 		  					$error = 1;
 							$sql_Room = "select room_id from rooms where acadyear = '". $acadyear . "' and acadsemester = '" . $acadsemester . "'  order by room_id";
 							//echo $sql_Room ;
-							$resRoom = mysql_query($sql_Room);			
+							$resRoom = mysqli_query($_connection,$sql_Room);			
 					?>
 		  <select name="roomID" class="inputboxUpdate">
 		  	<option value=""> &nbsp; &nbsp; &nbsp; </option>
 			<?php
 		
-							while($dat = mysql_fetch_assoc($resRoom))
+							while($dat = mysqli_fetch_assoc($resRoom))
 							{
 								$_select = (isset($_POST['roomID'])&&$_POST['roomID'] == $dat['room_id']?"selected":"");
 								echo "<option value=\"" . $dat['room_id'] . "\" $_select>";
 								echo getFullRoomFormat($dat['room_id']);
 								echo "</option>";
-							} mysql_free_result($resRoom);
+							} mysqli_free_result($resRoom);
 						?>
 			</select> &nbsp; เดือน
 			 <select name="month" class="inputboxUpdate">
@@ -62,12 +62,12 @@
 					$_sqlMonth = "select distinct month(check_date)as m,year(check_date)+543 as y
 									from student_800 where acadyear = '" . $acadyear . "' and acadsemester = '" . $acadsemester . "'
 									order by year(check_date),month(check_date)";
-					$_resMonth = mysql_query($_sqlMonth);
-					while($_datMonth = mysql_fetch_assoc($_resMonth))
+					$_resMonth = mysqli_query($_connection,$_sqlMonth);
+					while($_datMonth = mysqli_fetch_assoc($_resMonth))
 					{
 						$_select = (isset($_POST['month'])&&$_POST['month'] == $_datMonth['m']?"selected":"");
 						echo "<option value=\"" . $_datMonth['m'] . "\" $_select>" . displayMonth($_datMonth['m']) . ' ' . $_datMonth['y'] . "</option>";
-					} mysql_free_result($_resMonth);
+					} mysqli_free_result($_resMonth);
 				?>
 			 </select>
 			 <input type="submit" value="เรียกดู" class="button" name="search"/> <br/>
@@ -110,9 +110,9 @@
 			
 			//echo $sqlStudent;
 			
-			$resStudent = mysql_query($sqlStudent);
+			$resStudent = mysqli_query($_connection,$sqlStudent);
 			$ordinal = 1;
-			$totalRows = mysql_num_rows($resStudent);
+			$totalRows = mysqli_num_rows($resStudent);
 			if($totalRows == 0)
 			{
 				echo "<td align='center'><br/><font color='red'>ยังไม่มีการบันทึกข้อมูลในรายการที่คุณเลือก</font></td></tr>";
@@ -145,7 +145,7 @@
 	<? $_x = 0;?>
 	<? for($i = 0; $i < $totalRows ; $i++) { ?>
 		<tr <?=$_x < 5 ? "":"bgcolor=\"#EFFEFE\""?>>
-		<? $dat = mysql_fetch_array($resStudent); ?>
+		<? $dat = mysqli_fetch_array($resStudent); ?>
 		<td align="center"><?=$ordinal?></td>
 		<td align="center"><?=$dat['id']?></td>
 		<td><?=$dat['prefix'] . $dat['firstname'] . " " . $dat['lastname']?></td>
@@ -160,7 +160,7 @@
 		<? $ordinal++; $_x++; ?>
 		<?	if($_x == 10){$_x = 0;}
 			else{}
-		} mysql_free_result($resStudent);
+		} mysqli_free_result($resStudent);
 	  }//ปิด if-else ตรวจสอบข้อมูลในฐานข้อมูล
 	}//ปิด if-else ตรวจสอบการเลือกวันที่	?>
 </table>

@@ -19,13 +19,13 @@
 		<br/>
 		<font color="#000000" size="2">
 		เลือกวิธีการเดินทาง
-			<? $_resTravel = mysql_query("select * from ref_travel order by 1"); ?>
+			<? $_resTravel = mysqli_query($_connection,"select * from ref_travel order by 1"); ?>
 			<select name="travelby" class="inputboxUpdate">
 				<option value=""></option>
-				<? while($_datTravel = mysql_fetch_assoc($_resTravel)) { ?>
+				<? while($_datTravel = mysqli_fetch_assoc($_resTravel)) { ?>
 					<option value="<?=$_datTravel['travel_id']?>" <?=$_POST['travelby']==$_datTravel['travel_id']?"selected":""?>><?=$_datTravel['travel_description']?></option>
 				<? } //end-while ?>
-				<? mysql_free_result($_resTravel); ?>
+				<? mysqli_free_result($_resTravel); ?>
 			</select> 
 			เพศ
 			<select name="sex" class="inputboxUpdate">
@@ -75,10 +75,10 @@
 		if($_POST['studstatus']=="1,2") $sqlStudent .= " and studstatus in (1,2) ";
 		if($_POST['sex']!="all") $sqlStudent .= " and sex = '" . $_POST['sex'] . "' ";
 		$sqlStudent .= " order by xlevel,xyearth,room,sex ,id ";
-		$resStudent = mysql_query($sqlStudent);
+		$resStudent = mysqli_query($_connection,$sqlStudent);
 		$ordinal = 1; ?>
-		<? if(mysql_num_rows($resStudent)>0) { ?>
-			<? while($dat = mysql_fetch_assoc($resStudent)) { ?>
+		<? if(mysqli_num_rows($resStudent)>0) { ?>
+			<? while($dat = mysqli_fetch_assoc($resStudent)) { ?>
 				<tr>
 					<td align="center"><?=$ordinal++?></td>
 					<td align="center"> <? if($_SESSION['superAdmin']) { echo "<a href='index.php?option=module_maps/updatemaps&report=studentListTravelBy&travelby=" . $_POST['travelby'] . "&acadyear=" . $acadyear . "&student_id=" . $dat['id'] ."&sex=".$_POST['sex']."'>" . $dat['id'] . "</a>";}

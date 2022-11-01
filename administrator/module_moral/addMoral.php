@@ -93,9 +93,9 @@
 
  <? if((isset($_POST['search']) && $_POST['studentid'] != "") || (!isset($_POST['saveedit']) && $_REQUEST['studentid'] !="")) { ?>
  		<? $sql = "select id,pin,prefix,firstname,lastname,nickname,xlevel,xyearth,room from students where id = '" . $_studentID . "' and xedbe = '" . $acadyear . "'" ;?>
-		<? $result = mysql_query($sql); ?>
-		<? if(mysql_num_rows($result)>0){ ?>
-		<? $dat = mysql_fetch_array($result); ?>
+		<? $result = mysqli_query($_connection,$sql); ?>
+		<? if(mysqli_num_rows($result)>0){ ?>
+		<? $dat = mysqli_fetch_array($result); ?>
 		<form method="post" name="myform" enctype="multipart/form-data">
 		<table width="100%" class="admintable">
 			<tr><td class="key" colspan="3">รายละเอียดการบันทึก </td></tr>
@@ -134,10 +134,10 @@
 				<td colspan="2">
 					<select name="mtype" class="inputboxUpdate" id="mtype">
 						<option value=""></option>
-						<? $_resMoral = mysql_query("SELECT * FROM ref_moral");
-						   while($_datMoral = mysql_fetch_assoc($_resMoral)) {  ?>
+						<? $_resMoral = mysqli_query($_connection,"SELECT * FROM ref_moral");
+						   while($_datMoral = mysqli_fetch_assoc($_resMoral)) {  ?>
 								<option value="<?=$_datMoral['moral_id']?>"><?=$_datMoral['moral_description']?></option>
-						<?	} mysql_free_result($_resMoral); ?>
+						<?	} mysqli_free_result($_resMoral); ?>
 					</select> <font color="red">*</font>
 				</td>
 			</tr>
@@ -146,10 +146,10 @@
 				<td colspan="2" >
 					<select name="mlevel" class="inputboxUpdate" id="mlevel">
 						<option value=""></option>
-						<?  $_resMoral = mysql_query("SELECT * FROM ref_morallevel");
-							while($_datMoral = mysql_fetch_assoc($_resMoral)) {  ?>
+						<?  $_resMoral = mysqli_query($_connection,"SELECT * FROM ref_morallevel");
+							while($_datMoral = mysqli_fetch_assoc($_resMoral)) {  ?>
 								<option value="<?=$_datMoral['morallev_id']?>"><?=$_datMoral['morallev_description']?></option>
-						<?	} mysql_free_result($_resMoral); ?>
+						<?	} mysqli_free_result($_resMoral); ?>
 					</select> <font color="red">*</font>
 				</td>
 			</tr>
@@ -158,10 +158,10 @@
 				<td colspan="2">
 					<select name="mprize" class="inputboxUpdate" id="mprize">
 						<option value=""></option>
-						<?  $_resMoral = mysql_query("SELECT * FROM ref_moraljoin");
-							while($_datMoral = mysql_fetch_assoc($_resMoral)) {  ?>
+						<?  $_resMoral = mysqli_query($_connection,"SELECT * FROM ref_moraljoin");
+							while($_datMoral = mysqli_fetch_assoc($_resMoral)) {  ?>
 								<option value="<?=$_datMoral['moraljoin_id']?>"><?=$_datMoral['moraljoin_description']?></option>
-						<?	} mysql_free_result($_resMoral); ?>
+						<?	} mysqli_free_result($_resMoral); ?>
 					</select> <font color="red">*</font>
 				</td>
 			</tr>
@@ -169,12 +169,12 @@
 				<td align="right">ครูผู้ควบคุม :</td>
 				<td colspan="2">
 					<? $_sqlTeacher = "select teaccode,prefix,firstname,lastname from teachers where type in ('admin','teacher') order by firstname"; ?>
-						<? $_resTeacher = mysql_query($_sqlTeacher); ?>
+						<? $_resTeacher = mysqli_query($_connection,$_sqlTeacher); ?>
 						<select id="teacher" name="teacher" class="inputboxUpdate">
 							<option value=""></option>
-						<? while($_dat = mysql_fetch_assoc($_resTeacher)){ ?>
+						<? while($_dat = mysqli_fetch_assoc($_resTeacher)){ ?>
 							<option value="<?=$_dat['prefix'].$_dat['firstname'].' '.$_dat['lastname']?>" ><?=$_dat['prefix'].$_dat['firstname'].' '.$_dat['lastname']?></option>
-						<? } mysql_free_result($_resTeacher);//end while ?>
+						<? } mysqli_free_result($_resTeacher);//end while ?>
 						</select> <font color="#FF0000">*</font>
 				</td>
 			</tr>
@@ -183,10 +183,10 @@
 				<td colspan="2">
 					<select name="academic" class="inputboxUpdate" id="academic">
 						<option value=""></option>
-						<?  $_resMoral = mysql_query("SELECT * FROM ref_academic");
-							while($_datMoral = mysql_fetch_assoc($_resMoral)) {  ?>
+						<?  $_resMoral = mysqli_query($_connection,"SELECT * FROM ref_academic");
+							while($_datMoral = mysqli_fetch_assoc($_resMoral)) {  ?>
 								<option value="<?=$_datMoral['academic_id']?>"><?=$_datMoral['academic_description']?></option>
-						<?	} mysql_free_result($_resMoral); ?>
+						<?	} mysqli_free_result($_resMoral); ?>
 					</select> <font color="red">*</font>
 				</td>
 			</tr>
@@ -262,18 +262,18 @@
 				// $_uploadError = 2; // error ที่เลือกไฟล์ไม่ถูกต้อง }
 			}			
 
-		if(mysql_query($sql)){
+		if(mysqli_query($_connection,$sql)){
 			$_point = "update students set points = points + " . $_POST['point'] . " 
 								where id = '" . $_POST['student_id'] ."' and xedbe = '" . $acadyear . "'";
-			$y = mysql_query($_point)or die("<br/><br/><center><font color='red' size='2'>การบันทึกคะแนนพฤติกรรมผิดพลาด เนื่องจาก ". mysql_error() . "</font></center>");
+			$y = mysqli_query($_connection,$_point)or die("<br/><br/><center><font color='red' size='2'>การบันทึกคะแนนพฤติกรรมผิดพลาด เนื่องจาก ". mysqli_error() . "</font></center>");
 					//echo $sql;
-			$_resNumberID = mysql_query("select id,acadyear,acadsemester,image from student_moral
+			$_resNumberID = mysqli_query($_connection,"select id,acadyear,acadsemester,image from student_moral
 									 where student_id ='" . $_POST['student_id'] . "'
 										and mdate = '" . $_POST['date'] . "'
 										and place = '" . trim($_POST['mplace']) . "'
 										and point = '" . $_POST['point'] . "'
 										and mdesc = '" . trim($_POST['mdesc']) ."'");
-				$_datID = mysql_fetch_assoc($_resNumberID) or die (mysql_error());
+				$_datID = mysqli_fetch_assoc($_resNumberID) or die (mysqli_error());
 				echo "<br/><br/><center><font color='green'><b>บันทึกข้อมูลเรียบร้อยแล้ว<br/>
 							รหัสพฤติกรรมที่พึงประสงค์ : 
 							<a href='index.php?option=module_moral/moralFull
@@ -281,6 +281,6 @@
 								&acadyear=". $_datID['acadyear']."
 								&acadsemester=". $_datID['acadsemester']."
 								&certificate=" . $_datID['image'] . "'>" . $_datID['id'] ."</a></b></font></center><br/>";
-		} else { echo "<br/><br/><center><font color='red' size='4'>การบันทึกข้อมูลผิดพลาด เนื่องจาก ". mysql_error() . "</font></center>"; }
+		} else { echo "<br/><br/><center><font color='red' size='4'>การบันทึกข้อมูลผิดพลาด เนื่องจาก ". mysqli_error() . "</font></center>"; }
 	} //end isset($_POST['save']) ?>
 </div>

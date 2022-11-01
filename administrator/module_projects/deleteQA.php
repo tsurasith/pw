@@ -4,7 +4,7 @@
 					where project_id = '" . $_POST['project_id'] . "'
 						and organize = '" . $_POST['organize'] . "'
 						and indexof = '" . $_POST['indexof'] . "'";
-		@mysql_query($_sql);
+		@mysqli_query($_connection,$_sql);
 		?><meta http-equiv="refresh" content="0;url=index.php?option=module_projects/addQA&acadyear=<?=$_POST['acadyear']?>&acadsemester=<?=$_POST['acadsemester']?>&p_id=<?=$_POST['project_id']?>"><?
 	}
 ?>

@@ -36,8 +36,8 @@
 				  count(id) as total from students where xedbe = '" . $acadyear . "' ";
 	if($_POST['studstatus']=="1,2") { $_sql .= " and studstatus in (1,2) ";}
 	$_sql .= " group by xlevel,xyearth ";
-	$_result = mysql_query($_sql);
-	if(mysql_num_rows($_result)>0) {
+	$_result = mysqli_query($_connection,$_sql);
+	if(mysqli_num_rows($_result)>0) {
 		$_xmlColumn = "<?xml version='1.0' encoding='UTF-8' ?>";
 		$_xmlPie = "<?xml version='1.0' encoding='UTF-8' ?>";
 		$_xmlColumn .= "<graph caption='' formatNumberScale='0' decimalPrecision='0' yaxismaxvalue='100' >";
@@ -74,7 +74,7 @@
 				<td align="center" class="key">รวม</td>
 			</tr>
 			<? $_room = 0 ?>
-			<? while($_dat = mysql_fetch_assoc($_result)){ ?>
+			<? while($_dat = mysqli_fetch_assoc($_result)){ ?>
 			<tr>
 			    <td>&nbsp;</td>
 				<td align="center">ชั้นมัธยมศึกษาปีที่ <?=$_dat['xlevel']==3?$_dat['xyearth']:($_dat['xyearth']+3)?></td>

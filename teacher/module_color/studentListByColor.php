@@ -55,7 +55,7 @@
 		<? $_sql = "select id,prefix,firstname,lastname,nickname,xyearth,room,studstatus from students 
 						where xlevel = '" . $_POST['level'] . "' and color = '" . $_POST['color'] . "' " .($_POST['studstatus']=="1,2"?" and studstatus in (1,2) ":"") . "
 							and xedbe = '" . $acadyear . "' order by xyearth,room,id"; ?>
-		<?	$_result = mysql_query($_sql); ?>
+		<?	$_result = mysqli_query($_connection,$_sql); ?>
 		<? 	if($_result) { ?>
 				<table class="admintable"  cellpadding="1" cellspacing="1" border="0" align="center" width="100%" >
 					<tr>
@@ -78,7 +78,7 @@
 						<td class="key" align="center" >สถานภาพปัจจุบัน</td>
 					</tr>
 					<?	$_i = 1; ?>
-					<?	while($_dat = mysql_fetch_assoc($_result)) { ?>
+					<?	while($_dat = mysqli_fetch_assoc($_result)) { ?>
 					<tr onMouseOver="this.style.backgroundColor='#FFCCFF'; this.style.cursor='hand';" onMouseOut=this.style.backgroundColor="#FFFFFF">
 						<td align="center"><?=$_i++?></td>
 						<td align="center"><?=$_dat['id']?></td>

@@ -38,18 +38,18 @@
 			<?php 
 					$sql_Room = "select room_id from rooms where acadyear = '". $acadyear . "' and acadsemester = '" . $acadsemester . "'  order by room_id";
 					//echo $sql_Room ;
-					$resRoom = mysql_query($sql_Room);			
+					$resRoom = mysqli_query($_connection,$sql_Room);			
 			?>
 			<select name="roomID" class="inputboxUpdate">
 				<option value=""> </option>
 				<?php
-					while($dat = mysql_fetch_assoc($resRoom))
+					while($dat = mysqli_fetch_assoc($resRoom))
 					{
 						$_select = (isset($_POST['roomID'])&&$_POST['roomID'] == $dat['room_id']?"selected":"");
 						echo "<option value=\"" . $dat['room_id'] . "\"" . $_select . " >";
 						echo getFullRoomFormat($dat['room_id']);
 						echo "</option>";
-					} mysql_free_result($resRoom);
+					} mysqli_free_result($resRoom);
 				?>
 			</select>
 			<input type="checkbox" name="studstatus" value="1,2" <?=$_POST['studstatus']=="1,2"?"checked='checked'":""?> />
@@ -86,10 +86,10 @@
 					if($_POST['studstatus']=="1,2") $sqlStudent .= " and studstatus in (1,2) ";
 					$sqlStudent .= " group by id order by sex,id";
 					
-					$resStudent = mysql_query($sqlStudent);
+					$resStudent = mysqli_query($_connection,$sqlStudent);
 					$ordinal = 1;
-					$totalRows = mysql_num_rows($resStudent);
-					if(!$resStudent || mysql_num_rows($resStudent) == 0)
+					$totalRows = mysqli_num_rows($resStudent);
+					if(!$resStudent || mysqli_num_rows($resStudent) == 0)
 					{
 						echo "<br/><center><font color='red'>ไม่พบข้อมูลที่ค้นหา อาจเนื่องมาจากยังไม่บันทึกข้อมูลวันที่ค้นหา หรือ รูปแบบวันที่ผิดพลาด</font></center>";
 					}
@@ -121,7 +121,7 @@
 		<td class="key" width="55px" align="center">ขาด</td>
 		<td class="key" width="55px" align="center">รวม</td>
 	</tr>
-	<? while($dat = mysql_fetch_assoc($resStudent)) { ?>
+	<? while($dat = mysqli_fetch_assoc($resStudent)) { ?>
 		<tr>
 		<td align="center"><?=$ordinal++?></td>
 		<td align="center"><?=$dat['id']?></td>
@@ -134,7 +134,7 @@
 		<td align="right"><?=$dat['e']==0?"-":number_format($dat['e'],0,'.',',')?></td>
 		<td align="right"><?=$dat['sum']==0?"-":number_format($dat['sum'],0,'.',',')?></td>
 		</tr>
-		<? } mysql_free_result($resStudent); ?>
+		<? } mysqli_free_result($resStudent); ?>
 	<? } } ?>
 </table>
 

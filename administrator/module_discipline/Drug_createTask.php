@@ -42,12 +42,12 @@
 						$_sqlMonth = "select distinct month(task_date)as m,year(task_date)+543 as y
 										from student_drug_task where acadyear = '" . $acadyear . "' and acadsemester = '" . $acadsemester . "'
 										order by year(task_date),month(task_date)";
-						$_resMonth = mysql_query($_sqlMonth);
-						while($_datMonth = mysql_fetch_assoc($_resMonth)){ ?>
+						$_resMonth = mysqli_query($_connection,$_sqlMonth);
+						while($_datMonth = mysqli_fetch_assoc($_resMonth)){ ?>
 							<tr>
 								<td><font color="#0000FF"><b>เดือน<?=displayMonth($_datMonth['m']) . ' ' . $_datMonth['y']?></b></font></td>
 							</tr>
-					<?	} mysql_free_result($_resMonth); ?>
+					<?	} mysqli_free_result($_resMonth); ?>
 				</table>
 				</form>
 			</td>
@@ -68,27 +68,27 @@
 		<tr>
 			<td align="center">
 				<?
-					$c_date = mysql_query($sql2);
-					$rows = mysql_num_rows($c_date);
+					$c_date = mysqli_query($_connection,$sql2);
+					$rows = mysqli_num_rows($c_date);
 					if($rows == 0)
 					{
-						$result = mysql_query($sql);
-						while ($data = mysql_fetch_assoc($result))
+						$result = mysqli_query($_connection,$sql);
+						while ($data = mysqli_fetch_assoc($result))
 						{
 							$sql_insert = "insert into student_drug_task values ( null,'". $_POST['date'] ."','" . $data['room_id'] . "','0','00', '" . $acadyear . "','" .$acadsemester ."') ";
-							mysql_query($sql_insert) or die ('Error - ' . mysql_error());
+							mysqli_query($_connection,$sql_insert) or die ('Error - ' . mysqli_error());
 							
 							$sql_insert = "insert into student_drug_task values ( null,'". $_POST['date'] ."','" . $data['room_id'] . "','0','01', '" . $acadyear . "','" .$acadsemester ."') ";
-							mysql_query($sql_insert) or die ('Error - ' . mysql_error());
+							mysqli_query($_connection,$sql_insert) or die ('Error - ' . mysqli_error());
 							
 							$sql_insert = "insert into student_drug_task values ( null,'". $_POST['date'] ."','" . $data['room_id'] . "','0','02', '" . $acadyear . "','" .$acadsemester ."') ";
-							mysql_query($sql_insert) or die ('Error - ' . mysql_error());
+							mysqli_query($_connection,$sql_insert) or die ('Error - ' . mysqli_error());
 							
 							$sql_insert = "insert into student_drug_task values ( null,'". $_POST['date'] ."','" . $data['room_id'] . "','0','03', '" . $acadyear . "','" .$acadsemester ."') ";
-							mysql_query($sql_insert) or die ('Error - ' . mysql_error());
+							mysqli_query($_connection,$sql_insert) or die ('Error - ' . mysqli_error());
 						}
 						echo "<font color=\"#009900\" size=\"2\" face=\"Tahoma\"><strong>บันทึกข้อมูลเรียบร้อยแล้ว</strong></font>";
-						mysql_free_result($result);
+						mysqli_free_result($result);
 					}
 					else{ echo "<font color=\"red\" size=\"2\" face=\"Tahoma\"><strong>คุณไม่สามารถสร้างงานบันทึกข้อมูลได้<br/>เนื่องจากมีการสร้างงานบันทึกในเดือนนี้แล้ว</strong></font>";}
 				?><br/><br/><br/>

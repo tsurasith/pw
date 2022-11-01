@@ -11,8 +11,8 @@
   </tr>
 </table>
 <?php
-	$_res = mysql_query("select * from teachers where username = '" . $_SESSION['username'] . "'");
-	$_dat = mysql_fetch_assoc($_res);
+	$_res = mysqli_query($_connection,"select * from teachers where username = '" . $_SESSION['username'] . "'");
+	$_dat = mysqli_fetch_assoc($_res);
 ?>
 <table width="100%" align="center" cellspacing="1" class="admintable">
 	<tr>

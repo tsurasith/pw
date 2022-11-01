@@ -75,8 +75,8 @@
 				
 		if($_POST['list'] != "all")	$_sql .= " limit 0," . $_POST['list'] ;
 				
-		$_result = mysql_query($_sql);
-		if(mysql_num_rows($_result) > 0) { ?>
+		$_result = mysqli_query($_connection,$_sql);
+		if(mysqli_num_rows($_result) > 0) { ?>
 			<table class="admintable" align="center">
 				<tr align="center" height="30px">
 					<td class="key" width="35px">ที่</td>
@@ -88,13 +88,13 @@
 					<td class="key" width="180px">หมู่บ้าน</td>
 				</tr>
 				<? $_i = 1; ?>
-				<? while($_dat = mysql_fetch_assoc($_result)){ ?>
+				<? while($_dat = mysqli_fetch_assoc($_result)){ ?>
 				<tr>
 					<td align="center"><?=$_i++?></td>
 					<? $_sqlx = " select prefix,firstname,lastname,nickname,xedbe,xyearth,xlevel,room,p_village,studstatus from students
 									where id = '" . $_dat['id'] . "' order by xedbe desc limit 0,1 ";
-						$_resx = mysql_query($_sqlx);
-						$_datx = mysql_fetch_assoc($_resx); ?>
+						$_resx = mysqli_query($_connection,$_sqlx);
+						$_datx = mysqli_fetch_assoc($_resx); ?>
 					<td align="center"><?=$_dat['id']?></td>
 					<td ><?=$_datx['prefix'] . $_datx['firstname'] . ' ' . $_datx['lastname']?></td>
 					<td align="left"><?=$_datx['nickname']?></td>

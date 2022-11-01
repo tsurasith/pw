@@ -1,6 +1,6 @@
 ﻿<? 
 	$_sqlStudent = "select id,prefix,firstname,lastname,xlevel,xyearth,room,xedbe from students where id = '" . $_SESSION['username'] . "' order by xedbe desc";
-	$_datStudent = mysql_fetch_assoc(@mysql_query($_sqlStudent));
+	$_datStudent = mysqli_fetch_assoc(@mysqli_query($_connection,$_sqlStudent));
 ?>
 
 <div id="content">
@@ -11,7 +11,7 @@
       <td ><strong><font color="#990000" size="4">Learning Achievement</font></strong><br />
         <span class="normal"><font color="#0066FF"><strong>1.1 ผลสัมฤทธิ์นักเรียน 1 ภาคเรียน</strong></font></span></td>
       <td align="right">
-        <? $_result = mysql_query("select distinct concat(acadsemester,'/',acadyear) as display 
+        <? $_result = mysqli_query($_connection,"select distinct concat(acadsemester,'/',acadyear) as display 
 									from grades where student_id = '" . $_SESSION['username'] . "' order by acadyear,acadsemester"); ?>
         <br/>
         <font size="2" color="#000000">
@@ -19,7 +19,7 @@
         	เลือกภาคเรียนเพื่อแสดงผลการเรียน
             <select name="term" class="inputboxUpdate" onChange="document.filter.submit();">
             	<option value=""></option>
-                <? while($_term = mysql_fetch_assoc($_result)){ ?>
+                <? while($_term = mysqli_fetch_assoc($_result)){ ?>
                 		<option value="<?=$_term['display']?>" <?=$_term['display']==$_POST['term']?"selected":""?>><?=$_term['display']?></option>
                 <? } ?>
             </select>
@@ -58,7 +58,7 @@
 					  b.acadyear = '" . $Qacadyear . "'
 				order by b.groupsara";
 	  // echo $_sql;
-	  @$_result = mysql_query($_sql);
+	  @$_result = mysqli_query($_connection,$_sql);
 	  $_no = 1;
   ?>
 
@@ -90,7 +90,7 @@
             <td class="key" width="90px" align="center" >ผลการเรียนเดิม</td>
             <td class="key" width="80px" align="center" >หมายเหตุ</td>
         </tr>
-        <? while($_dat = mysql_fetch_assoc($_result)) { ?>
+        <? while($_dat = mysqli_fetch_assoc($_result)) { ?>
 	        <tr>
         		<td align="center"><?=$_no++?></td>
                 <td style="padding-left:20px;"><?=$_dat['psubjectcode']?></td>

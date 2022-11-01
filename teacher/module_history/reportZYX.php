@@ -27,13 +27,13 @@
 		<?php 
 					$sql_Room = "select replace(room_id,'0','/') as room_id from rooms where acadyear = '". $acadyear . "' and acadsemester = '" . $acadsemester . "'  order by room_id";
 					//echo $sql_Room ;
-					$resRoom = mysql_query($sql_Room);			
+					$resRoom = mysqli_query($_connection,$sql_Room);			
 			?>
 		เลือกห้องเรียน
 		  	<select name="roomID" class="inputboxUpdate">
 				<?php
 
-					while($dat = mysql_fetch_assoc($resRoom))
+					while($dat = mysqli_fetch_assoc($resRoom))
 					{
 						$_select = (isset($_POST['roomID'])&&$_POST['roomID'] == $dat['room_id']?"selected":"");
 						echo "<option value=\"" . $dat['room_id'] . "\" $_select>";
@@ -85,10 +85,10 @@
 		else {$sqlStudent .= " where xedbe = '" . $acadyear . "' " ;}
 		if($_POST['studstatus']=="1,2") $sqlStudent .= " and studstatus in (1,2) ";
 		$sqlStudent .= "order by xlevel,xyearth,room,sex,id";
-		$resStudent = mysql_query($sqlStudent);
+		$resStudent = mysqli_query($_connection,$sqlStudent);
 		$ordinal = 1;
-		$totalRows = mysql_num_rows($resStudent);
-		while($_dat = mysql_fetch_assoc($resStudent)){ ?>
+		$totalRows = mysqli_num_rows($resStudent);
+		while($_dat = mysqli_fetch_assoc($resStudent)){ ?>
 		<tr>
 			<td align="center"><br/><br/><br/>
 				<table cellpadding="2px" cellspacing="2px" bgcolor="#0000CC">
@@ -114,7 +114,7 @@
 					</tr>
 				</table>
 			</td>
-			<? $_dat = mysql_fetch_assoc($resStudent) ?>
+			<? $_dat = mysqli_fetch_assoc($resStudent) ?>
 			<td align="center"><br/><br/><br/>
 				<table cellpadding="2px" cellspacing="2px" bgcolor="#0000CC">
 					<tr>

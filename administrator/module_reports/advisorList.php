@@ -36,8 +36,8 @@
 <?php
 	$_sql = "select * from rooms
 				where acadsemester = '" . $acadsemester . "' and acadyear = '" . $acadyear . "' order by room_id ";
-	$_result = mysql_query($_sql);
-	if(mysql_num_rows($_result)>0){ ?>
+	$_result = mysqli_query($_connection,$_sql);
+	if(mysqli_num_rows($_result)>0){ ?>
     	<div align="center">
 		<table class="admintable" align="center" >
 			<tr>
@@ -55,7 +55,7 @@
 				<td class="key" align="center" width="250px">ครูที่ปรึกษาคนที่ 2</td>
 			</tr>
 			<? $_i=1;?>
-			<? while($_dat = mysql_fetch_assoc($_result)) { ?>
+			<? while($_dat = mysqli_fetch_assoc($_result)) { ?>
 			<tr>
 				<td align="center" valign="top"><?=$_i++?></td>
 				<td align="center" valign="top"><?=getFullRoomFormat($_dat['room_id'])?></td>

@@ -47,19 +47,19 @@
 		  					$error = 1;
 							$sql_Room = "select room_id from rooms where acadyear = '". $acadyear . "' and acadsemester = '" . $acadsemester . "'  order by room_id";
 							//echo $sql_Room ;
-							$resRoom = mysql_query($sql_Room);			
+							$resRoom = mysqli_query($_connection,$sql_Room);			
 					?>
 		  <select name="roomID" class="inputboxUpdate">
 		  	<option> </option>
 			<?php
 		
-							while($dat = mysql_fetch_assoc($resRoom))
+							while($dat = mysqli_fetch_assoc($resRoom))
 							{
 								$_select = (isset($_POST['roomID'])&&$_POST['roomID'] == $dat['room_id']?"selected":"");
 								echo "<option value=\"" . $dat['room_id'] . "\" $_select>";
 								echo getFullRoomFormat($dat['room_id']);
 								echo "</option>";
-							} mysql_free_result($resRoom);
+							} mysqli_free_result($resRoom);
 						?>
 			</select> 
 			 <input type="submit" value="เรียกดู" class="button" name="search"/> <br/>
@@ -98,9 +98,9 @@
 								  and room = '" . $room . "' and acadyear = '" . $acadyear . "' and acadsemester = '" . $acadsemester . "' ";
 			if($_POST['studstatus']=="1,2") $sqlStudent .= "and studstatus in (1,2) ";
 			$sqlStudent .= " group by id order by sex,id";
-			$resStudent = mysql_query($sqlStudent);
+			$resStudent = mysqli_query($_connection,$sqlStudent);
 			$ordinal = 1;
-			$totalRows = mysql_num_rows($resStudent);
+			$totalRows = mysqli_num_rows($resStudent);
 			if($totalRows == 0)
 			{
 				echo "<td>ยังไม่มีการบันทึกข้อมูลในรายการที่คุณเลือก</td></tr>";
@@ -133,7 +133,7 @@
 	<? $_x = 0;?>
 	<? for($i = 0; $i < $totalRows ; $i++) { ?>
 		<tr <?=$_x < 5 ? "":"bgcolor=\"#EFFEFE\""?>>
-		<? $dat = mysql_fetch_array($resStudent); ?>
+		<? $dat = mysqli_fetch_array($resStudent); ?>
 		<td align="center"><?=$ordinal?></td>
 		<td align="center"><?=$dat['id']?></td>
 		<td><?=$dat['prefix'] . $dat['firstname'] . " " . $dat['lastname']?></td>
@@ -148,7 +148,7 @@
 		<? $ordinal++; $_x++; ?>
 		<?	if($_x == 10){$_x = 0;}
 			else{}
-		} mysql_free_result($resStudent);
+		} mysqli_free_result($resStudent);
 	  }//ปิด if-else ตรวจสอบข้อมูลในฐานข้อมูล
 	}//ปิด if-else ตรวจสอบการเลือกวันที่	?>
 </table>

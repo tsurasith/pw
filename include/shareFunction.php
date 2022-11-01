@@ -283,19 +283,19 @@
 	}
 	function displayOccupation($_id){
 		if($_id != ""){
-			$_dat = mysql_fetch_assoc(mysql_query("select occ_description from ref_occupation where occ_id = '" . $_id . "'"));
+			$_dat = mysqli_fetch_assoc(mysqli_query($_connection,"select occ_description from ref_occupation where occ_id = '" . $_id . "'"));
 			return $_dat['occ_description'];
 		} else { return "-";};
 	}
 	function displayFMStatus($_id){
 		if($_id != ""){
-			$_dat = mysql_fetch_assoc(mysql_query("select fmstatus_description from ref_fmstatus where fmstatus_id = '" . $_id . "'"));
+			$_dat = mysqli_fetch_assoc(mysqli_query($_connection,"select fmstatus_description from ref_fmstatus where fmstatus_id = '" . $_id . "'"));
 			return $_dat['fmstatus_description'];
 		} else { return "-";};
 	}
 	function displayRelation($_id){
 		if($_id != ""){
-			$_dat = mysql_fetch_assoc(mysql_query("select relation_description from ref_relation where relation_id = '" . $_id . "'"));
+			$_dat = mysqli_fetch_assoc(mysqli_query($_connection,"select relation_description from ref_relation where relation_id = '" . $_id . "'"));
 			return $_dat['relation_description'];
 		} else { return "-";};
 	}
@@ -326,14 +326,14 @@
 		$_roomID = (($_level == 4)?($_year+3):($_year)) . "0" . $_room;
 		$_sqlAd = "select prefix,firstname, lastname from teachers left outer join rooms on teachers.teaccode = rooms.teacher_id
 						where room_id = '" . $_roomID ."' and rooms.acadyear = '" . $_acadyear . "' and rooms.acadsemester = '" . $_acadsemester . "'";
-		$_resAd = mysql_query($_sqlAd);
-		$_datAd = mysql_fetch_assoc($_resAd);
+		$_resAd = mysqli_query($_connection,$_sqlAd);
+		$_datAd = mysqli_fetch_assoc($_resAd);
 		return "ครู" . $_datAd['firstname'] . " " . $_datAd['lastname'];
 	}
 	function getTeacher($_id){
-		$_res = mysql_query("select prefix,firstname,lastname from teachers where teaccode = '" . $_id . "'");
-		$_dat = mysql_fetch_assoc($_res);
-		if(mysql_num_rows($_res) > 0) return "ครู" . $_dat['firstname'] . " " . $_dat['lastname'] ;
+		$_res = mysqli_query($_connection,"select prefix,firstname,lastname from teachers where teaccode = '" . $_id . "'");
+		$_dat = mysqli_fetch_assoc($_res);
+		if(mysqli_num_rows($_res) > 0) return "ครู" . $_dat['firstname'] . " " . $_dat['lastname'] ;
 		else return "";
 	}
 	function getPoint($_point)
@@ -431,8 +431,8 @@
 	}
 	
 	function displayRetirecause($_value){
-		$_resRetire = mysql_query("SELECT * FROM ref_retire where retire_id = '" . $_value . "'");
-		$_datRe = mysql_fetch_assoc($_resRetire);
+		$_resRetire = mysqli_query($_connection,"SELECT * FROM ref_retire where retire_id = '" . $_value . "'");
+		$_datRe = mysqli_fetch_assoc($_resRetire);
 		return $_datRe['retire_description'];
 	}
 	

@@ -48,12 +48,12 @@
 					$_sqlMonth = "select distinct month(check_date)as m,year(check_date)+543 as y
 									from student_learn where acadyear = '" . $acadyear . "' and acadsemester = '" . $acadsemester . "'
 									order by year(check_date),month(check_date)";
-					$_resMonth = mysql_query($_sqlMonth);
-					while($_datMonth = mysql_fetch_assoc($_resMonth))
+					$_resMonth = mysqli_query($_connection,$_sqlMonth);
+					while($_datMonth = mysqli_fetch_assoc($_resMonth))
 					{
 						$_select = (isset($_POST['month'])&&$_POST['month'] == $_datMonth['m']?"selected":"");
 						echo "<option value=\"" . $_datMonth['m'] . "\" $_select >" . displayMonth($_datMonth['m']) . ' ' . $_datMonth['y'] . "</option>";
-					} mysql_free_result($_resMonth);
+					} mysqli_free_result($_resMonth);
 				?>
 			 </select>
 			 <input type="submit" value="เรียกดู" class="button" name="search"/>
@@ -87,8 +87,8 @@
 									and month(check_date) = '" . $_POST['month'] . "'
 								group by class_id
 								order by class_id";
-			$resStudent = mysql_query($sqlStudent);
-			$totalRows = mysql_num_rows($resStudent);
+			$resStudent = mysqli_query($_connection,$sqlStudent);
+			$totalRows = mysqli_num_rows($resStudent);
 			if($totalRows == 0)
 			{
 				echo "<td align='center'><br/><font color='red'>ยังไม่มีการบันทึกข้อมูลในรายการที่คุณเลือก</font></td></tr>";
@@ -111,13 +111,13 @@
 						<td class="key" align="center" width="130px">จำนวนนักเรียนที่<br/>เข้าเรียนสาย(ครั้ง)</td>
 					</tr>
 					<? $_sum = 0 ; ?>
-					<? while($dat = mysql_fetch_assoc($resStudent)) { ?>
+					<? while($dat = mysqli_fetch_assoc($resStudent)) { ?>
 					<tr>
 						<td align="center">ชั้นมัธยมศึกษาปีที่ <?=getFullRoomFormat($dat['class_id'])?></td>
 						<td align="right" style="padding-right:40px"><b><?=$dat['late']?></b></td>
 					</tr>
 					<? $_sum += $dat['late'];?>
-					<?	} mysql_free_result($resStudent); //end while ?>
+					<?	} mysqli_free_result($resStudent); //end while ?>
 					<tr height="30px">
 						<td class="key" align="center">รวม</td>
 						<td class="key" align="right" style="padding-right:40px"><?=$_sum?></td>

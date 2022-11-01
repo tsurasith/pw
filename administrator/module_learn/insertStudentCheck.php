@@ -11,12 +11,12 @@ for($i =0 ;$i < $_POST['count'] ;$i ++)
 	else { $row_id = $_POST['date'] . '-' . $_POST['room_id'] . '-' . $_POST['period'] . '-' .$i; }
 	$sql_insert_student = 'INSERT INTO student_learn VALUES (\'' . $row_id . '\', \'' . $_POST['student_id'][$i]  . '\', \''. $_POST['room_id'] .'\', \'' . $_POST['period'] .'\' , \'' . timecheck_id($_POST['check'][$i]) .'\', \''. $_POST['date'] . '\',\'' . date('Y-m-d') . '\', \'' . $_POST['acadyear'] . '\', \'' . $_POST['acadsemester'] . '\', \''. $_SESSION['name']  . '\');'; 
 	//echo $sql_insert_student . '<br/>';
-	$a = mysql_query($sql_insert_student) or die ('ผิดพลาดเนื่องจาก - ' . mysql_error());  // บันทึกข้อมูลการเช็ค
+	$a = mysqli_query($_connection,$sql_insert_student) or die ('ผิดพลาดเนื่องจาก - ' . mysqli_error());  // บันทึกข้อมูลการเช็ค
 }
 
 
 $sql_insert_teacher = 'insert into  teachers_learn VALUES (\'' . $_POST['date'] . '-' . $_POST['room_id'] . '-' . $_POST['period'] .'\',\'' . $_POST['room_id'] .'\', \'' . $_POST['period'] . '\' , \'' . $_POST['teacherSign'] .'\' , \'' . $_POST['date'] .'\',\'' . $_POST['acadyear'] . '\', \'' . $_POST['acadsemester'] . '\' ) ';
-$b = mysql_query($sql_insert_teacher) or die ('Error - '. mysql_error()); // บันทึกการเข้าใช้งานของครู
+$b = mysqli_query($_connection,$sql_insert_teacher) or die ('Error - '. mysqli_error()); // บันทึกการเข้าใช้งานของครู
 //echo $sql_insert_teacher . '<br/>';
 updateTask($_POST['date'],$_POST['room_id'],$_POST['period']); // อัพเดทสถานะงานเป็น "บันทึก" แล้ว
 
@@ -31,10 +31,10 @@ for($cc = 1 ; $cc <= 8 ; $cc++)
 			if($loop < 10){$row_id = $_POST['date'] . '-' . $_POST['room_id'] . '-' . $_POST['cperiod'][$cc] . '-' . '0' .$loop;}
 			else{$row_id = $_POST['date'] . '-' . $_POST['room_id'] . '-' . $_POST['cperiod'][$cc] . '-' .$loop;}
 			$sql_insert_studentX = 'INSERT INTO student_learn VALUES (\'' . $row_id . '\', \'' . $_POST['student_id'][$loop]  . '\', \''. $_POST['room_id'] .'\', \'' . $_POST['cperiod'][$cc] .'\' , \'' . timecheck_id($_POST['check'][$loop]) .'\', \''. $_POST['date'] . '\',\'' . date('Y-m-d') . '\', \'' . $_POST['acadyear'] . '\', \'' . $_POST['acadsemester']  . '\', \''. $_SESSION['name']  . '\');'; 
-			$aa = mysql_query($sql_insert_studentX)or die ('Error - ' . mysql_error());  // บันทึกข้อมูลการเช็ค
+			$aa = mysqli_query($_connection,$sql_insert_studentX)or die ('Error - ' . mysqli_error());  // บันทึกข้อมูลการเช็ค
 		}
 		$sql_insert_teacherX = 'insert into  teachers_learn VALUES (\'' . $_POST['date'] . '-' . $_POST['room_id'] . '-' . $_POST['cperiod'][$cc] .'\',\'' . $_POST['room_id'] .'\', \'' . $_POST['cperiod'][$cc] . '\' , \'' . $_POST['cTeacherSign'][$cc] .'\' , \'' . $_POST['date'] .'\',\'' .  $_POST['acadyear'] . '\', \'' . $_POST['acadsemester'] . '\' ); ';
-		$bb = mysql_query($sql_insert_teacherX) or die ('Error - '. mysql_error()); // บันทึกการเข้าใช้งานของครู
+		$bb = mysqli_query($_connection,$sql_insert_teacherX) or die ('Error - '. mysqli_error()); // บันทึกการเข้าใช้งานของครู
 		updateTask($_POST['date'],$_POST['room_id'],$_POST['cperiod'][$cc]); // อัพเดทสถานะงานเป็น "บันทึก" แล้ว
 	}
 }
@@ -96,7 +96,7 @@ function updateTask($date,$room_id,$period)
 	
 	$sql = "update student_learn_task set task_status = '1' where task_date = '" . $date . "' and task_roomid = '" . $room_id . "' and period = '" . $period . "'" ;
 	//echo $sql . "<br/>";
-	mysql_query($sql) or die ('Error - ' . mysql_error());
+	mysqli_query($_connection,$sql) or die ('Error - ' . mysqli_error());
 
 }
 

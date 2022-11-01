@@ -65,8 +65,8 @@
 	<? $_sql .= ($_POST['studstatus']=="1,2"?" and studstatus in (1,2) ":"") ; ?>
 	<? $_sql .=	" group by xlevel,xyearth order by xlevel,xyearth"; ?>
 	<? //echo $_sql; ?>
-	<? $_result = mysql_query($_sql); ?>
-	<? if(mysql_num_rows($_result)>0){ ?>
+	<? $_result = mysqli_query($_connection,$_sql); ?>
+	<? if(mysqli_num_rows($_result)>0){ ?>
 	<? $_xmlColumn = "<?xml version='1.0' encoding='UTF-8' ?>";
 		$_xmlPie = "<?xml version='1.0' encoding='UTF-8' ?>";
 		$_xmlColumn .= "<graph caption='' xAxisName='' yAxisName='Person' formatNumberScale='0' decimalPrecision='0'>";
@@ -101,7 +101,7 @@
 							<td class="key" align="center" width="60px">มีปัญหา</td>
 						</tr>
 						<? $_na=0; $_n4=0; $_r4=0; $_d4=0; ?>
-							<? while($_dat = mysql_fetch_assoc($_result)) { ?>
+							<? while($_dat = mysqli_fetch_assoc($_result)) { ?>
 								<? $_catXML .= "<category name='ม." . ($_dat['xlevel']==3?$_dat['xyearth']:($_dat['xyearth']+3)) . "' hoverText=''/>"; ?>
 								<? $_setA .= "<set value='" . ($_dat['normal3']+$_dat['normal4']) . "' />"; ?>
 								<? $_setB .= "<set value='" . ($_dat['risk3']+$_dat['risk4']) . "'  />"; ?>

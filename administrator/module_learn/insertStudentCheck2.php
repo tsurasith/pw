@@ -22,7 +22,7 @@ for($i =1 ;$i < $_POST['count'] ;$i ++)
 								 " . $_POST['acadsemester'] . ", 
 								'" . $_SESSION['name']  . "')";
 		//echo $sql_insert_student . '<br/>';
-		$a = mysql_query($sql_insert_student) or die ('ผิดพลาดเนื่องจาก - ' . mysql_error());  // บันทึกข้อมูลการเช็ค
+		$a = mysqli_query($_connection,$sql_insert_student) or die ('ผิดพลาดเนื่องจาก - ' . mysqli_error());  // บันทึกข้อมูลการเช็ค
 	}
 }
 
@@ -36,7 +36,7 @@ for($i =1 ;$i < $_POST['count'] ;$i ++)
 									'" . $_POST['date'] . "',
 									 " . $_POST['acadyear'] . ", 
 									 " . $_POST['acadsemester'] . ")";
-		 $b = mysql_query($sql_insert_teacher) or die ('Error - '. mysql_error()); // บันทึกการเข้าใช้งานของครู
+		 $b = mysqli_query($_connection,$sql_insert_teacher) or die ('Error - '. mysqli_error()); // บันทึกการเข้าใช้งานของครู
 		//echo $sql_insert_teacher . '<br/>';
 		updateTask($_POST['date'],$_POST['room_id'],$_period); // อัพเดทสถานะงานเป็น "บันทึก" แล้ว
 	}
@@ -100,7 +100,7 @@ function updateTask($date,$room_id,$period)
 	
 	$sql = "update student_learn_task set task_status = '1' where task_date = '" . $date . "' and task_roomid = '" . $room_id . "' and period = '" . $period . "'" ;
 	//echo $sql . "<br/>";
-	mysql_query($sql) or die ('Error - ' . mysql_error());
+	mysqli_query($_connection,$sql) or die ('Error - ' . mysqli_error());
 
 }
 

@@ -54,9 +54,9 @@
 				from students where xedbe = '" . $acadyear . "' "; ?>
 	<? $_sql .= ($_POST['studstatus']=="1,2"?" and studstatus in (1,2) ":"") ; ?>
 	<? $_sql .=	" group by xlevel,xyearth order by 1,2 "; ?>	
-	<? $_result = mysql_query($_sql); ?>
+	<? $_result = mysqli_query($_connection,$_sql); ?>
 	<? $_30k=0; $_50k=0; $_90k=0; $_120k=0; $_150k=0; $_200k=0; $_201k=0; $_null=0; $_t=0; ?>
-	<? if(mysql_num_rows($_result)>0){ ?>		
+	<? if(mysqli_num_rows($_result)>0){ ?>		
 		<table class="admintable" width="100%" align="center" >
 			<tr>
 				<th colspan="2" align="center">
@@ -85,7 +85,7 @@
 							<td class="key" align="center" width="60px">มากกว่า 200k</td>
 							<td class="key" align="center" width="60px">ไม่ระบุ</td>
 						</tr>
-							<? while($_dat = mysql_fetch_assoc($_result)) { ?>
+							<? while($_dat = mysqli_fetch_assoc($_result)) { ?>
 								<tr>
 									<td align="left" style="padding-left:15px;">ชั้นมัธยมศึกษาปีที่ <?=displayXyear($_dat['xlevel'].'/'.$_dat['xyearth'])?></td>
 									<td align="right" style="padding-right:15px;"><?=$_dat['30k']==0?"-":number_format($_dat['30k'],0,'',',')?></td>

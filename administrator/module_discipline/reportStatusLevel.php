@@ -53,8 +53,8 @@
 <? if($_POST['studstatus']=="1,2"){ $_sql .= " and studstatus in (1,2) "; } ?>
 <? if($_POST['split']=="split"){$_sql.= " and dis_id in (select dis_id from student_discipline where dis_detail not like '%การเข้าร่วมกิจกรรมหน้าเสาธง%')";}?>
 <? $_sql .= " group by xlevel,xyearth";?>
-<? $_res = @mysql_query($_sql); ?>
-<? if(mysql_num_rows($_res) > 0){ ?>
+<? $_res = @mysqli_query($_connection,$_sql); ?>
+<? if(mysqli_num_rows($_res) > 0){ ?>
 	<div align="center">
 		<table class="admintable" align="center">
 			<tr>
@@ -75,7 +75,7 @@
 				<td class="key" align="center" width="100px">รวม</td>
 			</tr>
 			<? $_b;$_c;$_d;$_e;$_f;$_g;$_total; ?>
-			<? while($_dat = mysql_fetch_assoc($_res)){ ?>
+			<? while($_dat = mysqli_fetch_assoc($_res)){ ?>
 			<tr onMouseOver="this.style.backgroundColor='#FFCCFF'; this.style.cursor='hand';" onMouseOut=this.style.backgroundColor="#FFFFFF" >
 				<td align="center">ม.<?=$_dat['xlevel']==3?$_dat['xyearth']:$_dat['xyearth']+3?></td>
 				<td align="right" style="padding-right:20px"><?=$_dat['b']>0?number_format($_dat['b'],0,'',','):"-"?></td>

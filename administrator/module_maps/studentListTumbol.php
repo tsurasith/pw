@@ -19,11 +19,11 @@
 		<br/><font color="#000000" size="2">
 			เลือกตำบล
 			<select name="p_tumbol" class="inputboxUpdate"> 
-				<?	$_resultVillage = mysql_query("select distinct trim(p_tumbol) as p_tumbol from students where xEDBE = '" . $acadyear . "' order by 1");
-					while($_datVillage = mysql_fetch_assoc($_resultVillage))
+				<?	$_resultVillage = mysqli_query($_connection,"select distinct trim(p_tumbol) as p_tumbol from students where xEDBE = '" . $acadyear . "' order by 1");
+					while($_datVillage = mysqli_fetch_assoc($_resultVillage))
 					{  ?>
 						<option value="<?=$_datVillage['p_tumbol']?>" <?=isset($_POST['p_tumbol'])&&$_POST['p_tumbol']==$_datVillage['p_tumbol']?"selected":""?> > <?=$_datVillage['p_tumbol']?> </option>
-				<?	} mysql_free_result($_resultVillage) ?>
+				<?	} mysqli_free_result($_resultVillage) ?>
 			</select> 
 			เพศ
 			<select name="sex" class="inputboxUpdate">
@@ -68,10 +68,10 @@
 		if($_POST['studstatus']=="1,2") $sqlStudent .= " and studstatus in (1,2) ";
 		if($_POST['sex']!="all") $sqlStudent .= " and sex = '" . $_POST['sex'] . "' ";
 		$sqlStudent .= " order by xlevel,xyearth,room,sex ";
-		$resStudent = mysql_query($sqlStudent); ?>
-	<? if(mysql_num_rows($resStudent)>0){ ?>
+		$resStudent = mysqli_query($_connection,$sqlStudent); ?>
+	<? if(mysqli_num_rows($resStudent)>0){ ?>
 	<? $ordinal = 1; ?>
-	<? while($dat = mysql_fetch_assoc($resStudent)){ ?>
+	<? while($dat = mysqli_fetch_assoc($resStudent)){ ?>
 		<tr>
 			<td align="center"><?=$ordinal++?></td>
 			<td align="center">

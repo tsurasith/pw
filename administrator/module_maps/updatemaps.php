@@ -46,9 +46,9 @@
 		</tr>
 	</table>
 <? if(isset($_POST['update'])){ ?>
-	<? if(mysql_query($_sqlUpdate)) { ?>
+	<? if(mysqli_query($_connection,$_sqlUpdate)) { ?>
 		<b><br/><center><font color="#008000">บันทึกการแก้ไขข้อมูลเรียบร้อยแล้ว</font></center></b>
-	<? }else { ?> <br/><br/><center><font color="#FF0000">เกิดข้อผิดพลาดเนื่องจาก : <?=mysql_error()?></font></center> <? } ?>
+	<? }else { ?> <br/><br/><center><font color="#FF0000">เกิดข้อผิดพลาดเนื่องจาก : <?=mysqli_error()?></font></center> <? } ?>
 <? } ?>
 <?php
 $_studentID = (isset($_POST['student_id'])?$_POST['student_id']:$_REQUEST['student_id']);
@@ -56,8 +56,8 @@ $sqlStudent = "select id,prefix,firstname,lastname,nickname,p_tumbol,travelby,ho
 					 from students 
 					 where id = '" . $_studentID . "' and xedbe = '" . $acadyear . "'";
 					 
-$resStudent = mysql_query($sqlStudent);
-$_dat = mysql_fetch_assoc($resStudent);
+$resStudent = mysqli_query($_connection,$sqlStudent);
+$_dat = mysqli_fetch_assoc($resStudent);
 ?>
 <form method="post">
   	<input type="hidden" value="<?=$_studentID?>" name="student_id" />
@@ -87,11 +87,11 @@ $_dat = mysql_fetch_assoc($resStudent);
 		  <td >
 		  		<select name="travelby" class="inputboxUpdate">
 				<?php
-					$_resTravel = mysql_query("SELECT * FROM ref_travel");
-					while($_datTravel = mysql_fetch_assoc($_resTravel))
+					$_resTravel = mysqli_query($_connection,"SELECT * FROM ref_travel");
+					while($_datTravel = mysqli_fetch_assoc($_resTravel))
 					{  ?>
 						<option value="<?=$_datTravel['travel_id']?>" <?=($_dat['travelby']==$_datTravel['travel_id']?"SELECTED":"")?>><?=$_datTravel['travel_description']?></option>
-				<?	} mysql_free_result($_resTravel);
+				<?	} mysqli_free_result($_resTravel);
 				?>
 				</select>
 		  </td>

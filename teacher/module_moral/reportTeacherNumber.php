@@ -42,10 +42,10 @@
 		<form method="post">
 			<font color="#000000" size="2"  >
 			รายชื่อครู 
-			<? @$_resTeacher = mysql_query("select distinct mteacher from student_moral where acadyear = '" . $acadyear . "' and acadsemester = '" . $acadsemester . "'"); ?>
+			<? @$_resTeacher = mysqli_query($_connection,"select distinct mteacher from student_moral where acadyear = '" . $acadyear . "' and acadsemester = '" . $acadsemester . "'"); ?>
 			<select name="mteacher" class="inputboxUpdate">
 				<option value=""></option>
-				<? while($_dat = mysql_fetch_assoc($_resTeacher)) { ?>
+				<? while($_dat = mysqli_fetch_assoc($_resTeacher)) { ?>
 				<option value="<?=$_dat['mteacher']?>" <?=isset($_POST['mteacher']) && $_POST['mteacher']==$_dat['mteacher']?"selected":""?>><?=$_dat['mteacher']?></option>
 				<? } ?>
 				<option value="all" <?=$_POST['mteacher']=="all"?"selected":""?>>ทั้งหมด</option>
@@ -99,9 +99,9 @@
 								where xedbe = '" . $acadyear . "'and acadsemester = '" . $acadsemester . "' 
 									and acadyear = '" . $acadyear . "' " . (isset($_POST['studstatus'])=="1,2"?" and studstatus in (1,2) ":"") . "
 								group by mteacher";?>
-					<? $_result = mysql_query($_sql); ?>
+					<? $_result = mysqli_query($_connection,$_sql); ?>
 					<? $_a = 0;$_b = 0; $_c = 0; $_d = 0; $_sum = 0; ?>
-					<? while($_dat = mysql_fetch_assoc($_result)) { ?>
+					<? while($_dat = mysqli_fetch_assoc($_result)) { ?>
 					<tr>
 						<td style="padding-left:20px" align="left"><?=$_dat['mteacher']?></td>
 						<td style="padding-right:10px" align="right"><?=$_dat['a']==0?"-":number_format($_dat['a'],0,'',',')?></td>
@@ -112,7 +112,7 @@
 						<? $_a += $_dat['a']; $_b += $_dat['b']; $_c += $_dat['c'];
 						   $_d += $_dat['d']; $_sum += ($_dat['a']+$_dat['b']+$_dat['c']+$_dat['d']); ?>
 					</tr>
-					<? } mysql_free_result($_result); ?>
+					<? } mysqli_free_result($_result); ?>
 					<tr height="30px">
 					  <td class="key" align="center">รวม</td>
 					  <td class="key" style="padding-right:10px" align="right"><?=$_a>0?number_format($_a,0,'',','):"-"?></td>
@@ -149,9 +149,9 @@
 									and mteacher = '" . $_POST['mteacher'] . "'
 									and acadyear = '" . $acadyear . "' " . (isset($_POST['studstatus'])=="1,2"?" and studstatus in (1,2) ":"") . "
 								group by mprize";?>
-					<? $_result = mysql_query($_sql); ?>
+					<? $_result = mysqli_query($_connection,$_sql); ?>
 					<? $_a = 0;$_b = 0; $_c = 0; $_d = 0; $_e = 0; $_sum = 0; ?>
-					<? while($_dat = mysql_fetch_assoc($_result)) { ?>
+					<? while($_dat = mysqli_fetch_assoc($_result)) { ?>
 					<tr>
 						<td style="padding-left:20px" align="left"><?=displayPrize($_dat['mprize'])?></td>
 						<td style="padding-right:10px" align="right"><?=$_dat['a']==0?"-":number_format($_dat['a'],0,'',',')?></td>
@@ -163,7 +163,7 @@
 						<? $_a += $_dat['a']; $_b += $_dat['b']; $_c += $_dat['c']; $_e+=$_dat['e'];
 						   $_d += $_dat['d']; $_sum += ($_dat['a']+$_dat['b']+$_dat['c']+$_dat['d']+$_dat['e']); ?>
 					</tr>
-					<? } mysql_free_result($_result); ?>
+					<? } mysqli_free_result($_result); ?>
 					<tr height="30px">
 					  <td class="key" align="center">รวม</td>
 					  <td class="key" style="padding-right:10px" align="right"><?=$_a>0?number_format($_a,0,'',','):"-"?></td>

@@ -53,8 +53,8 @@
 	if($_POST['xlevel']!="all"){ $_sql .= " and xlevel = '" . $_POST['xlevel'] . "' "; }
 	if($_POST['studstatus']=="1,2"){ $_sql .= " and studstatus in (1,2) ";}
 	$_sql .= " group by trim(p_tumbol) order by sum desc";
- 	$_result = mysql_query($_sql);
-	if(mysql_num_rows($_result)>0) {
+ 	$_result = mysqli_query($_connection,$_sql);
+	if(mysqli_num_rows($_result)>0) {
   ?>
   <table class="admintable" width="100%"  cellpadding="1" cellspacing="1" border="0" align="center">
     <tr> 
@@ -83,7 +83,7 @@
 					<td width="50px" align="center">เสียชีวิต</td>
 				</tr>
 				<?  $_a=0;$_b=0;$_c=0;$_d=0;$_e=0;$_f=0;$_g=0; ?>
-				<?	while($_dat = mysql_fetch_assoc($_result)){ ?>
+				<?	while($_dat = mysqli_fetch_assoc($_result)){ ?>
 					<tr bgcolor="#FFFFFF">
 						<td style="padding-left:10px;" align="left"><?=$_dat['p_tumbol']!=""?$_dat['p_tumbol']:"-"?></td>
 						<td style="padding-right:15px;" align="right"><?=$_dat['a']==0?"-":number_format($_dat['a'],0,'.',',')?></td>
@@ -96,7 +96,7 @@
 						<td style="padding-right:15px;" align="right"><?=number_format($_dat['sum'],0,'.',',')?></td>
 					</tr>	
 				<? $_a+=$_dat['a'];$_b+=$_dat['b'];$_c+=$_dat['c'];$_d+=$_dat['d'];$_e+=$_dat['e'];$_f+=$_dat['f'];$_g+=$_dat['g'] ?>
-				<?	} mysql_free_result($_result); ?>
+				<?	} mysqli_free_result($_result); ?>
 					<tr bgcolor="#FFFFCC" height="30px">
 						<th align="center">รวม</th>
 						<th style="padding-right:15px;" align="right"><?=$_a>0?number_format($_a,0,'',','):"-"?></th>

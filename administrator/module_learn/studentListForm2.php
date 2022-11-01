@@ -126,10 +126,10 @@
 
   	$sql = 'SELECT id, prefix , firstname , lastname FROM students WHERE xLevel =  \''. $xlevel . '\' AND xYearth = \'' . $xyear .'\' and room = \'' . $room_id  .  '\' and xedbe = \'' .$acadyear . '\'  and studstatus = \'1\' order by sex,id';
 //	echo $sql;
-  	$result = mysql_query($sql) or die ('Error  - ' .mysql_error());
+  	$result = mysqli_query($_connection,$sql) or die ('Error  - ' .mysqli_error());
 	$j = 1;
-	$rows = mysql_num_rows($result);
-	while($data = mysql_fetch_array($result))
+	$rows = mysqli_num_rows($result);
+	while($data = mysqli_fetch_array($result))
 	{
 		echo "<tr class=\"hover\" bgcolor=\"#FFFFFF\">";
 		echo "<td align=\"center\"><font size=\"2\" face=\"Tahoma, sans-serif\">" . $j . "</font></td>";
@@ -165,7 +165,7 @@
 					  </tr>
 </table>
 
-<? mysql_free_result($result); ?>		
+<? mysqli_free_result($result); ?>		
 </div>		
 </form>	
 </body>

@@ -249,7 +249,7 @@
 					where student_id = '" . $_POST['student_id'] ."' and
 						  semester = '" . $_POST['semester'] . "' and
 						  acadyear = '" . $_POST['acadyear'] . "'";
-			$_res = mysql_query($_sql) or die (mysql_error());
+			$_res = mysqli_query($_connection,$_sql) or die (mysqli_error());
 			
 			$_sqlResult = "update sdq_result set
 							type1 = '" . $_type1 . "',
@@ -263,7 +263,7 @@
 								and acadsemester = '" . $_POST['semester'] . "'
 								and student_id = '" . $_POST['student_id'] . "'
 								and questioner = 'teacher' ";
-			$_resResult = mysql_query($_sqlResult)or die (mysql_error());
+			$_resResult = mysqli_query($_connection,$_sqlResult)or die (mysqli_error());
 			if($_res && $_resResult)
 			{
 				echo "<table width='95%' class='admintable' align='center'><tr><td align='center'>";
@@ -288,10 +288,10 @@
 					on (students.id = sdq_teacher.student_id) 
 				where student_id = '" . $_REQUEST['student_id'] . "' and acadyear = '" . $acadyear . "' and semester = '" . $acadsemester . "'
 						and xedbe = '" . $acadyear . "'";
-		$_res = mysql_query($_sql);
-		if(mysql_num_rows($_res) > 0)
+		$_res = mysqli_query($_connection,$_sql);
+		if(mysqli_num_rows($_res) > 0)
 		{
-			$_dat = mysql_fetch_assoc($_res);
+			$_dat = mysqli_fetch_assoc($_res);
 			if($_dat['status'] == 1)
 			{ 
 				echo "<table width='95%' class='admintable' align='center'><tr><td align='center'>";

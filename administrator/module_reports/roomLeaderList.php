@@ -34,8 +34,8 @@
     </tr>
   </table>
 <? $_sql = "select room_id,student_id from rooms where acadyear = '" . $acadyear . "' and acadsemester = '" . $acadsemester . "' order by room_id"; ?>
-<? $_result = mysql_query($_sql); ?>
-<? if(mysql_num_rows($_result)>0) { ?>
+<? $_result = mysqli_query($_connection,$_sql); ?>
+<? if(mysqli_num_rows($_result)>0) { ?>
 		<div align="center">
 		<table class="admintable" align="center" >
 			<tr>
@@ -53,7 +53,7 @@
 				<td class="key" width="90px" align="center">ชื่อเล่น</td>
 			</tr>
 			<? $_i = 1;?>
-			<?  while($_dat = mysql_fetch_assoc($_result)) { ?>
+			<?  while($_dat = mysqli_fetch_assoc($_result)) { ?>
 				<tr>
 				<? $_student = displayStudent($_dat['student_id'],$acadyear); ?>
 				<td align="center"><?=$_i++?></td>
@@ -71,7 +71,7 @@
 <?
 	function displayStudent($_value,$_year){
 		$_sql = "select id,prefix,firstname,lastname,nickname,studstatus,sex,p_village from students where id = '" . $_value . "' and xedbe = '" . $_year . "' ";
-		$_dat = mysql_fetch_assoc(mysql_query($_sql));
+		$_dat = mysqli_fetch_assoc(mysqli_query($_connection,$_sql));
 		return $_dat;
 	}
 	function displayStatus($id)

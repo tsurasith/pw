@@ -60,8 +60,8 @@
 			where xedbe = '" . $acadyear . "' and acadyear = '" . $acadyear . "' and acadsemester = '" . $acadsemester . "'"; ?>
 	<? $_sql .= ($_POST['studstatus']=="1,2"?" and studstatus in (1,2) ":"") ; ?>
 	<? $_sql .=	" group by p_tumbol order by 1 desc"; ?>
-	<? $_result = mysql_query($_sql); ?>
-	<? if(mysql_num_rows($_result)>0){ ?>
+	<? $_result = mysqli_query($_connection,$_sql); ?>
+	<? if(mysqli_num_rows($_result)>0){ ?>
 	<? $_xmlColumn = "<?xml version='1.0' encoding='UTF-8' ?>";
 		$_xmlPie = "<?xml version='1.0' encoding='UTF-8' ?>";
 		$_xmlColumn .= "<graph caption='' xAxisName='' yAxisName='Person' formatNumberScale='0' decimalPrecision='0'>";
@@ -97,7 +97,7 @@
 							<td class="key" align="center" width="60px">ชาย</td>
 							<td class="key" align="center" width="60px">หญิง</td>
 						</tr>
-							<? while($_dat = mysql_fetch_assoc($_result)) { ?>
+							<? while($_dat = mysqli_fetch_assoc($_result)) { ?>
 								<? if($_dat['sum']>0){ ?>
 									<? $_catXML .= "<category name='" . ($_dat['p_tumbol']==""?"ไม่ระบุ":$_dat['p_tumbol']) . "' hoverText=''/>"; ?>
 									<? $_color = getFCColor(); ?>

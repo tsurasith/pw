@@ -69,8 +69,8 @@ function formCheckValue()
 
 <? if(isset($_POST['action']) && $_POST['studentid'] != ""){ ?>
 	<? $sql = "select id,pin,prefix,firstname,lastname,nickname,xlevel,xyearth,room,sex,f_name,m_name,a_name,a_mobile,p_village,p_tumbol from students where id = '" . $_POST['studentid'] . "' and xedbe = '" . $acadyear . "'" ; ?>
-	<? $result = mysql_query($sql);?>
-	<? if($result && mysql_num_rows($result) > 0) { ?>
+	<? $result = mysqli_query($_connection,$sql);?>
+	<? if($result && mysqli_num_rows($result) > 0) { ?>
 		 <form name="myform"  method="post" autocomplete="off">
 		  <table width="100%" align="center" cellspacing="1" class="admintable" border="0" cellpadding="0">
 			<tr>
@@ -106,7 +106,7 @@ function formCheckValue()
 					<textarea id="disciplinedetail" name="disciplinedetail" cols="50" rows="15" class="inputboxUpdate" style="width:100% !important;"></textarea>
 				</td>
 			</tr>
-			<? $dat = mysql_fetch_array($result); ?>
+			<? $dat = mysqli_fetch_array($result); ?>
 			<tr>
 				<td align="right">เลขประจำตัว :</td>
 				<td><input class="noborder2" type="text" size="10" readonly="true" name="student_id" value="<?=$dat['id']?>"/></td>
@@ -188,20 +188,20 @@ function formCheckValue()
 							trim($_POST['disciplinedetail']) . "','" . $_SESSION['name'] . "')";
 					$sql_status = "insert into student_disciplinestatus values('" . $_POST['student_id']  . "',null,'1','00','0','" . $acadyear . "','" . $acadsemester . "')";
 					
-					$y = mysql_query($sql_status);
-					if(mysql_query($sql))
+					$y = mysqli_query($_connection,$sql_status);
+					if(mysqli_query($_connection,$sql))
 					{
-						$_resNumberID = mysql_query("select dis_id from student_discipline
+						$_resNumberID = mysqli_query($_connection,"select dis_id from student_discipline
 											 where dis_studentid ='" . $_POST['student_id'] . "'
 												and dis_date = '" . $_POST['date'] . "'
 												and dis_detail = '" . trim($_POST['disciplinedetail']) . "'
 												and dis_time = '" . $_POST['hour'] . "." . $_POST['minute'] ."'");
-						$_datID = mysql_fetch_assoc($_resNumberID) or die (mysql_error());
+						$_datID = mysqli_fetch_assoc($_resNumberID) or die (mysqli_error());
 						echo "<tr><td align='center'>
 								<font color='green'>บันทึกข้อมูลเรียบร้อยแล้ว<br/>
 								หมายเลขคดี : <b>". $_datID['dis_id'] ."</a></b></font></td></tr>";
 					}
-					else{ showError("การบันทึกข้อมูลผิดพลาด เนื่องจาก ". mysql_error()); } ?>		
+					else{ showError("การบันทึกข้อมูลผิดพลาด เนื่องจาก ". mysqli_error()); } ?>		
 		</table>
 		</form>
 	<? } ?>

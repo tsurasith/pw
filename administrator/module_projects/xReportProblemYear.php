@@ -20,10 +20,10 @@
 				?>
 		<font size="2" color="#000000">
 			<form method="post" autocomplete="off">
-				<? $_res = mysql_query("select project_id,project_name from project where acadyear = '" . $acadyear . "' order by acadsemester"); ?>
+				<? $_res = mysqli_query($_connection,"select project_id,project_name from project where acadyear = '" . $acadyear . "' order by acadsemester"); ?>
 				<select name="p_id" class="inputboxUpdate">
 					<option value=""></option>
-					<? while($_dat = mysql_fetch_assoc($_res)) { ?>
+					<? while($_dat = mysqli_fetch_assoc($_res)) { ?>
 						<option value="<?=$_dat['project_id']?>" <?=$_POST['p_id']==$_dat['project_id'] || $_REQUEST['p_id']==$_dat['project_id']?"selected":""?>><?=strlen(trim($_dat['project_name']))>90?(substr($_dat['project_name'],0,90) . "..."):$_dat['project_name']?></option>
 					<? }//end while ?>
 				</select> <input type="submit" class="button" name="search" value="เรียกดู" />
@@ -38,9 +38,9 @@
 <?
 	$_pID = $_POST['p_id']!=""?$_POST['p_id']:$_REQUEST['p_id'];
 	$_sql = "select * from project where project_id ='" . $_pID ."'";
-	$_res = @mysql_query($_sql);
-	if(@mysql_num_rows($_res)>0) {
-		$_datProj = mysql_fetch_assoc($_res);
+	$_res = @mysqli_query($_connection,$_sql);
+	if(@mysqli_num_rows($_res)>0) {
+		$_datProj = mysqli_fetch_assoc($_res);
 ?>
 	<table class="admintable" width="100%" align="center">
 		<tr>
@@ -105,12 +105,12 @@
 						'" . $_POST['indexof'] . "'
 							)";
 			$_smsError = "ผิดพลาดเนื่องจาก : ";
-			mysql_query($_sql) or die ($_smsError . mysql_error());
+			mysqli_query($_connection,$_sql) or die ($_smsError . mysqli_error());
 		}
 	?>
 	
 	
-	<? if(mysql_num_rows(mysql_query("select * from project_budget where project_id = '" . $_datProj['project_id'] . "'"))>0) { ?>
+	<? if(mysqli_num_rows(mysqli_query($_connection,"select * from project_budget where project_id = '" . $_datProj['project_id'] . "'"))>0) { ?>
 		<table width="100%" align="center" class="admintable">
 			<tr>
 				<td class="key" colspan="6">
@@ -118,8 +118,8 @@
 				</td>
 			</tr>
 			<? $_i = 1; $_sumA = 0;?>
-			<? $_res = mysql_query("select * from project_budget where project_id = '" . $_datProj['project_id'] . "' and budget_type = '00' order by budget_id,money,amount"); ?>
-			<? if(@mysql_num_rows($_res)>0) { ?>
+			<? $_res = mysqli_query($_connection,"select * from project_budget where project_id = '" . $_datProj['project_id'] . "' and budget_type = '00' order by budget_id,money,amount"); ?>
+			<? if(@mysqli_num_rows($_res)>0) { ?>
 			<tr>
 				<td colspan="6"><b><font color="#0000CC">เงินงบประมาณแผ่นดิน</font></b></td>
 			</tr>
@@ -132,7 +132,7 @@
 				<td>&nbsp;</td>
 			</tr>
 			<? } //end check_rows ?>
-			<? while($_dat = mysql_fetch_assoc($_res)) { ?>
+			<? while($_dat = mysqli_fetch_assoc($_res)) { ?>
 				<tr>
 					<td width="30px">&nbsp;</td>
 					<td ><?=$_i++ . '. ' . $_dat['budget_detail']?></td>
@@ -150,8 +150,8 @@
 			
 			
 			<? $_i = 1; $_sumB =0; ?>
-			<? $_res = mysql_query("select * from project_budget where project_id = '" . $_datProj['project_id'] . "' and budget_type = '01' order by budget_id,money,amount"); ?>
-			<? if(@mysql_num_rows($_res)>0) { ?>
+			<? $_res = mysqli_query($_connection,"select * from project_budget where project_id = '" . $_datProj['project_id'] . "' and budget_type = '01' order by budget_id,money,amount"); ?>
+			<? if(@mysqli_num_rows($_res)>0) { ?>
 			<tr>
 				<td colspan="6"><b><font color="#0000CC">เงินอุดหนุนอื่น</font></b></td>
 			</tr>
@@ -164,7 +164,7 @@
 				<td>&nbsp;</td>
 			</tr>
 			<? } //end check_rows ?>
-			<? while($_dat = mysql_fetch_assoc($_res)) { ?>
+			<? while($_dat = mysqli_fetch_assoc($_res)) { ?>
 				<tr>
 					<td width="30px">&nbsp;</td>
 					<td width="250px"><?=$_i++ . '. ' . $_dat['budget_detail']?></td>
@@ -208,7 +208,7 @@
 	<? } // end if check_งบประมาณ ?>
 	
 	
-	<? if(mysql_num_rows(mysql_query("select * from project_comment where project_id = '" . $_datProj['project_id'] . "'"))>0) { ?>
+	<? if(mysqli_num_rows(mysqli_query($_connection,"select * from project_comment where project_id = '" . $_datProj['project_id'] . "'"))>0) { ?>
 		<table width="100%" align="center" class="admintable">
 			<tr>
 				<td class="key" colspan="3">
@@ -216,8 +216,8 @@
 				</td>
 			</tr>
 			<? $_cType = ""; $_i=1;$_j=1; ?>
-			<? $_res = mysql_query("select * from project_comment where project_id = '" . $_datProj['project_id'] . "' order by comment_type"); ?>
-			<? while($_dat = mysql_fetch_assoc($_res)) { ?>
+			<? $_res = mysqli_query($_connection,"select * from project_comment where project_id = '" . $_datProj['project_id'] . "' order by comment_type"); ?>
+			<? while($_dat = mysqli_fetch_assoc($_res)) { ?>
 				<tr>
 					<td width="30px">&nbsp;</td>
 					<td width="75px">
@@ -236,7 +236,7 @@
 	
 	
 	
-	<? if(mysql_num_rows(mysql_query("select * from project_qa where project_id = '" . $_datProj['project_id'] . "'"))>0) { ?>
+	<? if(mysqli_num_rows(mysqli_query($_connection,"select * from project_qa where project_id = '" . $_datProj['project_id'] . "'"))>0) { ?>
 		<table width="100%" align="center" class="admintable">
 			<tr>
 				<td class="key" colspan="3">
@@ -247,8 +247,8 @@
 				<td colspan="3"><b><font color="#0000CC">สมศ.</font></b></td>
 			</tr>
 			<? $_std = ""; ?>
-			<? $_res = mysql_query("select * from project_qa where project_id = '" . $_datProj['project_id'] . "' and organize = '00' order by standard,indexof"); ?>
-			<? while($_dat = mysql_fetch_assoc($_res)) { ?>
+			<? $_res = mysqli_query($_connection,"select * from project_qa where project_id = '" . $_datProj['project_id'] . "' and organize = '00' order by standard,indexof"); ?>
+			<? while($_dat = mysqli_fetch_assoc($_res)) { ?>
 				<tr>
 					<td width="30px">&nbsp;</td>
 					<td width="90px">
@@ -265,8 +265,8 @@
 			<tr>
 				<td colspan="3"><b><font color="#0000CC">สพฐ.</font></b></td>
 			</tr>
-			<? $_res = mysql_query("select * from project_qa where project_id = '" . $_datProj['project_id'] . "' and organize = '01' order by standard,indexof"); ?>
-			<? while($_dat = mysql_fetch_assoc($_res)) { ?>
+			<? $_res = mysqli_query($_connection,"select * from project_qa where project_id = '" . $_datProj['project_id'] . "' and organize = '01' order by standard,indexof"); ?>
+			<? while($_dat = mysqli_fetch_assoc($_res)) { ?>
 			<tr>
 					<td width="30px">&nbsp;</td>
 					<td width="90px">
@@ -283,8 +283,8 @@
 			<tr>
 				<td colspan="3"><b><font color="#0000CC">ท้องถิ่น</font></b></td>
 			</tr>
-			<? $_res = mysql_query("select * from project_qa where project_id = '" . $_datProj['project_id'] . "' and organize = '02' order by standard,indexof"); ?>
-			<? while($_dat = mysql_fetch_assoc($_res)) { ?>
+			<? $_res = mysqli_query($_connection,"select * from project_qa where project_id = '" . $_datProj['project_id'] . "' and organize = '02' order by standard,indexof"); ?>
+			<? while($_dat = mysqli_fetch_assoc($_res)) { ?>
 				<tr>
 					<td width="30px">&nbsp;</td>
 					<td width="90px">

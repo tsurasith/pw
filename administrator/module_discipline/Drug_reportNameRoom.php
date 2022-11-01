@@ -40,18 +40,18 @@
 				$error = 1;
 				$sql_Room = "select room_id from rooms where acadyear = '". $acadyear . "' and acadsemester = '" . $acadsemester . "'  order by room_id";
 				//echo $sql_Room ;
-				$resRoom = mysql_query($sql_Room);			
+				$resRoom = mysqli_query($_connection,$sql_Room);			
 		?>
 		  <select name="roomID" class="inputboxUpdate">
 			<option> &nbsp; &nbsp; &nbsp; </option>
 			<?php
-				while($dat = mysql_fetch_assoc($resRoom))
+				while($dat = mysqli_fetch_assoc($resRoom))
 				{
 					$_select = (isset($_POST['roomID'])&&$_POST['roomID'] == $dat['room_id']?"selected":"");
 					echo "<option value=\"" . $dat['room_id'] . "\" $_select>";
 					echo getFullRoomFormat($dat['room_id']);
 					echo "</option>";
-				} mysql_free_result($resRoom);	?>
+				} mysqli_free_result($resRoom);	?>
 			</select>
 			 เดือน
 			<select name="month" class="inputboxUpdate">
@@ -60,12 +60,12 @@
 					$_sqlMonth = "select distinct month(task_date)as m,year(task_date)+543 as y
 									from student_drug_task where acadyear = '" . $acadyear . "' and acadsemester = '" . $acadsemester . "'
 									order by year(task_date),month(task_date)";
-					$_resMonth = mysql_query($_sqlMonth);
-					while($_datMonth = mysql_fetch_assoc($_resMonth))
+					$_resMonth = mysqli_query($_connection,$_sqlMonth);
+					while($_datMonth = mysqli_fetch_assoc($_resMonth))
 					{
 						$_select = (isset($_POST['month'])&&$_POST['month'] == $_datMonth['m']?"selected":"");
 						echo "<option value=\"" . $_datMonth['m'] . "\" $_select >" . displayMonth($_datMonth['m']) . ' ' . $_datMonth['y'] . "</option>";
-					} mysql_free_result($_resMonth);
+					} mysqli_free_result($_resMonth);
 				?>
 			 </select> 
 			<input type="submit" value="เรียกดู" class="button" name="search"/>
@@ -99,8 +99,8 @@
 						and xlevel = '" . $xlevel . "' and xyearth = '" . $xyearth ."' and room = '" . $room . "'
 					group by id
 					order by sex,id";
-			@$_res = mysql_query($_sql);
-			if(@mysql_num_rows($_res)<=0){ echo "<td align='center'><br/><font color='red'>ยังไม่มีการบันทึกข้อมูลในรายการที่เลือก</font></td></tr>"; }
+			@$_res = mysqli_query($_connection,$_sql);
+			if(@mysqli_num_rows($_res)<=0){ echo "<td align='center'><br/><font color='red'>ยังไม่มีการบันทึกข้อมูลในรายการที่เลือก</font></td></tr>"; }
 			else{
 	?>	 
 		  <th align="center" colspan="10">
@@ -124,7 +124,7 @@
 		<td class="key" width="50px">สารระเหย</td>
 	</tr>
 	<? $_i = 1; ?>
-	<? while($_dat = mysql_fetch_assoc($_res)){ ?>
+	<? while($_dat = mysqli_fetch_assoc($_res)){ ?>
 	<tr>
 		<td align="center"><?=$_i++?></td>
 		<td align="center"><?=$_dat['id']?></td>

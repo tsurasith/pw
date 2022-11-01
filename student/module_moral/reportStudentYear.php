@@ -21,10 +21,10 @@
 		<br/>
 	  		<font color="#000000"  size="2" >
 			ประเภทของกิจกรรม
-			<? @$_resMtype = mysql_query("select * from ref_moral") ?>
+			<? @$_resMtype = mysqli_query($_connection,"select * from ref_moral") ?>
 			<select name="mtype" class="inputboxUpdate">
 				<option value=""></option>
-				<? while($_dat = mysql_fetch_assoc($_resMtype)) { ?>
+				<? while($_dat = mysqli_fetch_assoc($_resMtype)) { ?>
 				<option value="<?=$_dat['moral_id']?>" <?=(isset($_POST['mtype']) && $_POST['mtype'] == $_dat['moral_id'])?"selected":""?>><?=$_dat['moral_description']?></option>
 				<? } ?>
 				<option value="all" <?=$_POST['mtype']=="all"?"selected":""?>>รวมทุกประเภท</option>
@@ -40,8 +40,8 @@
 <? } ?>  
  <? if(isset($_POST['search']) && $_POST['mtype'] != "") { ?>
 		<? $_sql = "select * from student_moral where acadyear = '" . $acadyear . "' and student_id = '" . $_SESSION['username'] . "' " . ($_POST['mtype']!="all"?" and mtype = '" . $_POST['mtype'] . "'":"") . " order by mdate,acadsemester"; ?>
-		<? $_res = mysql_query($_sql); ?>
-		<? if(mysql_num_rows($_res)>0){ ?>
+		<? $_res = mysqli_query($_connection,$_sql); ?>
+		<? if(mysqli_num_rows($_res)>0){ ?>
 		  <table class="admintable" align="center">
 			<tr> 
 			  <th colspan="6" align="center">
@@ -59,7 +59,7 @@
 				<td class="key" width="50px" align="center">คะแนน<br/>เพิ่ม</td>
 			</tr>
 			<? $ordinal=1;?>
-			<? while($_dat = mysql_fetch_assoc($_res)){ ?>
+			<? while($_dat = mysqli_fetch_assoc($_res)){ ?>
 				<tr onMouseOver="this.style.backgroundColor='#FFCCFF'; this.style.cursor='hand';" onMouseOut=this.style.backgroundColor="#FFFFFF">
 					<td align="center" valign="top"><?=$ordinal++?></td>
 					<td align="center" valign="top"><?=displayDate($_dat['mdate'])?></td>

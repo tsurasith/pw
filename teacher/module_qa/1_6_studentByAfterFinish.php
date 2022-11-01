@@ -30,15 +30,15 @@
 				sum(if(nextacademic='00' || nextacademic is null,1,0)) as 'other',
 				count(id) as 'sum'
 			from students where xedbe = '" . $acadyear . "' and studstatus = 2 group by xlevel,xyearth" ;?>
-<? $_result = mysql_query($_sql); ?>
-<? if(mysql_num_rows($_result)>0) { ?>
+<? $_result = mysqli_query($_connection,$_sql); ?>
+<? if(mysqli_num_rows($_result)>0) { ?>
 		<table class="admintable" width="100%" align="center">
 			<tr> 
 				<th align="center">
 					<img src="../images/school_logo.png" width="120px"><br/><br/>
 					แสดงจำนวนผู้ที่จบหลักสูตรแล้วศึกษาต่อ ประกอบอาชีพ<br/>และอื่นๆ ปีการศึกษา <?=$acadyear?><br/>
-					<? $_resTotal = mysql_query("select count(id) as 'total' from students where xedbe = '" . $acadyear . "' and studstatus = '2' ");?>
-					<? $_total = mysql_fetch_assoc($_resTotal); ?>
+					<? $_resTotal = mysqli_query($_connection,"select count(id) as 'total' from students where xedbe = '" . $acadyear . "' and studstatus = '2' ");?>
+					<? $_total = mysqli_fetch_assoc($_resTotal); ?>
 				</th>
 			</tr>
 			<tr>
@@ -63,7 +63,7 @@
 							<td class="key" width="50px" align="center">ร้อยละ</td>
 						</tr>
 						<?	$_learn; $_work; $_other; $_sum; ?>
-						<?	while($_dat = mysql_fetch_assoc($_result)){ ?>
+						<?	while($_dat = mysqli_fetch_assoc($_result)){ ?>
 						<tr>
 							<td style="padding-left:10px;">มัธยมศึกษาปีที่ <?=$_dat['xlevel']==3?$_dat['xyearth']:$_dat['xyearth']+3?></td>
 							<td style="padding-right:15px;" align="right"><?=$_dat['learn']==0?"-":$_dat['learn']?></td>
@@ -75,7 +75,7 @@
 							<td align="center"><?=number_format($_dat['sum'],0,'.','')?></td>
 						</tr>
 						<?	$_learn+=$_dat['learn'];$_work+=$_dat['work']; $_other+=$_dat['other']; $_sum+=$_dat['sum'];?>
-						<?	} mysql_free_result($_result); ?>
+						<?	} mysqli_free_result($_result); ?>
 						<tr height="35px">
 							<td class="key" align="center">รวม</td>
 							<td class="key" align="right"><?=$_learn>0?$_learn:"-"?></td>

@@ -28,15 +28,15 @@
 <br/>
 <? $_sql = "select xlevel,xyearth, sum(if(sex=1,1,0)) as 'male', sum(if(sex=2,1,0)) as 'female', count(sex) as 'sum' ";?>
 <? $_sql .= " from students where xedbe = '" . $acadyear . "' " . ($_POST['studstatus']=="1,2"?"and studstatus in (1,2) ":"") . "  group by xlevel,xyearth ";?>
-<? $_result = mysql_query($_sql); ?>
-<? if(mysql_num_rows($_result)>0) { ?>
+<? $_result = mysqli_query($_connection,$_sql); ?>
+<? if(mysqli_num_rows($_result)>0) { ?>
 		<table class="admintable" width="100%"  cellpadding="1" cellspacing="1" border="0" align="center">
 			<tr> 
 				<th align="center">
 					<img src="../images/school_logo.png" width="120px"><br/><br/>
 					จำนวนนักเรียนทุกระดับชั้น ปีการศึกษา <?=$acadyear?><br/>
-					<? $_resTotal = mysql_query("select count(id) as 'total' from students where xedbe = '" . $acadyear . "'" . ($_POST['studstatus']=="1,2"?"and studstatus in (1,2) ":""));?>
-					<? $_total = mysql_fetch_assoc($_resTotal); ?>
+					<? $_resTotal = mysqli_query($_connection,"select count(id) as 'total' from students where xedbe = '" . $acadyear . "'" . ($_POST['studstatus']=="1,2"?"and studstatus in (1,2) ":""));?>
+					<? $_total = mysqli_fetch_assoc($_resTotal); ?>
 				</th>
 			</tr>
 			<tr>
@@ -53,7 +53,7 @@
 							<td class="key" width="100px" align="center">คิดเป็นร้อยละ</td>
 						</tr>
 						<?	$_male; $_female; $_sum; ?>
-						<?	while($_dat = mysql_fetch_assoc($_result)){ ?>
+						<?	while($_dat = mysqli_fetch_assoc($_result)){ ?>
 						<tr>
 							<td style="padding-left:10px;">มัธยมศึกษาปีที่ <?=$_dat['xlevel']==3?$_dat['xyearth']:$_dat['xyearth']+3?></td>
 							<td style="padding-right:15px;" align="right"><?=$_dat['male']==0?"-":$_dat['male']?></td>
@@ -62,7 +62,7 @@
 							<td align="center"><?=number_format($_dat['sum']/$_total['total']*100,2,'.','')?></td>
 						</tr>
 						<?	$_male+=$_dat['male']; $_female+=$_dat['female']; $_sum+=$_dat['sum'];?>
-						<?	} mysql_free_result($_result); ?>
+						<?	} mysqli_free_result($_result); ?>
 						<tr height="35px">
 							<td class="key" align="center">รวม</td>
 							<td class="key" align="right"><?=number_format($_male,0,'.',',')?></td>

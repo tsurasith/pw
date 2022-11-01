@@ -21,11 +21,11 @@
 		<br/>
 	  		<font color="#000000"  size="2" >เลือกหมู่บ้าน
 			<select name="p_village" class="inputboxUpdate">
-				<?	$_resultVillage = mysql_query("select distinct trim(p_village) as p_village from students where xEDBE = '" . $acadyear . "' order by 1");
-					while($_datVillage = mysql_fetch_assoc($_resultVillage))
+				<?	$_resultVillage = mysqli_query($_connection,"select distinct trim(p_village) as p_village from students where xEDBE = '" . $acadyear . "' order by 1");
+					while($_datVillage = mysqli_fetch_assoc($_resultVillage))
 					{  ?>
 						<option value="<?=$_datVillage['p_village']?>" <?=isset($_POST['p_village'])&&$_POST['p_village']==$_datVillage['p_village']?"selected":""?> > <?=$_datVillage['p_village']?> </option>
-				<?	} mysql_free_result($_resultVillage) ?>
+				<?	} mysqli_free_result($_resultVillage) ?>
 			</select>
 	  		<input type="submit" value="เรียกดู" class="button" name="search"/> <br/>
 			<input type="checkbox" name="studstatus" value="1,2"  <?=$_POST['studstatus']=="1,2"?"checked='checked'":""?> />
@@ -63,10 +63,10 @@
 		if($_POST['studstatus']=="1,2") $sqlStudent .= " and studstatus in (1,2) ";
 		$sqlStudent .= " order by xlevel,xyearth,room,sex,id ";
 		
-		$resStudent = mysql_query($sqlStudent);
+		$resStudent = mysqli_query($_connection,$sqlStudent);
 		$ordinal = 1;
-		$totalRows = mysql_num_rows($resStudent);
-		for($i = 0; $i < $totalRows ; $i++)	{ $dat = mysql_fetch_array($resStudent); ?>
+		$totalRows = mysqli_num_rows($resStudent);
+		for($i = 0; $i < $totalRows ; $i++)	{ $dat = mysqli_fetch_array($resStudent); ?>
 			<tr onMouseOver="this.style.backgroundColor='#FFCCFF'; this.style.cursor='hand';" onMouseOut=this.style.backgroundColor="#FFFFFF" >
 				<td align="center"><?=$ordinal++?></td>
 				<td align="center"><?=$dat['id']?></td>

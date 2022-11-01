@@ -56,7 +56,7 @@
 								'" . $acadyear . "',0,'" . $_POST['date'] . "',null
 							from students
 							where xedbe = '" . $acadyear . "' and studstatus in (1,4) ";
-		if(mysql_query($_sqlStudent))
+		if(mysqli_query($_connection,$_sqlStudent))
 		{
 			$_sql = "insert into sdq_result  
 						select id,-1,-1,-1,-1,-1,-1,-1,
@@ -64,9 +64,9 @@
 								'student'
 							from students
 							where xedbe = '" . $acadyear . "' and studstatus in (1,4) ";
-			mysql_query($_sql) or die (mysql_error());
+			mysqli_query($_connection,$_sql) or die (mysqli_error());
 		}
-		if(mysql_query($_sqlTeacher))
+		if(mysqli_query($_connection,$_sqlTeacher))
 		{
 			$_sql = "insert into sdq_result  
 						select id,-1,-1,-1,-1,-1,-1,-1,
@@ -74,9 +74,9 @@
 								'teacher'
 							from students
 							where xedbe = '" . $acadyear . "' and studstatus in (1,4) ";
-			mysql_query($_sql) or die (mysql_error());
+			mysqli_query($_connection,$_sql) or die (mysqli_error());
 		}
-		if(mysql_query($_sqlParent))
+		if(mysqli_query($_connection,$_sqlParent))
 		{
 			$_sql = "insert into sdq_result  
 						select id,-1,-1,-1,-1,-1,-1,-1,
@@ -84,7 +84,7 @@
 								'parent'
 							from students
 							where xedbe = '" . $acadyear . "' and studstatus in (1,4) ";
-			mysql_query($_sql) or die (mysql_error());
+			mysqli_query($_connection,$_sql) or die (mysqli_error());
 		}
 		else
 		{
@@ -97,8 +97,8 @@
 ?>
 <?php
 	$_sql = "SELECT distinct create_date FROM sdq_student where semester = '" . $acadsemester . "' and acadyear = '" . $acadyear . "'";
-	$_result  = mysql_query($_sql);
-	if(mysql_num_rows($_result) <= 0) { ?>
+	$_result  = mysqli_query($_connection,$_sql);
+	if(mysqli_num_rows($_result) <= 0) { ?>
 		<table width="100%" align="center" class="admintable">
 			<tr>
 				<td colspan="2" height="30px" class="key">&nbsp; สร้างแบบประเมิน SDQ สำหรับภาคเรียนที่ <?=$acadsemester?> ปีการศึกษา <?=$acadyear?></td>
@@ -138,7 +138,7 @@
 	<tr>
 		<td colspan="2" align="center">
 				<font color='green' size="2"><b>
-					<? $_dat = mysql_fetch_assoc($_result); ?>
+					<? $_dat = mysqli_fetch_assoc($_result); ?>
 					<br/><br/>ได้ทำการสร้างแบบประเมิน SDQ สำหรับภาคเรียนนี้แล้ว<br/>
 					โดยได้สร้างการประเมินขึ้น ณ วันที่ <?=displayFullDate($_dat['create_date'])?></b>
 				</font>

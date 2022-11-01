@@ -30,10 +30,10 @@
 				<option value="all" <?=isset($_POST['roomID'])&&$_POST['roomID']=="all"?"selected":""?>> ทั้งโรงเรียน </option>
 			</select><br/> 
 		ร่างกาย
-		<? $_resCripple = mysql_query("select * from ref_cripple"); ?>
+		<? $_resCripple = mysqli_query($_connection,"select * from ref_cripple"); ?>
 			<select name="cripple" class="inputboxUpdate">
 				<option value=""></option>
-				<? while($_datC = mysql_fetch_assoc($_resCripple)){ ?>
+				<? while($_datC = mysqli_fetch_assoc($_resCripple)){ ?>
 					<option value="<?=$_datC['cripple_id']?>" <?=isset($_POST['cripple'])&&$_POST['cripple']==$_datC['cripple_id']?"selected":""?>><?=$_datC['cripple_description']?></option>
 				<? } ?>
 				<option value="all" <?=$_POST['cripple']=="all"?"selected":""?>>ทั้งหมด</option>
@@ -77,12 +77,12 @@
 		if($_POST['cripple']!="all"){$sqlStudent .= "and cripple = '" . $_POST['cripple'] . "'";}
 		if($_POST['studstatus']=="1,2") $sqlStudent .= " and studstatus in (1,2) ";
 		$sqlStudent .= "order by xlevel,xyearth,room,sex,id";
-		$resStudent = mysql_query($sqlStudent);
+		$resStudent = mysqli_query($_connection,$sqlStudent);
 		$ordinal = 1;
-		$totalRows = mysql_num_rows($resStudent);
+		$totalRows = mysqli_num_rows($resStudent);
 		for($i = 0; $i < $totalRows ; $i++)
 		{ ?>
-			<? $dat = mysql_fetch_array($resStudent); ?>
+			<? $dat = mysqli_fetch_array($resStudent); ?>
 			<tr onMouseOver="this.style.backgroundColor='#FFCCFF'; this.style.cursor='hand';" onMouseOut=this.style.backgroundColor="#FFFFFF">
 			<td align="center"><?=$ordinal++?></td>
 			<td align="center"><?=$dat['id']?></td>
@@ -108,7 +108,7 @@
 		</tr>
 		<tr>
 			<td align="center">
-				<? $_result = mysql_query("select cripple,
+				<? $_result = mysqli_query($_connection,"select cripple,
 								  sum(if(sex=1,1,0)) as Male,
 								  sum(if(sex=2,1,0)) as Female,
 								  count(sex) as Sums
@@ -127,7 +127,7 @@
 						<td class="key" align="center" width="60px">หญิง</td>
 					</tr>
 					<? $_male = 0 ; $_female = 0; ?>
-					<? while($_dat = mysql_fetch_assoc($_result)) { ?>
+					<? while($_dat = mysqli_fetch_assoc($_result)) { ?>
 					<tr bgcolor="#FFFFFF">
 						<td style="padding-left:20px"><?=($_dat['cripple']!=""?displayCripple($_dat['cripple']):"ไม่ระบุ")?></b></td>
 						<td style="padding-right:20px" align="right"><?=$_dat['Male']==0?"-":number_format($_dat['Male'],0,'',',')?></td>
@@ -135,7 +135,7 @@
 						<td align="right" style="padding-right:25px"><?=number_format($_dat['Sums'],0,'',',')?></td>
 					</tr>
 					<? $_male += $_dat['Male']; $_female += $_dat['Female']; ?>
-					<? } mysql_free_result($_result); ?>
+					<? } mysqli_free_result($_result); ?>
 					<tr height="30px">
 					  <td class="key" align="center">รวม</td>
 					  <td class="key" style="padding-right:20px" align="right"><?=number_format($_male,0,'',',')?></td>

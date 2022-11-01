@@ -65,9 +65,9 @@
 						left outer join student_investigation on student_discipline.dis_id = student_investigation.dis_id
 						where student_discipline.dis_id = '" . $_disID . "' 
 						and acadyear = '" . $acadyear . "' and acadsemester = '" . $acadsemester . "' and dis_status in(0,6)"; ?>
-	<? $_result = mysql_query($_sql); ?>
-	<? if(mysql_num_rows($_result)>0){ ?>
-			<? $_dat = mysql_fetch_assoc($_result); ?> 
+	<? $_result = mysqli_query($_connection,$_sql); ?>
+	<? if(mysqli_num_rows($_result)>0){ ?>
+			<? $_dat = mysqli_fetch_assoc($_result); ?> 
 			<input type="hidden" name="student_id" value="<?=$_dat['dis_studentid']?>" />
 			<input type="hidden" name="dis_id" value="<?=$_dat['dis_id']?>" />
 			<input type="hidden" name="dis_type" value="<?=$_dat['dis_type']?>" />
@@ -104,8 +104,8 @@
 			</table>
 			
 			<? $_sqlSanc = "select * from student_sanction where dis_id = '" . $_dat['dis_id'] . "' order by id "; ?>
-			<? $_resSanc = mysql_query($_sqlSanc);	?>
-			<? if(mysql_num_rows($_resSanc) > 1){ ?>
+			<? $_resSanc = mysqli_query($_connection,$_sqlSanc);	?>
+			<? if(mysqli_num_rows($_resSanc) > 1){ ?>
 					<table width="100%" class="admintable" >
 						<tr>
 							<td align="center" class="key">ครั้งที่</td>
@@ -115,9 +115,9 @@
 							<td align="center" class="key">วันที่ทำกิจกรรม</td>
 						</tr>
 						<? $_i = 0; ?>
-						<? while($_datSanc = mysql_fetch_assoc($_resSanc)) { ?>
+						<? while($_datSanc = mysqli_fetch_assoc($_resSanc)) { ?>
 								<? $_timeAll =  $_timeAll + $_datSanc['sanc_alltime'] ;	?>
-								<? if($_i == 0){ $_datSanc = mysql_fetch_assoc($_resSanc); } ?>
+								<? if($_i == 0){ $_datSanc = mysqli_fetch_assoc($_resSanc); } ?>
 								<? $_timeCount = $_timeCount + $_datSanc['sanc_time'] ; ?>
 							<tr>
 								<td align="center" valign="top"><?=++$_i?></td>
@@ -138,11 +138,11 @@
 
 			<? $_sql = "select * from student_decision where dis_id = '" . $_disID . "'"; ?>
 			<? $_point = $_dat['point'];?>
-			<? $_result = mysql_query($_sql);?>
-			<? if(mysql_num_rows($_result) > 0){ ?>
+			<? $_result = mysqli_query($_connection,$_sql);?>
+			<? if(mysqli_num_rows($_result) > 0){ ?>
 					<table width="100%" class="admintable">
 					<tr height="35px"><td colspan="2" class="key"> &nbsp; รายละเอียดการพิจารณาของหัวหน้าฝ่าย</td></tr>
-					<? $_dat = mysql_fetch_assoc($_result); ?>
+					<? $_dat = mysqli_fetch_assoc($_result); ?>
 					<tr>
 						<td valign="top" align="right" width="300px"><b>ความเห็น</b></td>
 						<td ><textarea class="inputboxUpdate" cols="30" rows="4" readonly><?=$_dat['dec_detail']?></textarea></td>
@@ -171,8 +171,8 @@
 	function studentData($_id,$acadyear)
 	{
 		$_sql = "select id,prefix,firstname,lastname,xlevel,xyearth,room,p_village from students where xedbe = '" . $acadyear  ."' and id = '". $_id . "'";
-		$_result = mysql_query($_sql);
-		$_dat = mysql_fetch_assoc($_result);
+		$_result = mysqli_query($_connection,$_sql);
+		$_dat = mysqli_fetch_assoc($_result);
 		$str = "";
 		$str = $str . "เลขประจำตัว: " . $_dat['id'] . "<br/>ชื่อ-สกุล: ". $_dat['prefix'] . $_dat['firstname'] . ' ' . $_dat['lastname'] . "<br/>";
 		$str = $str . "ระดับชั้น: " .($_dat['xlevel']==4?$_dat['xyearth']+3:$_dat['xyearth']) . "/" . $_dat['room'] . "<br/>";
@@ -213,9 +213,9 @@
 	function disSanction($_disID)
 	{
 		$_sql = "select * from student_sanction where dis_id = '" . $_disID . "' order by id ";
-		$_result = mysql_query($_sql);
-		$_dat = mysql_fetch_assoc($_result);
-		if(mysql_num_rows($_result)>0)
+		$_result = mysqli_query($_connection,$_sql);
+		$_dat = mysqli_fetch_assoc($_result);
+		if(mysqli_num_rows($_result)>0)
 		{
 			$_str = "";
 			$_str = $_str . $_dat['sanc_detail'] . "<br/>"

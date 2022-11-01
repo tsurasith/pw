@@ -27,9 +27,9 @@
   </form>
   <?
 		$sql = "select * from students where ID = '" . ($_SESSION['username']) . "' and xedbe = '" . $acadyear . "' order by xedbe desc limit 0,1 ";
-		$result = mysql_query($sql);
-		if(mysql_num_rows($result) > 0) { ?>
-		<? $dat = mysql_fetch_assoc($result); ?>
+		$result = mysqli_query($_connection,$sql);
+		if(mysqli_num_rows($result) > 0) { ?>
+		<? $dat = mysqli_fetch_assoc($result); ?>
 			<br/>
 			<table class="admintable"  cellpadding="0" cellspacing="0" border="0" align="center">
 				<tr height="35px"> 
@@ -394,8 +394,8 @@
 										from  student_800
 										where student_id = '" . ($_SESSION['username']) . "'
 										group by acadsemester,acadyear,student_id order by acadyear,acadsemester";
-								$_result = mysql_query($_sql);
-								while($_dat = mysql_fetch_assoc($_result)){ ?>
+								$_result = mysqli_query($_connection,$_sql);
+								while($_dat = mysqli_fetch_assoc($_result)){ ?>
 								<tr align="center" bgcolor="#FFFFFF">
 									<td><?=$_dat['acadsemester'] . "/" . $_dat['acadyear']?></td>
 									<td><?=display($_dat['a'] . " ")?></td>
@@ -405,7 +405,7 @@
 									<td><?=display($_dat['e'] . " ")?></td>
 									<td><?=display($_dat['sum'] . " ")?></td>
 								</tr>
-							<?	} mysql_free_result($_result); //end while?>
+							<?	} mysqli_free_result($_result); //end while?>
 						</table>					</td>
 				</tr>
 								
@@ -424,7 +424,7 @@
 									  count(*) as 'total' from student_color
 									where student_id = '" . ($_SESSION['username']) . "'
 										group by acadsemester,acadyear,student_id order by acadyear,acadsemester"; ?>
-						<? $_resColor = @mysql_query($_sqlColor); ?>
+						<? $_resColor = @mysqli_query($_connection,$_sqlColor); ?>
 						<table  cellspacing="1" bgcolor="#666699">
 							<tr align="center" bgcolor="#CCCFFF">
 								<td width="120px">ภาคเรียน/ปีการศึกษา</td>
@@ -435,8 +435,8 @@
 								<td width="50px">ขาด</td>
 								<td width="60px">รวม</td>
 							</tr>
-							<? if(mysql_num_rows($_resColor)>0){?>
-								<? while($_datColor = mysql_fetch_assoc($_resColor)){ ?>
+							<? if(mysqli_num_rows($_resColor)>0){?>
+								<? while($_datColor = mysqli_fetch_assoc($_resColor)){ ?>
 									<tr bgcolor="#FFFFFF" align="center">
 										<td><?=$_datColor['acadsemester'].'/'.$_datColor['acadyear']?></td>
 										<td><?=display($_datColor['a']." ")?></td>
@@ -446,7 +446,7 @@
 										<td><?=display($_datColor['e']." ")?></td>
 										<td><?=display($_datColor['total']." ")?></td>
 									</tr>
-								<? } mysql_free_result($_resColor);//end while?>
+								<? } mysqli_free_result($_resColor);//end while?>
 							<? } else {//end if ?>
 								<tr align="center" bgcolor="#FFFFFF">
 									<td align="center" colspan="7"><?=display("ยังไม่มีประวัติการเข้าร่วมกิจกรรมคณะสี")?></td>
@@ -471,9 +471,9 @@
 								$_sql = "select acadyear,acadsemester,count(*) as 'a' from student_learn
 											where timecheck_id = '02' and student_id = '" .  ($_SESSION['username'])  . "'
 										group by acadyear,acadsemester,timecheck_id";
-								$_result = mysql_query($_sql);
-								if(mysql_num_rows($_result)>0) {
-									while($_dat = mysql_fetch_assoc($_result))
+								$_result = mysqli_query($_connection,$_sql);
+								if(mysqli_num_rows($_result)>0) {
+									while($_dat = mysqli_fetch_assoc($_result))
 									{
 										echo "<tr align=\"center\" bgcolor=\"#FFFFFF\">";
 										echo "<td>".  $_dat['acadsemester'] . "/" . $_dat['acadyear'] . "</td>";
@@ -502,7 +502,7 @@
 									  sum(if(mtype='03',1,null)) as 'd',count(mtype) as 'total'
 									from student_moral where student_id = '" . ($_SESSION['username']) . "'
 									group by acadyear,acadsemester order by acadyear,acadsemester";
-							$_res = mysql_query($_sql);
+							$_res = mysqli_query($_connection,$_sql);
 						?>
 						<table bgcolor="#666699" cellspacing="1">
 							<tr bgcolor="#CCCFFF">
@@ -513,8 +513,8 @@
 								<td align="center" width="105px">การแข่งขันทักษะ<br/>ด้านกีฬา</td>
 								<td align="center" width="50px">รวม</td>
 							</tr>
-						<? if(mysql_num_rows($_res) > 0) { ?>
-							<? while($_dat = mysql_fetch_assoc($_res)) { ?>
+						<? if(mysqli_num_rows($_res) > 0) { ?>
+							<? while($_dat = mysqli_fetch_assoc($_res)) { ?>
 							<tr>
 								<td bgcolor="#FFFFFF" align="center"><?=display($_dat['acadsemester'].'/'.$_dat['acadyear'])?></td>
 								<td bgcolor="#FFFFFF" align="center"><?=display($_dat['a'] . " ")?></td>
@@ -558,10 +558,10 @@
 											and dis_id in (select dis_id from student_discipline where dis_detail not like '%การเข้าร่วมกิจกรรมหน้าเสาธง%') 
 										group by acadsemester,acadyear
 										order by acadyear,acadsemester";
-								$_result = mysql_query($_sql);
-								if(mysql_num_rows($_result)>0)
+								$_result = mysqli_query($_connection,$_sql);
+								if(mysqli_num_rows($_result)>0)
 								{
-									while($_dat = mysql_fetch_assoc($_result))
+									while($_dat = mysqli_fetch_assoc($_result))
 									{
 										echo "<tr align=\"center\" bgcolor=\"#FFFFFF\">";
 										echo "<td>".  $_dat['acadsemester'] . "/" . $_dat['acadyear'] . "</td>";
@@ -585,17 +585,17 @@
 					  </table><br/>
 						<?php
 							$_sql = "select * from ref_disciplinestatus where status > 0 order by 1 ";
-							$_result = mysql_query($_sql);
-							$num = mysql_num_rows($_result);
+							$_result = mysqli_query($_connection,$_sql);
+							$num = mysqli_num_rows($_result);
 						?>
 						<b>หมายเหต</b>ุ : ในหน้าประวัตินี้จะไม่รวมพฤติกรรมไม่พึงประสงค์ในส่วนของการขาด สาย และลา การเข้าร่วมกิจกรรมหน้าเสาธง <br/> และ <u>สถานะการดำเนินคดี</u> อธิบายได้ดังนี้<br/>
-						<? while($_dat = mysql_fetch_assoc($_result)){ ?>
+						<? while($_dat = mysqli_fetch_assoc($_result)){ ?>
 								&nbsp; &nbsp; <?=$_dat['status']?> หมายถึง <?=$_dat['status_detail']?><br/>
 						<? } //end while ?>
 					</td>
 				</tr>
 			  </table>
-	<?		mysql_free_result($result);
+	<?		mysqli_free_result($result);
 		}else { echo "<br/><center><font color=\"red\">ไม่พบข้อมูลนักเรียน กรุณาตรวจสอบเลขประจำตัวนักเรียนอีกครั้ง</font></center>"; } ?>
 
 </div>

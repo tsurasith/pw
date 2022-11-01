@@ -62,17 +62,17 @@
 											'" . $_POST['ENT_DATE'] . "',
 											'" . $_POST['studstatus'] . "','100',
 											'" . $_POST['Color'] . "')";
-						$_resID = mysql_query("select ID from students where ID = '" . $_POST['ID'] . "' and xEDBE = '" . $acadyear . "'");
+						$_resID = mysqli_query($_connection,"select ID from students where ID = '" . $_POST['ID'] . "' and xEDBE = '" . $acadyear . "'");
 						//echo $_sqlAddnew;
-						if(mysql_num_rows($_resID)>0) {
+						if(mysqli_num_rows($_resID)>0) {
 							echo "<br/><br/><font color='red'>การดำเนินการผิดพลาดเนื่องจาก : ";
 							echo "เลขประจำตัว " . $_POST['ID'] . " ได้มีอยู่ในระบบแล้ว <br/>หากท่านต้องการยืนยันที่จะใช้เลขประจำตัวนี้ให้ตรวจสอบการเลื่อนระดับชั้น</font><br/><br/>";
 						}
-						else if(mysql_query($_sqlAddnew)) {
+						else if(mysqli_query($_connection,$_sqlAddnew)) {
 							echo "<br/><br/>";
 							echo "<font color='green'><b>การดำเนินเพิ่มนักเรียนใหม่เรียบร้อยแล้ว</b></font><br/><br/>";
 						}
-						else { echo "<font color='red'><b>การดำเนินการผิดพลาดเนื่องจาก : " . mysql_error() . "</b></font><br/><br/>"; }
+						else { echo "<font color='red'><b>การดำเนินการผิดพลาดเนื่องจาก : " . mysqli_error() . "</b></font><br/><br/>"; }
 					?>
 				</td>
 			</tr>
@@ -92,10 +92,10 @@
 				  <td>
 				  		<select id="prefix" name="PREFIX" class="inputboxUpdate">
 				  		<option value=""></option>
-						<? $_resPrefix = mysql_query("select prefix_detail from ref_prefix where prefix_id < 5");
-							while($_datPrefix = mysql_fetch_assoc($_resPrefix)) {  ?>
+						<? $_resPrefix = mysqli_query($_connection,"select prefix_detail from ref_prefix where prefix_id < 5");
+							while($_datPrefix = mysqli_fetch_assoc($_resPrefix)) {  ?>
 								<option value="<?=$_datPrefix['prefix_detail']?>" <?=isset($_POST['PREFIX'])&&$_POST['PREFIX']==$_datPrefix['prefix_detail']?"SELECTED":""?>><?=$_datPrefix['prefix_detail']?></option>
-						<?	} mysql_free_result($_resPrefix); ?>
+						<?	} mysqli_free_result($_resPrefix); ?>
 						</select><font color="#FF0000"><b>*</b></font>
 					</td>
 			  </tr>
@@ -187,10 +187,10 @@
 				  <td align="right">คณะสี :</td>
 				  <td>
 				  		<select name="Color" class="inputboxUpdate">
-				  		<? $_resColor = mysql_query("SELECT color_description FROM ref_color");
-							while($_datColor = mysql_fetch_assoc($_resColor)) {  ?>
+				  		<? $_resColor = mysqli_query($_connection,"SELECT color_description FROM ref_color");
+							while($_datColor = mysqli_fetch_assoc($_resColor)) {  ?>
 								<option value="<?=$_datColor['color_description']?>" <?=(isset($_POST['Color'])&&$_POST['Color']==$_datColor['color_description']?"SELECTED":"")?>><?=$_datColor['color_description']?></option>
-						<?	} mysql_free_result($_resColor); ?>
+						<?	} mysqli_free_result($_resColor); ?>
 						</select>
 				</td>
 			  </tr>

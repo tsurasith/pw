@@ -18,11 +18,11 @@
 		</font>
 		<br/><font color="#000000" size="2">
 			เลือกหมู่บ้าน <select name="p_village" class="inputboxUpdate">
-				<?	$_resultVillage = mysql_query("select distinct trim(p_village) as p_village from students where xEDBE = '" . $acadyear . "' order by 1");
-					while($_datVillage = mysql_fetch_assoc($_resultVillage))
+				<?	$_resultVillage = mysqli_query($_connection,"select distinct trim(p_village) as p_village from students where xEDBE = '" . $acadyear . "' order by 1");
+					while($_datVillage = mysqli_fetch_assoc($_resultVillage))
 					{  ?>
 						<option value="<?=$_datVillage['p_village']?>" <?=isset($_POST['p_village'])&&$_POST['p_village']==$_datVillage['p_village']?"selected":""?> > <?=$_datVillage['p_village']?> </option>
-				<?	} mysql_free_result($_resultVillage) ?>
+				<?	} mysqli_free_result($_resultVillage) ?>
 			</select>
 	  		<input type="submit" value="เรียกดู" class="button" name="search"/><br/>
 			<input type="checkbox" name="studstatus" value="1,2"  <?=$_POST['studstatus']=="1,2"?"checked='checked'":""?> /> เฉพาะนักเรียนสถานะปกติหรือสำเร็จการศึกษา </font>
@@ -56,14 +56,14 @@
 						 where xedbe = '" . $acadyear . "' and trim(p_village) = '" . $_POST['p_village'] . "'";
 		if($_POST['studstatus']=="1,2") $sqlStudent .= " and studstatus in (1,2) ";
 		$sqlStudent .= " order by xlevel,xyearth,room,sex ";
-		$resStudent = mysql_query($sqlStudent);
+		$resStudent = mysqli_query($_connection,$sqlStudent);
 		$ordinal = 1;
-		$totalRows = mysql_num_rows($resStudent);
+		$totalRows = mysqli_num_rows($resStudent);
 		for($i = 0; $i < $totalRows ; $i++)
 		{
 			if($i % 2 == 0 ){echo "<tr>";}
 			else{echo "<tr>";}
-			$dat = mysql_fetch_array($resStudent);
+			$dat = mysqli_fetch_array($resStudent);
 			echo "<td align=\"center\">$ordinal</td>";
 			if($_SESSION['superAdmin']) { echo "<td align=\"center\"><a href='index.php?option=module_maps/updatemaps&report=studentListVillage&acadyear=" . $acadyear . "&student_id=" . $dat['id'] ."&p_village=" . $dat['p_village'] . "'>" . $dat['id'] . "</a></td>";}
 			else {echo "<td align='center'>" . $dat['id'] . "</td>" ;}

@@ -62,9 +62,9 @@
 				<table cellspacing="1" class="admintable">
 					<tr>
 					<? $p_sql = "select task_date,task_roomid,task_status,period from student_learn_task where task_date = '"  .$_REQUEST['date'] . "' and task_roomid = '" . $_REQUEST['room'] . "' order by period" ;?>
-					<? $p_res = mysql_query($p_sql) or die ( ' ' . mysql_error());?>
+					<? $p_res = mysqli_query($_connection,$p_sql) or die ( ' ' . mysqli_error());?>
 					<? $y = 1; ?>
-					<? while($p_dat = mysql_fetch_assoc($p_res)) {	?>
+					<? while($p_dat = mysqli_fetch_assoc($p_res)) {	?>
 						<? if($y == $_REQUEST['period']) {?>
 							<td valign="top">
 								<font  size="2" color="#CC0000"><b> คาบที่ <?=$y?><br/></b></font>
@@ -127,11 +127,11 @@
 
   	$sql = 'SELECT id, prefix , firstname , lastname FROM students WHERE xLevel =  \''. $xlevel . '\' AND xYearth = \'' . $xyear .'\' and room = \'' . $room_id  .  '\' and xedbe = \'' .$acadyear . '\'  and studstatus = \'1\' order by sex,id';
 //	echo $sql;
-  	$result = mysql_query($sql) or die ('Error  - ' .mysql_error());
+  	$result = mysqli_query($_connection,$sql) or die ('Error  - ' .mysqli_error());
 	$i = 1;
 	$j = 0;
-	$rows = mysql_num_rows($result);
-	while($data = mysql_fetch_array($result))
+	$rows = mysqli_num_rows($result);
+	while($data = mysqli_fetch_array($result))
 	{
 		echo "<tr   id=\"check[$j]\"  bgcolor='#FFFFFF' class=\"hover\" >";
 		echo "<td align=\"center\"><font size=\"2\" face=\"Tahoma\">" . $i . "</font></td>";
@@ -161,7 +161,7 @@
 					  </tr>
 </table>
 
-<? mysql_free_result($result); ?>		
+<? mysqli_free_result($result); ?>		
 </div>		
 </form>	
 </body>

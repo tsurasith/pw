@@ -34,8 +34,8 @@
 			  sum(if(xlevel=4,1,null)) as 'b' from students
 			where xedbe = '" . $acadyear . "' " . ($_POST['studstatus']=="1,2"?" and studstatus in (1,2) ":"") . "
 			group by color order by color desc";
-	$_result = mysql_query($_sql);
-	if(mysql_num_rows($_result)>0) { ?>
+	$_result = mysqli_query($_connection,$_sql);
+	if(mysqli_num_rows($_result)>0) { ?>
 		<table class="admintable" width="100%" cellpadding="1" cellspacing="1" border="0" align="center" >
 			<tr>
 				<th align="center" >
@@ -55,7 +55,7 @@
 					
 					$_setA = "<dataset seriesname='ม.ต้น' color='FF0000' showValue='1'>";
 					$_setB = "<dataset seriesname='ม.ปลาย' color='0000FF' showValue='1'>";
-					while($_dat = mysql_fetch_assoc($_result))
+					while($_dat = mysqli_fetch_assoc($_result))
 					{
 						$_catXML .= "<category name='" . (strlen($_dat['color'])>2?$_dat['color']:"ไม่ระบุ") . "' hoverText=''/>";
 						$_setA .= "<set value='" . $_dat['a'] . "' />";

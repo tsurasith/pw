@@ -43,12 +43,12 @@ function check(name,i)
 			<font  size="2" color="#000000">เลือกห้องเรียน
 			<?php 
 					$sql_Room = "select room_id from rooms where acadyear = '". $acadyear . "' and acadsemester = '2' and substr(room_id,1,1) in (3,6)  order by room_id";
-					$resRoom = mysql_query($sql_Room);			
+					$resRoom = mysqli_query($_connection,$sql_Room);			
 			?>
 			<select name="roomID" class="inputboxUpdate">
 				<option value=""></option>
 				<?php
-					while($dat = mysql_fetch_assoc($resRoom))
+					while($dat = mysqli_fetch_assoc($resRoom))
 					{
 						$_select = (isset($_POST['roomID'])&&$_POST['roomID'] == $dat['room_id']?"selected":"");
 						echo "<option value=\"" . $dat['room_id'] . "\" $_select>";
@@ -111,7 +111,7 @@ function check(name,i)
 	<? $_sql = "select id,prefix,firstname,lastname,nickname,studstatus,gpa,points from students where xlevel = '". $xlevel . "' and xyearth = '" . $xyearth . "' and room = '" . $room . "' and xedbe = '" . $acadyear . "'";
 		if($_POST['studstatus']=="1,2") $_sql .= " and studstatus in (1,2) ";
 		$_sql .= " order by sex,id ";?>
-	<? $_res = mysql_query($_sql); ?>
+	<? $_res = mysqli_query($_connection,$_sql); ?>
 	<form method="post" id="frm1">
 	<table class="admintable" width="100%">
 		<tr>
@@ -129,10 +129,10 @@ function check(name,i)
 			<td align="center" width="65px" class="key">GPA.</td>
 			<td width="150px"  align="center" class="key">สถานภาพปัจจุบัน</td>
 			<td width="100px" align="center" class="key">คะแนน<br/>ความประพฤติ</td>
-			<td align="center" width="40px" class="key"><input type='checkbox' name='checkall' onclick='checkedAll(<?=mysql_num_rows($_res)?>);' ></td>
+			<td align="center" width="40px" class="key"><input type='checkbox' name='checkall' onclick='checkedAll(<?=mysqli_num_rows($_res)?>);' ></td>
 		</tr>
 		<? $_i = 1;?>
-		<? while($_dat = mysql_fetch_assoc($_res)){ ?>
+		<? while($_dat = mysqli_fetch_assoc($_res)){ ?>
 		<tr id="row<?=$_i?>">
 			<td align="center"><?=$_i?></td>
 			<td align="center"><?=$_dat['id']?></td>
@@ -162,7 +162,7 @@ function check(name,i)
 			if($_POST['student'][$_i] != "")
 			{
 				$_sql = "update students set studstatus = '2' where id = '" . $_POST['student'][$_i] . "' and xedbe = '" . $_POST['acadyear'] . "'";
-				mysql_query($_sql) or die ('<center><font color=red><br/><br/>ผิดพลาดเนื่องจาก ' . mysql_error() . '<br/></font></center>');
+				mysqli_query($_connection,$_sql) or die ('<center><font color=red><br/><br/>ผิดพลาดเนื่องจาก ' . mysqli_error() . '<br/></font></center>');
 				$_operation = true;
 				//echo $_i .'. ' .$_POST['student'][$_i].'<br/>';
 				

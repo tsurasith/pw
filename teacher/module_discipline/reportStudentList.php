@@ -29,10 +29,10 @@
 		<br/>
 	  	<font  size="2" color="#000000">เลือกห้องเรียน
 			<?  $sql_Room = "select room_id from rooms where acadyear = '". $acadyear . "' and acadsemester = '" . $acadsemester . "'  order by room_id";
-			    $resRoom = mysql_query($sql_Room); ?>
+			    $resRoom = mysqli_query($_connection,$sql_Room); ?>
 			<select name="roomID" class="inputboxUpdate">
 				<option value=""></option>
-				<? while($dat = mysql_fetch_assoc($resRoom)) {
+				<? while($dat = mysqli_fetch_assoc($resRoom)) {
 						$_select = (isset($_POST['roomID'])&&$_POST['roomID'] == $dat['room_id']?"selected":"");
 						echo "<option value=\"" . $dat['room_id'] . "\" $_select>";
 						echo getFullRoomFormat($dat['room_id']);
@@ -99,12 +99,12 @@
 		$sqlStudent .= "group by id ";
 		$sqlStudent .= "order by sex,id ";
 		// echo $sqlStudent;
-		$resStudent = mysql_query($sqlStudent);
+		$resStudent = mysqli_query($_connection,$sqlStudent);
 		$ordinal = 1;
-		$totalRows = mysql_num_rows($resStudent);
+		$totalRows = mysqli_num_rows($resStudent);
 		for($i = 0; $i < $totalRows ; $i++) { ?>
 		<tr onMouseOver="this.style.backgroundColor='#FFCCFF'; this.style.cursor='hand';" onMouseOut=this.style.backgroundColor="#FFFFFF">
-			<? $dat = mysql_fetch_array($resStudent); ?>
+			<? $dat = mysqli_fetch_array($resStudent); ?>
 			<td align="center"><?=$ordinal++?></td>
 			<td align="center">
 				<a href="index.php?option=module_discipline/disciplineSearch&page=1&student_id=<?=$dat['id']?>&acadyear=<?=$acadyear?>&acadsemester=<?=$acadsemester?>">

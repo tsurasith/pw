@@ -76,7 +76,7 @@
 											   t_mobile = '" . $_POST['t_mobile'] . "',
 											   t_email = '" . $_POST['t_email'] . "'
 							where username = '" . $_SESSION['username'] . "'";
-			if(mysql_query($_sqlUpdate))
+			if(mysqli_query($_connection,$_sqlUpdate))
 			{
 				$_messageStatus = "<font color='green'>แก้ไขข้อมูลส่วนตัวเรียบร้อยแล้ว</font>";
 			}
@@ -86,8 +86,8 @@
 			}
 		}
 	}
-	$_res = mysql_query("select * from teachers where username = '" . $_SESSION['username'] . "'");
-	$_dat = mysql_fetch_assoc($_res);
+	$_res = mysqli_query($_connection,"select * from teachers where username = '" . $_SESSION['username'] . "'");
+	$_dat = mysqli_fetch_assoc($_res);
 ?>
 
 <form id="form1" method="post" action="">

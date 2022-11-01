@@ -7,7 +7,7 @@
 						 from students 
 						 where xedbe = '" . $_REQUEST['acadyear'] . "' and trim(p_village) = '" . $_REQUEST['village'] . "'
 						 order by xlevel,xyearth,room,sex ";
-		$resStudent = mysql_query($sqlStudent);
+		$resStudent = mysqli_query($_connection,$sqlStudent);
 	?>
 <html>
   <head>
@@ -31,7 +31,7 @@
 			} //end-initalize function
 			
 		var beaches = [
-			<? while($_dat = mysql_fetch_assoc($resStudent)) { ?>
+			<? while($_dat = mysqli_fetch_assoc($resStudent)) { ?>
 			<? $_room = ($_dat['xlevel']==3?$_dat['xyearth']:$_dat['xyearth']+3) . '/' . $_dat['room']; ?>
 				['<?=$_dat['id'] . ' ' . $_dat['prefix'] . $_dat['firstname'] . ' ' . $_dat['lastname']?>', <?=$_dat['utm_coordinate_x']?>, <?=$_dat['utm_coordinate_y']?>, <?=$_zIndex++?>,'<?=$_dat['id']?>', '<?=displayStatus($_dat['studstatus'])?>' ,<?=$_dat['howlong']?>,'<?=displayTravel($_dat['travelby'])?>','<?=$_room?>','<?=displayFlag($_dat['studstatus'])?>'],
 			<? } ?>
@@ -114,7 +114,7 @@
 			  		});
 			}
     </script>
-	<? mysql_free_result($resStudent);?>
+	<? mysqli_free_result($resStudent);?>
 </head> 
  <body style="margin:0px; padding:0px;" onLoad="initialize()">
   <div id="map_canvas" style="width:100%; height:100%"></div>

@@ -32,19 +32,19 @@
 			ห้องเรียน  
 			<?php 
 				$sql_Room = "select room_id from rooms where acadyear = '". $acadyear . "' and acadsemester = '" . $acadsemester . "'  order by room_id";
-				$resRoom = mysql_query($sql_Room);			
+				$resRoom = mysqli_query($_connection,$sql_Room);			
 			?>
 		  	<select name="roomID" class="inputboxUpdate">
 		  	<option> &nbsp; &nbsp; &nbsp; </option>
 			<?php
-				while($dat = mysql_fetch_assoc($resRoom))
+				while($dat = mysqli_fetch_assoc($resRoom))
 				{
 					$_select = (isset($_POST['roomID'])&&$_POST['roomID'] == $dat['room_id']?"selected":"");
 					echo "<option value=\"" . $dat['room_id'] . "\" $_select>";
 					echo getFullRoomFormat($dat['room_id']);
 					echo "</option>";
 				}
-				mysql_free_result($resRoom);
+				mysqli_free_result($resRoom);
 			?>
 			</select> <input type="submit" name="search" value="เรียกดู" class="button" /><br/>
 			<input type="checkbox" name="studstatus" value="1,2"  <?=$_POST['studstatus']=="1,2"?"checked='checked'":""?> />
@@ -73,8 +73,8 @@
 				and class_id = '". $_POST['roomID'] ."' and check_date = '" . $_POST['date'] . "' ";
 	if($_POST['studstatus']=="1,2") $_sql .= " and studstatus in (1,2) ";				
 	$_sql .= " group by id order by sex,id";
-	$_res = mysql_query($_sql); ?>
-	<? if(@mysql_num_rows($_res)>0) { ?>
+	$_res = mysqli_query($_connection,$_sql); ?>
+	<? if(@mysqli_num_rows($_res)>0) { ?>
 			<table class="admintable"  cellpadding="1" cellspacing="1" border="0" align="center" width="100%" >
 			<tr>
 			<th colspan="12" align="center">
@@ -102,7 +102,7 @@
 				<td class="key" width="50px">8</td>
 			</tr>
 			<? $_i = 1; ?>
-			<? while($_dat = mysql_fetch_assoc($_res)){ ?>
+			<? while($_dat = mysqli_fetch_assoc($_res)){ ?>
 			<tr>
 				<td align="center"><?=$_i++?></td>
 				<td align="center"><?=$_dat['id']?></td>
@@ -117,7 +117,7 @@
 				<td align="center"><?=displayTimecheckColor($_dat['p7'])?></td>
 				<td align="center"><?=displayTimecheckColor($_dat['p8'])?></td>
 			</tr>
-			<? } mysql_free_result($_res); //end while ?>
+			<? } mysqli_free_result($_res); //end while ?>
 		 </table>
 <?	} else { //end chekc_rows	 ?>
 		<table width="100%" align="center">

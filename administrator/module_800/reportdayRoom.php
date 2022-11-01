@@ -33,17 +33,17 @@
 		เลือกห้อง 
 		<?  $error = 1;
 		    $sql_Room = "select room_id from rooms where acadyear = '". $acadyear . "' and acadsemester = '" . $acadsemester . "'  order by room_id";
-			$resRoom = mysql_query($sql_Room);
+			$resRoom = mysqli_query($_connection,$sql_Room);
 			//echo $sql_Room;
 		?>
 		  <select name="roomID" class="inputboxUpdate">
 		  	<option> &nbsp; &nbsp; &nbsp; </option>
-			<?  while($dat = mysql_fetch_assoc($resRoom)) {
+			<?  while($dat = mysqli_fetch_assoc($resRoom)) {
 					$_select = (isset($_POST['roomID'])&&$_POST['roomID'] == $dat['room_id']?"selected":"");
 					echo "<option value=\"" . $dat['room_id'] . "\" $_select>";
 					echo getFullRoomFormat($dat['room_id']);
 					echo "</option>";
-				} mysql_free_result($resRoom);//end while ?>
+				} mysqli_free_result($resRoom);//end while ?>
 			</select> &nbsp; วันที่ 
 			 <input name="date" type="text" id="date" onClick="showCalendar(this.id)" size="10px" maxlength="10" value="<?=(isset($_POST['date'])&&$_POST['date']!=""?$_POST['date']:"")?>" class="inputboxUpdate" />
 			 <input type="submit" value="เรียกดู" class="button" name="search"/> <br/>
@@ -77,9 +77,9 @@
 							and b.acadyear = '" . $acadyear . "' and b.acadsemester = '" . $acadsemester . "' ";
 			if($_POST['studstatus'] == "1,2") $sqlStudent .= "and studstatus in (1,2)";
 			$sqlstudent .= " order by a.sex,a.ordinal ";
-			$resStudent = mysql_query($sqlStudent);
+			$resStudent = mysqli_query($_connection,$sqlStudent);
 			$ordinal = 1;
-			$totalRows = mysql_num_rows($resStudent);
+			$totalRows = mysqli_num_rows($resStudent);
 			if($totalRows == 0)
 			{
 				echo "<td align='center'><font color='red'><br/>ยังไม่มีการบันทึกข้อมูลในรายการที่คุณเลือก</font></td></tr>";
@@ -105,7 +105,7 @@
 		for($i = 0; $i < $totalRows ; $i++) {
 			if($_x < 5 ){echo "<tr>";}
 			else{echo "<tr bgcolor=\"#EFFEFE\">";}
-			$dat = mysql_fetch_array($resStudent);
+			$dat = mysqli_fetch_array($resStudent);
 			echo "<td align=\"center\">$ordinal</td>";
 			echo "<td align=\"center\">" . $dat['id'] . "</td>";
 			echo "<td>" . $dat['prefix'] . $dat['firstname'] . " " . $dat['lastname'] . "</td>";
@@ -116,7 +116,7 @@
 			$_x++;
 			if($_x == 10){$_x = 0;}
 			else{}
-		} mysql_free_result($resStudent); ?>
+		} mysqli_free_result($resStudent); ?>
 		<table class="admintable">
 	<tr><td class="key" align="center" colspan="2">สรุปผล</td>
 	<?php
@@ -132,8 +132,8 @@
 			and xEDBE = '" . $acadyear . "' ";
 						if($_POST['studstatus'] == "1,2") $_sql .= "and studstatus in (1,2) ";
 						$_sql .= " group by class_id order by class_id";
-						$_result = mysql_query($_sql);
-						$_dat = mysql_fetch_assoc($_result);
+						$_result = mysqli_query($_connection,$_sql);
+						$_dat = mysqli_fetch_assoc($_result);
 					?>
 					<?php
 						if($error)
@@ -156,7 +156,7 @@
 							<tr bgcolor="#FFCCFF">
 								<th align="right">รวม</th><th align="center"><?=$_dat['sum']?></th>
 							</tr>
-						<?php } mysql_free_result($_result);?>
+						<?php } mysqli_free_result($_result);?>
 				</table>
 	<?  }//ปิด if-else ตรวจสอบข้อมูลในฐานข้อมูล
 	}//ปิด if-else ตรวจสอบการเลือกวันที่

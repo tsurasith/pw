@@ -19,7 +19,7 @@
 				  where student_id = '" . $_SESSION['username'] . "' and timecheck_id = 02
 				group by student_id,acadyear,acadsemester
 				order by acadyear,acadsemester";
-				$_res = mysql_query($_sql);
+				$_res = mysqli_query($_connection,$_sql);
 				
 	?>
       <td class="key" align="center" width="190px"><br/>
@@ -30,13 +30,13 @@
 	  <td valign="top">
 	  		<font color="#663366"><b>
 	  		รายงานสรุปการเข้าห้องเรียนสายของนักเรียน<br/></b></font>
-			<?php if(mysql_num_rows($_res) > 0 ) {  ?>
+			<?php if(mysqli_num_rows($_res) > 0 ) {  ?>
 				<table cellspacing="1" cellpadding="2"  class="admintable">
 					<tr >
 						<td class="key" width="200px" align="center"><b>ภาคเรียน/ปีการศึกษา</b></td>
 						<td class="key" width="80px" align="center"><b>จำนวนครั้ง<br/>(สาย)</b></td>
 					</tr>
-					<? while ($_dat = mysql_fetch_assoc($_res)) { ?>
+					<? while ($_dat = mysqli_fetch_assoc($_res)) { ?>
 					<tr>
 					  <td align="center"><?=$_dat['acadsemester'].'/'.$_dat['acadyear']?></td>
 					  <td align="center"><?=$_dat['late']?></td>

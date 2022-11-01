@@ -36,10 +36,10 @@
 	<? 
 		$_sql = "select id,prefix,firstname,lastname,nickname,xlevel,xyearth,room,studstatus,p_village,travelby
 					from students where id = '" .$s_id."' and xedbe = '" . $acadyear . "'";
-		$_res = mysql_query($_sql);
+		$_res = mysqli_query($_connection,$_sql);
 	?>
-	<? if(mysql_num_rows($_res)>0) { ?>
-		<? $_dat = mysql_fetch_assoc($_res);?>
+	<? if(mysqli_num_rows($_res)>0) { ?>
+		<? $_dat = mysqli_fetch_assoc($_res);?>
 		<table class="admintable" bgcolor="#FFCCFF" cellspacing="1">
 		<tr><td  class="key" colspan="11">รายละเอียดการเข้าเรียนภาคเรียนที่ <?=$acadsemester?> ปีการศึกษา <?=$acadyear?></td></tr>
 		<tr bgcolor="#FFFFFF">
@@ -96,7 +96,7 @@
 						and a.acadyear = '" . $acadyear . "' and a.acadsemester = '" . $acadsemester . "'
 						and b.acadyear = '" . $acadyear . "' and b.acadsemester = '" . $acadsemester . "'
 						group by a.check_date order by check_date";
-			$_resx = mysql_query($_sqlx);
+			$_resx = mysqli_query($_connection,$_sqlx);
 		?>
 		<tr>
 			<td class="key" align="center" width="65px" rowspan="2">ลำดับที่</td>
@@ -115,7 +115,7 @@
 			<td class="key" width="45px">คาบ8</td>
 		</tr>
 		<? $_i = 1; ?>
-		<? while($_dat = mysql_fetch_assoc($_resx)) { ?>
+		<? while($_dat = mysqli_fetch_assoc($_resx)) { ?>
 		<tr bgcolor="#FFFFFF" onMouseOver="this.style.backgroundColor='#FFCCFF'; this.style.cursor='hand';" onMouseOut=this.style.backgroundColor="#FFFFFF">
 			<td align="center"><?=$_i++?></td>
 			<td align="center"><?=displayDate($_dat['check_date'])?></td>
@@ -129,7 +129,7 @@
 			<td align="center"><?=displayTimecheckColor($_dat['g'])?></td>
 			<td align="center"><?=displayTimecheckColor($_dat['h'])?></td>
 		</tr>
-		<? } mysql_free_result($_resx);//end while ?>
+		<? } mysqli_free_result($_resx);//end while ?>
 	</table>
 	<? } else { echo "<br><center><font color='red'>ไม่พบข้อมูลนักเรียน กรุณาตรวจสอบเลขประจำตัวนักเรียนอีกครั้ง</font></center>";}?>
 </div>

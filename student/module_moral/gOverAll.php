@@ -10,10 +10,10 @@
 		<form method="post">
 			<font color="#000000" size="2">
 			ประเภทของกิจกรรม
-			<? @$_resMtype = mysql_query("select * from ref_moral") ?>
+			<? @$_resMtype = mysqli_query($_connection,"select * from ref_moral") ?>
 			<select name="mtype" class="inputboxUpdate">
 				<option value=""></option>
-				<? while($_dat = mysql_fetch_assoc($_resMtype)) { ?>
+				<? while($_dat = mysqli_fetch_assoc($_resMtype)) { ?>
 				<option value="<?=$_dat['moral_id']?>" <?=(isset($_POST['mtype']) && $_POST['mtype'] == $_dat['moral_id'])?"selected":""?>><?=$_dat['moral_description']?></option>
 				<? } ?>
 				<option value="all" <?=$_POST['mtype']=="all"?"selected":""?>>รวมทุกประเภท</option>
@@ -38,11 +38,11 @@
 	<? $_sql = "select acadyear,acadsemester,count(*) as total from student_moral ";?>
 	<? if($_POST['mtype'] != "all") $_sql .= " where mtype = '" . $_POST['mtype'] . "' "; ?>
 	<? $_sql .= " group by acadyear,acadsemester order by acadyear,acadsemester "; ?>
-    <? $_res = mysql_query($_sql); ?>
-	<?  while($_dat = mysql_fetch_assoc($_res)) { 
+    <? $_res = mysqli_query($_connection,$_sql); ?>
+	<?  while($_dat = mysqli_fetch_assoc($_res)) { 
 			$_xmlColumn .= "<set name='" .$_dat['acadsemester'].'/'.$_dat['acadyear']."' value='" . $_dat['total'] . "' color='" . getFCColor() . "' /> ";
 		} $_xmlColumn .= "</graph>"; ?>
-	<? if(mysql_num_rows($_res)>0) { ?>
+	<? if(mysqli_num_rows($_res)>0) { ?>
 		<table class="admintable"  width="100%">
 			<tr>
 				<th align="center">

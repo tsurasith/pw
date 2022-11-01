@@ -166,7 +166,7 @@
 						$_sqlUpdate .= "Color =	'" . $_POST['Color'] . "'";
 						$_sqlUpdate .= " where ID =	'" . $_POST['student_id'] . "' and xEDBE = '" . $acadyear . "'";
 						//echo $_sqlUpdate . "<br/>";
-						if(mysql_query($_sqlUpdate)) {
+						if(mysqli_query($_connection,$_sqlUpdate)) {
 							$_room = "";
 							$_room = trim($_POST['level'])=="3"?trim($_POST['yearth']):trim($_POST['xYearth'])+3;
 							$_room .= "/" . trim($_POST['ROOM']);
@@ -179,7 +179,7 @@
 							echo "</form>";
 							
 						}
-						else { echo "<font color='red'>การดำเนินการผิดพลาดเนื่องจาก - " .  mysql_error() ."</font>"; }
+						else { echo "<font color='red'>การดำเนินการผิดพลาดเนื่องจาก - " .  mysqli_error() ."</font>"; }
 					?>
 				</td>
 				<td></td>
@@ -187,11 +187,11 @@
 		</table>
 <?	}	else if($s_id != ""){ 
 		$_sql = "select * from students where xEDBE = '" . $acadyear . "' and ID = '" . $s_id ."'";
-		$_res = mysql_query($_sql);
+		$_res = mysqli_query($_connection,$_sql);
 		if(isset($_POST['student_id']))
-		if(mysql_num_rows($_res)>0)
+		if(mysqli_num_rows($_res)>0)
 		{
-			$_dat = mysql_fetch_assoc($_res);
+			$_dat = mysqli_fetch_assoc($_res);
 			$_fields = 1; ?>
 			<form method="post">
 			<table class="admintable" cellpadding="0" cellspacing="0" align="center" width="100%">
@@ -204,10 +204,10 @@
 				  <td align="right">คำนำหน้า :</td>
 				  <td>
 				  		<select name="PREFIX" class="inputboxUpdate">
-				  		<? $_resPrefix = mysql_query("select prefix_detail from ref_prefix where prefix_id < 5");
-						   while($_datPrefix = mysql_fetch_assoc($_resPrefix)) {  ?>
+				  		<? $_resPrefix = mysqli_query($_connection,"select prefix_detail from ref_prefix where prefix_id < 5");
+						   while($_datPrefix = mysqli_fetch_assoc($_resPrefix)) {  ?>
 								<option value="<?=$_datPrefix['prefix_detail']?>" <?=($_dat['PREFIX']==$_datPrefix['prefix_detail']?"SELECTED":"")?>><?=$_datPrefix['prefix_detail']?></option>
-						<?	} mysql_free_result($_resPrefix); ?>
+						<?	} mysqli_free_result($_resPrefix); ?>
 						</select>
 				  </td>
 			  </tr>
@@ -319,11 +319,11 @@
 				  <td>
 				  		<select name="Race" class="inputboxUpdate">
 				  		<?php
-							$_resRace = mysql_query("select race_id,race_description from ref_race");
-							while($_datRace = mysql_fetch_assoc($_resRace))
+							$_resRace = mysqli_query($_connection,"select race_id,race_description from ref_race");
+							while($_datRace = mysqli_fetch_assoc($_resRace))
 							{  ?>
 								<option value="<?=$_datRace['race_id']?>" <?=($_dat['Race']==$_datRace['race_id']?"SELECTED":"")?>><?=$_datRace['race_description']?></option>
-						<?	} mysql_free_result($_resRace);
+						<?	} mysqli_free_result($_resRace);
 						?>
 						</select>
 					</td>
@@ -334,11 +334,11 @@
 				  <td>
 				  		<select name="Nationality" class="inputboxUpdate">
 				  		<?php
-							$_resNation = mysql_query("SELECT * FROM ref_nationality");
-							while($_datNation = mysql_fetch_assoc($_resNation))
+							$_resNation = mysqli_query($_connection,"SELECT * FROM ref_nationality");
+							while($_datNation = mysqli_fetch_assoc($_resNation))
 							{  ?>
 								<option value="<?=$_datNation['nation_id']?>" <?=($_dat['Nationality']==$_datNation['nation_id']?"SELECTED":"")?>><?=$_datNation['nation_description']?></option>
-						<?	} mysql_free_result($_resNation);
+						<?	} mysqli_free_result($_resNation);
 						?>
 						</select>
 					</td>
@@ -349,11 +349,11 @@
 				  <td>
 				  		<select name="RELIGION" class="inputboxUpdate">
 				  		<?php
-							$_resReligion = mysql_query("SELECT * FROM ref_religion");
-							while($_datReligion = mysql_fetch_assoc($_resReligion))
+							$_resReligion = mysqli_query($_connection,"SELECT * FROM ref_religion");
+							while($_datReligion = mysqli_fetch_assoc($_resReligion))
 							{  ?>
 								<option value="<?=$_datReligion['religion_id']?>" <?=($_dat['RELIGION']==$_datReligion['religion_id']?"SELECTED":"")?>><?=$_datReligion['religion_description']?></option>
-						<?	} mysql_free_result($_resReligion);
+						<?	} mysqli_free_result($_resReligion);
 						?>
 						</select>
 					</td>
@@ -383,11 +383,11 @@
 				  <td>
 				  		<select name="StudJudge" class="inputboxUpdate">
 				  		<?php
-							$_resStudjudge = mysql_query("SELECT * FROM ref_studjudge");
-							while($_datJudge = mysql_fetch_assoc($_resStudjudge))
+							$_resStudjudge = mysqli_query($_connection,"SELECT * FROM ref_studjudge");
+							while($_datJudge = mysqli_fetch_assoc($_resStudjudge))
 							{  ?>
 								<option value="<?=$_datJudge['judge_id']?>" <?=($_dat['StudJudge']==$_datJudge['judge_id']?"SELECTED":"")?>><?=$_datJudge['judge_description']?></option>
-						<?	} mysql_free_result($_resStudjudge); ?>
+						<?	} mysqli_free_result($_resStudjudge); ?>
 						</select>
 				  </td>
 			  </tr>
@@ -422,10 +422,10 @@
 				  <td>
 				  		<select name="SCH_PROVINCE" class="inputboxUpdate">
 				  		<option value=""></option>
-						<? $_resProvince = mysql_query("SELECT * FROM ref_province");
-						   while($_datProvince = mysql_fetch_assoc($_resProvince)) {  ?>
+						<? $_resProvince = mysqli_query($_connection,"SELECT * FROM ref_province");
+						   while($_datProvince = mysqli_fetch_assoc($_resProvince)) {  ?>
 								<option value="<?=$_datProvince['prov_description']?>" <?=($_dat['SCH_PROVINCE']==$_datProvince['prov_description']?"SELECTED":"")?>><?=$_datProvince['prov_description']?></option>
-						<?	} mysql_free_result($_resProvince); ?>
+						<?	} mysqli_free_result($_resProvince); ?>
 						</select>
 			  </tr>
 			  <tr>
@@ -496,10 +496,10 @@
 				  <td align="right">อาชีพบิดา :</td>
 				  <td>
 				  		<select name="F_Occupation" class="inputboxUpdate">
-				  		<?  $_resOCC = mysql_query("SELECT occ_id,occ_description FROM ref_occupation");
-							while($_datOCC = mysql_fetch_assoc($_resOCC)) {  ?>
+				  		<?  $_resOCC = mysqli_query($_connection,"SELECT occ_id,occ_description FROM ref_occupation");
+							while($_datOCC = mysqli_fetch_assoc($_resOCC)) {  ?>
 								<option value="<?=$_datOCC['occ_id']?>" <?=($_dat['F_Occupation']==$_datOCC['occ_id']?"SELECTED":"")?>><?=$_datOCC['occ_description']?></option>
-						<?	} mysql_free_result($_resOCC); ?>
+						<?	} mysqli_free_result($_resOCC); ?>
 						</select>
 				  </td>
 			  </tr>
@@ -513,10 +513,10 @@
 				  <td align="right">สถานะความพิการของบิดา :</td>
 				  <td>
 				  		<select name="F_Cripple" class="inputboxUpdate">
-				  		<?  $_resCripple = mysql_query("SELECT * FROM ref_cripple");
-							while($_datCripple = mysql_fetch_assoc($_resCripple)) {  ?>
+				  		<?  $_resCripple = mysqli_query($_connection,"SELECT * FROM ref_cripple");
+							while($_datCripple = mysqli_fetch_assoc($_resCripple)) {  ?>
 								<option value="<?=$_datCripple['cripple_id']?>" <?=($_dat['F_Cripple']==$_datCripple['cripple_id']?"SELECTED":"")?>><?=$_datCripple['cripple_description']?></option>
-						<?	} mysql_free_result($_resCripple); ?>
+						<?	} mysqli_free_result($_resCripple); ?>
 						</select>
 				  </td>
 			  </tr>
@@ -548,10 +548,10 @@
 				  <td align="right">อาชีพมารดา :</td>
 				  <td>
 				  		<select name="M_Occupation" class="inputboxUpdate">
-				  		<?  $_resOCCM = mysql_query("SELECT occ_id,occ_description FROM ref_occupation");
-							while($_datOCCM = mysql_fetch_assoc($_resOCCM)) {  ?>
+				  		<?  $_resOCCM = mysqli_query($_connection,"SELECT occ_id,occ_description FROM ref_occupation");
+							while($_datOCCM = mysqli_fetch_assoc($_resOCCM)) {  ?>
 								<option value="<?=$_datOCCM['occ_id']?>" <?=($_dat['M_Occupation']==$_datOCCM['occ_id']?"SELECTED":"")?>><?=$_datOCCM['occ_description']?></option>
-						<?	} mysql_free_result($_resOCCM); ?>
+						<?	} mysqli_free_result($_resOCCM); ?>
 						</select>
 				  </td>
 			  </tr>
@@ -565,10 +565,10 @@
 				  <td align="right">สถานะความพิการของมารดา :</td>
 				  <td>
 				  		<select name="M_Cripple" class="inputboxUpdate">
-				  		<?  $_resCripple = mysql_query("SELECT * FROM ref_cripple");
-							while($_datCripple = mysql_fetch_assoc($_resCripple)) {  ?>
+				  		<?  $_resCripple = mysqli_query($_connection,"SELECT * FROM ref_cripple");
+							while($_datCripple = mysqli_fetch_assoc($_resCripple)) {  ?>
 								<option value="<?=$_datCripple['cripple_id']?>" <?=($_dat['M_Cripple']==$_datCripple['cripple_id']?"SELECTED":"")?>><?=$_datCripple['cripple_description']?></option>
-						<?	} mysql_free_result($_resCripple); ?>
+						<?	} mysqli_free_result($_resCripple); ?>
 						</select>
 				  </td>
 			  </tr>
@@ -590,10 +590,10 @@
 				  <td align="right">สถานภาพบิดาและมารดา :</td>
 				  <td>
 				  		<select name="FM_Status" class="inputboxUpdate">
-				  		<?  $_resFMStatus = mysql_query("SELECT * FROM ref_fmstatus");
-							while($_datFMStatus = mysql_fetch_assoc($_resFMStatus)) {  ?>
+				  		<?  $_resFMStatus = mysqli_query($_connection,"SELECT * FROM ref_fmstatus");
+							while($_datFMStatus = mysqli_fetch_assoc($_resFMStatus)) {  ?>
 								<option value="<?=$_datFMStatus['fmstatus_id']?>" <?=($_dat['FM_Status']==$_datFMStatus['fmstatus_id']?"SELECTED":"")?>><?=$_datFMStatus['fmstatus_description']?></option>
-						<?	} mysql_free_result($_resFMStatus); ?>
+						<?	} mysqli_free_result($_resFMStatus); ?>
 						</select>
 				  </td>
 			  </tr>
@@ -617,10 +617,10 @@
 				  <td align="right">รหัสอาชีพผู้ปกครอง :</td>
 				  <td>
 				  		<select name="A_Occupation" class="inputboxUpdate">
-				  		<?  $_resOCCA = mysql_query("SELECT occ_id,occ_description FROM ref_occupation");
-							while($_datOCCA = mysql_fetch_assoc($_resOCCA)) {  ?>
+				  		<?  $_resOCCA = mysqli_query($_connection,"SELECT occ_id,occ_description FROM ref_occupation");
+							while($_datOCCA = mysqli_fetch_assoc($_resOCCA)) {  ?>
 								<option value="<?=$_datOCCA['occ_id']?>" <?=($_dat['A_Occupation']==$_datOCCA['occ_id']?"SELECTED":"")?>><?=$_datOCCA['occ_description']?></option>
-						<?	} mysql_free_result($_resOCCA); ?>
+						<?	} mysqli_free_result($_resOCCA); ?>
 						</select>
 				  </td>
 			  </tr>
@@ -634,10 +634,10 @@
 				  <td align="right">ความสัมพันธ์กับนักเรียนโดยเป็น :</td>
 				  <td>
 				  		<select name="A_Relation" class="inputboxUpdate">
-				  		<?  $_resRelation = mysql_query("SELECT * FROM ref_relation");
-							while($_datRelation = mysql_fetch_assoc($_resRelation)) {  ?>
+				  		<?  $_resRelation = mysqli_query($_connection,"SELECT * FROM ref_relation");
+							while($_datRelation = mysqli_fetch_assoc($_resRelation)) {  ?>
 								<option value="<?=$_datRelation['relation_id']?>" <?=($_dat['A_Relation']==$_datRelation['relation_id']?"SELECTED":"")?>><?=$_datRelation['relation_description']?></option>
-						<?	} mysql_free_result($_resRelation); ?>
+						<?	} mysqli_free_result($_resRelation); ?>
 						</select>
 				  </td>
 			  </tr>
@@ -698,10 +698,10 @@
 				  <td>
 				  		<select name="P_PROVINCE" class="inputboxUpdate">
 				  		<option value=""></option>
-						<? $_resProvince = mysql_query("SELECT * FROM ref_province");
-						   while($_datProvince = mysql_fetch_assoc($_resProvince)) {  ?>
+						<? $_resProvince = mysqli_query($_connection,"SELECT * FROM ref_province");
+						   while($_datProvince = mysqli_fetch_assoc($_resProvince)) {  ?>
 								<option value="<?=$_datProvince['prov_description']?>" <?=($_dat['P_PROVINCE']==$_datProvince['prov_description']?"SELECTED":"")?>><?=$_datProvince['prov_description']?></option>
-						<?	} mysql_free_result($_resProvince); ?>
+						<?	} mysqli_free_result($_resProvince); ?>
 						</select>
 				  </td>
 			  </tr>
@@ -730,10 +730,10 @@
 				  <td align="right">วิธีการเดินทางมาโรงเรียน :</td>
 				  <td>
 				  		<select name="travelby" class="inputboxUpdate">
-				  		<?  $_resTravel = mysql_query("SELECT * FROM ref_travel");
-							while($_datTravel = mysql_fetch_assoc($_resTravel)) {  ?>
+				  		<?  $_resTravel = mysqli_query($_connection,"SELECT * FROM ref_travel");
+							while($_datTravel = mysqli_fetch_assoc($_resTravel)) {  ?>
 								<option value="<?=$_datTravel['travel_id']?>" <?=($_dat['travelby']==$_datTravel['travel_id']?"SELECTED":"")?>><?=$_datTravel['travel_description']?></option>
-						<?	} mysql_free_result($_resTravel); ?>
+						<?	} mysqli_free_result($_resTravel); ?>
 						</select>
 				  </td>
 			  </tr>
@@ -747,10 +747,10 @@
 				  <td align="right">การพักอาศัยของนักเรียน :</td>
 				  <td>
 				  		<select name="InService" class="inputboxUpdate">
-				  		<?  $_resInService = mysql_query("SELECT * FROM ref_inservice");
-							while($_datInService = mysql_fetch_assoc($_resInService)) {  ?>
+				  		<?  $_resInService = mysqli_query($_connection,"SELECT * FROM ref_inservice");
+							while($_datInService = mysqli_fetch_assoc($_resInService)) {  ?>
 								<option value="<?=$_datInService['service_id']?>" <?=($_dat['InService']==$_datInService['service_id']?"SELECTED":"")?>><?=$_datInService['service_description']?></option>
-						<?	} mysql_free_result($_resInService); ?>
+						<?	} mysqli_free_result($_resInService); ?>
 						</select>
 				  </td>
 			  </tr>
@@ -767,10 +767,10 @@
 				  <td align="right">รหัสความขาดแคลนของนักเรียน :</td>
 				  <td>
 				  		<select name="StudAbsent" class="inputboxUpdate">
-				  		<?  $_resAbsent = mysql_query("SELECT * FROM ref_studabsent");
-							while($_datAbsent = mysql_fetch_assoc($_resAbsent)) {  ?>
+				  		<?  $_resAbsent = mysqli_query($_connection,"SELECT * FROM ref_studabsent");
+							while($_datAbsent = mysqli_fetch_assoc($_resAbsent)) {  ?>
 								<option value="<?=$_datAbsent['absent_id']?>" <?=($_dat['StudAbsent']==$_datAbsent['absent_id']?"SELECTED":"")?>><?=$_datAbsent['absent_description']?></option>
-						<?	} mysql_free_result($_resAbsent); ?>
+						<?	} mysqli_free_result($_resAbsent); ?>
 						</select>
 				  </td>
 			  </tr>
@@ -844,11 +844,11 @@
 				  <td>
 				  		<select name="CRIPPLE" class="inputboxUpdate">
 				  		<?php
-							$_resCripple = mysql_query("SELECT * FROM ref_cripple");
-							while($_datCripple = mysql_fetch_assoc($_resCripple))
+							$_resCripple = mysqli_query($_connection,"SELECT * FROM ref_cripple");
+							while($_datCripple = mysqli_fetch_assoc($_resCripple))
 							{  ?>
 								<option value="<?=$_datCripple['cripple_id']?>" <?=($_dat['CRIPPLE']==$_datCripple['cripple_id']?"SELECTED":"")?>><?=$_datCripple['cripple_description']?></option>
-						<?	} mysql_free_result($_resCripple); ?>
+						<?	} mysqli_free_result($_resCripple); ?>
 						</select>
 				  </td>
 			  </tr>
@@ -868,10 +868,10 @@
 				  <td>
 				  		<select name="BPROVINCE" class="inputboxUpdate">
 				  		<option value=""></option>
-						<? $_resProvince = mysql_query("SELECT * FROM ref_province");
-						   while($_datProvince = mysql_fetch_assoc($_resProvince)) {  ?>
+						<? $_resProvince = mysqli_query($_connection,"SELECT * FROM ref_province");
+						   while($_datProvince = mysqli_fetch_assoc($_resProvince)) {  ?>
 								<option value="<?=$_datProvince['prov_description']?>" <?=($_dat['BPROVINCE']==$_datProvince['prov_description']?"SELECTED":"")?>><?=$_datProvince['prov_description']?></option>
-						<?	} mysql_free_result($_resProvince); ?>
+						<?	} mysqli_free_result($_resProvince); ?>
 						</select>
 				  </td>
 			  </tr>
@@ -956,12 +956,12 @@
 				  <td align="center"><?=$_fields++?>.</td>
 				  <td align="right">ครูที่ปรึกษาคนที่ 1 :</td>
 				  <td>
-						<? $_resTeacher = mysql_query("select teaccode,prefix,firstname,lastname from teachers order by firstname");?>
+						<? $_resTeacher = mysqli_query($_connection,"select teaccode,prefix,firstname,lastname from teachers order by firstname");?>
 						<select name="advisor11" class="inputboxUpdate">
 							<option value=""></option>
-							<? while($_datAd = mysql_fetch_assoc($_resTeacher)){ ?>
+							<? while($_datAd = mysqli_fetch_assoc($_resTeacher)){ ?>
 							<option value="<?=$_datAd['teaccode']?>" <?=$_dat['advisor11']==$_datAd['teaccode']?"selected":""?> ><?=$_datAd['prefix'].$_datAd['firstname'].' '.$_datAd['lastname']?></option>
-							<? } mysql_free_result($_resTeacher);//end while ?>
+							<? } mysqli_free_result($_resTeacher);//end while ?>
 						</select>
 				  </td>
 			  </tr>
@@ -969,12 +969,12 @@
 				  <td align="center"><?=$_fields++?>.</td>
 				  <td align="right">ครูที่ปรึกษาคนที่ 2 :</td>
 				  <td>
-				  		<? $_resTeacher = mysql_query("select teaccode,prefix,firstname,lastname from teachers order by firstname");?>
+				  		<? $_resTeacher = mysqli_query($_connection,"select teaccode,prefix,firstname,lastname from teachers order by firstname");?>
 						<select name="advisor12" class="inputboxUpdate">
 							<option value=""></option>
-							<? while($_datAd = mysql_fetch_assoc($_resTeacher)){ ?>
+							<? while($_datAd = mysqli_fetch_assoc($_resTeacher)){ ?>
 							<option value="<?=$_datAd['teaccode']?>" <?=$_dat['advisor12']==$_datAd['teaccode']?"selected":""?> ><?=$_datAd['prefix'].$_datAd['firstname'].' '.$_datAd['lastname']?></option>
-							<? } mysql_free_result($_resTeacher);//end while ?>
+							<? } mysqli_free_result($_resTeacher);//end while ?>
 						</select>						
 				  </td>
 			  </tr>
@@ -982,12 +982,12 @@
 				  <td align="center"><?=$_fields++?>.</td>
 				  <td align="right">ครูที่ปรึกษาคนที่ 3 :</td>
 				  <td>
-				  		<? $_resTeacher = mysql_query("select teaccode,prefix,firstname,lastname from teachers order by firstname");?>
+				  		<? $_resTeacher = mysqli_query($_connection,"select teaccode,prefix,firstname,lastname from teachers order by firstname");?>
 						<select name="advisor21" class="inputboxUpdate">
 							<option value=""></option>
-							<? while($_datAd = mysql_fetch_assoc($_resTeacher)){ ?>
+							<? while($_datAd = mysqli_fetch_assoc($_resTeacher)){ ?>
 							<option value="<?=$_datAd['teaccode']?>" <?=$_dat['advisor21']==$_datAd['teaccode']?"selected":""?> ><?=$_datAd['prefix'].$_datAd['firstname'].' '.$_datAd['lastname']?></option>
-							<? } mysql_free_result($_resTeacher);//end while ?>
+							<? } mysqli_free_result($_resTeacher);//end while ?>
 						</select>	
 				  </td>
 			  </tr>
@@ -995,12 +995,12 @@
 				  <td align="center"><?=$_fields++?>.</td>
 				  <td align="right">ครูที่ปรึกษาคนที่ 4 :</td>
 				  <td>
-				  		<? $_resTeacher = mysql_query("select teaccode,prefix,firstname,lastname from teachers order by firstname");?>
+				  		<? $_resTeacher = mysqli_query($_connection,"select teaccode,prefix,firstname,lastname from teachers order by firstname");?>
 						<select name="advisor22" class="inputboxUpdate">
 							<option value=""></option>
-							<? while($_datAd = mysql_fetch_assoc($_resTeacher)){ ?>
+							<? while($_datAd = mysqli_fetch_assoc($_resTeacher)){ ?>
 							<option value="<?=$_datAd['teaccode']?>" <?=$_dat['advisor22']==$_datAd['teaccode']?"selected":""?> ><?=$_datAd['prefix'].$_datAd['firstname'].' '.$_datAd['lastname']?></option>
-							<? } mysql_free_result($_resTeacher);//end while ?>
+							<? } mysqli_free_result($_resTeacher);//end while ?>
 						</select>
 				  </td>
 			  </tr>
@@ -1008,12 +1008,12 @@
 				  <td align="center"><?=$_fields++?>.</td>
 				  <td align="right">ครูที่ปรึกษาคนที่ 5 :</td>
 				  <td>
-				  		<? $_resTeacher = mysql_query("select teaccode,prefix,firstname,lastname from teachers order by firstname");?>
+				  		<? $_resTeacher = mysqli_query($_connection,"select teaccode,prefix,firstname,lastname from teachers order by firstname");?>
 						<select name="advisor31" class="inputboxUpdate">
 							<option value=""></option>
-							<? while($_datAd = mysql_fetch_assoc($_resTeacher)){ ?>
+							<? while($_datAd = mysqli_fetch_assoc($_resTeacher)){ ?>
 							<option value="<?=$_datAd['teaccode']?>" <?=$_dat['advisor31']==$_datAd['teaccode']?"selected":""?> ><?=$_datAd['prefix'].$_datAd['firstname'].' '.$_datAd['lastname']?></option>
-							<? } mysql_free_result($_resTeacher);//end while ?>
+							<? } mysqli_free_result($_resTeacher);//end while ?>
 						</select>
 				  </td>
 			  </tr>
@@ -1021,12 +1021,12 @@
 				  <td align="center"><?=$_fields++?>.</td>
 				  <td align="right">ครูที่ปรึกษาคนที่ 6 :</td>
 				  <td>
-				  		<? $_resTeacher = mysql_query("select teaccode,prefix,firstname,lastname from teachers order by firstname");?>
+				  		<? $_resTeacher = mysqli_query($_connection,"select teaccode,prefix,firstname,lastname from teachers order by firstname");?>
 						<select name="advisor32" class="inputboxUpdate">
 							<option value=""></option>
-							<? while($_datAd = mysql_fetch_assoc($_resTeacher)){ ?>
+							<? while($_datAd = mysqli_fetch_assoc($_resTeacher)){ ?>
 							<option value="<?=$_datAd['teaccode']?>" <?=$_dat['advisor32']==$_datAd['teaccode']?"selected":""?> ><?=$_datAd['prefix'].$_datAd['firstname'].' '.$_datAd['lastname']?></option>
-							<? } mysql_free_result($_resTeacher);//end while ?>
+							<? } mysqli_free_result($_resTeacher);//end while ?>
 						</select>
 				  </td>
 			  </tr>
@@ -1034,12 +1034,12 @@
 				  <td align="center"><?=$_fields++?>.</td>
 				  <td align="right">ครูที่นักเรียนไว้วางใจคนที่ 1 :</td>
 				  <td>
-				  		<? $_resTeacher = mysql_query("select teaccode,prefix,firstname,lastname from teachers order by firstname");?>
+				  		<? $_resTeacher = mysqli_query($_connection,"select teaccode,prefix,firstname,lastname from teachers order by firstname");?>
 						<select name="TrustTeacher1" class="inputboxUpdate">
 							<option value=""></option>
-							<? while($_datAd = mysql_fetch_assoc($_resTeacher)){ ?>
+							<? while($_datAd = mysqli_fetch_assoc($_resTeacher)){ ?>
 							<option value="<?=$_datAd['teaccode']?>" <?=$_dat['TrustTeacher1']==$_datAd['teaccode']?"selected":""?> ><?=$_datAd['prefix'].$_datAd['firstname'].' '.$_datAd['lastname']?></option>
-							<? } mysql_free_result($_resTeacher);//end while ?>
+							<? } mysqli_free_result($_resTeacher);//end while ?>
 						</select>
 				  </td>
 			  </tr>
@@ -1047,12 +1047,12 @@
 				  <td align="center"><?=$_fields++?>.</td>
 				  <td align="right">ครูที่นักเรียนไว้วางใจคนที่ 2 :</td>
 				  <td>
-				  		<? $_resTeacher = mysql_query("select teaccode,prefix,firstname,lastname from teachers order by firstname");?>
+				  		<? $_resTeacher = mysqli_query($_connection,"select teaccode,prefix,firstname,lastname from teachers order by firstname");?>
 						<select name="TrustTeacher2" class="inputboxUpdate">
 							<option value=""></option>
-							<? while($_datAd = mysql_fetch_assoc($_resTeacher)){ ?>
+							<? while($_datAd = mysqli_fetch_assoc($_resTeacher)){ ?>
 							<option value="<?=$_datAd['teaccode']?>" <?=$_dat['TrustTeacher2']==$_datAd['teaccode']?"selected":""?> ><?=$_datAd['prefix'].$_datAd['firstname'].' '.$_datAd['lastname']?></option>
-							<? } mysql_free_result($_resTeacher);//end while ?>
+							<? } mysqli_free_result($_resTeacher);//end while ?>
 						</select>
 				  </td>
 			  </tr>
@@ -1060,12 +1060,12 @@
 				  <td align="center"><?=$_fields++?>.</td>
 				  <td align="right">ครูที่นักเรียนไว้วางใจคนที่ 3 :</td>
 				  <td>
-				  		<? $_resTeacher = mysql_query("select teaccode,prefix,firstname,lastname from teachers order by firstname");?>
+				  		<? $_resTeacher = mysqli_query($_connection,"select teaccode,prefix,firstname,lastname from teachers order by firstname");?>
 						<select name="TrustTeacher3" class="inputboxUpdate">
 							<option value=""></option>
-							<? while($_datAd = mysql_fetch_assoc($_resTeacher)){ ?>
+							<? while($_datAd = mysqli_fetch_assoc($_resTeacher)){ ?>
 							<option value="<?=$_datAd['teaccode']?>" <?=$_dat['TrustTeacher3']==$_datAd['teaccode']?"selected":""?> ><?=$_datAd['prefix'].$_datAd['firstname'].' '.$_datAd['lastname']?></option>
-							<? } mysql_free_result($_resTeacher);//end while ?>
+							<? } mysqli_free_result($_resTeacher);//end while ?>
 						</select>
 				  </td>
 			  </tr>
@@ -1074,10 +1074,10 @@
 				  <td align="right">การเรียนลูกเสือ/กิจกรรม :</td>
 				  <td>
 				  		<select name="Scout" class="inputboxUpdate">
-				  		<?  $_resScout = mysql_query("SELECT * FROM ref_scout");
-							while($_datScout = mysql_fetch_assoc($_resScout)) {  ?>
+				  		<?  $_resScout = mysqli_query($_connection,"SELECT * FROM ref_scout");
+							while($_datScout = mysqli_fetch_assoc($_resScout)) {  ?>
 								<option value="<?=$_datScout['scout_id']?>" <?=($_dat['Scout']==$_datScout['scout_id']?"SELECTED":"")?>><?=$_datScout['scout_description']?></option>
-						<?	} mysql_free_result($_resScout); ?>
+						<?	} mysqli_free_result($_resScout); ?>
 						</select>
 				  </td>
 			  </tr>
@@ -1086,10 +1086,10 @@
 				  <td align="right">คณะสี :</td>
 				  <td>
 				  		<select name="Color" class="inputboxUpdate">
-				  		<? $_resColor = mysql_query("SELECT color_description FROM ref_color");
-							while($_datColor = mysql_fetch_assoc($_resColor)) {  ?>
+				  		<? $_resColor = mysqli_query($_connection,"SELECT color_description FROM ref_color");
+							while($_datColor = mysqli_fetch_assoc($_resColor)) {  ?>
 								<option value="<?=$_datColor['color_description']?>" <?=($_dat['Color']==$_datColor['color_description']?"SELECTED":"")?>><?=$_datColor['color_description']?></option>
-						<?	} mysql_free_result($_resColor); ?>
+						<?	} mysqli_free_result($_resColor); ?>
 						</select>
 				  </td>
 			  </tr>
@@ -1098,10 +1098,10 @@
 				  <td align="right">สถานภาพปัจจุบัน :</td>
 				  <td>
 				  		<select name="studstatus" class="inputboxUpdate">
-				  		<?  $_resStatus = mysql_query("SELECT * FROM ref_studstatus");
-							while($_datStatus = mysql_fetch_assoc($_resStatus)) {  ?>
+				  		<?  $_resStatus = mysqli_query($_connection,"SELECT * FROM ref_studstatus");
+							while($_datStatus = mysqli_fetch_assoc($_resStatus)) {  ?>
 								<option value="<?=$_datStatus['studstatus']?>" <?=($_dat['studstatus']==$_datStatus['studstatus']?"SELECTED":"")?>><?=$_datStatus['studstatus_description']?></option>
-						<?	} mysql_free_result($_resStatus); ?>
+						<?	} mysqli_free_result($_resStatus); ?>
 						</select>
 				  </td>
 			  </tr>
@@ -1133,10 +1133,10 @@
 				  <td align="right">ประเภทสาเหตุที่ออกจากโรงเรียน :</td>
 				  <td>
 				  		<select name="retirecause" class="inputboxUpdate">
-				  		<?  $_resRetire = mysql_query("SELECT * FROM ref_retire");
-							while($_datRe = mysql_fetch_assoc($_resRetire)) {  ?>
+				  		<?  $_resRetire = mysqli_query($_connection,"SELECT * FROM ref_retire");
+							while($_datRe = mysqli_fetch_assoc($_resRetire)) {  ?>
 								<option value="<?=$_datRe['retire_id']?>" <?=($_dat['retirecause']==$_datRe['retire_id']?"SELECTED":"")?>><?=$_datRe['retire_description']?></option>
-						<?	} mysql_free_result($_resRetire); ?>
+						<?	} mysqli_free_result($_resRetire); ?>
 						</select>
 				  </td>
 			  </tr>
@@ -1145,10 +1145,10 @@
 				  <td align="right">ภูมิภาคที่นักเรียนศึกษาต่อ :</td>
 				  <td>
 				  		<select name="NextRegion" class="inputboxUpdate">
-				  		<?  $_resNextRe = mysql_query("SELECT * FROM ref_nextregion");
-							while($_datNextRe = mysql_fetch_assoc($_resNextRe)) {  ?>
+				  		<?  $_resNextRe = mysqli_query($_connection,"SELECT * FROM ref_nextregion");
+							while($_datNextRe = mysqli_fetch_assoc($_resNextRe)) {  ?>
 								<option value="<?=$_datNextRe['id']?>" <?=($_dat['NextRegion']==$_datNextRe['id']?"SELECTED":"")?>><?=$_datNextRe['next_region']?></option>
-						<?	} mysql_free_result($_resNextRe); ?>
+						<?	} mysqli_free_result($_resNextRe); ?>
 						</select>
 				  </td>
 			  </tr>
@@ -1157,10 +1157,10 @@
 				  <td align="right">รูปแบบสถานศึกษาที่ศึกษาต่อ :</td>
 				  <td>
 				  		<select name="NextAcademic" class="inputboxUpdate">
-				  		<?  $_resNextAcad = mysql_query("SELECT * FROM ref_nextacademic");
-							while($_datNextAcad = mysql_fetch_assoc($_resNextAcad)) {  ?>
+				  		<?  $_resNextAcad = mysqli_query($_connection,"SELECT * FROM ref_nextacademic");
+							while($_datNextAcad = mysqli_fetch_assoc($_resNextAcad)) {  ?>
 								<option value="<?=$_datNextAcad['id']?>" <?=($_dat['NextAcademic']==$_datNextAcad['id']?"SELECTED":"")?>><?=$_datNextAcad['next_desc']?></option>
-						<?	} mysql_free_result($_resNextAcad); ?>
+						<?	} mysqli_free_result($_resNextAcad); ?>
 						</select>
 				  </td>
 			  </tr>

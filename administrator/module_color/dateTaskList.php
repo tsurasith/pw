@@ -30,12 +30,12 @@
 	</table>
 	<br/>
 	<? $sql_date = "select distinct task_date from student_color_task where task_status = '0' and acadyear = '" . $acadyear . "' and acadsemester = '" .$acadsemester . "' order by task_date " ; ?>
-	<? $result = mysql_query($sql_date); ?>
+	<? $result = mysqli_query($_connection,$sql_date); ?>
 	<form method="post" action="index.php?option=module_color/dateTaskList">
 	เลือกวันที่ 
 	<select name="date" class="inputboxUpdate" >
 		<option value=""></option>
-		<? while($data = mysql_fetch_assoc($result)){ ?>
+		<? while($data = mysqli_fetch_assoc($result)){ ?>
 			<option value="<?=$data['task_date']?>"><?=displayDate($data['task_date'])?></option>
 		<? } //end while?>
 	</select>
@@ -52,9 +52,9 @@
 				<td align="center">-</td>
 				<td align="center"> ม.ต้น <br />
 					<? $sql_room = "select * from student_color_task where task_roomid like '3%' and task_date  = '" .  $_POST['date']  ."' order by task_roomid" ; ?>
-					<? $res = mysql_query($sql_room) or die (' ' . mysql_error()); ?>
+					<? $res = mysqli_query($_connection,$sql_room) or die (' ' . mysqli_error()); ?>
 					<? echo "| "; ?>
-					<? while($_dat = mysql_fetch_assoc($res)) { ?>
+					<? while($_dat = mysqli_fetch_assoc($res)) { ?>
 						<? if($_dat['task_status'] == 0) {
 								echo "<a href=\"module_color/studentListForm.php?color=" . getColor($_dat['task_roomid']) . "&xlevel=3&date=" .$_POST['date'] . "&task_id=" . $_dat['task_roomid'] . "&acadyear=" . $acadyear . "&acadsemester=" . $acadsemester . "\">สี" . getColor($_dat['task_roomid']) . "</a> | ";
 							} else {
@@ -63,9 +63,9 @@
 						}//end while ?>
 					<br/><br/>ม.ปลาย<br/>
 					<? $sql_room = "select * from student_color_task where task_roomid like '4%' and task_date  = '" .  $_POST['date']  ."' order by task_roomid" ; ?>
-					<? $res = mysql_query($sql_room) or die (' ' . mysql_error()); ?>
+					<? $res = mysqli_query($_connection,$sql_room) or die (' ' . mysqli_error()); ?>
 					<? echo "| ";?>
-					<? while($_dat = mysql_fetch_assoc($res)){ ?>
+					<? while($_dat = mysqli_fetch_assoc($res)){ ?>
 						<? if($_dat['task_status'] == 0){
 								echo "<a href=\"module_color/studentListForm.php?color=" . getColor($_dat['task_roomid']) . "&xlevel=4&date=" .$_POST['date'] . "&task_id=" . $_dat['task_roomid'] . "&acadyear=" . $acadyear . "&acadsemester=" . $acadsemester . "\">สี" . getColor($_dat['task_roomid']) . "</a> | ";
 							} else {

@@ -63,9 +63,9 @@
 								<td width="8%" bgcolor="#CCCCFF" align="center"><font color="#990066"><strong>ชมพู</strong></font></td>
 							</tr>
 							<? $sql = 'SELECT id, prefix , firstname , lastname,color FROM students WHERE xLevel =  \''. $xlevel . '\' AND xYearth = \'' . $xyear .'\' and room = \'' . $room_id  .  '\'  and xedbe = \'' . $_REQUEST['acadyear'] . '\' order by ordinal'; ?>
-							<? $result = mysql_query($sql) or die ('Error  - ' .mysql_error()); ?>
-							<? $i = 1; $j = 0; $rows = mysql_num_rows($result); ?>
-							<? while($data = mysql_fetch_array($result)) {
+							<? $result = mysqli_query($_connection,$sql) or die ('Error  - ' .mysqli_error()); ?>
+							<? $i = 1; $j = 0; $rows = mysqli_num_rows($result); ?>
+							<? while($data = mysqli_fetch_array($result)) {
 								echo "<tr   id=\"check[$j]\"  bgcolor=\"" . getBgColor($data[4]) . "\" >";
 								echo "<td align=\"center\"><font size=\"2\" face=\"Tahoma\">" . $i . "</font></td>";
 								echo "<td align=\"center\"><input type=\"hidden\" name=\"student_id[$j]\" value=\"$data[0]\" /><font size=\"2\" face=\"Tahoma\">$data[0]</font></td>";

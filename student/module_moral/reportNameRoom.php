@@ -40,11 +40,11 @@
 	  		<font color="#000000"  size="2" >เลือกห้อง 
 			<?php 
 					$sql_Room = "select room_id from rooms where acadyear = '". $acadyear . "' and acadsemester = '" . $acadsemester . "'  order by room_id";
-					$resRoom = mysql_query($sql_Room);			
+					$resRoom = mysqli_query($_connection,$sql_Room);			
 			?>
 			<select name="roomID" class="inputboxUpdate">
 				<option value=""></option>
-				<?  while($dat = mysql_fetch_assoc($resRoom)) {
+				<?  while($dat = mysqli_fetch_assoc($resRoom)) {
 						$_select = (isset($_POST['roomID'])&&$_POST['roomID'] == $dat['room_id']?"selected":"");
 						echo "<option value=\"" . $dat['room_id'] . "\" $_select>";
 						echo getFullRoomFormat($dat['room_id']);
@@ -78,10 +78,10 @@
 										and acadyear = '" . $acadyear . "' and acadsemester = '" . $acadsemester . "' ";
 				if($_POST['studstatus']=="1,2") $sqlStudent .= " and studstatus in (1,2) ";
 				$sqlStudent .= " order by sex,a.id,mdate "; ?>
-		<? $resStudent = mysql_query($sqlStudent); ?>
+		<? $resStudent = mysqli_query($_connection,$sqlStudent); ?>
 		<? $ordinal = 1; ?>
 		<? $_xID = ""; ?>
-		<? if(mysql_num_rows($resStudent)>0){ ?>
+		<? if(mysqli_num_rows($resStudent)>0){ ?>
 		  <table class="admintable" align="center">
 			<tr> 
 			  <th colspan="5" align="center">
@@ -97,7 +97,7 @@
 				<td class="key" align="center" width="90px">คะแนน<br/>ความประพฤติ</td>
 				<td class="key" width="400px" align="center">พฤติกรรมที่พึงประสงค์</td>
 			</tr>
-			<? while($dat = mysql_fetch_array($resStudent)) { ?>
+			<? while($dat = mysqli_fetch_array($resStudent)) { ?>
 					<? if($dat['id'] != $_xID) { $_xID = $dat['id']; ?>
 						<tr onMouseOver="this.style.backgroundColor='#FFCCFF'; this.style.cursor='hand';" onMouseOut=this.style.backgroundColor="#FFFFFF">
 							<td align="center" valign="top"><?=$ordinal++?></td>

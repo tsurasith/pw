@@ -36,8 +36,8 @@
 				from students where xedbe = '" . $acadyear . "' ";
 	if($_POST['studstatus']=="1,2") $_sql .=" and studstatus in (1,2) ";
 	$_sql .= " group by xlevel";
-	$_result = mysql_query($_sql);
-	if(mysql_num_rows($_result)>0)
+	$_result = mysqli_query($_connection,$_sql);
+	if(mysqli_num_rows($_result)>0)
 	{
 		$_xmlColumn = "<?xml version='1.0' encoding='UTF-8' ?>";
 		$_xmlPie = "<?xml version='1.0' encoding='UTF-8' ?>";
@@ -49,7 +49,7 @@
 		$_setB = "<dataset seriesname='หญิง' showValue='1'>";
 		$_m = 0;
 		$_f = 0;
-		while($_dat = mysql_fetch_assoc($_result))
+		while($_dat = mysqli_fetch_assoc($_result))
 		{
 			$_catXML .= "<category name='" . ($_dat['xlevel']==3?"ม.ต้น":"ม.ปลาย") . "' hoverText=''/>";
 			$_setA .= "<set value='" . $_dat['male'] . "' color = '" . getFCColor() . "' />";

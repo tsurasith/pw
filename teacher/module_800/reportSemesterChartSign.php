@@ -49,14 +49,14 @@
 					$_sqlMonth = "select distinct month(check_date)as m,year(check_date)+543 as y
 									from student_800 where acadyear = '" . $acadyear . "' and acadsemester = '" . $acadsemester . "'
 									order by year(check_date),month(check_date)";
-					$_resMonth = mysql_query($_sqlMonth);
-					while($_datMonth = mysql_fetch_assoc($_resMonth))
+					$_resMonth = mysqli_query($_connection,$_sqlMonth);
+					while($_datMonth = mysqli_fetch_assoc($_resMonth))
 					{
 						$_select = (isset($_POST['month'])&&$_POST['month'] == $_datMonth['m']?"selected":"");
 						echo "<option value=\"" . $_datMonth['m'] . "\" $_select>" . displayMonth($_datMonth['m']) . ' ' . $_datMonth['y'] . "</option>";
 					}
 				?>
-				<? if(mysql_num_rows($_resMonth)>0){ ?> <option value="all" <?=isset($_POST['month'])&&$_POST['month']=="all"?"selected":""?>>ทั้งหมด</option> <? } ?>
+				<? if(mysqli_num_rows($_resMonth)>0){ ?> <option value="all" <?=isset($_POST['month'])&&$_POST['month']=="all"?"selected":""?>>ทั้งหมด</option> <? } ?>
 			 </select>
 			 <input type="submit" value="เรียกดู" class="button" name="search"/> <br/>
 		  </font>
@@ -92,8 +92,8 @@
 <? } //end if ?>
 
 <? if(isset($_POST['search']) && $_POST['month'] != ""){ ?>
-	<? $_res = mysql_query($_sql); ?>
-	<? if(mysql_num_rows($_res)>0){ ?>
+	<? $_res = mysqli_query($_connection,$_sql); ?>
+	<? if(mysqli_num_rows($_res)>0){ ?>
 	  <table class="admintable"  cellpadding="1" cellspacing="1" border="0" align="center" width="100%">
 		<tr>
 		  <th align="center">
@@ -111,7 +111,7 @@
 					$_catXML = "<categories>";
 					$_setA = "<dataset seriesname='ลงชื่อ' color='FF5904' showValue='1' alpha='50'>";
 					$_setB = "<dataset seriesname='ไม่ลงชื่อ' color='0000FF' showValue='1' alpha='70'>";
-					while($_dat = mysql_fetch_assoc($_res))
+					while($_dat = mysqli_fetch_assoc($_res))
 					{
 						$_catXML .= "<category name='" . getFullRoomFormat($_dat['room_id']) . "' hoverText=''/>";
 						$_setA .= "<set value='" . $_dat['sign'] . "' />";
@@ -122,7 +122,7 @@
 					$_setB .= "</dataset>";
 					$_strXML .= $_catXML . $_setA . $_setB . "</chart>";
 					FC_SetRenderer( "javascript" );
-					echo renderChart("../fusionII/charts/MSBar2D.swf", "", $_strXML , "absent", 600, (mysql_num_rows($_res)*30));
+					echo renderChart("../fusionII/charts/MSBar2D.swf", "", $_strXML , "absent", 600, (mysqli_num_rows($_res)*30));
 				?>
 			</td>
 		</tr>

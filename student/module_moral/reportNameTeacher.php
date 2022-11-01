@@ -39,10 +39,10 @@
 		<br/>
 	  		<font color="#000000"  size="2" >
 			รายชื่อครู 
-			<? @$_resTeacher = mysql_query("select distinct mteacher from student_moral where acadyear = '" . $acadyear . "' and acadsemester = '" . $acadsemester . "'"); ?>
+			<? @$_resTeacher = mysqli_query($_connection,"select distinct mteacher from student_moral where acadyear = '" . $acadyear . "' and acadsemester = '" . $acadsemester . "'"); ?>
 			<select name="mteacher" class="inputboxUpdate">
 				<option value=""></option>
-				<? while($_dat = mysql_fetch_assoc($_resTeacher)) { ?>
+				<? while($_dat = mysqli_fetch_assoc($_resTeacher)) { ?>
 				<option value="<?=$_dat['mteacher']?>"  <?=isset($_POST['mteacher']) && $_POST['mteacher']==$_dat['mteacher']?"selected":""?>><?=$_dat['mteacher']?></option>
 				<? } ?>
 			</select>
@@ -84,12 +84,12 @@
 		if($_POST['studstatus']=="1,2") $sqlStudent .= " and studstatus in (1,2) ";
 		$sqlStudent .= " order by xlevel,xyearth,a.id,sex,mdate ";
 		
-		$resStudent = mysql_query($sqlStudent);
+		$resStudent = mysqli_query($_connection,$sqlStudent);
 		$ordinal = 1;
-		$totalRows = mysql_num_rows($resStudent);
+		$totalRows = mysqli_num_rows($resStudent);
 		$_xID = "";
 		for($i = 0; $i < $totalRows ; $i++)
-		{ $dat = mysql_fetch_array($resStudent); ?>
+		{ $dat = mysqli_fetch_array($resStudent); ?>
 			<? if($dat['id'] != $_xID) { $_xID = $dat['id']; ?>
 				<tr onMouseOver="this.style.backgroundColor='#FFCCFF'; this.style.cursor='hand';" onMouseOut=this.style.backgroundColor="#FFFFFF">
 					<td align="center" valign="top"><?=$ordinal++?></td>

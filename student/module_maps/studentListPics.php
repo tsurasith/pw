@@ -18,10 +18,10 @@
 		</font>
 		<br/><font color="#000000" size="2">เลือกหมู่บ้าน	 
 			<select name="p_village" class="inputboxUpdate">
-				<?	$_resultVillage = mysql_query("select distinct trim(p_village) as p_village from students where xEDBE = '" . $acadyear . "' order by 1");
-					while($_datVillage = mysql_fetch_assoc($_resultVillage)) {  ?>
+				<?	$_resultVillage = mysqli_query($_connection,"select distinct trim(p_village) as p_village from students where xEDBE = '" . $acadyear . "' order by 1");
+					while($_datVillage = mysqli_fetch_assoc($_resultVillage)) {  ?>
 						<option value="<?=$_datVillage['p_village']?>" <?=isset($_POST['p_village'])&&$_POST['p_village']==$_datVillage['p_village']?"selected":""?> > <?=$_datVillage['p_village']?> </option>
-				<?	} mysql_free_result($_resultVillage) ?>
+				<?	} mysqli_free_result($_resultVillage) ?>
 			</select>
 			<input type="submit" value="เรียกดู" class="button" name="search"/><br/>
 			<input type="checkbox" name="studstatus" value="1,2"  <?=$_POST['studstatus']=="1,2"?"checked='checked'":""?> /> เฉพาะนักเรียนสถานะปกติหรือสำเร็จการศึกษา</font>
@@ -37,9 +37,9 @@
 								and xedbe = '" . $acadyear . "' ";
 		if($_POST['studstatus']=="1,2") $sqlStudent .= " and studstatus in (1,2) ";
 		$sqlStudent .= " order by xlevel,xyearth,room,sex,id";
-		$resStudent = mysql_query($sqlStudent);
+		$resStudent = mysqli_query($_connection,$sqlStudent);
 		$ordinal = 1; ?>
-	<? if(mysql_num_rows($resStudent)>0) { ?>
+	<? if(mysqli_num_rows($resStudent)>0) { ?>
 		  <table class="admintable" align="center" width="800px">
 			<tr>
 				<th colspan="5" align="center">
@@ -48,7 +48,7 @@
 				</th>
 			</tr>
 		<?	
-				$totalRows = mysql_num_rows($resStudent);
+				$totalRows = mysqli_num_rows($resStudent);
 				$_cols = 5;
 				for($i = 0; $i < $totalRows/5 ; $i++)
 				{
@@ -56,7 +56,7 @@
 					for($_j = 0 ; $_j < 5 ; $_j++)
 					{
 						if($ordinal > $totalRows) continue;
-						$dat = mysql_fetch_array($resStudent);
+						$dat = mysqli_fetch_array($resStudent);
 						echo "<td align='center' width='160px'>";
 						echo "<font color='red'><b>$ordinal</b></font>";
 						if(file_exists($_SERVER["DOCUMENT_ROOT"] . "/pk/images/studphoto/id" . $dat['id'] . ".jpg"))

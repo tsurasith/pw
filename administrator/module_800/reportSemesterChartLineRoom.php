@@ -29,8 +29,8 @@
 		<select name="roomID" class="inputboxUpdate">
 		  	<option value=""></option>
 			<? $sql_Room = "select  room_id from rooms where acadyear = '". $acadyear . "' and acadsemester = '" . $acadsemester . "'  order by room_id"; ?>
-			<? $resRoom = mysql_query($sql_Room); ?>
-			<? while($dat = mysql_fetch_assoc($resRoom)) {
+			<? $resRoom = mysqli_query($_connection,$sql_Room); ?>
+			<? while($dat = mysqli_fetch_assoc($resRoom)) {
 					$_select = (isset($_POST['roomID'])&&$_POST['roomID'] == $dat['room_id']?"selected":"");
 					echo "<option value=\"" . $dat['room_id'] . "\" $_select >";
 					echo getFullRoomFormat($dat['room_id']);
@@ -94,9 +94,9 @@
 				$_setA = "<dataset seriesname='ขาด' color='FF0000' showValue='1' alpha='100' anchorAlpha='100' lineThickness='3'>";
 				$_setB = "<dataset seriesname='ลา'  color='0099FF' showValue='0' alpha='100' anchorAlpha='20' lineThickness='1'>";
 				$_setC = "<dataset seriesname='สาย' color='009933' showValue='0' alpha='100' anchorAlpha='0' lineThickness='1'>";
-				$_res = mysql_query($_sql);
-				$_rows = mysql_num_rows($_res);
-				while($_dat = mysql_fetch_assoc($_res))
+				$_res = mysqli_query($_connection,$_sql);
+				$_rows = mysqli_num_rows($_res);
+				while($_dat = mysqli_fetch_assoc($_res))
 				{
 					$_catXML .= "<category name='" . $_dat['student_id'] .' '. $_dat['prefix'] . $_dat['firstname'] .' '. $_dat['lastname'] . "'/>";
 					$_setA .= "<set value='" . $_dat['e'] . "' />";

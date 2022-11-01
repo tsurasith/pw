@@ -52,10 +52,10 @@
                                       <select name="date" class="inputboxUpdate" onChange="document.dateList.submit();">
                                         <option value="">  </option>
                                         <?php
-									mysql_select_db($database_nn);
+									mysqli_select_db($database_nn);
 									$sql_date = "select distinct task_date from student_800_task where task_status = '0' and acadyear = '" . $acadyear . "' and acadsemester='".$acadsemester ."' order by task_date " ;
-									$result = mysql_query($sql_date);
-									while($data = mysql_fetch_assoc($result))
+									$result = mysqli_query($_connection,$sql_date);
+									while($data = mysqli_fetch_assoc($result))
 									{ ?>
                                         <option value="<?=$data['task_date']?>" <?=$_POST['date']==$data['task_date']?"selected":""?>>
 											<?=displayFullDate($data['task_date'])?>
@@ -73,8 +73,8 @@
   <br />
   							<?php
 								$sql_room = "select * from student_800_task where task_status = '0' and task_date  = '" .  $_POST['date']  ."' order by task_roomid" ;
-								$res = mysql_query($sql_room) or die (' ' . mysql_error());
-								$row_room  =  mysql_num_rows($res);
+								$res = mysqli_query($_connection,$sql_room) or die (' ' . mysqli_error());
+								$row_room  =  mysqli_num_rows($res);
 								$i  = 1;
 								if($row_room != 0)
 								{
@@ -86,7 +86,7 @@
                                         <td width="37%"><div align="center"><font color="#FFCC66"><strong><font size="2"  >ห้อง</font></strong></font></div></td>
 										<td width="37%"><div align="center"><font color="#FFCC66"><strong><font size="2"  >หมายเหตุ</font></strong></font></div></td>
                                       </tr>
-                                      <? while($dat = mysql_fetch_assoc($res)) {  ?>
+                                      <? while($dat = mysqli_fetch_assoc($res)) {  ?>
                                           <tr bgcolor="#FFFFFF"> 
                                             <td align="center"><font size="2"  ><?php echo $i; ?> 
                                               </font> <div align="center"></div></td>
@@ -98,7 +98,7 @@
 										  <td align="center"> <a href="<?php echo "module_800/studentListForm.php?room=" .$dat['task_roomid'] . "&date=" .$dat['task_date'] ."&acadyear=" . $acadyear . "&acadsemester=".$acadsemester  ;  ?>">บันทึก </a></td>
                                       </tr>
                                       <? $i++ ;}}
-									  	mysql_free_result($result);  ?>
+									  	mysqli_free_result($result);  ?>
                                     </table>
                </div>
 </div>

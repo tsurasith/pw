@@ -25,7 +25,7 @@
 				      grade in ('0','ร','มส') 
 				order by a.acadyear desc,a.acadsemester desc,b.groupsara";
 	  // echo $_sql;
-	  @$_result = mysql_query($_sql);
+	  @$_result = mysqli_query($_connection,$_sql);
 	  $_no = 1;
   ?>
 
@@ -61,7 +61,7 @@
 			$_xYear = "";
 			$_xSemester = "";
 		?>
-        <? while($_dat = mysql_fetch_assoc($_result)) { ?>
+        <? while($_dat = mysqli_fetch_assoc($_result)) { ?>
 	        <tr>
         		<td align="center"><?=$_dat['acadyear']==$_xYear?"":$_dat['acadyear']?></td>
                 <td align="center"><?=$_dat['acadsemester']==$_xSemester && $_dat['acadyear']==$_xYear?"":$_dat['acadsemester']?></td>

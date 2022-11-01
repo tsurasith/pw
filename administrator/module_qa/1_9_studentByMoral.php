@@ -31,8 +31,8 @@
 			  count(id) as 'sum'
 			from ref_moral right outer join student_moral on (moral_id = mtype)
 			where acadyear = '" . $acadyear . "' group by mtype";?>
-<? $_result = mysql_query($_sql); ?>
-<? if(mysql_num_rows($_result)>0) { ?>
+<? $_result = mysqli_query($_connection,$_sql); ?>
+<? if(mysqli_num_rows($_result)>0) { ?>
 		<table class="admintable" width="100%"  cellpadding="1" cellspacing="1" border="0" align="center">
 			<tr> 
 				<th align="center">
@@ -56,7 +56,7 @@
 							<td class="key" width="70px" align="center">กิจกรรมภายใน</td>
 						</tr>
 						<?	$_a;$_b;$_c;$_d;$_e; $_sum; ?>
-						<?	while($_dat = mysql_fetch_assoc($_result)){ ?>
+						<?	while($_dat = mysqli_fetch_assoc($_result)){ ?>
 						<tr>
 							<td style="padding-left:10px;"><?=$_dat['moral_description']?></td>
 							<td style="padding-right:10px;" align="right"><?=$_dat['country']==0?"-":$_dat['country']?></td>
@@ -68,7 +68,7 @@
 						</tr>
 						<?	$_a+=$_dat['country'];  $_b+=$_dat['province'];  $_c+=$_dat['union']; ?>
 						<?	$_d+=$_dat['social'];   $_e+=$_dat['school'];    $_sum+=$_dat['sum'];?>
-						<?	} mysql_free_result($_result); ?>
+						<?	} mysqli_free_result($_result); ?>
 						<tr height="35px">
 							<td class="key" align="center">รวม</td>
 							<td style="padding-right:10px;" class="key" align="right"><?=$_a>0?number_format($_a,0,'',','):"-"?></td>

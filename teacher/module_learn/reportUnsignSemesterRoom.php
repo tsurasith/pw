@@ -42,18 +42,18 @@
 		 <form action="" method="post">
 		 	เลือกห้องเรียน
 			<? $sql_Room = "select room_id from rooms where acadyear = '". $acadyear . "' and acadsemester = '" . $acadsemester . "'  order by room_id";
-			   $resRoom = mysql_query($sql_Room);	?>
+			   $resRoom = mysqli_query($_connection,$sql_Room);	?>
 			<select name="roomID" class="inputboxUpdate">
 		  	<option> &nbsp; &nbsp; &nbsp; </option>
 			<?php
-				while($dat = mysql_fetch_assoc($resRoom))
+				while($dat = mysqli_fetch_assoc($resRoom))
 				{
 					$_select = (isset($_POST['roomID'])&&$_POST['roomID'] == $dat['room_id']?"selected":"");
 					echo "<option value=\"" . $dat['room_id'] . "\" $_select>";
 					echo getFullRoomFormat($dat['room_id']);
 					echo "</option>";
 				}
-				mysql_free_result($resRoom);
+				mysqli_free_result($resRoom);
 			?>
 			</select> <input type="submit" name="search" value="เรียกดู" class="button" />
 		 </form>
@@ -75,8 +75,8 @@
 			from teachers_learn
 			where acadyear = '" . $acadyear ."' and acadsemester = '" . $acadsemester ."' and room_id = '" . $_POST['roomID'] ."'
 			group by check_date order by check_date";
-	$_res = mysql_query($_sql); ?>
-	<? if(@mysql_num_rows($_res)>0) { ?>
+	$_res = mysqli_query($_connection,$_sql); ?>
+	<? if(@mysqli_num_rows($_res)>0) { ?>
     	<div style="width:100%;" align="center">
 			<table class="admintable"  cellpadding="1" cellspacing="1" border="0" align="center">
 			<tr>
@@ -103,7 +103,7 @@
 				<td class="key" width="25px">8</td>
 			</tr>
 			<? $p1=0;$p2=0;$p3=0;$p4=0;$p5=0;$p6=0;$p7=0;$p8=0;?>
-			<? while($_dat = mysql_fetch_assoc($_res)){ ?>
+			<? while($_dat = mysqli_fetch_assoc($_res)){ ?>
 			<tr>
 				<td align="center"><?=displayFullDate($_dat['check_date'])?></td>
 				<td align="center"><b><?=$_dat['p1']!=0?"<font color='red'>X</font>":"-"?></b></td>
@@ -117,7 +117,7 @@
 				<td align="center"><b><?=($_dat['p1']+$_dat['p2']+$_dat['p3']+$_dat['p4']+$_dat['p5']+$_dat['p6']+$_dat['p7']+$_dat['p8'])==0?"-":($_dat['p1']+$_dat['p2']+$_dat['p3']+$_dat['p4']+$_dat['p5']+$_dat['p6']+$_dat['p7']+$_dat['p8'])?></b></td>
 			</tr>
 			<?	$p1+=$_dat['p1']; $p2+=$_dat['p2']; $p3+=$_dat['p3']; $p4+=$_dat['p4']; $p5+=$_dat['p5']; $p6+=$_dat['p6']; $p7+=$_dat['p7']; $p8+=$_dat['p8'];?>
-			<? } mysql_free_result($_res); //end while ?>
+			<? } mysqli_free_result($_res); //end while ?>
 			<tr height="30px">
 			  <td class="key" align="center"><font color="#990066"><b>รวม</b></font></td>
 			  <td class="key" align="center"><font color="#990066"><b><?=$p1==0?"-":$p1?></b></font></td>

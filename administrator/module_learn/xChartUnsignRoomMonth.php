@@ -45,19 +45,19 @@
 			เลือกห้องเรียน  
 			<?php 
 				$sql_Room = "select room_id from rooms where acadyear = '". $acadyear . "' and acadsemester = '" . $acadsemester . "'  order by room_id";
-				$resRoom = mysql_query($sql_Room);			
+				$resRoom = mysqli_query($_connection,$sql_Room);			
 			?>
 		  	<select name="roomID" class="inputboxUpdate">
 		  	<option value=""></option>
 			<?php
-				while($dat = mysql_fetch_assoc($resRoom))
+				while($dat = mysqli_fetch_assoc($resRoom))
 				{
 					$_select = (isset($_POST['roomID'])&&$_POST['roomID'] == $dat['room_id']?"selected":"");
 					echo "<option value='" . $dat['room_id'] . "' $_select>";
 					echo getFullRoomFormat($dat['room_id']);
 					echo "</option>";
 				}
-				mysql_free_result($resRoom);
+				mysqli_free_result($resRoom);
 			?>
 			</select>
 			เดือน
@@ -67,12 +67,12 @@
 					$_sqlMonth = "select distinct month(check_date)as m,year(check_date)+543 as y
 									from student_learn where acadyear = '" . $acadyear . "' and acadsemester = '" . $acadsemester . "'
 									order by year(check_date),month(check_date)";
-					$_resMonth = mysql_query($_sqlMonth);
-					while($_datMonth = mysql_fetch_assoc($_resMonth))
+					$_resMonth = mysqli_query($_connection,$_sqlMonth);
+					while($_datMonth = mysqli_fetch_assoc($_resMonth))
 					{
 						$_select = (isset($_POST['month'])&&$_POST['month'] == $_datMonth['m']?"selected":"");
 						echo "<option value='" . $_datMonth['m'] . "' $_select >" . displayMonth($_datMonth['m']) . ' ' . $_datMonth['y'] . "</option>";
-					} mysql_free_result($_resMonth);
+					} mysqli_free_result($_resMonth);
 				?>
 		  </select>
 			 <input type="submit" value="เรียกดู" class="button" name="search"/> 
@@ -93,8 +93,8 @@
 									and month(check_date) = '" . $_POST['month'] . "' and room_id = '" . $_POST['roomID'] . "' 
 								group by period
 								order by period";
-			$resStudent = mysql_query($sqlStudent);
-			@$totalRows = mysql_num_rows($resStudent);
+			$resStudent = mysqli_query($_connection,$sqlStudent);
+			@$totalRows = mysqli_num_rows($resStudent);
 			if($totalRows < 1)
 			{
 				echo "<tr><td align='center'><font color='red'> <br/>ยังไม่มีการบันทึกข้อมูลในรายการที่คุณเลือก </font></td></tr>";
@@ -111,7 +111,7 @@
 				<?php
 					$_strXML = "<?xml version='1.0' encoding='UTF-8' ?>" ;
 					$_strXML = $_strXML . "<graph caption='สรุปครั้งที่ไม่ลงชื่อ เดือน" . displayMonth($_POST['month']) . "' xAxisName='คาบเรียน' yAxisName='Units' decimalPrecision='0' formatNumberScale='0'>";
-					while($dat = mysql_fetch_assoc($resStudent))
+					while($dat = mysqli_fetch_assoc($resStudent))
 					{
 						$_strXML .= " <set name='คาบที่ " . $dat['period'] . "' value='" . $dat['late'] . "' color='" . getFCColor()  . "' /> ";
 					}

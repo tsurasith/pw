@@ -43,8 +43,8 @@
 			where acadyear = '" . $acadyear . "' and acadsemester = '" . $acadsemester . "' "; ?>
 <? $_sql .= ($_POST['budgetType']!="1"?"":" and a.budget_type = '00' ");	?>
 <? $_sql .= " group by a.project_id order by acadyear,acadsemester"; ?>
-<?	$_res = @mysql_query($_sql); ?>
-<?	if(@mysql_num_rows($_res)>0) { ?>
+<?	$_res = @mysqli_query($_connection,$_sql); ?>
+<?	if(@mysqli_num_rows($_res)>0) { ?>
 	<table class="admintable" align="center">
 		<tr>
 			<th colspan="8" align="center">
@@ -67,7 +67,7 @@
 			<td class="key" width="100px">คงเหลือ</td>
 		</tr>
 		<? $_i = 1; $_a=0; $_b=0; $_c=0; ?>
-		<? while($_dat = mysql_fetch_assoc($_res)){ ?>
+		<? while($_dat = mysqli_fetch_assoc($_res)){ ?>
 			<tr onMouseOver="this.style.backgroundColor='#FFCCFF'; this.style.cursor='hand';" onMouseOut=this.style.backgroundColor="#FFFFFF" >
 				<td align="center" valign="top"><?=$_i++?></td>
 				<td align="left" valign="top"><?=$_dat['project_name']?></td>

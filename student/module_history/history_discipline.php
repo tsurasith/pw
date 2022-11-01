@@ -27,10 +27,10 @@
   </form>
   <? 
    $_sqlStudent = "select id,prefix,firstname,lastname,nickname,xlevel,xyearth,room,studstatus,points from students where id = '" . $s_id . "' and xedbe = '" . $acadyear . "'";
-		$_resStudent = mysql_query($_sqlStudent);
-		$datStudent = mysql_fetch_assoc($_resStudent);	
+		$_resStudent = mysqli_query($_connection,$_sqlStudent);
+		$datStudent = mysqli_fetch_assoc($_resStudent);	
   ?>
-  <? if(mysql_num_rows($_resStudent)>0) { ?>	
+  <? if(mysqli_num_rows($_resStudent)>0) { ?>	
 		<table class="admintable">
 			<tr>
 				<td height="30px" colspan="3" class="key"> &nbsp; ข้อมูลเกี่ยวกับนักเรียน</td>
@@ -69,8 +69,8 @@
 						where a.dis_studentid = '" . $s_id . "' and b.acadyear = '".$acadyear."' ";
 			if($_POST['split']=="split") $_sql .= " and dis_detail not like '%การเข้าร่วมกิจกรรมหน้าเสาธง%' ";
 			$_sql .= " order by dis_date";?>
-		<?	$_resDis = mysql_query($_sql);?>
-		<?	if(mysql_num_rows($_resDis) > 0){ ?>
+		<?	$_resDis = mysqli_query($_connection,$_sql);?>
+		<?	if(mysqli_num_rows($_resDis) > 0){ ?>
 			<table class="admintable">
 				<tr> 
 					<td height="30px" class="key" colspan="5"> &nbsp; รายละเอียดเกี่ยวกับพฤติกรรมไม่พึงประสงค์ ปีการศึกษา <?=$acadyear?></td>
@@ -83,7 +83,7 @@
 					<td class="key" align="center" width="150px">สถานะดำเนินการ</td>
 				</tr>
 				<? $_i=1;?>
-				<? while($_dat = mysql_fetch_assoc($_resDis)) { ?>
+				<? while($_dat = mysqli_fetch_assoc($_resDis)) { ?>
 				<tr onMouseOver="this.style.backgroundColor='#FFCCFF'; this.style.cursor='hand';" onMouseOut=this.style.backgroundColor="#FFFFFF">
 					<td align="center" valign="top"><?=$_i++?></td>
 					<td valign="top" align="center">

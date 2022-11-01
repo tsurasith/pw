@@ -38,8 +38,8 @@
 <? if($_POST['purpose']==""){ ?>  
 <?php
 	$_sql = "select purpose,count(project_id) as num,sum(budget_income) as income from project where acadyear = '" .$acadyear. "' group by purpose order by purpose desc";
-	$_result = mysql_query($_sql);
-	if(mysql_num_rows($_result)>0)
+	$_result = mysqli_query($_connection,$_sql);
+	if(mysqli_num_rows($_result)>0)
 	{
 		$_xmlColumn = "<?xml version='1.0' encoding='UTF-8' ?>";
 		$_xmlPie = "<?xml version='1.0' encoding='UTF-8' ?>";
@@ -50,7 +50,7 @@
 		$_setA = "<dataset seriesname=''  showValue='1'>";
 		$_m = 0; $_cm = 0;
 		$_f = 0; $_cf = 0;
-		while($_dat = mysql_fetch_assoc($_result))
+		while($_dat = mysqli_fetch_assoc($_result))
 		{
 			$_catXML .= "<category name='" . ($_dat['purpose']==0?"ไม่่่ผ่านเกณฑ์":"ผ่านเกณฑ์") . "' hoverText=''/>";
 			$_setA .= "<set value='" . $_dat['income'] . "' " . ($_dat['purpose']==0?"color = 'FF9900'":"color = '0099FF'"). " />";
@@ -149,8 +149,8 @@
 					where acadyear = '" . $acadyear . "' and a.purpose = '" . $_POST['purpose'] . "'
 					group by a.project_id
 					order by finish_date"; ?>
-		<? $_res = mysql_query($_sql); $_x=1; ?>
-		<? if(mysql_num_rows($_res)>0){ ?>
+		<? $_res = mysqli_query($_connection,$_sql); $_x=1; ?>
+		<? if(mysqli_num_rows($_res)>0){ ?>
 		<table class="admintable" width="100%" align="center" >
 			<tr>
 				<th colspan="6" align="center">
@@ -170,7 +170,7 @@
 				<td class="key" align="center" width="100px">คงเหลือ</td>
 			</tr>
 			<? $_a = 0; $_b=0; $_sum=0; ?>
-			<? while($_dat = mysql_fetch_assoc($_res)){ ?>
+			<? while($_dat = mysqli_fetch_assoc($_res)){ ?>
 			<tr onMouseOver="this.style.backgroundColor='#FFCCFF'; this.style.cursor='hand';" onMouseOut=this.style.backgroundColor="#FFFFFF" >
 				<td align="center" valign="top"><?=$_x++?></td>
 				<td>

@@ -25,16 +25,16 @@
    
 <? if(isset($_POST['search']) && $_POST['studentid'] != "" || isset($_REQUEST['studentID']))  { 
 		$_sqlStudent = "select id,prefix,firstname,lastname,nickname,studstatus,gpa from students where id = '" .$s_id . "' order by xedbe desc limit 0,1 ";
-		$_resStudent = mysql_query($_sqlStudent);
+		$_resStudent = mysqli_query($_connection,$_sqlStudent);
 ?>
-		<? if(mysql_num_rows($_resStudent) > 0) { ?>
+		<? if(mysqli_num_rows($_resStudent) > 0) { ?>
 			<table class="admintable"  cellpadding="1" cellspacing="1">
 				<tr height="30"> 
 					<td  class="key" colspan="2">ข้อมูลนักเรียน</td>
 				</tr>
 				<tr>
 					<td valign="top" align="left">
-					<? $datStudent = mysql_fetch_assoc($_resStudent);?>
+					<? $datStudent = mysqli_fetch_assoc($_resStudent);?>
 						<table align="right" cellspacing="1" cellpadding="1">
 							<tr bgcolor="#FFFFFF">
 								<td align="right" width="160px">เลขประจำตัว :</td>
@@ -63,14 +63,14 @@
 			</table>
 			<table class="admintable">
 				<? $_sql = "select * from student_moral where mtype = '00' and student_id = '" . $s_id . "' order by acadyear,acadsemester,mdate";?>
-				<? $_res00 = mysql_query($_sql);?>
-				<? if(mysql_num_rows($_res00)>0){ ?>
+				<? $_res00 = mysqli_query($_connection,$_sql);?>
+				<? if(mysqli_num_rows($_res00)>0){ ?>
 				<tr height="30px"><td class="key" >การบำเพ็ญประโยชน์/ทำความดี</td></tr>
 				<tr>
 					<td >
 						<table width="100%">
 							<? $_i = 1; ?>
-							<? while($_dat = mysql_fetch_assoc($_res00)){ ?>
+							<? while($_dat = mysqli_fetch_assoc($_res00)){ ?>
 							<tr onMouseOver="this.style.backgroundColor='#FFCCFF'; this.style.cursor='hand';" onMouseOut=this.style.backgroundColor="#FFFFFF">
 								<td align="right" valign="top" width="20px"><?=$_i++?>.</td>
 								<td align="center" valign="top" width="55px"><?=$_dat['acadsemester'].'/'.$_dat['acadyear']?></td>
@@ -89,14 +89,14 @@
 				<? } else {  /*echo "<tr><td colspan='2' align='center'>ไม่มีประวัติการบำเพ็ญประโยชน์</td></tr>";*/ }?>
 				
 				<? $_sql = "select * from student_moral where mtype = '01' and student_id = '" . $s_id . "' order by acadyear,acadsemester,mdate";?>
-				<? $_res01 = mysql_query($_sql);?>
-				<? if(mysql_num_rows($_res01)>0){ ?>
+				<? $_res01 = mysqli_query($_connection,$_sql);?>
+				<? if(mysqli_num_rows($_res01)>0){ ?>
 				<tr height="30px"><td class="key" >การเข้าร่วมกิจกรรม</td></tr>
 				<tr>
 					<td >
 						<table width="100%">
 							<? $_i = 1; ?>
-							<? while($_dat = mysql_fetch_assoc($_res01)){ ?>
+							<? while($_dat = mysqli_fetch_assoc($_res01)){ ?>
 							<tr onMouseOver="this.style.backgroundColor='#FFCCFF'; this.style.cursor='hand';" onMouseOut=this.style.backgroundColor="#FFFFFF">
 								<td align="right" valign="top" width="20px"><?=$_i++?>.</td>
 								<td align="center" valign="top" width="55px"><?=$_dat['acadsemester'].'/'.$_dat['acadyear']?></td>
@@ -116,14 +116,14 @@
 				
 			
 				<? $_sql = "select * from student_moral where mtype = '02' and student_id = '" . $s_id . "' order by acadyear,acadsemester,mdate";?>
-				<? $_res02 = mysql_query($_sql);?>
-				<? if(mysql_num_rows($_res02)>0){ ?>
+				<? $_res02 = mysqli_query($_connection,$_sql);?>
+				<? if(mysqli_num_rows($_res02)>0){ ?>
 				<tr height="30px"><td class="key" >การแข่งขันทักษะทางวิชาการ</td></tr>
 				<tr>
 					<td >
 						<table width="100%">
 							<? $_i = 1; ?>
-							<? while($_dat = mysql_fetch_assoc($_res02)){ ?>
+							<? while($_dat = mysqli_fetch_assoc($_res02)){ ?>
 							<tr onMouseOver="this.style.backgroundColor='#FFCCFF'; this.style.cursor='hand';" onMouseOut=this.style.backgroundColor="#FFFFFF">
 								<td align="right" valign="top" width="20px"><?=$_i++?>.</td>
 								<td align="center" valign="top" width="55px"><?=$_dat['acadsemester'].'/'.$_dat['acadyear']?></td>
@@ -143,14 +143,14 @@
 				
 
 				<? $_sql = "select * from student_moral where mtype = '03' and student_id = '" . $s_id . "' order by acadyear,acadsemester,mdate";?>
-				<? $_res03 = mysql_query($_sql);?>
-				<? if(mysql_num_rows($_res03)>0){ ?>
+				<? $_res03 = mysqli_query($_connection,$_sql);?>
+				<? if(mysqli_num_rows($_res03)>0){ ?>
 				<tr height="30px"><td class="key">การแข่งขันด้านกีฬา</td></tr>
 				<tr>
 					<td >
 						<table width="100%">
 							<? $_i = 1; ?>
-							<? while($_dat = mysql_fetch_assoc($_res03)){ ?>
+							<? while($_dat = mysqli_fetch_assoc($_res03)){ ?>
 							<tr onMouseOver="this.style.backgroundColor='#FFCCFF'; this.style.cursor='hand';" onMouseOut=this.style.backgroundColor="#FFFFFF">
 								<td align="right" valign="top" width="20px"><?=$_i++?>.</td>
 								<td align="center" valign="top" width="55px"><?=$_dat['acadsemester'].'/'.$_dat['acadyear']?></td>

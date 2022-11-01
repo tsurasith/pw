@@ -74,8 +74,8 @@
 		if($_POST['studstatus']=="1,2"){ $_sql .= " and studstatus in (1,2) "; }
 		if($_POST['split']=="split"){$_sql.= " and b.dis_id in (select dis_id from student_discipline where dis_detail not like '%การเข้าร่วมกิจกรรมหน้าเสาธง%')";}
 		$_sql .= " group by c.dis_level order by 1";
-		$_res = mysql_query($_sql);
-		if(mysql_num_rows($_res) > 0) {			
+		$_res = mysqli_query($_connection,$_sql);
+		if(mysqli_num_rows($_res) > 0) {			
 			$_strXML = "<?xml version='1.0' encoding='UTF-8' ?>" ;
 			if($_POST['chartType'] == "column") { $_strXML = $_strXML . "<graph caption='' xAxisName='' yAxisName='Units' decimalPrecision='0' formatNumberScale='0' >"; }
 			else { $_strXML = $_strXML . "<graph caption='' decimalPrecision='0' showNames='1' numberSuffix=' คดี' pieSliceDepth='30' formatNumberScale='0'>"; }
@@ -98,7 +98,7 @@
 							<td class="key" width="70px"  align="center">จำนวน</td>
 						</tr>
 						<? $_count=0;?>
-						<? while($_dat = mysql_fetch_assoc($_res)) { ?>
+						<? while($_dat = mysqli_fetch_assoc($_res)) { ?>
 							<? if($_dat['count']>0) { $_strXML = $_strXML . "<set name='" . displayDislevel($_dat['dis_level']) . "' value='" . $_dat['count'] . "' color='" . getFCColor()  . "' showname='1'/> "; } ?>
 							<tr>
 								<td align="left" style="padding-left:15px;"><?=displayDislevel($_dat['dis_level'])?></td>
@@ -131,7 +131,7 @@
 		else return "ชั้นมัธยมศึกษาปีที่ " . ($_x[1] + 3);
 	}
 	function displayDislevel($_value){
-		$_dat = mysql_fetch_assoc(mysql_query("SELECT * FROM ref_disciplinelevel where dis_levelid = '" . $_value . "'"));
+		$_dat = mysqli_fetch_assoc(mysqli_query($_connection,"SELECT * FROM ref_disciplinelevel where dis_levelid = '" . $_value . "'"));
 		return $_dat['dis_leveldetail'];
 	}
 ?>

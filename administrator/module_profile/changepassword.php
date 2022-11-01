@@ -21,8 +21,8 @@
 </table>
 
 <?php
-	$_res = mysql_query("select * from teachers where username = '" . $_SESSION['username'] . "'");
-	$_dat = mysql_fetch_assoc($_res);
+	$_res = mysqli_query($_connection,"select * from teachers where username = '" . $_SESSION['username'] . "'");
+	$_dat = mysqli_fetch_assoc($_res);
 	$_messageStatus = "";
 	if(isset($_POST['submit']))
 	{
@@ -45,7 +45,7 @@
 		else
 		{
 			$_sqlUpdate = "update teachers set password = '" . $_POST['pass2'] . "' where username = '" . $_SESSION['username'] . "'";
-			if(mysql_query($_sqlUpdate))
+			if(mysqli_query($_connection,$_sqlUpdate))
 			{
 				$_messageStatus = "<font color='green'>แก้ไขรหัสผ่านเรียบร้อยแล้ว</font>";
 			}

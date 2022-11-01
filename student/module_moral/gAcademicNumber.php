@@ -27,10 +27,10 @@
 		<form method="post">
 			<font color="#000000" size="2">
 			กลุ่มสาระการเรียนรู้
-			<? @$_resAcademic = mysql_query("select * from ref_academic"); ?>
+			<? @$_resAcademic = mysqli_query($_connection,"select * from ref_academic"); ?>
 			<select name="academic" class="inputboxUpdate">
 				<option value=""></option>
-				<? while($_dat = mysql_fetch_assoc($_resAcademic)){ ?>
+				<? while($_dat = mysqli_fetch_assoc($_resAcademic)){ ?>
 				<option value="<?=$_dat['academic_id']?>" <?=(isset($_POST['academic']) && $_POST['academic'] == $_dat['academic_id'])?"selected":""?>><?=$_dat['academic_description']?></option>
 				<? } ?>
 				<option value="all" <?=$_POST['academic']=="all"?"selected":""?>>รวมทุกกลุ่มสาระการเรียนรู้</option>
@@ -66,9 +66,9 @@
 					where xedbe = '" . $acadyear . "'and acadsemester = '" . $acadsemester . "'  and mtype = '02' "?>
 		<? if($_POST['academic'] != "all") $_sql .= " and a.academic = '" . $_POST['academic'] . "' "; ?>
 		<? $_sql .= " and acadyear = '" . $acadyear . "' " . (isset($_POST['studstatus'])=="1,2"?" and studstatus in (1,2) ":"") . " group by mprize";?>
-		<? $_result = mysql_query($_sql); ?>
+		<? $_result = mysqli_query($_connection,$_sql); ?>
 		<? $_a = 0;$_b = 0; $_c = 0; $_d = 0; $_e = 0; $_sum = 0; ?>
-		<? if(mysql_num_rows($_result)>0){ ?>
+		<? if(mysqli_num_rows($_result)>0){ ?>
 			  <table class="admintable"  width="100%">
 				<tr>
 					<th align="center">
@@ -95,7 +95,7 @@
 									<td class="key" align="center" width="70px">จังหวัด</td>
 									<td class="key" align="center" width="70px">ประเทศ</td>
 								</tr>
-								<? while($_dat = mysql_fetch_assoc($_result)) { ?>
+								<? while($_dat = mysqli_fetch_assoc($_result)) { ?>
 								<tr>
 									<td style="padding-left:20px" align="left"><?=displayPrize($_dat['mprize'])?></td>
 									<td style="padding-right:10px" align="right"><?=$_dat['a']==0?"-":number_format($_dat['a'],0,'',',')?></td>
@@ -108,7 +108,7 @@
 									   $_d += $_dat['d']; $_sum += ($_dat['a']+$_dat['b']+$_dat['c']+$_dat['d']+$_dat['e']);
 									   $_xmlColumn .= "<set name='" . displayPrizeShort($_dat['mprize']) . "' value='" . $_dat['total'] . "' color ='" . getFCColor() . "' />";?>
 								</tr>
-								<? } mysql_free_result($_result); ?>
+								<? } mysqli_free_result($_result); ?>
 								<tr height="30px">
 								  <td class="key" align="center">รวม</th>
 								  <td class="key" style="padding-right:10px" align="right"><?=$_a>0?number_format($_a,0,'',','):"-"?></td>

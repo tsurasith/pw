@@ -50,11 +50,11 @@
 	  		เลือกห้อง 
 			<?php 
 					$sql_Room = "select room_id from rooms where acadyear = '". $acadyear . "' and acadsemester = '" . $acadsemester . "'  order by room_id";
-					$resRoom = mysql_query($sql_Room);			
+					$resRoom = mysqli_query($_connection,$sql_Room);			
 			?>
 			<select name="roomID" class="inputboxUpdate">
 				<option value=""></option>
-				<? while($dat = mysql_fetch_assoc($resRoom)) {
+				<? while($dat = mysqli_fetch_assoc($resRoom)) {
 						$_select = (isset($_POST['roomID'])&&$_POST['roomID'] == $dat['room_id']?"selected":"");
 						echo "<option value=\"" . $dat['room_id'] . "\" $_select>";
 						echo getFullRoomFormat($dat['room_id']);
@@ -86,8 +86,8 @@
 	<? $_sql .= ($_POST['studstatus']=="1,2"?" and studstatus in (1,2) ":"") ; ?>
 	<? $_sql .=	" group by sex order by sex"; ?>
 	<? //echo $_sql; ?>
-	<? $_result = mysql_query($_sql); ?>
-	<? if(mysql_num_rows($_result)>0){ ?>
+	<? $_result = mysqli_query($_connection,$_sql); ?>
+	<? if(mysqli_num_rows($_result)>0){ ?>
 	<? $_xmlColumn = "<?xml version='1.0' encoding='UTF-8' ?>";
 		$_xmlPie = "<?xml version='1.0' encoding='UTF-8' ?>";
 		$_xmlColumn .= "<graph caption='' xAxisName='' yAxisName='Person' formatNumberScale='0' decimalPrecision='0'>";
@@ -125,7 +125,7 @@
 							<td class="key" align="center" width="60px">มีปัญหา</td>
 						</tr>
 						<? $_na=0; $_n4=0; $_r4=0; $_d4=0; ?>
-							<? while($_dat = mysql_fetch_assoc($_result)) { ?>
+							<? while($_dat = mysqli_fetch_assoc($_result)) { ?>
 								<? $_catXML .= "<category name='" . ($_dat['sex']=="1"?"ชาย":"หญิง") . "' hoverText=''/>"; ?>
 								<? $_setA .= "<set value='" . ($_dat['normal3']+$_dat['normal4']) . "' />"; ?>
 								<? $_setB .= "<set value='" . ($_dat['risk3']+$_dat['risk4']) . "'  />"; ?>

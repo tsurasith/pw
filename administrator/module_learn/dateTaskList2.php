@@ -38,10 +38,10 @@
                                       <select name="date" class="inputboxUpdate" onchange="document.dateSelected.submit();" >
                                         <option value=""></option>
                                         <?php
-									mysql_select_db($database_nn);
+									mysqli_select_db($database_nn);
 									$sql_date = "select distinct task_date from student_learn_task where task_status = '0' and acadyear = '" .$acadyear ."' and acadsemester = '" .$acadsemester."' order by task_date " ;
-									$result = mysql_query($sql_date);
-									while($data = mysql_fetch_assoc($result)) { ?>
+									$result = mysqli_query($_connection,$sql_date);
+									while($data = mysqli_fetch_assoc($result)) { ?>
                                         <option value="<?=$data['task_date']?>" <?=$_POST['date']==$data['task_date']?"selected":""?>><?=displayFullDate($data['task_date'])?></option>
                                     <? } ?>
                                       </select>
@@ -57,8 +57,8 @@
 
 	  <?
 	  	$sql_room = "select distinct task_date,task_roomid from student_learn_task where task_date  = '" .  $_POST['date']  ."' order by task_roomid" ;
-		$res = mysql_query($sql_room) or die (' ' . mysql_error());
-		$row_room  =  mysql_num_rows($res);
+		$res = mysqli_query($_connection,$sql_room) or die (' ' . mysqli_error());
+		$row_room  =  mysqli_num_rows($res);
 		$i  = 1;
 		if($row_room != 0)
 			{
@@ -73,7 +73,7 @@
                     <td class="key" width="200px" align="center">เลือกห้องที่ต้องการบันทึก</td>
                     <td class="key" width="150px" align="center">สถานะการบันทึก</td>
                 </tr>
-                <? while($dat = mysql_fetch_assoc($res)){  ?>
+                <? while($dat = mysqli_fetch_assoc($res)){  ?>
                             <tr>
                                 <td align="center"><?=$i?></td>
                                 <td align="center"><?=getFullRoomFormat(trim($dat['task_roomid']))?></td>
@@ -81,11 +81,11 @@
                                 
                                 <?php
                                     $sql_checkstatus = "select task_date,task_roomid,task_status,period from student_learn_task where task_date  = '" .  $_POST['date']  ."' and task_roomid = '" .$dat['task_roomid'] . "'" ;
-                                    $res_checkstatus = mysql_query($sql_checkstatus);
-                                    $res_dat = mysql_query($sql_checkstatus);
-                                    $dat = mysql_fetch_assoc($res_dat);
+                                    $res_checkstatus = mysqli_query($_connection,$sql_checkstatus);
+                                    $res_dat = mysqli_query($_connection,$sql_checkstatus);
+                                    $dat = mysqli_fetch_assoc($res_dat);
                                     $int_check = 0;
-                                    while($check_dat = mysql_fetch_assoc($res_checkstatus)) {
+                                    while($check_dat = mysqli_fetch_assoc($res_checkstatus)) {
                                         if($check_dat['task_status'] == '1') { }
                                         else { $int_check++; }
                                     }//end while
@@ -106,7 +106,7 @@
                                 </td>
                             </tr>
                             <? $i++ ;?>
-                        <? }mysql_free_result($result); //end while?>
+                        <? }mysqli_free_result($result); //end while?>
                     </table>
             <? } //end if ?>
          </div>

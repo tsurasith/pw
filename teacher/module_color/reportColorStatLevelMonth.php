@@ -37,12 +37,12 @@
 				<option value="4/3" <?=isset($_POST['roomID'])&&$_POST['roomID']=="4/3"?"selected":""?>> มัธยมศึกษาปีที่ 6 </option>
 				<option value="all" <?=isset($_POST['roomID'])&&$_POST['roomID']=="all"?"selected":""?>> รวมทั้งหมด </option>
 			</select>
-		<? $_resD = mysql_query("select distinct month(check_date) as 'check_date' from student_color where acadyear = '" .$acadyear. "' and acadsemester = '" . $acadsemester . "' order by 1"); ?>
+		<? $_resD = mysqli_query($_connection,"select distinct month(check_date) as 'check_date' from student_color where acadyear = '" .$acadyear. "' and acadsemester = '" . $acadsemester . "' order by 1"); ?>
 		เดือน <select name="date" class="inputboxUpdate">
 				<option value=""></option>
-				<? while($_datD = mysql_fetch_assoc($_resD)){?>
+				<? while($_datD = mysqli_fetch_assoc($_resD)){?>
 					<option value="<?=$_datD['check_date']?>" <?=$_POST['date']==$_datD['check_date']?"selected":""?>><?=displayMonth($_datD['check_date'])?></option>
-				<? } mysql_free_result($_resD)?>
+				<? } mysqli_free_result($_resD)?>
 			</select>
 			<input type="submit" name="submit" value="เรียกดู" class="button" /><br/>
 			<input type="checkbox" name="studstatus" value="1,2"  <?=$_POST['studstatus']=="1,2"?"checked='checked'":""?> />
@@ -69,8 +69,8 @@
 						where month(check_date) = '" . $_POST['date'] . "' " . ($_POST['studstatus']=="1,2"?"and b.studstatus in (1,2)":"") ; ?>
 		<? if($_POST['roomID']!="all") $_sql .= "and xlevel = '" .substr($_POST['roomID'],0,1)."' and xyearth ='" .substr($_POST['roomID'],2,1)."' "; ?>
 		<? $_sql .= " and xedbe = '" .$acadyear . "' group by a.color"; ?>
-		<?	$_result = mysql_query($_sql); ?>
-		<? 	if(mysql_num_rows($_result)>0) { ?>
+		<?	$_result = mysqli_query($_connection,$_sql); ?>
+		<? 	if(mysqli_num_rows($_result)>0) { ?>
 				<table class="admintable" width="100%">
 					<tr>
 						<th align="center" colspan="6">
@@ -97,7 +97,7 @@
 									<td class="key" width="60px">ขาด</td>
 								</tr>
 								<? $_a=0;$_b=0;$_c=0;$_d=0;$_e=0;$_total=0;?>
-								<? while($_dat = mysql_fetch_assoc($_result)){ ?>
+								<? while($_dat = mysqli_fetch_assoc($_result)){ ?>
 									<tr>
 										<td align="left" style="padding-left:15px;"><?=$_dat['color']?></td>
 										<td align="right" style="padding-right:10px;"><?=$_dat['a']!=""?number_format($_dat['a'],0,'',','):"-"?></td>

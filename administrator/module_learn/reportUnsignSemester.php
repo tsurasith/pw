@@ -58,8 +58,8 @@
 			from teachers_learn
 			where acadyear = '" . $acadyear ."' and acadsemester = '" . $acadsemester ."'
 			group by room_id order by room_id";
-	$_res = mysql_query($_sql); ?>
-	<? if(@mysql_num_rows($_res)>0) { ?>
+	$_res = mysqli_query($_connection,$_sql); ?>
+	<? if(@mysqli_num_rows($_res)>0) { ?>
 			<table class="admintable"  cellpadding="1" cellspacing="1" border="0" align="center">
 			<tr>
 			<th colspan="10" align="center">
@@ -84,7 +84,7 @@
 				<td class="key" width="45px">8</td>
 			</tr>
 			<? $p1=0;$p2=0;$p3=0;$p4=0;$p5=0;$p6=0;$p7=0;$p8=0;?>
-			<? while($_dat = mysql_fetch_assoc($_res)){ ?>
+			<? while($_dat = mysqli_fetch_assoc($_res)){ ?>
 			<tr>
 				<td align="center">มัธยมศึกษาปีที่ <?=getFullRoomFormat($_dat['room_id'])?></td>
 				<td align="center"><b><?=$_dat['p1']!=0?$_dat['p1']:"-"?></b></td>
@@ -99,7 +99,7 @@
 				<td align="center"><b><?=$_sumP1P8==0?"-":$_sumP1P8;?></b></td>
 			</tr>
 			<?	$p1+=$_dat['p1']; $p2+=$_dat['p2']; $p3+=$_dat['p3']; $p4+=$_dat['p4']; $p5+=$_dat['p5']; $p6+=$_dat['p6']; $p7+=$_dat['p7']; $p8+=$_dat['p8'];?>
-			<? } mysql_free_result($_res); //end while ?>
+			<? } mysqli_free_result($_res); //end while ?>
 			<tr height="30px">
 			  <td class="key" align="center"><font color="#990066"><b>รวม</b></font></td>
 			  <td class="key" align="center"><font color="#990066"><b><?=$p1==0?"-":$p1?></b></font></td>

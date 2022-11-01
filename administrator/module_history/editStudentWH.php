@@ -16,10 +16,10 @@
 								cripple = '" . $_POST['cripple'] . "',
 								inservice = '" . $_POST['inservice'] . "'
 							where id = '" . $_POST['student_id'] . "' and xedbe = '" . $acadyear . "'";
-			if(mysql_query($_sqlUpdate))
+			if(mysqli_query($_connection,$_sqlUpdate))
 			{
 				$_message = "<font color='green'><b>แก้ไขข้อมูลเรียบร้อยแล้ว</b></font>";
-			}else {$_message = "<font color='red'><b>ผิดพลาดเนื่องจาก " . mysql_error() . "</b></font>";}
+			}else {$_message = "<font color='red'><b>ผิดพลาดเนื่องจาก " . mysqli_error() . "</b></font>";}
 		} else {$_message = "<font color='red'><b>ผิดพลาดเนื่องจาก ค่าน้ำหนักหรือส่วนสูงที่ป้อนไม่ถูกต้องกรุณาตรวจสอบอีกครั้ง</b></font>";}
 	}
 ?>
@@ -41,8 +41,8 @@
 				 from students 
 				 where id = '" . $_studentID . "' and xedbe = '" . $acadyear . "'";
 						 
-	$resStudent = mysql_query($sqlStudent);
-	$_dat = mysql_fetch_assoc($resStudent);
+	$resStudent = mysqli_query($_connection,$sqlStudent);
+	$_dat = mysqli_fetch_assoc($resStudent);
 ?>
 
 <? if(isset($_POST['update'])) { ?>
@@ -113,10 +113,10 @@
 		  <td align="right">สถานภาพความพิการ :</td>
 		  <td >
 		  	<select name="cripple" class="inputboxUpdate">
-			<?  $_resCripple = mysql_query("SELECT * FROM ref_cripple");
-				while($_datCripple = mysql_fetch_assoc($_resCripple)) {  ?>
+			<?  $_resCripple = mysqli_query($_connection,"SELECT * FROM ref_cripple");
+				while($_datCripple = mysqli_fetch_assoc($_resCripple)) {  ?>
 					<option value="<?=$_datCripple['cripple_id']?>" <?=($_dat['cripple']==$_datCripple['cripple_id']?"SELECTED":"")?>><?=$_datCripple['cripple_description']?></option>
-			<?	} mysql_free_result($_resCripple); ?>
+			<?	} mysqli_free_result($_resCripple); ?>
 			</select>
 		  </td>
 		</tr>
@@ -124,10 +124,10 @@
 		  <td align="right" valign="top">การพักอาศัยของนักเรียน :</td>
 		  <td >
 		  	<select name="inservice" class="inputboxUpdate">
-			<?  $_resInService = mysql_query("SELECT * FROM ref_inservice");
-				while($_datInService = mysql_fetch_assoc($_resInService)) {  ?>
+			<?  $_resInService = mysqli_query($_connection,"SELECT * FROM ref_inservice");
+				while($_datInService = mysqli_fetch_assoc($_resInService)) {  ?>
 					<option value="<?=$_datInService['service_id']?>" <?=($_dat['inservice']==$_datInService['service_id']?"SELECTED":"")?>><?=$_datInService['service_description']?></option>
-			<?	} mysql_free_result($_resInService); ?>
+			<?	} mysqli_free_result($_resInService); ?>
 			</select>
 		  </td>
 		</tr>

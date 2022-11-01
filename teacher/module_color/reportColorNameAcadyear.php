@@ -73,8 +73,8 @@
 		<? if($_POST['roomID']!="all") $_sql .= "and xlevel = '" .substr($_POST['roomID'],0,1)."' and xyearth ='" .substr($_POST['roomID'],2,1)."' "; ?>
 		<? $_sql .= " and xedbe = '" .$acadyear . "' and acadyear = '" . $acadyear . "' and acadsemester = '" . $acadsemester . "'
 					  group by a.id order by xlevel,xyearth,a.color,room,sex,id"; ?>
-		<?	$_result = mysql_query($_sql); ?>
-		<? 	if(mysql_num_rows($_result)>0) { ?>
+		<?	$_result = mysqli_query($_connection,$_sql); ?>
+		<? 	if(mysqli_num_rows($_result)>0) { ?>
 				<table class="admintable" width="100%">
 					<tr>
 						<th align="center" colspan="6">
@@ -105,7 +105,7 @@
 									<td class="key" width="50px">ขาด</td>
 								</tr>
 								<? $_i=1;?>
-								<? while($_dat = mysql_fetch_assoc($_result)){ ?>
+								<? while($_dat = mysqli_fetch_assoc($_result)){ ?>
 									<tr onMouseOver="this.style.backgroundColor='#FFCCFF'; this.style.cursor='hand';" onMouseOut=this.style.backgroundColor="#FFFFFF" >
 										<td align="center"><?=$_i++?></td>
 										<td align="center"><?=$_dat['id']?></td>

@@ -28,12 +28,12 @@
 		<form name="myform" method="post">
 		<font color="#000000" size="2"  >
 			 เลือกครูผู้ควบคุม
-			 <? $_resTeacher = mysql_query("select distinct sanc_teacher from student_sanction a left outer join student_disciplinestatus b 
+			 <? $_resTeacher = mysqli_query($_connection,"select distinct sanc_teacher from student_sanction a left outer join student_disciplinestatus b 
 			 									on (a.dis_id = b.dis_id) where acadyear = '" . $acadyear . "' and acadsemester = '" . $acadsemester . "'
 												and sanc_time > 0 order by 1");?>
 			 <select name="teacher" class="inputboxUpdate" onchange="document.myform.submit();">
 			 	<option value=""></option>
-				<? while($_datT = mysql_fetch_assoc($_resTeacher)){ ?>
+				<? while($_datT = mysqli_fetch_assoc($_resTeacher)){ ?>
 						<option value="<?=$_datT['sanc_teacher']?>" <?=isset($_POST['teacher'])&&$_POST['teacher']==$_datT['sanc_teacher']?"selected":""?>><?=$_datT['sanc_teacher']?></option>
 				<? } //end while ?>
 			 </select>
@@ -50,7 +50,7 @@
 						on (a.dis_id = b.dis_id)
 						where acadyear = '" .$acadyear . "' and acadsemester = '" . $acadsemester . "' 
 						      and sanc_teacher = '" . $_POST['teacher'] . "' and sanc_time != 0"; ?>
-		<? $_resDetail = mysql_query($_sql); ?>
+		<? $_resDetail = mysqli_query($_connection,$_sql); ?>
         <div align="center">
 		<table class="admintable" align="center">
 					<tr>
@@ -68,7 +68,7 @@
 						<td class="key" align="center" width="140px">เวลาที่<br/>นักเรียนทำกิจกรรม</td>
 					</tr>
 					<? $_z = 1; $_allTime; $_disID = ""; ?>
-					<? while($_dat = mysql_fetch_assoc($_resDetail)) { ?>
+					<? while($_dat = mysqli_fetch_assoc($_resDetail)) { ?>
 							<tr onMouseOver="this.style.backgroundColor='#FFCCFF'; this.style.cursor='hand';" onMouseOut=this.style.backgroundColor="#FFFFFF" >
 								<td align="center"><?=$_z++?></td>
 								<td align="center"><?=$_dat['dis_id']==$_disID?"":$_dat['dis_id']?><? $_disID = $_dat['dis_id']; ?></td>
@@ -92,8 +92,8 @@
 					on (a.dis_id = b.dis_id)
 					where sanc_time > 0 and acadyear = '" . $acadyear . "' and acadsemester = '" . $acadsemester . "' 
 					group by sanc_teacher order by 3 desc"; ?>
-		<? $_res = @mysql_query($_sql); ?>
-		<? if(mysql_num_rows($_res) > 0){ ?>
+		<? $_res = @mysqli_query($_connection,$_sql); ?>
+		<? if(mysqli_num_rows($_res) > 0){ ?>
         	  <div align="center">
 				<table class="admintable" align="center">
 					<tr>
@@ -110,7 +110,7 @@
 						<td class="key" align="center" width="140px">เวลารวม</td>
 					</tr>
 					<? $_i = 1; $_count;$_time; ?>
-					<? while($_dat = mysql_fetch_assoc($_res)){ ?>
+					<? while($_dat = mysqli_fetch_assoc($_res)){ ?>
 					<tr onMouseOver="this.style.backgroundColor='#FFCCFF'; this.style.cursor='hand';" onMouseOut=this.style.backgroundColor="#FFFFFF" >
 						<td align="center"><?=$_i++?></td>
 						<td><?=$_dat['sanc_teacher']?></td>

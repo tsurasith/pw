@@ -38,8 +38,8 @@
 	<?  $sqlStudent .= ($_POST['studstatus']=="1,2"?" where studstatus in (1,2) ":""); ?>
 	<?  $sqlStudent .= " group by acadyear order by acadyear"; ?>
 
-	<? $resStudent = mysql_query($sqlStudent); ?>
-	<? if(mysql_num_rows($resStudent)>0) { ?>
+	<? $resStudent = mysqli_query($_connection,$sqlStudent); ?>
+	<? if(mysqli_num_rows($resStudent)>0) { ?>
 		<table class="admintable" width="100%">
 			<tr>
 				<th align="center">
@@ -63,7 +63,7 @@
 							<td class="key" align="center" width="70px">ร้อยละ<br/>ภาคเรียน</td>
 						</tr>
 						<? $_day=0; $_x=0; $_all=0; ?>
-						<? while($dat = mysql_fetch_assoc($resStudent)) { ?>
+						<? while($dat = mysqli_fetch_assoc($resStudent)) { ?>
 							<tr>
 								<td align="center" style="padding-left:15px;"><?=$dat['acadyear']?></td>
 								<td align="right" style="padding-right:35px;"><?=$dat['day']?></td>

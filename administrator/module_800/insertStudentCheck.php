@@ -17,21 +17,21 @@ echo $_POST['date'] . "<br/>"; */
 			$row_id = $_POST['date'] . $_POST['room_id'] .$i;
 		}
 		$sql_insert_student = 'INSERT INTO student_800 VALUES (\'' . $row_id . '\', \'' . $_POST['student_id'][$i]  . '\', \''. $_POST['room_id'] .'\', \'' . timecheck_id($_POST['check'][$i]) .'\', \''. $_POST['date'] . '\',\'' . date('Y-m-d') . '\', ' .$_POST['acadyear'] .', ' . $_POST['acadsemester'] . ', \''. $_SESSION['name']  . '\');'; 
-		$a = mysql_query($sql_insert_student) or die ('Error - ' . mysql_error());  // บันทึกข้อมูลการเช็ค
+		$a = mysqli_query($_connection,$sql_insert_student) or die ('Error - ' . mysqli_error());  // บันทึกข้อมูลการเช็ค
 		if($_POST['check'][$i] == "yellow" || $_POST['check'][$i] == "blue" || $_POST['check'][$i] == "red")
 		{
 			$sql = "insert into student_discipline values (null,'" . $_POST['student_id'][$i] . "','" . $_POST['date'] . "','08.00',' ',' ','". $_SESSION['name'] . "',curdate(),
 								'ครู','" . $_SESSION['name'] . "','" . $_POST['date'] . "','เห็นควรมอบให้หัวหน้าระดับดำเนินการสอบสวน',
 								'" . disDetail($_POST['check'][$i]) . "','" . $_SESSION['name'] . "')";
 			$sql_status = "insert into student_disciplinestatus values('" . $_POST['student_id'][$i]  . "',null,'1','00','0','" . $acadyear . "','" . $acadsemester . "')";
-			mysql_query($sql);
-			mysql_query($sql_status);
+			mysqli_query($_connection,$sql);
+			mysqli_query($_connection,$sql_status);
 		}
 	}
 	
 	
 	$sql_insert_teacher = 'insert into  teachers_800 VALUES (\'' . $_POST['date'] . '-' . $_POST['room_id'] .'\',\'' . $_POST['room_id'] .'\',\'' . $_POST['teacherSign'] .'\' , \'' . $_POST['date'] .'\', ' .$_POST['acadyear'] .', ' . $_POST['acadsemester'] . ') ';
-	$b = mysql_query($sql_insert_teacher) or die ('Error - '. mysql_error()); // บันทึกการเข้าใช้งานของครู
+	$b = mysqli_query($_connection,$sql_insert_teacher) or die ('Error - '. mysqli_error()); // บันทึกการเข้าใช้งานของครู
 	updateTask($_POST['date'],$_POST['room_id']); // อัพเดทสถานะงานเป็น "บันทึก" แล้ว
 ?>
 	  <div id="content">
@@ -102,7 +102,7 @@ function updateTask($date,$room_id)
 	
 	$sql = "update student_800_task set task_status = '1' where task_date = '" . $date . "' and task_roomid = '" . $room_id . "'" ;
 	//echo $sql . "<br/>";
-	mysql_query($sql) or die ('Error - ' . mysql_error());
+	mysqli_query($_connection,$sql) or die ('Error - ' . mysqli_error());
 
 }
 

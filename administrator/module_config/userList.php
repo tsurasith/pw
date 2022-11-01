@@ -21,7 +21,7 @@
   <? $_sql = "select * from teachers";
   	 if(isset($_POST['type']) && $_POST['type']=="xcancel") $_sql .= " where type in ('admin','teacher') ";
 	 $_sql .= " order by TeacCode,type,FIRSTNAME"; ?>
-  <? $_res = mysql_query($_sql) ?>
+  <? $_res = mysqli_query($_connection,$_sql) ?>
 	<table width="100%" class="admintable">
 		<tr>
 			<td colspan="8"><h3>บัญชีรายชื่อผู้ใช้งานระบบสารสนเทศกิจการนักเรียน</h3></td>
@@ -37,7 +37,7 @@
 			<td align="center" class="key" width="135px">สิทธิ</td>
 		</tr>
 		<? $_i = 1; ?>
-		<? while($_dat = mysql_fetch_assoc($_res)){ ?>
+		<? while($_dat = mysqli_fetch_assoc($_res)){ ?>
 		<tr onMouseOver="this.style.backgroundColor='#FFCCFF'; this.style.cursor='hand';" onMouseOut=this.style.backgroundColor="#FFFFFF">
 			<td align="center"><?=$_i++?></td>
 			<td align="center">

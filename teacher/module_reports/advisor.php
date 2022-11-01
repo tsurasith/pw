@@ -42,8 +42,8 @@
 							from rooms a left outer join teachers b on a.teacher_id2 = b.teaccode
 							where a.acadsemester = '" . $acadsemester . "' and acadyear = '" . $acadyear . "' and a.teacher_id2 != '')
 			order by room_id,priority";
-	$_result = mysql_query($_sql);
-	if(mysql_num_rows($_result)>0)
+	$_result = mysqli_query($_connection,$_sql);
+	if(mysqli_num_rows($_result)>0)
 	{
 ?>
 		<table class="admintable" width="100%" align="center" >
@@ -56,10 +56,10 @@
 				</th>
 			</tr>
 			<?php
-				for($_i = 1; $_i <= mysql_num_rows($_result);)
+				for($_i = 1; $_i <= mysqli_num_rows($_result);)
 				{
 					if($_i%4==0 || $_i==1) echo "<tr>";
-					while($_dat = mysql_fetch_assoc($_result))
+					while($_dat = mysqli_fetch_assoc($_result))
 					{
 						echo "<td align='center'  width='154px'  valign='bottom'>";
 						echo "<img src='../images/teacphoto/TC" . $_dat['teacher_id']. ".jpg' width='140px' height='190px' style='border:1px #000 solid;' alt='รูปครูที่ปรึกษา' /><br/>";

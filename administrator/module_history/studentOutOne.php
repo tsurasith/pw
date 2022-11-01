@@ -47,7 +47,7 @@
 					students.CAUSE = '" . $_POST['CAUSE'] . "',
 					students.LEAVE = '" . $_POST['LEAVE'] . "'
 				where ID = '" . $_POST['studentid'] . "' and xEDBE = '" . $acadyear . "'";
-		$_update = mysql_query($_sql) or die (mysql_error());
+		$_update = mysqli_query($_connection,$_sql) or die (mysqli_error());
 		if($_update)
 		{ ?>
 			<table class="admintable" width="100%" align="center">
@@ -70,11 +70,11 @@
 		$_sql = "select * from students 
 					where xEDBE = '" . $acadyear . "'
 						and ID = '". $_POST['studentid'] . "'";
-		$_result = mysql_query($_sql);
+		$_result = mysqli_query($_connection,$_sql);
 ?>
 
-<?php if(mysql_num_rows($_result)>0) { ?>
-	<? $_dat = mysql_fetch_assoc($_result); ?>
+<?php if(mysqli_num_rows($_result)>0) { ?>
+	<? $_dat = mysqli_fetch_assoc($_result); ?>
 <form method="post" name="myform">
 <table class="admintable" cellpadding="0" cellspacing="0" align="center" width="100%">
 	<tr><td colspan="3" class="key">รายการแก้ไขข้อมูลนักเีรียนกรณี ออก/ลาออก/แขวนลอย</td></tr>
@@ -108,11 +108,11 @@
 	  <td>
 	  	<select id="studstatus" name="studstatus" class="inputboxUpdate">
 		<?php
-			$_resStatus = mysql_query("SELECT * FROM ref_studstatus where studstatus != '2'");
-			while($_datStatus = mysql_fetch_assoc($_resStatus))
+			$_resStatus = mysqli_query($_connection,"SELECT * FROM ref_studstatus where studstatus != '2'");
+			while($_datStatus = mysqli_fetch_assoc($_resStatus))
 			{  ?>
 				<option value="<?=$_datStatus['studstatus']?>" <?=($_dat['studstatus']==$_datStatus['studstatus']?"SELECTED":"")?>><?=$_datStatus['studstatus_description']?></option>
-		<?	} mysql_free_result($_resStatus); ?>
+		<?	} mysqli_free_result($_resStatus); ?>
 		</select> <font color="#FF0000"><b>*</b></font>
 	  </td>
   </tr>
@@ -120,11 +120,11 @@
   		<td align="right">ประเภทของสาเหตุ :</td>
 		<td>
 			<select id="retirecause" name="retirecause" class="inputboxUpdate">
-			<? $_resRetire = mysql_query("SELECT * FROM ref_retire where retire_id != '11' "); ?>
+			<? $_resRetire = mysqli_query($_connection,"SELECT * FROM ref_retire where retire_id != '11' "); ?>
 				<option value=""></option>
-			<?	while($_datRe = mysql_fetch_assoc($_resRetire)) {  ?>
+			<?	while($_datRe = mysqli_fetch_assoc($_resRetire)) {  ?>
 					<option value="<?=$_datRe['retire_id']?>" <?=($_dat['retirecause']==$_datRe['retire_id']?"SELECTED":"")?>><?=$_datRe['retire_description']?></option>
-			<?	} mysql_free_result($_resRetire); ?>
+			<?	} mysqli_free_result($_resRetire); ?>
 			</select> <font color="#FF0000"><b>*</b></font>
 		</td>
   </tr>

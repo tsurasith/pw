@@ -97,12 +97,12 @@
 	$_error_teaccode = "";
 	$_error_username = "";
 	if(isset($_POST['teaccode'])){ 
-		$_code = mysql_query("select teaccode from teachers where teaccode = '" . $_POST['teaccode'] . "'");
-		$_user = mysql_query("select username from teachers where username = '" . $_POST['username'] . "'");
-		if(mysql_num_rows($_code)>0){
+		$_code = mysqli_query($_connection,"select teaccode from teachers where teaccode = '" . $_POST['teaccode'] . "'");
+		$_user = mysqli_query($_connection,"select username from teachers where username = '" . $_POST['username'] . "'");
+		if(mysqli_num_rows($_code)>0){
 			$_error_teaccode = "<font color='red'><br/>ไม่สามารถเพิ่มบัญชีผู้ใช้ได้เนื่องจาก 'รหัส' ที่ป้อนมีอยู่ในบัญชีของระบบแล้ว !</font><br/>";
 		}
-		else if(mysql_num_rows($_user)>0){
+		else if(mysqli_num_rows($_user)>0){
 			$_error_username = "<font color='red'><br/>ไม่สามารถเพิ่มบัญชีผู้ใช้ได้เนื่องจาก 'ชื่อเข้าใช้งาน' ที่ป้อนมีอยู่ในบัญชีของระบบแล้ว !</font><br/>";
 		}
 		else
@@ -121,12 +121,12 @@
 						'" . $_POST['password'] . "',
 						'" . $_POST['type'] . "',
 						'" . ($_POST['superuser']==1?"1":"0") . "')";
-				if(mysql_query($_sql))
+				if(mysqli_query($_connection,$_sql))
 				{
 					echo "<center><br/><font color='green'><b>บันทึกแก้ไขข้อมูลเรียบร้อยแล้ว</b></font><br/></center>";
 				}else 
 				{
-					echo "<center><br/><font color='red'>บันทึกข้อมูลผิดพลาด เนื่องจาก - " . mysql_error() . "</font><br/><br/></center>";
+					echo "<center><br/><font color='red'>บันทึกข้อมูลผิดพลาด เนื่องจาก - " . mysqli_error() . "</font><br/><br/></center>";
 				}
 		}
 	}//end บันทึกแก้ไขข้อมูล

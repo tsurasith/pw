@@ -31,7 +31,7 @@
         		where xedbe = '" .$acadyear . "' and length(color)>2 and studstatus in (1,2)
 				group by color,xlevel
        		 order by color,xlevel";
-	$_result = mysql_query($_sql);
+	$_result = mysqli_query($_connection,$_sql);
 	if($_result)
 	{ ?>
 		<table class="admintable"  cellpadding="1" cellspacing="1" border="0" align="center" >
@@ -52,7 +52,7 @@
 			</tr>
 			<?php
 			$_i = 1;
-			while($_dat = mysql_fetch_assoc($_result))
+			while($_dat = mysqli_fetch_assoc($_result))
 			{
 			?>
 			<tr bgcolor="#CCCCCC">
@@ -66,14 +66,14 @@
 			$_sqlEmpty = "(select count(*) as 'sum' from students where length(color) < 2 and xedbe = '" . $acadyear . "' and studstatus in (1,2))
 						  union all
 						  (select count(*) as 'sum' from students where color is null and xedbe = '" . $acadyear . "' and studstatus in (1,2))";
-			$_resultEmpty = mysql_query($_sqlEmpty);
-			$_datEmpty = mysql_fetch_assoc($_resultEmpty);
+			$_resultEmpty = mysqli_query($_connection,$_sqlEmpty);
+			$_datEmpty = mysqli_fetch_assoc($_resultEmpty);
 			?>
 			<tr bgcolor="#CCCCCC">
 				<td colspan="3" rowspan="2" align="center">จำนวนที่ยังไม่ระบุคณะสี</td>
 				<td align="center"><?=$_datEmpty['sum']?></td>
 				<?php
-					$_datEmpty = mysql_fetch_assoc($_resultEmpty);
+					$_datEmpty = mysqli_fetch_assoc($_resultEmpty);
 				?>
 			</tr>
 			<tr bgcolor="#CCCCCC">

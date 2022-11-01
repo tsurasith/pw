@@ -120,12 +120,12 @@
 		
 		//echo $sqlStudent;
 		
-		$resStudent = mysql_query($sqlStudent);
+		$resStudent = mysqli_query($_connection,$sqlStudent);
 		$ordinal = 1;
-		$totalRows = mysql_num_rows($resStudent);
+		$totalRows = mysqli_num_rows($resStudent);
 		for($i = 0; $i < $totalRows ; $i++) { ?>
 		<tr onMouseOver="this.style.backgroundColor='#FFCCFF'; this.style.cursor='hand';" onMouseOut=this.style.backgroundColor="#FFFFFF">
-			<? $dat = mysql_fetch_array($resStudent); ?>
+			<? $dat = mysqli_fetch_array($resStudent); ?>
 			<td align="center"><?=$ordinal++?></td>
 			<td align="center"><?=$dat['id']?></td>
 			<td><?=$dat['prefix'] . $dat['firstname'] . " " . $dat['lastname']?></td>

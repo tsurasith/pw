@@ -40,8 +40,8 @@
 				where xedbe = '" . $acadyear . "' ";
 	if($_POST['studstatus']=="1,2") { $_sql .= " and studstatus in (1,2) ";}
 	$_sql .= " group by xlevel,xyearth,room ";
-	$_result = mysql_query($_sql);
-	if(mysql_num_rows($_result)>0)
+	$_result = mysqli_query($_connection,$_sql);
+	if(mysqli_num_rows($_result)>0)
 	{
 		$_xmlLevel = "<?xml version='1.0' encoding='UTF-8' ?>" . "<graph caption='' formatNumberScale='0' decimalPrecision='0' yaxismaxvalue='50' >"; ?>
 		<table class="admintable" width="100%" align="center" >
@@ -65,7 +65,7 @@
 							<td align="center" class="key" width="70px">หญิง</td>
 							<td align="center" class="key" width="90px">รวม</td>
 						</tr>
-						<? while($_dat = mysql_fetch_assoc($_result)){ ?>
+						<? while($_dat = mysqli_fetch_assoc($_result)){ ?>
 						<tr>
 							<td align="center">ชั้นมัธยมศึกษาปีที่ <?=$_dat['xlevel']==3?$_dat['xyearth']:($_dat['xyearth']+3)?><?="/".$_dat['room']?></td>
 							<td align="right" style="padding-right:25px"><?=$_dat['male']==0?"-":$_dat['male']?></td>

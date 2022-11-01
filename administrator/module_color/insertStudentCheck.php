@@ -15,7 +15,7 @@
 		if($i < 10) { $row_id = $_POST['date'] . $_POST['student_id'][$i] . '0' .$i; }
 		else { $row_id = $_POST['date'] . $_POST['student_id'][$i] .$i; }
 		$sql_insert_student = 'INSERT INTO student_color VALUES (\'' . $row_id . '\', \'' . $_POST['student_id'][$i]  . '\', \''. $_POST['room_id'][$i] .'\', \'' . timecheck_id($_POST['check'][$i]) .'\', \'' . $_POST['color'] . '\' , \''. $_POST['date'] . '\',\'' . date('Y-m-d') . '\', \'' . $acadyear . '\', \'' . $acadsemester . '\', \''. $_SESSION['name']  . '\');'; 
-		$a = mysql_query($sql_insert_student) or die ('insert student_color Error - ' . mysql_error());  // บันทึกข้อมูลการเช็ค
+		$a = mysqli_query($_connection,$sql_insert_student) or die ('insert student_color Error - ' . mysqli_error());  // บันทึกข้อมูลการเช็ค
 	}
 	updateTask($_POST['date'],$_POST['task_id']); // อัพเดทสถานะงานเป็น "บันทึก" แล้ว
 	?>
@@ -51,6 +51,6 @@ function timecheck_id($value) {
 }
 function updateTask($date,$task_id) {
 	$sql = "update student_color_task set task_status = '1' where task_date = '" . $date . "' and task_roomid = '" . $task_id . "'" ;
-	mysql_query($sql) or die ('Error - ' . mysql_error()); 
+	mysqli_query($_connection,$sql) or die ('Error - ' . mysqli_error()); 
 }
 ?>

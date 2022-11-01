@@ -37,8 +37,8 @@ function check(name,value) { document.getElementById(name).bgColor=value; }
 	
 	<? if(isset($_POST['search']) && $_POST['studentid'] != "" && $_POST['date'] != ""){ ?>
 			<? $_sql = "select * from student_color where student_id = '" . $_POST['studentid'] . "' and check_date = '" . $_POST['date'] . "'" ;?>
-			<? $result = mysql_query($_sql); ?>
-			<? if(mysql_num_rows($result) > 0){ ?>
+			<? $result = mysqli_query($_connection,$_sql); ?>
+			<? if(mysqli_num_rows($result) > 0){ ?>
 					<form method="post">
 					<table width="100%" class="admintable">
 						<tr height="35px"> 
@@ -52,8 +52,8 @@ function check(name,value) { document.getElementById(name).bgColor=value; }
 							</td>
 						</tr>
 						<? $sql_student = "select prefix , firstname , lastname, studstatus,color from students where id = '" . $_POST['studentid'] . "'"; ?>
-						<? $res_student = mysql_query($sql_student); ?>
-						<? $dat_student = mysql_fetch_assoc($res_student); ?>
+						<? $res_student = mysqli_query($_connection,$sql_student); ?>
+						<? $dat_student = mysqli_fetch_assoc($res_student); ?>
 						<tr>							
 							<td align="right">ชื่อ - สกุล : </td>
 							<td><font color="darkblue"><?=$dat_student['prefix'] . $dat_student['firstname'] . ' ' . $dat_student['lastname']?></font></td>
@@ -70,7 +70,7 @@ function check(name,value) { document.getElementById(name).bgColor=value; }
 							<td><font color="darkblue"><?=$dat_student['color']?></font></td>
 						</tr>
 						<? $periodRows = 1; ?>
-						<? while($dat = mysql_fetch_assoc($result)) { ?>
+						<? while($dat = mysqli_fetch_assoc($result)) { ?>
 						<tr>
 							<td align="right">การเข้าร่วมกิจกรรมคณะสี : </td>
 							<td id="<?="check[$periodRows]"?>">
@@ -109,9 +109,9 @@ function check(name,value) { document.getElementById(name).bgColor=value; }
 				$sqlEdit = $sqlEdit . " timecheck_id = '" . timecheck_id($_POST['check'][1]) . "'";
 				$sqlEdit = $sqlEdit . " where student_id = '" . $_POST['studentid'] . "'" ;
 				$sqlEdit = $sqlEdit . " and check_date = '" . $_POST['date']  . "'" ;
-				$update = mysql_query($sqlEdit) or die ('Error - ' . mysql_error());
+				$update = mysqli_query($_connection,$sqlEdit) or die ('Error - ' . mysqli_error());
 				if($update) { echo "<center><font color='green' ><br/>บันทึกการแก้ไขข้อมูลเรียบร้อยแล้ว</font></center>"; }
-				else { echo "<center><font color='red'><br/>เกิดข้อผิดพลาดเนื่องจาก - ". mysql_error() . "</font></color>";}
+				else { echo "<center><font color='red'><br/>เกิดข้อผิดพลาดเนื่องจาก - ". mysqli_error() . "</font></color>";}
 			}
 		?>
 </div>

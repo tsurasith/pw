@@ -20,10 +20,10 @@
 	  	<font  size="2" color="#000000">สถานภาพ </font>
 			<select id="studstatus" name="studstatus" class="inputboxUpdate">
 				<option value=""></option>
-				<? $_resStatus = mysql_query("SELECT * FROM ref_studstatus");?>
-				<? while($_datStatus = mysql_fetch_assoc($_resStatus)) {  ?>
+				<? $_resStatus = mysqli_query($_connection,"SELECT * FROM ref_studstatus");?>
+				<? while($_datStatus = mysqli_fetch_assoc($_resStatus)) {  ?>
 								<option value="<?=$_datStatus['studstatus']?>" <?=($_POST['studstatus']==$_datStatus['studstatus']?"SELECTED":"")?>><?=$_datStatus['studstatus_description']?></option>
-				<? }mysql_free_result($_resStatus); ?>
+				<? }mysqli_free_result($_resStatus); ?>
 			</select>
 	  		<input type="submit" value="เรียกดู" class="button" name="search"/>
 	   </td>
@@ -41,9 +41,9 @@
 								from students
 								where xedbe = '" .$acadyear . "' and studstatus = '" . $_POST['studstatus'] . "'
 								order by  xlevel,xyearth,room,sex,id";			
-			$resStudent = mysql_query($sqlStudent);
+			$resStudent = mysqli_query($_connection,$sqlStudent);
 			$ordinal = 1;
-			$totalRows = mysql_num_rows($resStudent);
+			$totalRows = mysqli_num_rows($resStudent);
 			if($totalRows == 0)
 			{
 				echo "<br/><br/><center><font color='red'>ไม่พบข้อมูลตามเงื่อนไข</font></center>";
@@ -71,7 +71,7 @@
     </tr>
 
 	<? for($i = 0; $i < $totalRows ; $i++) { ?>
-		<? $dat = mysql_fetch_array($resStudent); ?>
+		<? $dat = mysqli_fetch_array($resStudent); ?>
 		<tr onMouseOver="this.style.backgroundColor='#FFCCFF'; this.style.cursor='hand';" onMouseOut=this.style.backgroundColor="#FFFFFF">	
 			<td align="center" valign="top"><?=$ordinal++?></td>
 			<td align="center" valign="top"><?=$dat['id']?></td>

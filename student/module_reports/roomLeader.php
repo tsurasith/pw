@@ -34,8 +34,8 @@
     </tr>
   </table>
 <? $_sql = "select room_id,student_id from rooms where acadyear = '" . $acadyear . "' and acadsemester = '" . $acadsemester . "' order by room_id"; ?>
-<? $_result = mysql_query($_sql); ?>
-<? if(mysql_num_rows($_result)>0) { ?>
+<? $_result = mysqli_query($_connection,$_sql); ?>
+<? if(mysqli_num_rows($_result)>0) { ?>
 		<table class="admintable" align="center" >
 			<tr>
 				<th colspan="4" align="center">
@@ -46,10 +46,10 @@
 				</th>
 			</tr>
 			<?php
-				for($_i = 1; $_i <= mysql_num_rows($_result);)
+				for($_i = 1; $_i <= mysqli_num_rows($_result);)
 				{
 					if($_i%4==0 || $_i==1) echo "<tr>";
-					while($_dat = mysql_fetch_assoc($_result))
+					while($_dat = mysqli_fetch_assoc($_result))
 					{
 						$_student = displayStudent($_dat['student_id'],$acadyear);
 						echo "<td align='center'  width='180px'  valign='bottom'>";
@@ -72,7 +72,7 @@
 <?
 	function displayStudent($_value,$_year){
 		$_sql = "select id,prefix,firstname,lastname,nickname,studstatus,sex,p_village from students where id = '" . $_value . "' and xedbe = '" . $_year . "' ";
-		$_dat = mysql_fetch_assoc(mysql_query($_sql));
+		$_dat = mysqli_fetch_assoc(mysqli_query($_connection,$_sql));
 		return $_dat;
 	}
 ?>

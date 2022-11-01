@@ -75,8 +75,8 @@
 							group by class_id
 							order by class_id";
 			}
-			$resStudent = mysql_query($sqlStudent);
-			$totalRows = mysql_num_rows($resStudent);
+			$resStudent = mysqli_query($_connection,$sqlStudent);
+			$totalRows = mysqli_num_rows($resStudent);
 			if($totalRows <2)
 			{
 				echo "<tr><td align='center'><br/><br/><font color='red'>ยังไม่มีการบันทึกข้อมูลในรายการที่คุณเลือก</font></td></tr>";
@@ -94,7 +94,7 @@
 					$_strXML = "<?xml version='1.0' encoding='UTF-8' ?>" ;
 					$_newStringXML = "";
 					$_strXML = $_strXML . "<chart caption='' xAxisName='ห้อง' yAxisName='ครั้ง' decimalPrecision='0' formatNumberScale='0'>";
-					while($dat = mysql_fetch_assoc($resStudent))
+					while($dat = mysqli_fetch_assoc($resStudent))
 					{
 						switch($_POST['check']) {
 							case '01' :	$_strXML = $_strXML . "<set name='" . getFullRoomFormat($dat['class_id']) . "' value='" . $dat['b'] . "' color='" . getFCColor()  . "' /> ";break;

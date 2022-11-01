@@ -3,7 +3,7 @@
 	if(isset($_POST['delete']))
 	{
 		$delSql = "delete from student_800_task where task_date = '" . $_POST['delete'] . "'" ;
-		$resDel = mysql_query($delSql);
+		$resDel = mysqli_query($_connection,$delSql);
 		if($resDel)
 		{
 			echo "<meta http-equiv=\"refresh\" content=\"0;url=index.php?option=module_800/dateTaskCreated\">";
@@ -37,8 +37,8 @@
 						<?php
 							$sign = 0;
 							$sql = "select * from student_800_task where task_date ='" . $_REQUEST['date'] . "' order by task_roomid" ;
-							$res = mysql_query($sql);
-							while($dat = mysql_fetch_assoc($res))
+							$res = mysqli_query($_connection,$sql);
+							while($dat = mysqli_fetch_assoc($res))
 							{
 								echo "<tr bgcolor=\"white\">";
 								echo "<td align=\"center\">" . getFullRoomFormat($dat['task_roomid']) . "</td>";
@@ -53,7 +53,7 @@
 								}
 								echo "<td>&nbsp;</td>";
 								echo "</tr>";
-							} mysql_free_result($res);
+							} mysqli_free_result($res);
 						?>
 					</table>
                     </div>

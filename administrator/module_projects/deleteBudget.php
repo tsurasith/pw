@@ -3,7 +3,7 @@
 		$_sql = "delete from project_budget 
 					where project_id = '" . $_POST['project_id'] . "'
 						and budget_id = '" . $_POST['budget_id'] . "'";
-		@mysql_query($_sql);
+		@mysqli_query($_connection,$_sql);
 		?><meta http-equiv="refresh" content="0;url=index.php?option=module_projects/addBudget&acadyear=<?=$_POST['acadyear']?>&acadsemester=<?=$_POST['acadsemester']?>&p_id=<?=$_POST['project_id']?>"><?
 	}
 ?>

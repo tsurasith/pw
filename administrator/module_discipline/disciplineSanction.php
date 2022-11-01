@@ -69,9 +69,9 @@ function checkFormValue()
 						left outer join student_investigation on student_discipline.dis_id = student_investigation.dis_id
 						where student_discipline.dis_id = '" . $_disID . "' 
 						and acadyear = '" . $acadyear . "' and acadsemester = '" . $acadsemester . "' and dis_status = 2";
-		$_result = mysql_query($_sql);
-		if(mysql_num_rows($_result)>0){ ?>
-			<? 	$_dat = mysql_fetch_assoc($_result); ?>
+		$_result = mysqli_query($_connection,$_sql);
+		if(mysqli_num_rows($_result)>0){ ?>
+			<? 	$_dat = mysqli_fetch_assoc($_result); ?>
 			<input type="hidden" name="student_id" value="<?=$_dat['dis_studentid']?>" />
 			<input type="hidden" name="dis_id" value="<?=$_dat['dis_id']?>" />
 			<input type="hidden" name="dis_type" value="<?=$_dat['dis_type']?>" />
@@ -148,12 +148,12 @@ function checkFormValue()
 					<td align="right" valign="top"><b>ผู้กำหนดบทลงโทษ</b></td>
 					<td>
 						<? $_sqlTeacher = "select teaccode,prefix,firstname,lastname from teachers where type in ('admin','teacher') order by firstname"; ?>
-						<? $_resTeacher = mysql_query($_sqlTeacher); ?>
+						<? $_resTeacher = mysqli_query($_connection,$_sqlTeacher); ?>
 						<select id="sanc_teacher" name="sanc_teacher" class="inputboxUpdate">
 							<option value=""></option>
-						<? while($_dat = mysql_fetch_assoc($_resTeacher)){ ?>
+						<? while($_dat = mysqli_fetch_assoc($_resTeacher)){ ?>
 							<option value="<?=$_dat['prefix'].$_dat['firstname'].' '.$_dat['lastname']?>" ><?=$_dat['prefix'].$_dat['firstname'].' '.$_dat['lastname']?></option>
-						<? } mysql_free_result($_resTeacher);//end while ?>
+						<? } mysqli_free_result($_resTeacher);//end while ?>
 						</select>
 						<font color="#FF0000">*</font>
 					</td>
@@ -182,8 +182,8 @@ function checkFormValue()
 	if(isset($_POST['student_id']))
 	{
 			$_sanc_alltime = ($_POST['hour'] * 60) + ($_POST['minute']);
-			$_resCheck = mysql_query("select * from student_sanction where dis_id = '" . $_POST['dis_id'] . "' and sanc_alltime = '" . $_sanc_alltime . "'");
-			if(mysql_num_rows($_resCheck) > 0){echo "<center><font color='red'><br/>ได้มีการบันทึกข้อมูลเรียบร้อยแล้ว กรุณาดำเนินการต่อที่เมนู 1.4</font></center>";}
+			$_resCheck = mysqli_query($_connection,"select * from student_sanction where dis_id = '" . $_POST['dis_id'] . "' and sanc_alltime = '" . $_sanc_alltime . "'");
+			if(mysqli_num_rows($_resCheck) > 0){echo "<center><font color='red'><br/>ได้มีการบันทึกข้อมูลเรียบร้อยแล้ว กรุณาดำเนินการต่อที่เมนู 1.4</font></center>";}
 			else
 			{
 				//update student_disciplinestatus -> status = 3 && sanc_status = 02;
@@ -195,15 +195,15 @@ function checkFormValue()
 																	'" . $_sanc_alltime . "',
 																	'" . $_POST['sanc_teacher'] . "',
 																	'" . $_POST['sanc_date'] . "')";
-				$_result1 = mysql_query($_sql);
-				$_result2 = mysql_query($_sql2);				
+				$_result1 = mysqli_query($_connection,$_sql);
+				$_result2 = mysqli_query($_connection,$_sql2);				
 				if($_result1 && $_result2) { 
 					echo "<br/><center><font color='green'>บันทึกข้อมูลบทลงโทษเรียบร้อยแล้ว<br/>
 							ดำเนินการต่อคลิกที่ : <a href='index.php?option=module_discipline/disciplineActivate&dis_id=" .  $_POST['dis_id'] . "&acadyear=". $acadyear . "&acadsemester=". $acadsemester . "'>"
 								.  $_POST['dis_id'] ."</a>
 							</font></center>"; 
 				}
-				else { echo "<br/><font color='red'><center>เกิดข้อผิดพลาด เนื่องจาก - " . mysql_error() . "</center></font>"; }
+				else { echo "<br/><font color='red'><center>เกิดข้อผิดพลาด เนื่องจาก - " . mysqli_error() . "</center></font>"; }
 			}//end else if user click refresh button
 	}//end if submit data
 ?>
@@ -215,8 +215,8 @@ function checkFormValue()
 	function studentData($_id,$acadyear)
 	{
 		$_sql = "select id,prefix,firstname,lastname,xlevel,xyearth,room,p_village from students where xedbe = '" . $acadyear  ."' and id = '". $_id . "'";
-		$_result = mysql_query($_sql);
-		$_dat = mysql_fetch_assoc($_result);
+		$_result = mysqli_query($_connection,$_sql);
+		$_dat = mysqli_fetch_assoc($_result);
 		$str = "";
 		$str = $str . "เลขประจำตัว: " . $_dat['id'] . "<br/>ชื่อ-สกุล: ". $_dat['prefix'] . $_dat['firstname'] . ' ' . $_dat['lastname'] . "<br/>";
 		$str = $str . "ระดับชั้น: " .($_dat['xlevel']==4?$_dat['xyearth']+3:$_dat['xyearth']) . "/" . $_dat['room'] . "<br/>";

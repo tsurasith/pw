@@ -82,9 +82,9 @@
 								where xedbe = '" . $acadyear . "'and acadsemester = '" . $acadsemester . "' 
 									and acadyear = '" . $acadyear . "' " . (isset($_POST['studstatus'])=="1,2"?" and studstatus in (1,2) ":"") . "
 								group by xlevel,xyearth";?>
-					<? $_result = mysql_query($_sql); ?>
+					<? $_result = mysqli_query($_connection,$_sql); ?>
 					<? $_a = 0;$_b = 0; $_c = 0; $_d = 0; $_sum = 0; ?>
-					<? while($_dat = mysql_fetch_assoc($_result)) { ?>
+					<? while($_dat = mysqli_fetch_assoc($_result)) { ?>
 					<tr>
 						<td style="padding-left:20px" align="left">ชั้นมัธยมศึกษาปีที่ <?=$_dat['xlevel']==3?$_dat['xyearth']:$_dat['xyearth']+3?></td>
 						<td style="padding-right:30px" align="right"><?=$_dat['a']==0?"-":number_format($_dat['a'],0,'',',')?></td>
@@ -95,7 +95,7 @@
 						<? $_a += $_dat['a']; $_b += $_dat['b']; $_c += $_dat['c'];
 						   $_d += $_dat['d']; $_sum += ($_dat['a']+$_dat['b']+$_dat['c']+$_dat['d']); ?>
 					</tr>
-					<? } mysql_free_result($_result); ?>
+					<? } mysqli_free_result($_result); ?>
 					<tr height="30px">
 					  <td class="key" align="center">รวม</td>
 					  <td class="key" style="padding-right:30px" align="right"><?=$_a>0?number_format($_a,0,'',','):"-"?></td>
@@ -130,9 +130,9 @@
 									and xlevel = '" . substr($_POST['roomID'],0,1) . "' and xyearth = '" . substr($_POST['roomID'],2,1) . "'
 									and acadyear = '" . $acadyear . "' " . (isset($_POST['studstatus'])=="1,2"?" and studstatus in (1,2) ":"") . "
 								group by room";?>
-					<? $_result = mysql_query($_sql); ?>
+					<? $_result = mysqli_query($_connection,$_sql); ?>
 					<? $_a = 0;$_b = 0; $_c = 0; $_d = 0; $_sum = 0; ?>
-					<? while($_dat = mysql_fetch_assoc($_result)) { ?>
+					<? while($_dat = mysqli_fetch_assoc($_result)) { ?>
 					<tr>
 						<td style="padding-left:20px" align="left">นักเรียนชั้นมัธยมศึกษาปีที่ <?=displayXyear($_POST['roomID']).'/'.$_dat['room']?></td>
 						<td style="padding-right:30px" align="right"><?=$_dat['a']==0?"-":number_format($_dat['a'],0,'',',')?></td>
@@ -143,7 +143,7 @@
 						<? $_a += $_dat['a']; $_b += $_dat['b']; $_c += $_dat['c'];
 						   $_d += $_dat['d']; $_sum += ($_dat['a']+$_dat['b']+$_dat['c']+$_dat['d']); ?>
 					</tr>
-					<? } mysql_free_result($_result); ?>
+					<? } mysqli_free_result($_result); ?>
 					<tr height="30px">
 					  <td class="key" align="center">รวม</td>
 					  <td class="key" style="padding-right:30px" align="right"><?=$_a>0?number_format($_a,0,'',','):"-"?></td>

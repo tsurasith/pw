@@ -28,15 +28,15 @@
 <br/>
 <? $_sql = "select timecheck_id,count(a.id) as 'count' from students a left outer join student_800 on (a.id = student_id) ";?>
 <? $_sql .= " where  xedbe = '" . $acadyear . "' and acadyear = '" . $acadyear . "' " . ($_POST['studstatus']=="1,2"?"and studstatus in (1,2) ":"") . "  group by timecheck_id ";?>
-<? $_result = mysql_query($_sql); ?>
-<? if(mysql_num_rows($_result)>0) { ?>
+<? $_result = mysqli_query($_connection,$_sql); ?>
+<? if(mysqli_num_rows($_result)>0) { ?>
 		<table class="admintable" width="100%"  cellpadding="1" cellspacing="1" border="0" align="center">
 			<tr> 
 				<th align="center">
 					<img src="../images/school_logo.png" width="120px"><br/><br/>
 					การเช็คนักเรียนเข้าร่วมกิจกรรมหน้าเสาธง ปีการศึกษา <?=$acadyear?><br/>
-					<? $_resTotal = mysql_query("select count(a.id) as 'total' from students a left outer join student_800 on (a.id = student_id) where  xedbe = '" . $acadyear . "' and acadyear = '" .$acadyear."' " . ($_POST['studstatus']=="1,2"?"and studstatus in (1,2) ":""));?>
-					<? $_total = mysql_fetch_assoc($_resTotal); ?>
+					<? $_resTotal = mysqli_query($_connection,"select count(a.id) as 'total' from students a left outer join student_800 on (a.id = student_id) where  xedbe = '" . $acadyear . "' and acadyear = '" .$acadyear."' " . ($_POST['studstatus']=="1,2"?"and studstatus in (1,2) ":""));?>
+					<? $_total = mysqli_fetch_assoc($_resTotal); ?>
 				</th>
 			</tr>
 			<tr>
@@ -51,14 +51,14 @@
 							<td class="key" width="100px" align="center">คิดเป็นร้อยละ</td>
 						</tr>
 						<?	$_sum; ?>
-						<?	while($_dat = mysql_fetch_assoc($_result)){ ?>
+						<?	while($_dat = mysqli_fetch_assoc($_result)){ ?>
 						<tr>
 							<td style="padding-left:25px;"><?=displayTimecheckID($_dat['timecheck_id'])?></td>
 							<td style="padding-right:15px;" align="right"><?=$_dat['count']==0?"-":number_format($_dat['count'],0,'',',')?></td>
 							<td align="center"><?=number_format($_dat['count']/$_total['total']*100,1,'.','')?></td>
 						</tr>
 						<?	$_sum+=$_dat['count'];?>
-						<?	} mysql_free_result($_result); ?>
+						<?	} mysqli_free_result($_result); ?>
 						<tr height="35px">
 							<td class="key" align="center">รวม</td>
 							<td class="key" align="right"><?=number_format($_sum,0,'',',')?></td>

@@ -147,7 +147,7 @@
 	</table>
 </form>
 <? } else { 
-	$_chekcID = mysql_num_rows(mysql_query("select project_id from project where project_id = '" . $_POST['project_id'] . "'"));
+	$_chekcID = mysqli_num_rows(mysqli_query($_connection,"select project_id from project where project_id = '" . $_POST['project_id'] . "'"));
 	if($_checkID > 0) { ?>
 		<center><br/><font color="#FF0000">ไม่สามารถบันทึกข้อมูลได้เนื่องจาก "รหัสกิจกรรม/โครงการ" ซ้ำกับฐานข้อมูลเดิม</font><br/>
 		<input type="button" value="ย้อนกลับ" onclick="history.go(-1)" />
@@ -168,12 +168,12 @@
 					'" . $_POST['budget_income'] . "',
 					'" . $_SESSION['name'] ."'
 						)";
-		if(mysql_query($_sql)) { ?>
+		if(mysqli_query($_connection,$_sql)) { ?>
 			<center><br/>
 				<font color="#008000">บันทึกกิจกรรมโครงการเรียบร้อยแล้ว</font>
 					<br/><br/><input type="button" value="ดำเนินการต่อไป" onclick="location.href= 'index.php?option=module_projects/index'" />
 			</font></center>
-<?		} else { echo "<center><font color='red'><br/> ผิดพลาดเนื่องจาก - " . mysql_error() . "</font></center>";} //end insert
+<?		} else { echo "<center><font color='red'><br/> ผิดพลาดเนื่องจาก - " . mysqli_error() . "</font></center>";} //end insert
    } //end else
 ?>
 </div>
@@ -182,7 +182,7 @@
 	function getNextProjectID($acadyear,$acadsemester)
 	{
 		$_sql = "select substr(project_id,8,3) as id from project where acadyear='".$acadyear."' and acadsemester='".$acadsemester."' order by 1 desc limit 0,1";
-		$_dat = mysql_fetch_assoc(mysql_query($_sql));
+		$_dat = mysqli_fetch_assoc(mysqli_query($_connection,$_sql));
 		if($_dat['id']==""){
 			return  $acadyear.'-'.$acadsemester.'-001';
 		}

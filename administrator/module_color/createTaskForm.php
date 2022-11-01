@@ -13,11 +13,11 @@
 	<? if(isset($_POST['save']) && $_POST['date'] != ""){ ?>
 	<?
 			$sql = "SELECT distinct color_id FROM ref_color where color_id != '00'";
-			$_resColor = mysql_query($sql);
-			if(mysql_num_rows($_resColor) > 0) {
+			$_resColor = mysqli_query($_connection,$sql);
+			if(mysqli_num_rows($_resColor) > 0) {
 				$sql2 = "select distinct task_date from student_color_task where task_date = '" . $_POST['date'] . "'" ;
-				$_resDateCreated = mysql_query($sql2);
-				if(mysql_num_rows($_resDateCreated) > 0)
+				$_resDateCreated = mysqli_query($_connection,$sql2);
+				if(mysqli_num_rows($_resDateCreated) > 0)
 				{ ?>
 					<center>
 						<font color="#FF0000"><br/>ได้มีการสร้างงานบันทึกข้อมูลในวันนี้แ้ล้ว ท่านไม่สามารถสร้างงานบันทึกซ้ำได้</font><br/><br/>
@@ -27,12 +27,12 @@
 				}
 				else
 				{
-					while ($data = mysql_fetch_assoc($_resColor))
+					while ($data = mysqli_fetch_assoc($_resColor))
 					{
 						$sql_insert = "insert into student_color_task values ( null,'". $_POST['date'] ."','" . "3" . $data['color_id'] . "','0' ,'" . $acadyear . "','" . $acadsemester . "') ";
-						mysql_query($sql_insert) or die ('Error - ' . mysql_error());
+						mysqli_query($_connection,$sql_insert) or die ('Error - ' . mysqli_error());
 						$sql_insert = "insert into student_color_task values ( null,'". $_POST['date'] ."','" . "4" . $data['color_id'] . "','0' ,'" . $acadyear . "','" . $acadsemester . "') ";
-						mysql_query($sql_insert) or die ('Error - ' . mysql_error());
+						mysqli_query($_connection,$sql_insert) or die ('Error - ' . mysqli_error());
 						//echo $sql_insert . "<br/>";
 					} //end while	?>
 						<table align="center" width="100%">

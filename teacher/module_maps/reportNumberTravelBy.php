@@ -51,7 +51,7 @@
   	$_sql = "select travelby,count(*)as c from students where xedbe = '" . $acadyear . "'  ";
 	if($_POST['studstatus']=="1,2") $_sql .= "and studstatus in (1,2) ";
 	$_sql .= " group by travelby order by 1 ";
-	$_totalStudent = mysql_fetch_assoc(mysql_query("select count(*) as total from students where xedbe = '" . $acadyear . "'" . ($_POST['studstatus']=="1,2"?"and studstatus in (1,2)":"")));
+	$_totalStudent = mysqli_fetch_assoc(mysqli_query($_connection,"select count(*) as total from students where xedbe = '" . $acadyear . "'" . ($_POST['studstatus']=="1,2"?"and studstatus in (1,2)":"")));
   }
   else
   {
@@ -60,10 +60,10 @@
 					and xyearth = '" . substr($_POST['roomID'],2,1) . "' ";
 	if($_POST['studstatus']=="1,2") $_sql .= "and studstatus in (1,2) ";
 	$_sql .= " group by travelby order by 1 ";
-	$_totalStudent = mysql_fetch_assoc(mysql_query("select count(*) as total from students where xedbe = '" . $acadyear . "' and xlevel = '" . substr($_POST['roomID'],0,1) . "' and xyearth = '" . substr($_POST['roomID'],2,1) . "' " . ($_POST['studstatus']=="1,2"?"and studstatus in (1,2)":"")));
+	$_totalStudent = mysqli_fetch_assoc(mysqli_query($_connection,"select count(*) as total from students where xedbe = '" . $acadyear . "' and xlevel = '" . substr($_POST['roomID'],0,1) . "' and xyearth = '" . substr($_POST['roomID'],2,1) . "' " . ($_POST['studstatus']=="1,2"?"and studstatus in (1,2)":"")));
   }
-  $_result = mysql_query($_sql);
-  if(mysql_num_rows($_result)>0) {
+  $_result = mysqli_query($_connection,$_sql);
+  if(mysqli_num_rows($_result)>0) {
   ?>
   <table class="admintable" width="100%" align="center">
     <tr> 
@@ -83,14 +83,14 @@
 					<td class="key" width="120px" align="center">ร้อยละ</td>
 				</tr>
 				<?  $_Point = 0; $_sumTime = 0;  ?>
-				<?	while($_dat = mysql_fetch_assoc($_result)){ ?>
+				<?	while($_dat = mysqli_fetch_assoc($_result)){ ?>
 					<tr>
 						<td style="padding-left:15px;" align="left"><?=displayTravel($_dat['travelby'])?></td>
 						<td style="padding-right:45px;" align="right"><?=number_format($_dat['c'],0,'.',',')?></td>
 						<td style="padding-right:45px;" align="right"><?=number_format(($_dat['c']/$_totalStudent['total'])*100,'2','.',',')?></td>
 						<? $_Point += $_dat['travelby'] * $_dat['c'] ; $_sumTime += $_dat['c'];?>
 					</tr>	
-				<?	} mysql_free_result($_result); ?>
+				<?	} mysqli_free_result($_result); ?>
 					<tr height="30px">
 						<td class="key" align="center" colspan="2">รวม : <?=number_format($_totalStudent['total'],0,'.',',')?> คน</td>
 						<td></td>

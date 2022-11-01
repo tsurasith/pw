@@ -18,7 +18,7 @@
 				set points = '" . ($_POST['oldPoints'] - $_POST['deduct']) . "' 
 					where id = '" . $_POST['studentid'] . "' and 
 			 	  xedbe = '" . $acadyear . "'";
-	 if(mysql_query($_sql)) $_flag = 1;
+	 if(mysqli_query($_connection,$_sql)) $_flag = 1;
 	 else $_flag = 0;
 	 //echo $_sql;
 	}
@@ -51,9 +51,9 @@
 
 <? if(isset($_POST['action']) && $_POST['studentid'] != ""){ ?>
 	<? $sql = "select id,prefix,firstname,lastname,nickname,xlevel,xyearth,room,sex,f_name,m_name,a_name,a_mobile,studstatus,points from students where id = '" . $_POST['studentid'] . "' and xedbe = '" . $acadyear . "'" ; ?>
-	<? $result = mysql_query($sql);?>
-	<? if($result && mysql_num_rows($result) > 0) { ?>
-    	 <? $_dat = mysql_fetch_assoc($result); ?>
+	<? $result = mysqli_query($_connection,$sql);?>
+	<? if($result && mysqli_num_rows($result) > 0) { ?>
+    	 <? $_dat = mysqli_fetch_assoc($result); ?>
 		 <form name="myform"  method="post" autocomplete="off">
 		  <table width="100%" align="center" cellspacing="1" class="admintable" border="0" cellpadding="0">
 			<tr>
@@ -95,7 +95,7 @@
                             	<td></td>
                                 <td colspan="2">
                                 	<font color="#cc0000">
-                                    	เกิดข้อผิดพลาดระหว่างประมวลผลเนื่องจาก : <?=mysql_error();?>
+                                    	เกิดข้อผิดพลาดระหว่างประมวลผลเนื่องจาก : <?=mysqli_error();?>
                                     </font>
                                 </td>
                             </tr>

@@ -19,11 +19,11 @@
 		<br/><font color="#000000" size="2">
 		เลือกตำบล
 			<select name="p_tumbol" class="inputboxUpdate"> 
-				<?	$_resultVillage = mysql_query("select distinct trim(p_tumbol) as p_tumbol from students where xEDBE = '" . $acadyear . "' order by 1");
-					while($_datVillage = mysql_fetch_assoc($_resultVillage))
+				<?	$_resultVillage = mysqli_query($_connection,"select distinct trim(p_tumbol) as p_tumbol from students where xEDBE = '" . $acadyear . "' order by 1");
+					while($_datVillage = mysqli_fetch_assoc($_resultVillage))
 					{  ?>
 						<option value="<?=$_datVillage['p_tumbol']?>" <?=isset($_POST['p_tumbol'])&&$_POST['p_tumbol']==$_datVillage['p_tumbol']?"selected":""?> > <?=$_datVillage['p_tumbol']?> </option>
-				<?	} mysql_free_result($_resultVillage) ?>
+				<?	} mysqli_free_result($_resultVillage) ?>
 			</select> 
 			เพศ
 			<select name="sex" class="inputboxUpdate">
@@ -51,9 +51,9 @@
 		if($_POST['studstatus']=="1,2") $sqlStudent .= " and studstatus in (1,2) ";
 		if($_POST['sex'] != "all") $sqlStudent .= " and sex = '" . $_POST['sex'] . "' ";
 		$sqlStudent .= " order by xlevel,xyearth,room,sex,id";
-		$resStudent = mysql_query($sqlStudent);
+		$resStudent = mysqli_query($_connection,$sqlStudent);
 		$ordinal = 1; ?>
-	<? if(mysql_num_rows($resStudent)>0) { ?>
+	<? if(mysqli_num_rows($resStudent)>0) { ?>
 		  <table class="admintable" align="center" width="800px">
 			<tr>
 				<th colspan="5" align="center">
@@ -62,7 +62,7 @@
 				</th>
 			</tr>
 		<?	
-				$totalRows = mysql_num_rows($resStudent);
+				$totalRows = mysqli_num_rows($resStudent);
 				$_cols = 5;
 				for($i = 0; $i < $totalRows/5 ; $i++)
 				{
@@ -70,7 +70,7 @@
 					for($_j = 0 ; $_j < 5 ; $_j++)
 					{
 						if($ordinal > $totalRows) continue;
-						$dat = mysql_fetch_array($resStudent);
+						$dat = mysqli_fetch_array($resStudent);
 						echo "<td align='center' width='160px'>";
 						echo "<font color='red'><b>$ordinal</b></font>";
 						if(file_exists($_SERVER["DOCUMENT_ROOT"] . "/pk/images/studphoto/id" . $dat['id'] . ".jpg"))

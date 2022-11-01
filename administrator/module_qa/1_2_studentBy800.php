@@ -42,26 +42,26 @@
 			from student_800 left outer join students on (student_id = id)
 			where acadyear = '" . $acadyear . "' ". ($_POST['studstatus']=="1,2"?" and studstatus in (1,2)":"") . "
 				and timecheck_id = 04 and xedbe = '" . $acadyear . "' group by class_id";?>
-<? $_result = mysql_query($_sql); ?>
-<? if(mysql_num_rows($_result)>0) { ?>
+<? $_result = mysqli_query($_connection,$_sql); ?>
+<? if(mysqli_num_rows($_result)>0) { ?>
 		<table class="admintable" width="100%"  cellpadding="1" cellspacing="1" border="0" align="center">
 			<tr> 
 				<th align="center">
 					<img src="../images/school_logo.png" width="120px"><br/><br/>
 					แสดงการมาเรียนของผู้เรียนในแต่ละห้องเรียน ปีการศึกษา <?=$acadyear?><br/>
-					<? $_resTotal = mysql_query("select count(student_id) as 'total' from student_800 left outer join students on (student_id = id) where acadyear = '" . $acadyear . "' ". ($_POST['studstatus']=="1,2"?" and studstatus in (1,2)":"") . " and xedbe = '" . $acadyear . "' ");?>
-					<? $_total = mysql_fetch_assoc($_resTotal); ?>
+					<? $_resTotal = mysqli_query($_connection,"select count(student_id) as 'total' from student_800 left outer join students on (student_id = id) where acadyear = '" . $acadyear . "' ". ($_POST['studstatus']=="1,2"?" and studstatus in (1,2)":"") . " and xedbe = '" . $acadyear . "' ");?>
+					<? $_total = mysqli_fetch_assoc($_resTotal); ?>
 				</th>
 			</tr>
 			<tr><th align="left">ข้อมูลพื้นฐาน</th></tr>
 			<tr>
 				<td>
-					<? $_resDateCount = mysql_query("select distinct task_date from student_800_task where acadyear = '" . $acadyear . "'");?>
-					<? $_resStudentCount = mysql_query("select id from students where xedbe = '" . $acadyear . "'" . ($_POST['studstatus']=="1,2"?" and studstatus in (1,2)":""));?>
+					<? $_resDateCount = mysqli_query($_connection,"select distinct task_date from student_800_task where acadyear = '" . $acadyear . "'");?>
+					<? $_resStudentCount = mysqli_query($_connection,"select id from students where xedbe = '" . $acadyear . "'" . ($_POST['studstatus']=="1,2"?" and studstatus in (1,2)":""));?>
 					<ul>
-						<li>จำนวนห้องเรียนในปีการศึกษา <?=displayText($acadyear)?> มีทั้งหมดจำนวน <?=displayText(mysql_num_rows($_result))?> ห้องเรียน</li>
-						<li>จำนวนวันที่ต้องเรียนต้องมาเรียนทั้งหมดจำนวน <?=displayText(mysql_num_rows($_resDateCount))?> วัน</li>
-						<li>จำนวกนักเรียนทั้งหมดจำนวน <?=displayText(number_format(mysql_num_rows($_resStudentCount),0,'.',','))?> คน</li>
+						<li>จำนวนห้องเรียนในปีการศึกษา <?=displayText($acadyear)?> มีทั้งหมดจำนวน <?=displayText(mysqli_num_rows($_result))?> ห้องเรียน</li>
+						<li>จำนวนวันที่ต้องเรียนต้องมาเรียนทั้งหมดจำนวน <?=displayText(mysqli_num_rows($_resDateCount))?> วัน</li>
+						<li>จำนวกนักเรียนทั้งหมดจำนวน <?=displayText(number_format(mysqli_num_rows($_resStudentCount),0,'.',','))?> คน</li>
 						<li>จำนวนครั้งที่เช็คนักเรียนมาเรียนทั้งหมดจำนวน <?=displayText(number_format($_total['total'],0,'',','))?> ครั้ง</li>
 						<li>ร้อยละ หมายถึง ร้อยละการขาดการเข้าร่วมกิจกรรมหน้าเสาธงของนักเรียน <br/>คำนวณได้จาก (จำนวนขาดรวมของห้องเรียน) / 
 							(จำนวนครั้งที่เช็คนักเรียนมาเรียนทั้งหมด)</li>
@@ -91,7 +91,7 @@
 							<td class="key" width="80px" align="center">ร้อยละ</td>
 						</tr>
 						<?	$_may;$_jun;$_jul;$_aug;$_sep;$_oct;$_nov;$_dec;$_jan;$_feb;$_mar; $_sum; ?>
-						<?	while($_dat = mysql_fetch_assoc($_result)){ ?>
+						<?	while($_dat = mysqli_fetch_assoc($_result)){ ?>
 						<tr>
 							<td style="padding-left:10px;">มัธยมศึกษาปีที่ <?=getFullRoomFormat($_dat['class_id'])?></td>
 							<td style="padding-right:10px;" align="right"><?=$_dat['may']==0?"-":$_dat['may']?></td>
@@ -111,7 +111,7 @@
 						<?	$_may+=$_dat['may'];  $_jun+=$_dat['jun'];  $_jul+=$_dat['jul'];  $_aug+=$_dat['aug']; ?>
 						<?	$_sep+=$_dat['sep'];  $_oct+=$_dat['oct'];  $_nov+=$_dat['nov'];  $_dec+=$_dat['dec']; ?>
 						<?	$_jan+=$_dat['jan'];  $_feb+=$_dat['feb'];  $_mar+=$_dat['mar'];  $_sum+=$_dat['sum'];?>
-						<?	} mysql_free_result($_result); ?>
+						<?	} mysqli_free_result($_result); ?>
 						<tr height="35px">
 							<td class="key" align="center">รวม</td>
 							<td style="padding-right:10px;" class="key" align="right"><?=$_may>0?number_format($_may,0,'',','):"-"?></td>

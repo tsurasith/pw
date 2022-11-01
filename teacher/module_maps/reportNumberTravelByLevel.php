@@ -18,13 +18,13 @@
 		</font><br/>
 	  	<font color="#000000" size="2">
 		เลือกวิธีการเดินทาง
-			<? $_resTravel = mysql_query("select * from ref_travel order by 1"); ?>
+			<? $_resTravel = mysqli_query($_connection,"select * from ref_travel order by 1"); ?>
 		  	<select name="travelby" class="inputboxUpdate">
 				<option value=""></option>
-				<? while($_datTravel = mysql_fetch_assoc($_resTravel)) { ?>
+				<? while($_datTravel = mysqli_fetch_assoc($_resTravel)) { ?>
 					<option value="<?=$_datTravel['travel_id']?>" <?=$_POST['travelby']==$_datTravel['travel_id']?"selected":""?>><?=$_datTravel['travel_description']?></option>
 				<? } //end-while ?>
-				<? mysql_free_result($_resTravel); ?>
+				<? mysqli_free_result($_resTravel); ?>
 			</select>
 	  		<input type="submit" value="เรียกดู" class="button" name="search"/> <br/>
 			<input type="checkbox" name="studstatus" value="1,2" <?=$_POST['studstatus']=="1,2"?"checked='checked'":""?> />
@@ -46,7 +46,7 @@
   	$_sql = "select xlevel,xyearth,sum(if(sex=1,1,0)) as 'm',sum(if(sex=2,1,0)) as 'f',count(*)as c from students where xedbe = '" . $acadyear . "'  ";
 	if($_POST['studstatus']=="1,2") $_sql .= "and studstatus in (1,2) ";
 	$_sql .= " group by xlevel,xyearth order by xlevel,xyearth ";
-	$_totalStudent = mysql_fetch_assoc(mysql_query("select count(*) as total from students where xedbe = '" . $acadyear . "'" . ($_POST['studstatus']=="1,2"?"and studstatus in (1,2)":"")));
+	$_totalStudent = mysqli_fetch_assoc(mysqli_query($_connection,"select count(*) as total from students where xedbe = '" . $acadyear . "'" . ($_POST['studstatus']=="1,2"?"and studstatus in (1,2)":"")));
   }
   else
   {
@@ -54,10 +54,10 @@
 				where xedbe = '" . $acadyear . "' and travelby = '" . $_POST['travelby'] . "'  ";
 	if($_POST['studstatus']=="1,2") $_sql .= "and studstatus in (1,2) ";
 	$_sql .= " group by xlevel,xyearth order by xlevel,xyearth ";
-	$_totalStudent = mysql_fetch_assoc(mysql_query("select count(*) as total from students where xedbe = '" . $acadyear . "' and travelby = '" . $_POST['travelby'] . "' " . ($_POST['studstatus']=="1,2"?"and studstatus in (1,2)":"")));
+	$_totalStudent = mysqli_fetch_assoc(mysqli_query($_connection,"select count(*) as total from students where xedbe = '" . $acadyear . "' and travelby = '" . $_POST['travelby'] . "' " . ($_POST['studstatus']=="1,2"?"and studstatus in (1,2)":"")));
   }
-  $_result = mysql_query($_sql);
-  if(mysql_num_rows($_result)>0) {
+  $_result = mysqli_query($_connection,$_sql);
+  if(mysqli_num_rows($_result)>0) {
   ?>
   <table class="admintable" width="100%"  cellpadding="1" cellspacing="1" border="0" align="center">
     <tr> 
@@ -83,7 +83,7 @@
 				</tr>
 				<?  $_Point = 0; $_sumTime = 0;  ?>
 				<?  $_m=0; $_f=0; ?>
-				<?	while($_dat = mysql_fetch_assoc($_result)){ ?>
+				<?	while($_dat = mysqli_fetch_assoc($_result)){ ?>
 					<tr>
 						<td style="padding-left:10px;">ชั้นมัธยมศึกษาปีที่ <?=($_dat['xlevel']==3?$_dat['xyearth']:$_dat['xyearth']+3)?></td>
 						<td style="padding-right:15px;" align="right"><?=$_dat['m']>0?number_format($_dat['m'],0,'',','):"-"?></td>
@@ -93,7 +93,7 @@
 						<? $_Point += $_dat['travelby'] * $_dat['c'] ; $_sumTime += $_dat['c'];?>
 						<? $_m += $_dat['m']; $_f += $_dat['f']; ?>
 					</tr>	
-				<?	} mysql_free_result($_result); ?>
+				<?	} mysqli_free_result($_result); ?>
 					<tr height="30px">
 						<td class="key" align="center">รวม</td>
 						<td align="center" class="key"><?=$_m?></td>

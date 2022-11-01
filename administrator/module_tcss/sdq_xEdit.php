@@ -182,12 +182,12 @@
 			</select> 
 			เลือกห้อง 
 			<?	$sql_Room = "select room_id from rooms where acadyear = '". $acadyear . "' and acadsemester = '" . $acadsemester . "'  order by room_id";
-				$resRoom = mysql_query($sql_Room); ?>
+				$resRoom = mysqli_query($_connection,$sql_Room); ?>
 			<select name="roomID" class="inputboxUpdate" onchange="document.myform.submit();">
 				<option value=""></option>
-				<? while($dat = mysql_fetch_assoc($resRoom)) { ?>
+				<? while($dat = mysqli_fetch_assoc($resRoom)) { ?>
 					<option value="<?=$dat['room_id']?>"<?=(isset($_POST['roomID'])&&$_POST['roomID'] == $dat['room_id']?"selected":"")?>><?=getFullRoomFormat($dat['room_id'])?></option>
-				<? } mysql_free_result($resRoom);?>
+				<? } mysqli_free_result($resRoom);?>
 			</select> <input type="submit" value="เรียกดู" name="search" class="button"/><br/>
 			<? if($_POST['roomID'] != "" && $_POST['questioner'] != ""){ ?>
 				<?    $_table = ($_POST['questioner']=="parent"?"sdq_parent":($_POST['questioner']=="teacher"?"sdq_teacher":"sdq_student"));
@@ -201,12 +201,12 @@
 											and acadyear = '" . $acadyear . "' and semester = '" . $acadsemester . "'
 											and xyearth = '" . $xyearth . "' and room = '" . $room . "' and $_table.status = '1'
 										order by sex,id "; ?>
-					<? $resStud = mysql_query($sql_Student); ?>
+					<? $resStud = mysqli_query($_connection,$sql_Student); ?>
 					<select name="student_id" class="inputboxUpdate">
 						<option value=""></option>
-						<? while($_datSt = mysql_fetch_assoc($resStud)){ ?>
+						<? while($_datSt = mysqli_fetch_assoc($resStud)){ ?>
 							<option value="<?=$_datSt['id']?>" <?=$_datSt['id']==$_POST['student_id']?"selected":""?>><?=$_datSt['id']."-".$_datSt['prefix'].$_datSt['firstname']." ".$_datSt['lastname']?></option>
-						<? }mysql_free_result($resStud); ?>
+						<? }mysqli_free_result($resStud); ?>
 					</select>
 			<? } //end if check roomID submit ?>
 			</font>
@@ -224,10 +224,10 @@
 					on (students.id = $_table.student_id) 
 				where student_id = '" . $_POST['student_id'] . "' and acadyear = '" . $acadyear . "' and semester = '" . $acadsemester . "'
 						and xedbe = '" . $acadyear . "'";
-		$_res = mysql_query($_sql);
-		if(mysql_num_rows($_res) > 0)
+		$_res = mysqli_query($_connection,$_sql);
+		if(mysqli_num_rows($_res) > 0)
 		{
-			$_dat = mysql_fetch_assoc($_res);
+			$_dat = mysqli_fetch_assoc($_res);
 			if($_dat['status'] == 0)
 			{ 
 				echo "<table width='95%' class='admintable' align='center'><tr><td align='center'>";
@@ -236,8 +236,8 @@
 			}
 			else { ?>			
 				<? $_sqlSDQX = "select * from $_table where student_id = '" . $_POST['student_id']. "' and acadyear = '" . $acadyear . "' and semester = '" . $acadsemester . "'"; ?>
-				<? $_resSDQX =  mysql_query($_sqlSDQX); ?>
-				<? $_sdq = mysql_fetch_assoc($_resSDQX); ?>
+				<? $_resSDQX =  mysqli_query($_connection,$_sqlSDQX); ?>
+				<? $_sdq = mysqli_fetch_assoc($_resSDQX); ?>
 				<form method="post" id="frm1" name="frm1">
 				<table class="admintable" width="100%" align="center" border="0" cellspacing="0">
 					<tr>
@@ -618,7 +618,7 @@
 					where student_id = '" . $_POST['student_id'] ."' and
 						  semester = '" . $_POST['semester'] . "' and
 						  acadyear = '" . $_POST['acadyear'] . "'";
-			$_res = mysql_query($_sql) or die (mysql_error());
+			$_res = mysqli_query($_connection,$_sql) or die (mysqli_error());
 			
 			$_sqlResult = "update sdq_result set
 							type1 = '" . $_type1 . "',
@@ -632,7 +632,7 @@
 								and acadsemester = '" . $_POST['semester'] . "'
 								and student_id = '" . $_POST['student_id'] . "'
 								and questioner = '" . substr($_POST['table'],4,strlen($_POST['table'])) . "' ";
-			$_resResult = mysql_query($_sqlResult)or die (mysql_error());
+			$_resResult = mysqli_query($_connection,$_sqlResult)or die (mysqli_error());
 			if($_res && $_resResult)
 			{
 				echo "<table width='95%' class='admintable' align='center'><tr><td align='center'>";

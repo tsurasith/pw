@@ -1,13 +1,13 @@
 ﻿
 <? 
 	$_sqlStudent = "select id,prefix,firstname,lastname,xlevel,xyearth,room,xedbe from students where id = '" . $_SESSION['username'] . "' order by xedbe desc";
-	$_datStudent = mysql_fetch_assoc(@mysql_query($_sqlStudent));
+	$_datStudent = mysqli_fetch_assoc(@mysqli_query($_connection,$_sqlStudent));
 ?>
 
 
   <?php
 
-	  $_resSemester = mysql_query("select distinct concat(acadsemester,'/',acadyear) as display,acadsemester,acadyear 
+	  $_resSemester = mysqli_query($_connection,"select distinct concat(acadsemester,'/',acadyear) as display,acadsemester,acadyear 
 									from grades where student_id = '" . $_SESSION['username'] . "' order by acadyear ,acadsemester ");
   ?>
 
@@ -38,7 +38,7 @@
 				where a.student_id = '" . $_SESSION['username'] . "'
 				order by a.acadyear desc,a.acadsemester desc,b.groupsara";
 	  // echo $_sql;
-	  @$_result = mysql_query($_sql);
+	  @$_result = mysqli_query($_connection,$_sql);
 	  $_no = 1;
   ?>
 
@@ -70,7 +70,7 @@
             <td class="key" width="90px" align="center" >ผลการเรียนเดิม</td>
             <td class="key" width="80px" align="center" >หมายเหตุ</td>            
         </tr>
-        <? while($_Term = mysql_fetch_assoc($_resSemester)){ ?>
+        <? while($_Term = mysqli_fetch_assoc($_resSemester)){ ?>
         <? 	$_sql =   "select 
 						 a.acadyear,a.acadsemester,a.psubjectcode,
 						 b.psubjectname,b.psubjectcredit,a.p100,a.grade,a.regrade,b.groupsara
@@ -82,7 +82,7 @@
 						  a.acadyear = '" . $_Term['acadyear'] . "' 
 					order by a.acadyear desc,a.acadsemester desc,b.groupsara"; 
 		  			// echo $_sql;
-		 			 @$_result = mysql_query($_sql);
+		 			 @$_result = mysqli_query($_connection,$_sql);
 					 
 					 $_credit = 0.0;
 					 $_unitPoint = 0.0;
@@ -91,7 +91,7 @@
                      $_xYear = "";
                      $_xSemester = "";
                                 ?>
-                                <? while($_dat = mysql_fetch_assoc($_result)) { ?>
+                                <? while($_dat = mysqli_fetch_assoc($_result)) { ?>
                                     <tr>
                                         <td align="center"><?=$_dat['acadyear']==$_xYear?"":$_dat['acadyear']?></td>
                                         <td align="center"><?=$_dat['acadsemester']==$_xSemester?"":$_dat['acadsemester']?></td>

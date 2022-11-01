@@ -67,9 +67,9 @@
 		<? if($_POST['roomID']!="all") $sqlStudent .= " and xlevel = '". substr($_POST['roomID'],0,1) . "' and xyearth = '" . substr($_POST['roomID'],2,1) . "' "; ?>
 		<? if($_POST['studstatus']=="1,2") $sqlStudent .= " and studstatus in (1,2) "; ?>
 		<? $sqlStudent .= " order by a.id,sex,mdate "; ?>
-		<? $resStudent = mysql_query($sqlStudent); ?>
+		<? $resStudent = mysqli_query($_connection,$sqlStudent); ?>
 		<? $ordinal = 1; $_xID = ""; ?>
-		<? if(mysql_num_rows($resStudent)>0) { ?>
+		<? if(mysqli_num_rows($resStudent)>0) { ?>
 			  <table class="admintable" align="center">
 				<tr> 
 				  <th colspan="6" align="center">
@@ -86,7 +86,7 @@
 					<td class="key" align="center" width="80px">คะแนน<br/>ความประพฤติ</td>
 					<td class="key" width="350px" align="center">พฤติกรรมที่พึงประสงค์</td>
 				</tr>
-				<? while($dat = mysql_fetch_array($resStudent)) { ?>
+				<? while($dat = mysqli_fetch_array($resStudent)) { ?>
 						<? if($dat['id'] != $_xID) { $_xID = $dat['id']; ?>
 							<tr onMouseOver="this.style.backgroundColor='#FFCCFF'; this.style.cursor='hand';" onMouseOut=this.style.backgroundColor="#FFFFFF">
 								<td align="center" valign="top"><?=$ordinal++?></td>

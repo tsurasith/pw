@@ -38,12 +38,12 @@
 				<option value="4/3" <?=isset($_POST['roomID'])&&$_POST['roomID']=="4/3"?"selected":""?>> มัธยมศึกษาปีที่ 6 </option>
 				<option value="all" <?=isset($_POST['roomID'])&&$_POST['roomID']=="all"?"selected":""?>> รวมทั้งหมด </option>
 			</select>
-		<? $_resD = mysql_query("select distinct check_date from student_color where acadyear = '" .$acadyear. "' and acadsemester = '" . $acadsemester . "' order by 1"); ?>
+		<? $_resD = mysqli_query($_connection,"select distinct check_date from student_color where acadyear = '" .$acadyear. "' and acadsemester = '" . $acadsemester . "' order by 1"); ?>
 		วันที่ <select name="date" class="inputboxUpdate">
 				<option value=""></option>
-				<? while($_datD = mysql_fetch_assoc($_resD)){?>
+				<? while($_datD = mysqli_fetch_assoc($_resD)){?>
 					<option value="<?=$_datD['check_date']?>" <?=$_POST['date']==$_datD['check_date']?"selected":""?>><?=displayDate($_datD['check_date'])?></option>
-				<? } mysql_free_result($_resD)?>
+				<? } mysqli_free_result($_resD)?>
 			</select><br/>
 		การเข้ากิจกรรมคณะสี
 				<select name="checkType" class="inputboxUpdate">
@@ -76,8 +76,8 @@
 		<? if($_POST['roomID']!="all") $_sql .= "and xlevel = '" .substr($_POST['roomID'],0,1)."' and xyearth ='" .substr($_POST['roomID'],2,1)."' "; ?>
 		<? $_sql .= " and xedbe = '" .$acadyear . "' and acadyear = '" . $acadyear . "' and acadsemester = '" . $acadsemester . "'
 					  and timecheck_id in (" . $_POST['checkType'] . ") order by xlevel,xyearth,a.color,room,sex,id"; ?>
-		<?	$_result = mysql_query($_sql); ?>
-		<? 	if(mysql_num_rows($_result)>0) { ?>
+		<?	$_result = mysqli_query($_connection,$_sql); ?>
+		<? 	if(mysqli_num_rows($_result)>0) { ?>
 				<table class="admintable" width="100%">
 					<tr>
 						<th align="center" colspan="6">
@@ -100,7 +100,7 @@
 									<td class="key" width="90px">การเข้าร่วม</td>
 								</tr>
 								<? $_i=1;?>
-								<? while($_dat = mysql_fetch_assoc($_result)){ ?>
+								<? while($_dat = mysqli_fetch_assoc($_result)){ ?>
 									<tr onMouseOver="this.style.backgroundColor='#FFCCFF'; this.style.cursor='hand';" onMouseOut=this.style.backgroundColor="#FFFFFF" >
 										<td align="center"><?=$_i++?></td>
 										<td align="center"><?=$_dat['id']?></td>

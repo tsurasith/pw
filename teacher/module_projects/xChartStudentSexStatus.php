@@ -38,8 +38,8 @@
 				where a.xedbe = '" .$acadyear . "'
 				group by a.studstatus
 				order by male desc";
-	$_result = mysql_query($_sql);
-	if(mysql_num_rows($_result)>0)
+	$_result = mysqli_query($_connection,$_sql);
+	if(mysqli_num_rows($_result)>0)
 	{
 		$_xmlColumn = "<?xml version='1.0' encoding='UTF-8' ?>";
 		$_xmlPie = "<?xml version='1.0' encoding='UTF-8' ?>";
@@ -51,7 +51,7 @@
 		$_setB = "<dataset seriesname='หญิง' showValue='1'>";
 		$_m = 0;
 		$_f = 0;
-		while($_dat = mysql_fetch_assoc($_result))
+		while($_dat = mysqli_fetch_assoc($_result))
 		{
 			$_color = getFCColor() ;
 			$_catXML .= "<category name='" . $_dat['studstatus_description'] . "' hoverText=''/>";

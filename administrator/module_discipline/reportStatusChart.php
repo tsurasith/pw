@@ -88,7 +88,7 @@
 						order by dis_status";
 		}
 		
-		$_res = mysql_query($_sql);
+		$_res = mysqli_query($_connection,$_sql);
 		
 					
 		$_strXML = "<?xml version='1.0' encoding='UTF-8' ?>" ;
@@ -102,7 +102,7 @@
 		}
 		
 		
-		while($_dat = mysql_fetch_assoc($_res))
+		while($_dat = mysqli_fetch_assoc($_res))
 		{
 			$_strXML = $_strXML . "<set name='" . $_dat['status_detail'] . "' value='" . $_dat['cc'] . "' color='" . getFCColor()  . "' showname='0'/> ";
 		}

@@ -58,11 +58,11 @@
 	<? $_sql .= ($_POST['studstatus']=="1,2"?" and studstatus in (1,2) ":"") ; ?>
 	<? $_sql .= ($_POST['roomID']!="all"?" and xlevel = '" . substr($_POST['roomID'],0,1) . "' and xyearth = '" . substr($_POST['roomID'],2,1) . "'":""); ?>
 	<? $_sql .=	" group by cripple order by count(*) desc"; ?>
-	<? $_resTotal = mysql_query($_sqlTotal); ?>
-	<? $_x = mysql_fetch_assoc($_resTotal); ?>
+	<? $_resTotal = mysqli_query($_connection,$_sqlTotal); ?>
+	<? $_x = mysqli_fetch_assoc($_resTotal); ?>
 	
-	<? $_result = mysql_query($_sql); ?>
-	<? if(mysql_num_rows($_result)>0){ ?>
+	<? $_result = mysqli_query($_connection,$_sql); ?>
+	<? if(mysqli_num_rows($_result)>0){ ?>
 	<? $_xmlColumn = "<?xml version='1.0' encoding='UTF-8' ?>";
 		$_xmlPie = "<?xml version='1.0' encoding='UTF-8' ?>";
 		$_xmlColumn .= "<graph caption='' xAxisName='' yAxisName='Person' formatNumberScale='0' decimalPrecision='0'>";
@@ -97,7 +97,7 @@
 							<td class="key" align="center">ชาย</td>
 							<td class="key" align="center">หญิง</td>
 						</tr>
-							<? while($_dat = mysql_fetch_assoc($_result)) { ?>
+							<? while($_dat = mysqli_fetch_assoc($_result)) { ?>
 								<? $_catXML .= "<category name='" . ($_dat['cripple']==""?"ไม่ระบุ":displayCripple($_dat['cripple'])) . "' hoverText=''/>"; ?>
 								<? $_color = getFCColor(); ?>
 								<? $_setA .= "<set value='" . $_dat['male'] . "' color = '" . $_color . "' />"; ?>

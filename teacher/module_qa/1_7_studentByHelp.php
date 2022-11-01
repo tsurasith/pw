@@ -41,15 +41,15 @@
 			from ref_".($_POST['type']=="cripple"?"cripple":"studabsent")." right outer join students 
 			on (".$_text."_id = ".($_POST['type']=="cripple"?"cripple":"studabsent").")
 			where xedbe = '" . $acadyear . "' group by ".($_POST['type']=="cripple"?"cripple":"studabsent") ;?>			
-<? $_result = mysql_query($_sql); ?>
-<? if(mysql_num_rows($_result)>0) { ?>
+<? $_result = mysqli_query($_connection,$_sql); ?>
+<? if(mysqli_num_rows($_result)>0) { ?>
 		<table class="admintable" width="100%"  cellpadding="1" cellspacing="1" border="0" align="center">
 			<tr> 
 				<th align="center">
 					<img src="../images/school_logo.png" width="120px"><br/><br/>
 					ข้อมูลนักเรียนด้าน<?=$_POST['type']=="cripple"?"ร่างกายและความพิการ":"ความขาดแคลน"?> ปีการศึกษา <?=$acadyear?><br/>
-					<? $_resTotal = mysql_query("select count(id) as 'total' from students where xedbe = '" . $acadyear . "'" . ($_POST['studstatus']=="1,2"?"and studstatus in (1,2) ":""));?>
-					<? $_total = mysql_fetch_assoc($_resTotal); ?>
+					<? $_resTotal = mysqli_query($_connection,"select count(id) as 'total' from students where xedbe = '" . $acadyear . "'" . ($_POST['studstatus']=="1,2"?"and studstatus in (1,2) ":""));?>
+					<? $_total = mysqli_fetch_assoc($_resTotal); ?>
 				</th>
 			</tr>
 			<tr>
@@ -71,7 +71,7 @@
 							<td class="key" width="50px" align="center">หญิง</td>
 						</tr>
 						<?	$_am;$_af;$_bm;$_bf; $_sum; ?>
-						<?	while($_dat = mysql_fetch_assoc($_result)){ ?>
+						<?	while($_dat = mysqli_fetch_assoc($_result)){ ?>
 						<tr>
 							<td style="padding-left:10px;" align="left"><?=trim($_dat['desc'])!=""?$_dat['desc']:"ยังไม่บันทึกข้อมูล"?></td>
 							<td style="padding-right:15px;" align="right"><?=$_dat['am']==0?"-":$_dat['am']?></td>
@@ -81,7 +81,7 @@
 							<td style="padding-right:15px;" align="right"><?=$_dat['sum']==0?"-":number_format($_dat['sum'],0,'.',',')?></td>
 						</tr>
 						<?	$_am+=$_dat['am'];  $_af+=$_dat['af'];  $_bm+=$_dat['bm'];  $_bf+=$_dat['bf']; $_sum+=$_dat['sum'];?>
-						<?	} mysql_free_result($_result); ?>
+						<?	} mysqli_free_result($_result); ?>
 						<tr height="35px">
 							<td class="key" align="center">รวม</td>
 							<td class="key" align="right"><?=($_am==0?"-":$_am)?></td>

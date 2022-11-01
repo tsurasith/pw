@@ -56,8 +56,8 @@
     <td width="80px" align="right">
 		<?php
 			$sql1 = "select distinct task_date from student_learn_task where task_status = '1' and acadyear='" .$acadyear . "' and acadsemester='" . $acadsemester . "' order by task_date";
-			$res1 = mysql_query($sql1);
-			echo mysql_num_rows($res1);
+			$res1 = mysqli_query($_connection,$sql1);
+			echo mysqli_num_rows($res1);
 		?>
 	</td>
     <td width="80px" align="center">วัน</td>
@@ -67,8 +67,8 @@
     <td align="right">
 		<?php
 			$sql2 = "select distinct task_date from student_learn_task where task_status = '0' and acadyear='" .$acadyear . "' and acadsemester='" . $acadsemester . "' order by task_date";
-			$res2 = mysql_query($sql2);
-			echo mysql_num_rows($res2);
+			$res2 = mysqli_query($_connection,$sql2);
+			echo mysqli_num_rows($res2);
 		?>
 	</td>
     <td align="center">วัน</td>
@@ -77,7 +77,7 @@
     <td align="right">รวม</td>
     <td align="right">
 		<?php
-			$x = mysql_num_rows($res1) + mysql_num_rows($res2);
+			$x = mysqli_num_rows($res1) + mysqli_num_rows($res2);
 			echo $x ;
 		?>
 	</td>
@@ -111,7 +111,7 @@
 		{
 			$text = "<table bgcolor=\"lightpink\" cellspacing=\"1\" >";
 			$_count = 1;
-			while($dat = mysql_fetch_assoc($result))
+			while($dat = mysqli_fetch_assoc($result))
 			{
 				$text .= "<tr bgcolor=\"white\"><td align=\"center\">" . $_count++ . "</td>";
 				$text .= "<td>" . displayFullDate($dat['task_date']) . "</td>";

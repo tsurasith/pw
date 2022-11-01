@@ -52,12 +52,12 @@
 								   type = '" . $_POST['type'] . "',
 								   superuser = '" . ($_POST['superuser']==1?"1":"0") . "'
 							where TeacCode = '" . $_POST['teaccode'] . "'";
-		if(mysql_query($_sqlUpdate))
+		if(mysqli_query($_connection,$_sqlUpdate))
 		{
 			echo "<center><br/><font color='green'><b>บันทึกแก้ไขข้อมูลเรียบร้อยแล้ว</b></font><br/></center><br/>";
 		}else 
 		{
-			echo "<center><br/><font color='red'>บันทึกข้อมูลผิดพลาด เนื่องจาก - " . mysql_error() . "</font><br/></center>";
+			echo "<center><br/><font color='red'>บันทึกข้อมูลผิดพลาด เนื่องจาก - " . mysqli_error() . "</font><br/></center>";
 		}
 	}//end บันทึกแก้ไขข้อมูล
 ?>
@@ -65,13 +65,13 @@
   
   <? if((isset($_POST['search']) && $_POST['teaccode'] != "") || (isset($_REQUEST['teaccode']) && $_REQUEST['teaccode']!="")) { ?>
   		<? $_sql = "select * from teachers where TeacCode = '" . (isset($_REQUEST['teaccode'])?$_REQUEST['teaccode']:$_POST['teaccode']) . "'" ?>
-		<? $_res = mysql_query($_sql); ?>
-		<? if(mysql_num_rows($_res)>0){ ?>
+		<? $_res = mysqli_query($_connection,$_sql); ?>
+		<? if(mysqli_num_rows($_res)>0){ ?>
 			<form method="post">
 			<table class="admintable" width="100%">
 				<tr>
 					<td colspan="2" class="key">
-						รายการแก้ไขบัญชีผู้ใช้งาน <? $_dat = mysql_fetch_assoc($_res); ?>
+						รายการแก้ไขบัญชีผู้ใช้งาน <? $_dat = mysqli_fetch_assoc($_res); ?>
 					</td>
 				</tr>
 				<tr>

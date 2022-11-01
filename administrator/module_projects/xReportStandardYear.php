@@ -45,8 +45,8 @@
 					where organize = '" . $_POST['standard'] . "' and acadyear = '" . $acadyear . "' "; ?>
 		<? $_sql .= ($_POST['budgetType']!="1"?"":" and a.budget_type = '00' ");	?>
 		<? $_sql .= " order by b.acadyear,b.acadsemester,a.standard,a.indexof,b.finish_date"; ?>
-		<?	$_res = @mysql_query($_sql); ?>
-		<?	if(@mysql_num_rows($_res)>0) { ?>
+		<?	$_res = @mysqli_query($_connection,$_sql); ?>
+		<?	if(@mysqli_num_rows($_res)>0) { ?>
 			<table class="admintable" align="center">
 				<tr>
 					<th colspan="5" align="center">
@@ -64,7 +64,7 @@
 					<td class="key" width="120px">ฝ่ายที่รับผิดชอบ</td>
 				</tr>
 				<? $_before = ""; ?>
-				<? while($_dat = mysql_fetch_assoc($_res)){ ?>
+				<? while($_dat = mysqli_fetch_assoc($_res)){ ?>
 					<tr onMouseOver="this.style.backgroundColor='#FFCCFF'; this.style.cursor='hand';" onMouseOut=this.style.backgroundColor="#FFFFFF" >
 						<td align="center" valign="top">
 							<?=$_dat['standard']!=$_before?$_dat['standard']:""?>

@@ -58,12 +58,12 @@ function checkedAll (count) {
 			<?php 
 					$sql_Room = "select replace(room_id,'0','/') as room_id from rooms where acadyear = '". $acadyear . "' and acadsemester = '" . $acadsemester . "'  order by room_id";
 					//echo $sql_Room ;
-					$resRoom = mysql_query($sql_Room);			
+					$resRoom = mysqli_query($_connection,$sql_Room);			
 			?>
 			<select name="roomID">
 				<?php
 
-					while($dat = mysql_fetch_assoc($resRoom))
+					while($dat = mysqli_fetch_assoc($resRoom))
 					{
 						echo "<option value=\"" . $dat['room_id'] . "\">";
 						echo $dat['room_id'];
@@ -99,7 +99,7 @@ function checkedAll (count) {
   if(isset($_POST['search']))
   {
   		$sqlStudent = "select id,prefix,firstname,lastname,studstatus,p_village from students where xlevel = '". $xlevel . "' and xyearth = '" . $xyearth . "' and room = '" . $room . "' and xedbe = '" . $acadyear . "' order by sex,ordinal ";
-		$resStudent = mysql_query($sqlStudent);
+		$resStudent = mysqli_query($_connection,$sqlStudent);
   ?>
   <form method="post" id="frm1">
   <table class="admintable"  cellpadding="1" cellspacing="1" border="0" align="left">
@@ -107,7 +107,7 @@ function checkedAll (count) {
       <td class="key" colspan="9">รายชื่อนักเรียนห้อง <?php echo $_POST['roomID']; ?> ภาคเรียนที่ <?php echo $acadsemester; ?> ปีการศึกษา <?php echo $acadyear; ?></td>
     </tr>
     <tr bgcolor="#CCCCFF"> 
-		<td align="center"><input type='checkbox' name='checkall' onclick='checkedAll(<?=mysql_num_rows($resStudent)?>);' ></td>
+		<td align="center"><input type='checkbox' name='checkall' onclick='checkedAll(<?=mysqli_num_rows($resStudent)?>);' ></td>
 		<td width="35px" align="center">เลขที่</td>
       	<td width="80px" align="center">เลขประจำตัว</td>
       	<td width="200px" align="center">ชื่อ - นามสกุล</td>
@@ -116,12 +116,12 @@ function checkedAll (count) {
     </tr>
 	<?php
 		$ordinal = 1;
-		$totalRows = mysql_num_rows($resStudent);
+		$totalRows = mysqli_num_rows($resStudent);
 		for($i = 0; $i < $totalRows ; $i++)
 		{
 			if($i % 2 == 0 ){echo "<tr>";}
 			else{echo "<tr bgcolor=\"#EFFEFE\">";}
-			$dat = mysql_fetch_array($resStudent); ?>
+			$dat = mysqli_fetch_array($resStudent); ?>
 			<td><input type="checkbox" id="chk<?=$ordinal?>" value="<?= $$dat['id'] ?>" /></td>
 	<?php	echo "<td align=\"center\">$ordinal</td>";
 			echo "<td align=\"center\">" . $dat['id'] . "</td>";

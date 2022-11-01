@@ -33,8 +33,8 @@
 	$_sql = "select color,count(id) as 'cc' from students
 			where xedbe = '" . $acadyear . "' " . ($_POST['studstatus']=="1,2"?" and studstatus in (1,2) ":"") . "
 			group by color order by color desc";
-	$_result = mysql_query($_sql);
-	if(mysql_num_rows($_result)>0) { ?>
+	$_result = mysqli_query($_connection,$_sql);
+	if(mysqli_num_rows($_result)>0) { ?>
 		<table class="admintable" width="100%"  border="0" align="center" >
 			<tr>
 				<th align="center" >
@@ -55,7 +55,7 @@
 					$_catXML = "<categories>";
 					$_setA = "<dataset seriesname='คณะสี'  showValue='1'>";
 					
-					while($_dat = mysql_fetch_assoc($_result)) {
+					while($_dat = mysqli_fetch_assoc($_result)) {
 						$_catXML .= "<category name='" . (strlen($_dat['color'])>2?$_dat['color']:"ไม่ระบุ") . "' hoverText=''/>";
 						$_setA .= "<set value='" . $_dat['cc'] . "' color= " . getColor($_dat['color']) . " />";
 						$_xmlPie .= "<set value='" . $_dat['cc'] . "' name='" . (strlen($_dat['color'])>2?$_dat['color']:"ไม่ระบุ") . "' color= " . getColor($_dat['color']) . " />";

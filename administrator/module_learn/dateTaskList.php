@@ -38,8 +38,8 @@
                                         <option value=""></option>
                                    <?php
 									$sql_date = "select distinct task_date from student_learn_task where task_status = '0' and acadyear = '" .$acadyear ."' and acadsemester = '" .$acadsemester."' order by task_date " ;
-									$result = mysql_query($sql_date);
-									while($data = mysql_fetch_assoc($result)) { ?>
+									$result = mysqli_query($_connection,$sql_date);
+									while($data = mysqli_fetch_assoc($result)) { ?>
                                         <option value="<?=$data['task_date']?>" <?=$_POST['date']==$data['task_date']?"selected":""?>><?=displayFullDate($data['task_date'])?></option>
                                     <? }  ?>
                                       </select>
@@ -57,8 +57,8 @@
     
     <?
 		$sql_room = "select distinct task_date,task_roomid from student_learn_task where task_date  = '" .  $_POST['date']  ."' order by task_roomid" ;
-		$res = mysql_query($sql_room) or die (' ' . mysql_error());
-		$row_room  =  mysql_num_rows($res);
+		$res = mysqli_query($_connection,$sql_room) or die (' ' . mysqli_error());
+		$row_room  =  mysqli_num_rows($res);
 		$i  = 1;
 		if($row_room != 0)
 			{
@@ -70,15 +70,15 @@
 			<td class="key" colspan="8" align="center">คาบเรียน</td>
 			<td class="key" width="150px" align="center">สถานะการบันทึก</td>
 		</tr>
-		<? while($dat = mysql_fetch_assoc($res)){  ?>
+		<? while($dat = mysqli_fetch_assoc($res)){  ?>
 					<tr>
 						<td align="center"><?=$i?></td>
 						<td align="center"><?=getFullRoomFormat(trim($dat['task_roomid']))?></td>
 						<?
 							$p_sql = "select task_date , task_roomid, task_status , period from student_learn_task where task_date = '" . $dat['task_date'] . "' and task_roomid = '" . trim($dat['task_roomid']) . "' order by period" ;
-							$p_res = mysql_query($p_sql) or die ( ' ' . mysql_error());
+							$p_res = mysqli_query($_connection,$p_sql) or die ( ' ' . mysqli_error());
 							$x = 1;
-							while($p_dat = mysql_fetch_assoc($p_res)) {	
+							while($p_dat = mysqli_fetch_assoc($p_res)) {	
 								echo "<td align=\"center\" width='35px'>";
 								if($p_dat['period'] == $x && $p_dat['task_status'] == '0') {
 									echo "<a href=\"module_learn/studentListForm.php?room=" .$dat['task_roomid'] . "&date=" .$dat['task_date'] . "&period=" . $x . "&acadyear=" . $acadyear . "&acadsemester=".$acadsemester . "\">";
@@ -91,9 +91,9 @@
 						<td align="center">
 						<?php
 							$sql_checkstatus = "select distinct task_date,task_roomid,task_status,period from student_learn_task where task_date  = '" .  $_POST['date']  ."' and task_roomid = '" .$dat['task_roomid'] . "'" ;
-							$res_checkstatus = mysql_query($sql_checkstatus);
+							$res_checkstatus = mysqli_query($_connection,$sql_checkstatus);
 							$int_check = 0;
-							while($check_dat = mysql_fetch_assoc($res_checkstatus)) {
+							while($check_dat = mysqli_fetch_assoc($res_checkstatus)) {
 								if($check_dat['task_status'] == '1') { }
 								else { $int_check++; }
 							}//end while
@@ -103,7 +103,7 @@
 						</td>
 					</tr>
 					<? $i++ ;?>
-				<? }mysql_free_result($result); //end while?>
+				<? }mysqli_free_result($result); //end while?>
 			</table>
             <? } //end if ?>
 </div>

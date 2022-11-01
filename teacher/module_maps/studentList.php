@@ -33,11 +33,11 @@
 	  		<font color="#000000"  size="2" >เลือกห้อง 
 			<?php 
 					$sql_Room = "select room_id from rooms where acadyear = '". $acadyear . "' and acadsemester = '" . $acadsemester . "'  order by room_id";
-					$resRoom = mysql_query($sql_Room);			
+					$resRoom = mysqli_query($_connection,$sql_Room);			
 			?>
 			<select name="roomID" class="inputboxUpdate">
 				<option value=""></option>
-				<? while($dat = mysql_fetch_assoc($resRoom)) {
+				<? while($dat = mysqli_fetch_assoc($resRoom)) {
 						$_select = (isset($_POST['roomID'])&&$_POST['roomID'] == $dat['room_id']?"selected":"");
 						echo "<option value=\"" . $dat['room_id'] . "\" $_select>";
 						echo getFullRoomFormat($dat['room_id']);
@@ -86,9 +86,9 @@
 						 		and room = '" . $room . "' and xedbe = '" . $acadyear . "' ";
 			if($_POST['studstatus']=="1,2") $sqlStudent .= " and studstatus in (1,2) ";
 			$sqlStudent .= " order by sex,id ";
-			$resStudent = mysql_query($sqlStudent); ?>
+			$resStudent = mysqli_query($_connection,$sqlStudent); ?>
 		<? 	$ordinal = 1; ?>
-		<? while($_dat = mysql_fetch_assoc($resStudent)) { ?>
+		<? while($_dat = mysqli_fetch_assoc($resStudent)) { ?>
 			<tr>
 				<td align="center"><?=$ordinal++?></td>
 				<? if($_SESSION['superAdmin']) { ?>

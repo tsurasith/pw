@@ -67,9 +67,9 @@
 		if($_POST['studstatus']=="1,2") $sqlStudent .= " and studstatus in (1,2) ";
 		if($_POST['sex']!="3") $sqlStudent .= " and sex = '" . $_POST['sex'] . "' ";
 		$sqlStudent .= " order by sex,xlevel,xyearth,room,id ";
-		$resStudent = mysql_query($sqlStudent);
+		$resStudent = mysqli_query($_connection,$sqlStudent);
 		$ordinal = 1;
-		$totalRows = mysql_num_rows($resStudent); ?>
+		$totalRows = mysqli_num_rows($resStudent); ?>
 <? if($totalRows > 0) { ?>		
   <table class="admintable" >
     <tr> 
@@ -86,7 +86,7 @@
 			for($_j = 0 ; $_j < 5 ; $_j++)
 			{
 				if($ordinal > $totalRows) continue;
-				$dat = mysql_fetch_array($resStudent);
+				$dat = mysqli_fetch_array($resStudent);
 				echo "<td align='center' width='160px'>";
 				echo "<font color='red'><b>$ordinal</b></font>";
 				if(file_exists($_SERVER["DOCUMENT_ROOT"] . "/pk/images/studphoto/id" . $dat['id'] . ".jpg"))

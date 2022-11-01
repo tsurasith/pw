@@ -110,9 +110,9 @@
 				$sqlStudent .= " order by a.room,a.sex,a.ordinal ";
 			}
 			//echo $sqlStudent;
-			$resStudent = mysql_query($sqlStudent);
+			$resStudent = mysqli_query($_connection,$sqlStudent);
 			$ordinal = 1;
-			$totalRows = mysql_num_rows($resStudent);
+			$totalRows = mysqli_num_rows($resStudent);
 			if($totalRows == 0)
 			{
 				echo "<td align='center'><font color='red'><br/>ไม่พบข้อมูลในรายการที่คุณเลือก</font></td></tr>";
@@ -141,7 +141,7 @@
 		{
 			if($_x < 5 ){echo "<tr>";}
 			else{echo "<tr bgcolor=\"#EFFEFE\">";}
-			$dat = mysql_fetch_array($resStudent);
+			$dat = mysqli_fetch_array($resStudent);
 			echo "<td align=\"center\">$ordinal</td>";
 			echo "<td align=\"center\">" . $dat['id'] . "</td>";
 			echo "<td>" . $dat['prefix'] . $dat['firstname'] . " " . $dat['lastname'] . "</td>";
@@ -161,7 +161,7 @@
 			if($_x == 10){$_x = 0;}
 			else{}
 		} //end-for
-		mysql_free_result($resStudent);
+		mysqli_free_result($resStudent);
 	  }//ปิด if-else ตรวจสอบข้อมูลในฐานข้อมูล
 ?>
 
@@ -210,8 +210,8 @@
 						if($_POST['studstatus']=="1,2") $_sql .= " and studstatus in (1,2)";
 						$_sql .= " group by check_date";
 					}
-					$_result = mysql_query($_sql);
-					while($_dat = mysql_fetch_assoc($_result))
+					$_result = mysqli_query($_connection,$_sql);
+					while($_dat = mysqli_fetch_assoc($_result))
 					{
 						echo "<tr bgcolor=\"white\">";
 						if($_POST['roomID'] != "all")
@@ -225,7 +225,7 @@
 						echo "<td align=\"right\">" . ($_dat['e']==0?"-":$_dat['e']) . "</td>";
 						echo "<td align=\"right\">" . ($_dat['sum']==0?"-":number_format($_dat['sum'],0,'',',')) . "</td>";
 						echo "</tr>";
-					} mysql_free_result($_result);
+					} mysqli_free_result($_result);
 				?>
 			</table>
 			<?php } //ปิด การแสดงผลตารางข้อมูลสรุป?>

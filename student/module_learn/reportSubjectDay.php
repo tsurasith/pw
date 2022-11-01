@@ -43,10 +43,10 @@
 				$_roomID;
 				$_sqlRoom  = "select xyearth,xlevel,room from students where xedbe = '" . $acadyear . "' and id = '" . $_SESSION['username'] . "'";
 				
-				$_resRoom = mysql_query($_sqlRoom);
-				if(@mysql_num_rows($_resRoom) > 0)
+				$_resRoom = mysqli_query($_connection,$_sqlRoom);
+				if(@mysqli_num_rows($_resRoom) > 0)
 				{
-					$_dat = mysql_fetch_assoc($_resRoom);
+					$_dat = mysqli_fetch_assoc($_resRoom);
 					$_year = $_dat['xlevel']==3?$_dat['xyearth']:$_dat['xyearth']+3;
 					$_room = (int)$_dat['room']<10?"0".$_dat['room']:$_dat['room'];
 					$_roomID = $_year.$_room;
@@ -86,8 +86,8 @@
 				and class_id = '". $_POST['roomID'] ."' and check_date = '" . $_POST['date'] . "' ";
 	if($_POST['studstatus']=="1,2") $_sql .= " and studstatus in (1,2) ";				
 	$_sql .= " group by id order by sex,id";
-	$_res = mysql_query($_sql); ?>
-	<? if(@mysql_num_rows($_res)>0) { ?>
+	$_res = mysqli_query($_connection,$_sql); ?>
+	<? if(@mysqli_num_rows($_res)>0) { ?>
 			<table class="admintable"  cellpadding="1" cellspacing="1" border="0" align="center" >
 			<tr>
 			<th colspan="12" align="center">
@@ -115,7 +115,7 @@
 				<td class="key" width="45px">8</td>
 			</tr>
 			<? $_i = 1; ?>
-			<? while($_dat = mysql_fetch_assoc($_res)){ ?>
+			<? while($_dat = mysqli_fetch_assoc($_res)){ ?>
 			<tr>
 				<td align="center"><?=$_i++?></td>
 				<td align="center"><?=$_dat['id']?></td>
@@ -130,7 +130,7 @@
 				<td align="center"><?=displayTimecheckColor($_dat['p7'])?></td>
 				<td align="center"><?=displayTimecheckColor($_dat['p8'])?></td>
 			</tr>
-			<? } mysql_free_result($_res); //end while ?>
+			<? } mysqli_free_result($_res); //end while ?>
 		 </table>
 <?	} else { //end chekc_rows	 ?>
 		<center><font color="#FF0000"><br/><br/>ไม่พบข้อมูลที่ค้นตามเงื่อนไข กรุณาทดลองใหม่อีกครั้ง</font></center>

@@ -49,10 +49,10 @@
 				?>
 		<font size="2" color="#000000">
 			<form method="post" autocomplete="off">
-				<? $_res = mysql_query("select project_id,project_name from project where acadyear = '" . $acadyear . "' and acadsemester = '" . $acadsemester . "' "); ?>
+				<? $_res = mysqli_query($_connection,"select project_id,project_name from project where acadyear = '" . $acadyear . "' and acadsemester = '" . $acadsemester . "' "); ?>
 				<select name="p_id" class="inputboxUpdate">
 					<option value=""></option>
-					<? while($_dat = mysql_fetch_assoc($_res)) { ?>
+					<? while($_dat = mysqli_fetch_assoc($_res)) { ?>
 						<option value="<?=$_dat['project_id']?>" <?=$_POST['p_id']==$_dat['project_id'] || $_REQUEST['p_id']==$_dat['project_id']?"selected":""?>><?=strlen(trim($_dat['project_name']))>90?(substr($_dat['project_name'],0,90) . "..."):$_dat['project_name']?></option>
 					<? }//end while ?>
 				</select> <input type="submit" class="button" name="search" value="เรียกดู" />
@@ -74,16 +74,16 @@
 					'" . $_POST['standard'] . "',
 					'" . $_POST['indexof'] . "' )";
 		$_smsError = "ผิดพลาดเนื่องจาก : ";
-		mysql_query($_sql) or die ($_smsError . mysql_error());
+		mysqli_query($_connection,$_sql) or die ($_smsError . mysqli_error());
 	}
 ?>
 
 
 <? if((isset($_POST['search']) && $_POST['p_id']!="") || $_REQUEST['p_id'] != ""){ ?>
 		<? $_sql = "select * from project where project_id ='" . (isset($_POST['p_id'])?$_POST['p_id']:$_REQUEST['p_id']) ."'"; ?>
-		<? $_res = @mysql_query($_sql); ?>
-		<? if(@mysql_num_rows($_res)>0) { ?>
-				<? $_datProj = mysql_fetch_assoc($_res); ?>
+		<? $_res = @mysqli_query($_connection,$_sql); ?>
+		<? if(@mysqli_num_rows($_res)>0) { ?>
+				<? $_datProj = mysqli_fetch_assoc($_res); ?>
 				<table class="admintable" width="100%" align="center">
 					<tr>
 						<td class="key" colspan="2">รายการบันทึกความสอดคล้องกับมาตรฐานการศึกษา</td>
@@ -137,7 +137,7 @@
 						</td>
 					</tr>
 				</table>
-					<? if(mysql_num_rows(mysql_query("select * from project_qa where project_id = '" . $_datProj['project_id'] . "'"))>0) { ?>
+					<? if(mysqli_num_rows(mysqli_query($_connection,"select * from project_qa where project_id = '" . $_datProj['project_id'] . "'"))>0) { ?>
 						<table width="100%" align="center" class="admintable">
 							<tr>
 								<td class="key" colspan="3">
@@ -148,8 +148,8 @@
 								<td colspan="3"><b><font color="#0000CC">สมศ.</font></b></td>
 							</tr>
 							<? $_std = ""; ?>
-							<? $_res = mysql_query("select * from project_qa where project_id = '" . $_datProj['project_id'] . "' and organize = '00' order by standard,indexof"); ?>
-							<? while($_dat = mysql_fetch_assoc($_res)) { ?>
+							<? $_res = mysqli_query($_connection,"select * from project_qa where project_id = '" . $_datProj['project_id'] . "' and organize = '00' order by standard,indexof"); ?>
+							<? while($_dat = mysqli_fetch_assoc($_res)) { ?>
 								<tr>
 									<td width="30px">&nbsp;</td>
 									<td width="90px">
@@ -171,8 +171,8 @@
 							<tr>
 								<td colspan="3"><b><font color="#0000CC">สพฐ.</font></b></td>
 							</tr>
-							<? $_res = mysql_query("select * from project_qa where project_id = '" . $_datProj['project_id'] . "' and organize = '01' order by standard,indexof"); ?>
-							<? while($_dat = mysql_fetch_assoc($_res)) { ?>
+							<? $_res = mysqli_query($_connection,"select * from project_qa where project_id = '" . $_datProj['project_id'] . "' and organize = '01' order by standard,indexof"); ?>
+							<? while($_dat = mysqli_fetch_assoc($_res)) { ?>
 							<tr>
 									<td width="30px">&nbsp;</td>
 									<td width="90px">
@@ -194,8 +194,8 @@
 							<tr>
 								<td colspan="3"><b><font color="#0000CC">ท้องถิ่น</font></b></td>
 							</tr>
-							<? $_res = mysql_query("select * from project_qa where project_id = '" . $_datProj['project_id'] . "' and organize = '02' order by standard,indexof"); ?>
-							<? while($_dat = mysql_fetch_assoc($_res)) { ?>
+							<? $_res = mysqli_query($_connection,"select * from project_qa where project_id = '" . $_datProj['project_id'] . "' and organize = '02' order by standard,indexof"); ?>
+							<? while($_dat = mysqli_fetch_assoc($_res)) { ?>
 								<tr>
 									<td width="30px">&nbsp;</td>
 									<td width="90px">

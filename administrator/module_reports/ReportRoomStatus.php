@@ -39,8 +39,8 @@
 				  count(*) as 'total'
 				from students where xedbe = '" . $acadyear . "'
 				group by studstatus order by count(*) desc";
-	$_result = mysql_query($_sql);
-	if(mysql_num_rows($_result)>0) { ?>
+	$_result = mysqli_query($_connection,$_sql);
+	if(mysqli_num_rows($_result)>0) { ?>
 		<table class="admintable" width="100%" align="center" >
 			<tr>
 				<th align="center">
@@ -79,7 +79,7 @@
 						</tr>
 						<? $_m1=0; $_f1=0; $_m2=0; $_f2=0; $_m3=0; $_f3=0; 
 						   $_m4=0; $_f4=0; $_m5=0; $_f5=0; $_m6=0; $_f6=0; $_count=0; ?>
-						<? while($_dat = mysql_fetch_assoc($_result)){ ?>
+						<? while($_dat = mysqli_fetch_assoc($_result)){ ?>
 						<tr>
 							<td align="left"><?=displayStudentStatusColor($_dat['studstatus'])?></td>
 							<td align="right" style="padding-right:5px"><?=$_dat['m1']>0?$_dat['m1']:"-"?></td>

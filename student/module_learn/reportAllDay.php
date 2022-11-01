@@ -43,8 +43,8 @@
 			where acadyear = '" . $acadyear . "' and acadsemester = '". $acadsemester . "' and student_id = '" . $_SESSION['username'] . "'
 			group by check_date
 			order by check_date ";				
-	$_res = mysql_query($_sql); ?>
-	<? if(@mysql_num_rows($_res)>0) { ?>
+	$_res = mysqli_query($_connection,$_sql); ?>
+	<? if(@mysqli_num_rows($_res)>0) { ?>
 			<table class="admintable"  cellpadding="1" cellspacing="1" border="0" align="center">
 			<tr>
 			  <td colspan="7" align="right" valign="top">
@@ -74,7 +74,7 @@
 				<td class="key" width="50px">8</td>
 			</tr>
 			<? $_i = 1; ?>
-			<? while($_dat = mysql_fetch_assoc($_res)){ ?>
+			<? while($_dat = mysqli_fetch_assoc($_res)){ ?>
 			<tr>
 				<td align="center"><?=$_i++?></td>
 				<td align="center"><?=displayDate($_dat['check_date'])?></td>
@@ -87,7 +87,7 @@
 				<td align="center"><?=displayTimecheckColor($_dat['p7'])?></td>
 				<td align="center"><?=displayTimecheckColor($_dat['p8'])?></td>
 			</tr>
-			<? } mysql_free_result($_res); //end while ?>
+			<? } mysqli_free_result($_res); //end while ?>
 		 </table>
 <?	} else { //end chekc_rows	 ?>
 		<table width="100%" align="center">

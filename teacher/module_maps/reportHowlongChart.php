@@ -59,8 +59,8 @@
 	$_sql .= " group by howlong <=0 , howlong <=5,howlong <=7,howlong <=8, howlong <=10, howlong <=15,howlong <=20 ,
 					howlong <= 25, howlong <=30 , howlong <=35 , howlong <=40 , howlong > 40 order by 1 desc";
   }
-  $_result = mysql_query($_sql);
-  if(mysql_num_rows($_result)>0) {
+  $_result = mysqli_query($_connection,$_sql);
+  if(mysqli_num_rows($_result)>0) {
   ?>
  <table class="admintable" width="100%"  cellpadding="1" cellspacing="1" border="0" align="center">
     <tr> 
@@ -78,7 +78,7 @@
 				if($_POST['chartType'] == "column")	{ $_strXML = $_strXML . "<graph caption='' xAxisName='ช่วงเวลา' yAxisName='Units' decimalPrecision='0'  formatNumberScale='0' >";}
 				else{$_strXML = $_strXML . "<graph decimalPrecision='0' showNames='1' numberSuffix=' คน' pieSliceDepth='30' formatNumberScale='0'>";}
 				
-				while($_dat = mysql_fetch_assoc($_result))
+				while($_dat = mysqli_fetch_assoc($_result))
 				{
 					$_strXML = $_strXML . "<set name='" . $_dat['howlong'] . " นาที' value='" . $_dat['c'] . "' color='" . getFCColor()  . "' showname='1'/> ";
 				}

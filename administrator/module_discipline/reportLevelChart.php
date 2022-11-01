@@ -89,7 +89,7 @@
 						order by xlevel,xyearth";
 		}
 		
-		$_res = mysql_query($_sql);
+		$_res = mysqli_query($_connection,$_sql);
 		
 					
 		$_strXML = "<?xml version='1.0' encoding='UTF-8' ?>" ;
@@ -102,7 +102,7 @@
 			$_strXML = $_strXML . "<graph caption='สรุปจำนวนคดีแยกตามระดับชั้น' decimalPrecision='0' showNames='1' numberSuffix=' คดี' pieSliceDepth='30' formatNumberScale='0'>";
 		}
 		
-		while($_dat = mysql_fetch_assoc($_res))
+		while($_dat = mysqli_fetch_assoc($_res))
 		{
 			$_level = ($_dat['xlevel']==3)?$_dat['xyearth']:($_dat['xyearth']+3);
 			$_level = "ชั้นม. " . $_level;

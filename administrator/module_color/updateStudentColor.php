@@ -1,7 +1,7 @@
 ﻿<? 
 	for($i =0 ;$i < $_POST['count'] ;$i ++) {
 		$sql_insert_student = 'update students set color = \'' . timecheck_id($_POST['check'][$i]) . '\' where id =\'' . $_POST['student_id'][$i]  . '\' and xedbe = \'' . $_POST['acadyear'] . '\'';
-		$a = mysql_query($sql_insert_student) or die ('Error - ' . mysql_error());  // บันทึกข้อมูลการอัำปเดทรายการคณะสี
+		$a = mysqli_query($_connection,$sql_insert_student) or die ('Error - ' . mysqli_error());  // บันทึกข้อมูลการอัำปเดทรายการคณะสี
 	}
 ?>
 <div id="content">

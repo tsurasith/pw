@@ -8,7 +8,7 @@
 								  acadyear 		= '" . $_POST['acadyear'] . "'  and 
 								  acadsemester 	= '" . $_POST['acadsemester'] . "'  and 
 								  psubjectcode 	= '" . $_POST['subject_id'] . "'";
-			mysql_query($_sqlUpdate);
+			mysqli_query($_connection,$_sqlUpdate);
 			
 			//echo $_sqlUpdate;
 			
@@ -107,11 +107,11 @@
                     <tr>
                         <th align="right">ภาคเรียน/ปีการศึกษา :</th>
                         <td>
-                            <? $_result = mysql_query("select distinct concat(acadsemester,'/',acadyear) as display 
+                            <? $_result = mysqli_query($_connection,"select distinct concat(acadsemester,'/',acadyear) as display 
                                                 from grades order by acadyear,acadsemester"); ?>
                             <select name="term" class="inputboxUpdate">
                                 <option value=""></option>
-                                <? while($_term = mysql_fetch_assoc($_result)){ ?>
+                                <? while($_term = mysqli_fetch_assoc($_result)){ ?>
                                         <option value="<?=$_term['display']?>" <?=$_term['display']==$_POST['term']?"selected":""?>><?=$_term['display']?> &nbsp;  &nbsp; &nbsp; </option>
                                 <? } ?>
                             </select>
@@ -158,14 +158,14 @@
 					
 					//echo $_sqlGrade;						
 											
-					@$_resGrade = mysql_query($_sqlGrade);
-					@$_resStudent = mysql_query($_sqlStudent);
+					@$_resGrade = mysqli_query($_connection,$_sqlGrade);
+					@$_resStudent = mysqli_query($_connection,$_sqlStudent);
 		
 		?>
-            <? if(mysql_num_rows($_resGrade)>0){ ?>
+            <? if(mysqli_num_rows($_resGrade)>0){ ?>
                     <div align="center">                
-                    <? $_datG = mysql_fetch_assoc($_resGrade); ?>
-                    <? $_datS = mysql_fetch_assoc($_resStudent); ?>
+                    <? $_datG = mysqli_fetch_assoc($_resGrade); ?>
+                    <? $_datS = mysqli_fetch_assoc($_resStudent); ?>
                     <form name="frmRegrade" method="post" enctype="multipart/form-data">
                         <table width="">
                         	<tr>

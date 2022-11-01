@@ -50,8 +50,8 @@
 	if($_POST['xlevel']!="all"){ $_sql .= " and xlevel = '" . $_POST['xlevel'] . "' "; }
 	if($_POST['studstatus']=="1,2"){ $_sql .= " and studstatus in (1,2) ";}
 	$_sql .= " group by p_tumbol order by count(*) desc ";
- 	$_result = mysql_query($_sql);
-	if(mysql_num_rows($_result)>0) {
+ 	$_result = mysqli_query($_connection,$_sql);
+	if(mysqli_num_rows($_result)>0) {
   ?>
   <table class="admintable" width="100%"  cellpadding="1" cellspacing="1" border="0" align="center">
     <tr> 
@@ -84,7 +84,7 @@
 					<td class="key" width="70px" align="center">หญิง</td>
 				</tr>
 				<?  $_a=0;$_b=0;$_c=0;$_d=0;$_e=0;$_f=0;$_g=0; ?>
-				<?	while($_dat = mysql_fetch_assoc($_result)){ ?>
+				<?	while($_dat = mysqli_fetch_assoc($_result)){ ?>
 					<tr bgcolor="#FFFFFF">
 						<td style="padding-left:10px;" align="left"><?=$_dat['p_tumbol']!=""?$_dat['p_tumbol']:"-"?></td>
 						<td style="padding-right:15px;" align="right"><?=$_dat['m1']==0?"-":$_dat['m1']?></td>
@@ -96,7 +96,7 @@
 						<td style="padding-right:15px;" align="right"><?=$_dat['total']==0?"-":$_dat['total']?></td>
 					</tr>	
 				<? $_a+=$_dat['m1'];$_b+=$_dat['f1'];$_c+=$_dat['m2'];$_d+=$_dat['f2'];$_e+=$_dat['m3'];$_f+=$_dat['f3'];$_g+=$_dat['total'] ?>
-				<?	} mysql_free_result($_result); ?>
+				<?	} mysqli_free_result($_result); ?>
 					<tr height="30px">
 						<td class="key" align="center">รวม</td>
 						<td class="key" style="padding-right:15px;" align="right"><?=$_a>0?number_format($_a,0,'',','):"-"?></td>

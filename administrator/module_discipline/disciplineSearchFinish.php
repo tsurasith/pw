@@ -134,9 +134,9 @@ else
 	$_sqlAll = $_sql; // นับจำนวนแถวทั้งหมด
 	$_sql .= " order by id,dis_id,xlevel,xyearth,room,dis_date ";
 	$_sql .= " limit " . ($_num-1)  . "," . ($_disPlay);
-	$_result = mysql_query($_sql);
+	$_result = mysqli_query($_connection,$_sql);
 	//echo $_sql ;
-	@$_totalRows = mysql_num_rows(mysql_query($_sqlAll));
+	@$_totalRows = mysqli_num_rows(mysqli_query($_connection,$_sqlAll));
 ?>
 	<table width="100%" align="center" cellspacing="1" class="admintable" border="0" cellpadding="3">
       <tr> 
@@ -150,8 +150,8 @@ else
 		<td width="110px" align="center">วันที่แจ้ง</td>
 		<td align="center">รายละเอียดการแจ้ง</td>
 	  </tr>
-	<? if(mysql_num_rows($_result) > 0) { ?>
-		<? while($_dat = mysql_fetch_assoc($_result)){ ?>
+	<? if(mysqli_num_rows($_result) > 0) { ?>
+		<? while($_dat = mysqli_fetch_assoc($_result)){ ?>
 		<tr onMouseOver="this.style.backgroundColor='#FFCCFF'; this.style.cursor='hand';" onMouseOut=this.style.backgroundColor="#FFFFFF" >
 			<td align="center" valign="top"><?=$_num++?></td>
 			<td align="center" valign="top"><?=$_dat['id']?></td>
@@ -162,7 +162,7 @@ else
 			<td align="center" valign="top"><?=displayDate($_dat['dis_date'])?></td>
 			<td valign="top"><?=$_dat['dis_detail']?></td>
 		<tr>
-		<? } mysql_free_result($_result); //end while ?>
+		<? } mysqli_free_result($_result); //end while ?>
 		<tr>
 	  	<td>&nbsp;</td><td>&nbsp;</td>
 		<td colspan="4" align="center">

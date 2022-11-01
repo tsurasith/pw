@@ -24,8 +24,8 @@
 						//no[0] id[1] personal_id[2] prefix[3] firstname[4] lastname[5] nickname[6] acadyear[7] level[8] room[9] start_date[10] expire_date[11]
 						if(trim($_data[1])!="" && trim($_data[2])!="" && trim($_data[3])!="" && trim($_data[4])!="" && trim($_data[5])!="" && 
 						                          trim($_data[7])!="" && trim($_data[8])!="" && trim($_data[9])!=""){
-							$_res = mysql_query("select * from students where xedbe = '" . trim($_data[6]) . "' and id = '" . trim($_data[1]) . "'");
-							if(mysql_num_rows($_res)>0)
+							$_res = mysqli_query($_connection,"select * from students where xedbe = '" . trim($_data[6]) . "' and id = '" . trim($_data[1]) . "'");
+							if(mysqli_num_rows($_res)>0)
 							{
 								$_uploadError = 5;
 								$_textError2 .= "<tr>";
@@ -39,7 +39,7 @@
 								$_textError2 .= "<td>" . $_data[7] . "</td>";
 								$_textError2 .= "<td>" . $_data[8] . "</td>";
 								$_textError2 .= "<td>" . $_data[9] . "</td></tr>";
-								mysql_free_result($_res);
+								mysqli_free_result($_res);
 							}
 							else
 							{
@@ -68,7 +68,7 @@
 													'" . trim($_data[10]) . "',
 													'" . trim($_data[11]) . "',
 													'1','100' )";
-								if(mysql_query($_sqlInsert)) { $_insertComplete++; }
+								if(mysqli_query($_connection,$_sqlInsert)) { $_insertComplete++; }
 								else {
 									$_textError3 .= "<tr>";
 									$_textError3 .= "<td align='center'>" . $_countError3++ . "</td>";
@@ -77,7 +77,7 @@
 									$_textError3 .= "<td>" . $_data[2] . "</td>";
 									$_textError3 .= "<td>" . $_data[3] . "</td>";
 									$_textError3 .= "<td>" . $_data[4] . "</td>";
-									$_textError3 .= "<td>" . mysql_error() . "</td>";
+									$_textError3 .= "<td>" . mysqli_error() . "</td>";
 								}/// insert Error 
 								//echo $_sqlInsert . "<br/>";
 							}///ตรวจสอบข้อมูลซ้ำ

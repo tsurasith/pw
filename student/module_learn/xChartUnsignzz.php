@@ -20,8 +20,8 @@
 							where stutus = 'unsign'
 							group by acadyear,acadsemester
 							order by acadyear,acadsemester";
-			$resStudent = mysql_query($sqlStudent);
-			@$totalRows = mysql_num_rows($resStudent);
+			$resStudent = mysqli_query($_connection,$sqlStudent);
+			@$totalRows = mysqli_num_rows($resStudent);
 			if($totalRows < 1)
 			{
 				echo "<tr><td style='padding-left:35px'><font color='red'><b><br/><br/>ยังไม่มีการบันทึกข้อมูลในรายการที่คุณเลือก</b></font></td></tr>";
@@ -38,7 +38,7 @@
 				<?php
 					$_strXML = "<?xml version='1.0' encoding='UTF-8' ?>" ;
 					$_strXML = $_strXML . "<graph caption='' xAxisName='ภาคเรียน/ปีการศึกษา' yAxisName='Units' decimalPrecision='0' formatNumberScale='0'>";
-					while($dat = mysql_fetch_assoc($resStudent))
+					while($dat = mysqli_fetch_assoc($resStudent))
 					{
 						$_strXML .= " <set name='" . $dat['acadsemester'].'/'.$dat['acadyear'] . "' value='" . $dat['late'] . "' color='" . getFCColor()  . "' /> ";
 					}

@@ -88,9 +88,9 @@
 				if($_POST['studstatus']=="1,2") $sqlStudent .= "and studstatus in (1,2) ";
 				$sqlStudent .= " group by student_id order by late desc,xlevel,xyearth,room,sex,id";			
 			}
-			$resStudent = mysql_query($sqlStudent);
+			$resStudent = mysqli_query($_connection,$sqlStudent);
 			$ordinal = 1;
-			$totalRows = mysql_num_rows($resStudent);
+			$totalRows = mysqli_num_rows($resStudent);
 			if($totalRows == 0)
 			{
 				echo "<td align='center'><font color='red'>ยังไม่มีการบันทึกข้อมูลในรายการที่คุณเลือก</font></td></tr>";
@@ -117,7 +117,7 @@
 		<td class="key" align="center">หมู่บ้านที่อาศัย</td>
     </tr>
 	<? $ordinal = 1; ?>
-	<? while($dat = mysql_fetch_assoc($resStudent)) { ?>
+	<? while($dat = mysqli_fetch_assoc($resStudent)) { ?>
 	<tr>
 		<td align="center"><?=$ordinal++?></td>
 		<td align="center"><?=$dat['id']?></td>
@@ -127,7 +127,7 @@
 		<td align="center"><?=$dat['late']?></td>
 		<td><?=$dat['p_village']?></td>
 	</tr>
-<?	} mysql_free_result($resStudent); //end while
+<?	} mysqli_free_result($resStudent); //end while
   }//ปิด if-else ตรวจสอบข้อมูลในฐานข้อมูล
 }//ปิด if-else ตรวจสอบการเลือกวันที่
 ?>

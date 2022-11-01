@@ -26,12 +26,12 @@
 						echo " <a href=\"index.php?option=module_discipline/xChartStatus&acadyear=" . ($acadyear) . "&acadsemester=2 \"> 2</a> " ;
 					}
 				?>
-		 <? $_resS = mysql_query("select * from ref_disciplinestatus order by status"); ?>
+		 <? $_resS = mysqli_query($_connection,"select * from ref_disciplinestatus order by status"); ?>
 		 <font color="#000000" size="2">
 		 <form action="" method="post">
 			 <select name="level" class="inputboxUpdate">
 				<option value=""></option>
-				<? while ($_datS = mysql_fetch_assoc($_resS)){ ?>
+				<? while ($_datS = mysqli_fetch_assoc($_resS)){ ?>
 					<option value="<?=$_datS['status']?>" <?=isset($_POST['level'])&&$_POST['level']==$_datS['status']?"selected":""?>><?=$_datS['status']?> - <?=$_datS['status_detail']?></option>
 				<? } //end while ?>
 				<option value="all" <?=isset($_POST['level'])&&$_POST['level']=="all"?"selected":""?>>ทุกสถานะการดำเนินการ</option>
@@ -77,13 +77,13 @@
 			if($_POST['split']=="split"){$_sql.= " and dis_id in (select dis_id from student_discipline where dis_detail not like '%การเข้าร่วมกิจกรรมหน้าเสาธง%')";}
 			$_sql .= " group by xlevel,xyearth order by xlevel,xyearth";
 		}
-		$_res = mysql_query($_sql);
-		if(mysql_num_rows($_res) > 0) {
+		$_res = mysqli_query($_connection,$_sql);
+		if(mysqli_num_rows($_res) > 0) {
 			$_strXML = "<?xml version='1.0' encoding='UTF-8' ?>" ;
 			if($_POST['chartType'] == "column"){ $_strXML = $_strXML . "<graph caption='' xAxisName='' yAxisName='Units' decimalPrecision='0' formatNumberScale='0' >"; }
 			else{ $_strXML = $_strXML . "<graph caption='' decimalPrecision='0' showNames='1' numberSuffix=' คดี' pieSliceDepth='30' formatNumberScale='0'>"; }
 			
-			while($_dat = mysql_fetch_assoc($_res))
+			while($_dat = mysqli_fetch_assoc($_res))
 			{
 				$_level = ($_dat['xlevel']==3)?$_dat['xyearth']:($_dat['xyearth']+3);
 				$_level = "ชั้นม. " . $_level;

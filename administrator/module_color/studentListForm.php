@@ -17,9 +17,9 @@
 	</script>
 
 	<? $sql = 'SELECT id, prefix , firstname , lastname,xyearth,room FROM students WHERE xLevel =  \''. $_REQUEST['xlevel'] . '\' and color=\'' .$_REQUEST['color'] . '\' and xedbe = \'' .$acadyear . '\'  and studstatus = \'1\' order by xyearth,room,ordinal'; ?>
-	<? $result = mysql_query($sql) or die ('Error  - ' .mysql_error()); ?>
+	<? $result = mysqli_query($_connection,$sql) or die ('Error  - ' .mysqli_error()); ?>
 	<? $i = 1;  $j = 0; ?>
-	<? $rows = mysql_num_rows($result); ?>
+	<? $rows = mysqli_num_rows($result); ?>
 	<form method="post" action="../index.php?option=module_color/insertStudentCheck">
 	<table width="800px" align="center" class="admintable">
 		<tr>
@@ -51,7 +51,7 @@
 						<td width="50px" align="center" class="key">ลา</td>
 						<td width="50px" align="center" class="key">ขาด</td>
 					</tr>
-					<? while($data = mysql_fetch_array($result)){ ?>
+					<? while($data = mysqli_fetch_array($result)){ ?>
 						<tr id="<?="check[$j]"?>">
 							<td align="center"><?=$i?></td>
 							<td align="center"><input type="hidden" name=<?="student_id[$j]"?> value=<?=$data[0]?> /><?=$data[0]?></td>

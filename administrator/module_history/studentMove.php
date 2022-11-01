@@ -62,16 +62,16 @@
 						students.leave = '" . $_POST['leave'] . "',
 						students.cause = '" . $_POST['cause'] . "'
 					where ID = '" . $_POST['id'] . "' and xEDBE = '" . $_POST['xEDBE'] . "'";
-		if(mysql_query($_sqlUpdate))
+		if(mysqli_query($_connection,$_sqlUpdate))
 		{echo "<br/><br/><center><font color='green'><b>บันทึกการย้ายสถานศึกษาเรียบร้อยแล้ว</b></font></center><br/>";}
-		else{ echo "<br/><br/><center><font color='red'>บันทึกข้อมูลผิดพลาดเนื่องจาก : " . mysql_error() . " กรุณานำปัญหานี้แจ้งต่อผู้ดูแลระบบ</font></center><br/>";}
+		else{ echo "<br/><br/><center><font color='red'>บันทึกข้อมูลผิดพลาดเนื่องจาก : " . mysqli_error() . " กรุณานำปัญหานี้แจ้งต่อผู้ดูแลระบบ</font></center><br/>";}
 	}
 ?>
 
 <?php
 	$_sqlMove = "select id,prefix,firstname,lastname,xlevel,xyearth,room,students.cause,points,gpa
 				 from students where xEDBE = '" . $acadyear . "' and studstatus = 5 order by xlevel,xyearth,room,id";
-	$_resMove = mysql_query($_sqlMove);
+	$_resMove = mysqli_query($_connection,$_sqlMove);
 	$_no = 1;
 ?>
 <table class="admintable" cellpadding="1" cellspacing="1" align="center" width="100%">
@@ -85,7 +85,7 @@
 		<td width="85px"><b>คะแนน <br/>พฤติกรรม</b></td>
 		<td><b>สาเหตุ</b></td>
 	</tr>
-	<? while($_dat = mysql_fetch_assoc($_resMove)) { ?>
+	<? while($_dat = mysqli_fetch_assoc($_resMove)) { ?>
 	<tr>
 		<td valign="top" align="center"><?=$_no++?></td>
 		<td valign="top" align="center"><?=$_dat['id']?></td>
@@ -99,8 +99,8 @@
 </table>
 
 
-<?	if(isset($_POST['search']) && mysql_num_rows(mysql_query("select ID from students where xEDBE = '" . $acadyear . "' and studstatus = '1' and ID = '" . $_POST['studentid'] . "'")) > 0 ) { ?>
-	<? $_dat = mysql_fetch_assoc(mysql_query("select id,prefix,firstname,sex,lastname,xlevel,xyearth,room,students.cause,studstatus,retirecause from students where xEDBE = '" . $acadyear . "' and ID = '" . $_POST['studentid'] . "'")); ?>
+<?	if(isset($_POST['search']) && mysqli_num_rows(mysqli_query($_connection,"select ID from students where xEDBE = '" . $acadyear . "' and studstatus = '1' and ID = '" . $_POST['studentid'] . "'")) > 0 ) { ?>
+	<? $_dat = mysqli_fetch_assoc(mysqli_query($_connection,"select id,prefix,firstname,sex,lastname,xlevel,xyearth,room,students.cause,studstatus,retirecause from students where xEDBE = '" . $acadyear . "' and ID = '" . $_POST['studentid'] . "'")); ?>
 		<form method="post" name="move">
 		<table class="admintable" width="100%" align="center">
 			<tr><td colspan="3" class="key">รายการแก้ไขข้อมูลการย้ายสถานศึกษาของนักเรียน</td></tr>
@@ -127,11 +127,11 @@
 				<td>
 					<select id="studstatus" name="studstatus" class="inputboxUpdate">
 				  		<?php
-							$_resStatus = mysql_query("SELECT * FROM ref_studstatus where studstatus in (1,5)");
-							while($_datStatus = mysql_fetch_assoc($_resStatus))
+							$_resStatus = mysqli_query($_connection,"SELECT * FROM ref_studstatus where studstatus in (1,5)");
+							while($_datStatus = mysqli_fetch_assoc($_resStatus))
 							{  ?>
 								<option value="<?=$_datStatus['studstatus']?>" <?=($_dat['studstatus']==$_datStatus['studstatus']?"SELECTED":"")?>><?=$_datStatus['studstatus_description']?></option>
-						<?	} mysql_free_result($_resStatus); ?>
+						<?	} mysqli_free_result($_resStatus); ?>
 					</select> <font color="#FF0000">*</font>
 				</td>
 			</tr>
@@ -140,10 +140,10 @@
 				<td>
 					<select id="retirecause" name="retirecause" class="inputboxUpdate">
 				  		<?php
-							$_resRetire = mysql_query("SELECT * FROM ref_retire");
-							while($_datRe = mysql_fetch_assoc($_resRetire)) {  ?>
+							$_resRetire = mysqli_query($_connection,"SELECT * FROM ref_retire");
+							while($_datRe = mysqli_fetch_assoc($_resRetire)) {  ?>
 								<option value="<?=$_datRe['retire_id']?>" <?=($_dat['retirecause']==$_datRe['retire_id']?"SELECTED":"")?>><?=$_datRe['retire_description']?></option>
-						<?	} mysql_free_result($_resRetire); ?>
+						<?	} mysqli_free_result($_resRetire); ?>
 					</select> <font color="#FF0000">*</font>
 				</td>
 			</tr>
@@ -171,7 +171,7 @@
 			</tr>
 		</table>
 		</form>
-<? } else if (isset($_POST['search']) || mysql_num_rows(mysql_query("select ID from students where xEDBE = '" . $acadyear . "' and studstatus = '1' and ID = '" . $_POST['studentid'] . "'")) < 0 ){ //end-if__check เพิ่มข้อมูลนักเรียนย้ายใหม่ ?>
+<? } else if (isset($_POST['search']) || mysqli_num_rows(mysqli_query($_connection,"select ID from students where xEDBE = '" . $acadyear . "' and studstatus = '1' and ID = '" . $_POST['studentid'] . "'")) < 0 ){ //end-if__check เพิ่มข้อมูลนักเรียนย้ายใหม่ ?>
 		<br/><br/>
 		<table width="100%" class="admintable">
 			<tr><td class="key" colspan="2">ผลการค้นหานักเรียน</td></tr>

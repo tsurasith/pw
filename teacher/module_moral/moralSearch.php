@@ -106,11 +106,11 @@
 	$_sqlAll = $_sql; // นับจำนวนแถวทั้งหมด
 	$_sql .= " order by mdate,students.id,student_moral.id,xlevel,xyearth,room ";
 	$_sql .= " limit " . ($_num-1)  . "," . ($_disPlay);
-	$_result = mysql_query($_sql);
+	$_result = mysqli_query($_connection,$_sql);
 	//echo $_sql ;
-	@$_totalRows = mysql_num_rows(mysql_query($_sqlAll));
+	@$_totalRows = mysqli_num_rows(mysqli_query($_connection,$_sqlAll));
 ?>
-	<? if(mysql_num_rows($_result) > 0) { ?>
+	<? if(mysqli_num_rows($_result) > 0) { ?>
 		<table width="100%" align="center" class="admintable">
 		  <tr height="30px"><th colspan="6" align="left">ผลการค้นหาพฤติกรรมที่พึงประสงค์ตามเงื่อนไข</th></tr>
 		  <tr height="30px">
@@ -121,7 +121,7 @@
 			<td class="key" width="110px" align="center">วันที่แจ้ง</td>
 			<td class="key" align="center">รายละเอียดพฤติกรรมที่พึงประสงค์</td>
 		  </tr>
-			<? while($_dat = mysql_fetch_assoc($_result)){ ?>
+			<? while($_dat = mysqli_fetch_assoc($_result)){ ?>
 			<tr onMouseOver="this.style.backgroundColor='#FFCCFF'; this.style.cursor='hand';" onMouseOut=this.style.backgroundColor="#FFFFFF" >
 				<td align="center" valign="top"><?=$_num++?></td>
 				<td align="center" valign="top"><?=$_dat['id']?></td>
@@ -134,7 +134,7 @@
 				<td align="center" valign="top"><?=displayDateChart($_dat['mdate'])?></td>
 				<td valign="top"><?=$_dat['mdesc']?></td>
 			</tr>
-			<? } mysql_free_result($_result); //end while ?>
+			<? } mysqli_free_result($_result); //end while ?>
 			<tr>
 			<td>&nbsp;</td><td>&nbsp;</td>
 			<td colspan="4" align="center">

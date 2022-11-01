@@ -18,11 +18,11 @@
 		</font>
 		<br/>
 	  	<font color="#000000" size="2"  >
-			<? $_resStatus = mysql_query("select * from ref_studstatus where studstatus not in (1,2) order by 1 "); ?>
+			<? $_resStatus = mysqli_query($_connection,"select * from ref_studstatus where studstatus not in (1,2) order by 1 "); ?>
 			เลือกเหตุผลที่ไม่มาเรียน
 			<select name="studstatus" class="inputboxUpdate" onchange="document.myform.submit();">
 				<option value=""></option>
-				<? while($_datStatus = mysql_fetch_assoc($_resStatus)) { ?>
+				<? while($_datStatus = mysqli_fetch_assoc($_resStatus)) { ?>
 						<option value="<?=$_datStatus['studstatus']?>" <?=isset($_POST['studstatus'])&&$_POST['studstatus']==$_datStatus['studstatus']?"selected":""?>><?=$_datStatus['studstatus_description']?></option>
 				<? } ?>
 			</select>
@@ -33,9 +33,9 @@
   </form>
 <br/>
 <? if($_POST['studstatus'] != ""){ ?>
-		<? mysql_query("set @x = (select count(*) from students where xedbe = '" . ($acadyear-1) . "')"); ?>
-		<? mysql_query("set @y = (select count(*) from students where xedbe = '" . $acadyear . "')"); ?>
-		<? mysql_query("set @z = (select count(*) from students where xedbe = '" . ($acadyear+1) . "')");?>
+		<? mysqli_query($_connection,"set @x = (select count(*) from students where xedbe = '" . ($acadyear-1) . "')"); ?>
+		<? mysqli_query($_connection,"set @y = (select count(*) from students where xedbe = '" . $acadyear . "')"); ?>
+		<? mysqli_query($_connection,"set @z = (select count(*) from students where xedbe = '" . ($acadyear+1) . "')");?>
 		<? $_sql = "select xlevel,xyearth,
 					  sum(if(xedbe = " . ($acadyear-1) . ",1,0)) as 'a1',
 					  sum(if(xedbe = " . ($acadyear-1) . ",1,0))*100/@x as 'a2',
@@ -44,8 +44,8 @@
 					  sum(if(xedbe = " . ($acadyear+1) . ",1,0)) as 'c1',
 					  sum(if(xedbe = " . ($acadyear+1) . ",1,0))*100/@z as 'c2'
 					from students where studstatus = '" . $_POST['studstatus'] . "' group by xlevel,xyearth";?>
-		<? $_result = mysql_query($_sql); ?>
-		<? if(mysql_num_rows($_result)>0) { ?>
+		<? $_result = mysqli_query($_connection,$_sql); ?>
+		<? if(mysqli_num_rows($_result)>0) { ?>
 				<table class="admintable" width="100%"  cellpadding="1" cellspacing="1" border="0" align="center">
 					<tr> 
 						<th align="center">
@@ -74,7 +74,7 @@
 									<td class="key" width="70px" align="center">คิดเป็น<br/>ร้อยละ</td>
 								</tr>
 								<?	$_a1;$_a2;$_b1;$_b2;$_c1;$_c2; ?>
-								<?	while($_dat = mysql_fetch_assoc($_result)){ ?>
+								<?	while($_dat = mysqli_fetch_assoc($_result)){ ?>
 								<tr>
 									<td style="padding-left:10px;">มัธยมศึกษาปีที่ <?=$_dat['xlevel']==3?$_dat['xyearth']:$_dat['xyearth']+3?></td>
 									<td style="padding-right:15px;" align="right"><?=$_dat['a1']==0?"-":$_dat['a1']?></td>
@@ -86,7 +86,7 @@
 								</tr>
 								<?	$_a1+=$_dat['a1'];  $_a2+=$_dat['a2'];  $_b1+=$_dat['b1'];  $_b2+=$_dat['b2']; ?>
 								<?  $_c1+=$_dat['c1'];  $_c2+=$_dat['c2']; ?>
-								<?	} mysql_free_result($_result); ?>
+								<?	} mysqli_free_result($_result); ?>
 								<tr height="35px">
 									<td class="key" align="center">รวม</td>
 									<td class="key" align="right"><?=$_a1==0?"-":$_a1?></td>

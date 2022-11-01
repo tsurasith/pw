@@ -62,8 +62,8 @@
 						where  xedbe = '" .$acadyear . "' and acadyear = '" . $acadyear . "' and acadsemester = '" . $acadsemester . "' " . ($_POST['studstatus']=="1,2"?"and b.studstatus in (1,2)":"") ; ?>
 		<? if($_POST['roomID']!="all") $_sql .= "and xlevel = '" .substr($_POST['roomID'],0,1)."' and xyearth ='" .substr($_POST['roomID'],2,1)."' "; ?>
 		<? $_sql .= " group by a.color"; ?>
-		<?	$_result = mysql_query($_sql); ?>
-		<? 	if(mysql_num_rows($_result)>0) { ?>
+		<?	$_result = mysqli_query($_connection,$_sql); ?>
+		<? 	if(mysqli_num_rows($_result)>0) { ?>
 				<table class="admintable" width="100%">
 					<tr>
 						<th align="center" colspan="6">
@@ -89,7 +89,7 @@
 									<td class="key" width="60px">ขาด</td>
 								</tr>
 								<? $_a=0;$_b=0;$_c=0;$_d=0;$_e=0;$_total=0;?>
-								<? while($_dat = mysql_fetch_assoc($_result)){ ?>
+								<? while($_dat = mysqli_fetch_assoc($_result)){ ?>
 									<tr>
 										<td align="left" style="padding-left:15px;"><?=$_dat['color']?></td>
 										<td align="right" style="padding-right:10px;"><?=$_dat['a']!=""?number_format($_dat['a'],0,'',','):"-"?></td>

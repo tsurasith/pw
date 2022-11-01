@@ -67,8 +67,8 @@
 	if($_POST['roomID']!="all") $_sql .= " and xLevel = '" . (int)substr($_POST['roomID'],0,1) . "' and xYearth = '". (int)substr($_POST['roomID'],2,1) ."' ";
 	if($_POST['studstatus']=="1,2") $_sql .= " and studstatus in (1,2) ";				
 	$_sql .= " group by id order by xlevel,xyearth,room,sex,id";
-	$_res = mysql_query($_sql); ?>
-	<? if(@mysql_num_rows($_res)>0) { ?>
+	$_res = mysqli_query($_connection,$_sql); ?>
+	<? if(@mysqli_num_rows($_res)>0) { ?>
 			<table class="admintable"  cellpadding="1" cellspacing="1" border="0" align="center" width="100%" >
 			<tr>
 			<th colspan="13" align="center">
@@ -98,7 +98,7 @@
 				<td class="key" width="45px">8</td>
 			</tr>
 			<? $_i = 1; ?>
-			<? while($_dat = mysql_fetch_assoc($_res)){ ?>
+			<? while($_dat = mysqli_fetch_assoc($_res)){ ?>
 			<tr>
 				<td align="center"><?=$_i++?></td>
 				<td align="center"><?=$_dat['id']?></td>
@@ -114,7 +114,7 @@
 				<td align="center"><?=displayTimecheckColor($_dat['p7'])?></td>
 				<td align="center"><?=displayTimecheckColor($_dat['p8'])?></td>
 			</tr>
-			<? } mysql_free_result($_res); //end while ?>
+			<? } mysqli_free_result($_res); //end while ?>
 		 </table>
 <?	} else { //end chekc_rows	 ?>
 		<table width="100%" align="center">

@@ -45,12 +45,12 @@
 					$_sqlMonth = "select distinct month(task_date)as m,year(task_date)+543 as y
 									from student_drug_task where acadyear = '" . $acadyear . "' and acadsemester = '" . $acadsemester . "'
 									order by year(task_date),month(task_date)";
-					$_resMonth = mysql_query($_sqlMonth);
-					while($_datMonth = mysql_fetch_assoc($_resMonth))
+					$_resMonth = mysqli_query($_connection,$_sqlMonth);
+					while($_datMonth = mysqli_fetch_assoc($_resMonth))
 					{
 						$_select = (isset($_POST['month'])&&$_POST['month'] == $_datMonth['m']?"selected":"");
 						echo "<option value=\"" . $_datMonth['m'] . "\" $_select >" . displayMonth($_datMonth['m']) . ' ' . $_datMonth['y'] . "</option>";
-					} mysql_free_result($_resMonth);
+					} mysqli_free_result($_resMonth);
 				?>
 			 </select>
 			 <input type="submit" value="เรียกดู" class="button" name="search"/> <br/>
@@ -82,8 +82,8 @@
 			if($_POST['studstatus']=="1,2") $_sql .= " and studstatus in (1,2) ";
 			$_sql .= " group by class_id order by class_id";
 			
-			@$_res = mysql_query($_sql);
-			if(@mysql_num_rows($_res)<=0){ echo "<td align='center'><font color='red'><br/>ยังไม่มีการบันทึกข้อมูลในรายการที่เลือก</font></td></tr>"; }
+			@$_res = mysqli_query($_connection,$_sql);
+			if(@mysqli_num_rows($_res)<=0){ echo "<td align='center'><font color='red'><br/>ยังไม่มีการบันทึกข้อมูลในรายการที่เลือก</font></td></tr>"; }
 			else{
 	?>	 
 		  <th align="center">
@@ -109,7 +109,7 @@
 					<td class="key" width="80px">ติด</td>
 				</tr>
 				<? $_a=0;$_b=0;$_c=0;$_d=0;$_total=0; ?>
-				<? while($_dat = mysql_fetch_assoc($_res)) { ?>
+				<? while($_dat = mysqli_fetch_assoc($_res)) { ?>
 				<tr>
 					<td align="center"><?=getFullRoomFormat($_dat['class_id'])?></td>
 					<td align="right" style="padding-right:15px"><?=$_dat['a']>0?number_format($_dat['a'],0,'',','):'-'?></td>

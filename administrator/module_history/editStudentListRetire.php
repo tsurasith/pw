@@ -32,8 +32,8 @@
 				 from students 
 				 where id = '" . $_studentID . "' and xedbe = '" . $acadyear . "'";
 						 
-	$resStudent = mysql_query($sqlStudent);
-	$_dat = mysql_fetch_assoc($resStudent);
+	$resStudent = mysqli_query($_connection,$sqlStudent);
+	$_dat = mysqli_fetch_assoc($resStudent);
 ?>	
 <form method="post" action="index.php?option=module_history/studentListRetire">
 	<table class="admintable" width="100%">
@@ -50,9 +50,9 @@
 </form>
 <? 
 	if(isset($_POST['update'])){
-		if(mysql_query($_sqlUpdate))
+		if(mysqli_query($_connection,$_sqlUpdate))
 		{ echo "<br/><br/><center><font color='green'><b>บันทึกการแก้ไขเรียบร้อยแล้ว</b></font></center><br/>";}
-		else{ echo "<br/><br/><center><font color='red'>บันทึกข้อมูลผิดพลาดเนื่องจาก : " . mysql_error() . " กรุณานำปัญหานี้แจ้งต่อผู้ดูแลระบบ</font></center><br/>";}
+		else{ echo "<br/><br/><center><font color='red'>บันทึกข้อมูลผิดพลาดเนื่องจาก : " . mysqli_error() . " กรุณานำปัญหานี้แจ้งต่อผู้ดูแลระบบ</font></center><br/>";}
 	}
 ?>
 <form method="post">
@@ -89,11 +89,11 @@
 			<td>
 				<select name="retirecause" class="inputboxUpdate">
 					<?php
-						$_resRetire = mysql_query("SELECT * FROM ref_retire");
-						while($_datRe = mysql_fetch_assoc($_resRetire))
+						$_resRetire = mysqli_query($_connection,"SELECT * FROM ref_retire");
+						while($_datRe = mysqli_fetch_assoc($_resRetire))
 						{  ?>
 							<option value="<?=$_datRe['retire_id']?>" <?=($_dat['retirecause']==$_datRe['retire_id']?"SELECTED":"")?>><?=$_datRe['retire_description']?></option>
-					<?	} mysql_free_result($_resRetire); ?>
+					<?	} mysqli_free_result($_resRetire); ?>
 				</select> <font color="#FF0000">*</font>
 			</td>
 		</tr>
