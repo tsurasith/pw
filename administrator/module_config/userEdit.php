@@ -25,7 +25,7 @@
 	  	<form method="post">
 			<font   size="2" color="#000000">
 			รหัสผู้ใช้ เช่น 501,704 
-			<input type="text" name="teaccode" size="4" maxlength="3" value="<?=isset($_POST['teaccode'])?$_POST['teaccode']:$_REQUEST['teaccode']?>" onKeyPress="return isNumberKey(event)" id="teaccode" class="inputboxUpdate"/>
+			<input type="text" name="teaccode" size="4" maxlength="3" value="<?=isset($_POST['teaccode'])?$_POST['teaccode']:(isset($_REQUEST['teaccode'])?$_REQUEST['teaccode']:'')?>" onKeyPress="return isNumberKey(event)" id="teaccode" class="inputboxUpdate"/>
 			<input type="submit" value="เรียกดู" name="search" class="button" />
 			</font>
 		</form>
@@ -50,7 +50,7 @@
 								   t_mobile = '" . $_POST['t_mobile'] . "',
 								   t_email = '" . $_POST['t_email'] . "',
 								   type = '" . $_POST['type'] . "',
-								   superuser = '" . ($_POST['superuser']==1?"1":"0") . "'
+								   superuser = '" . (isset($_POST['superuser'])==1?"1":"0") . "'
 							where TeacCode = '" . $_POST['teaccode'] . "'";
 		if(mysqli_query($_connection,$_sqlUpdate))
 		{

@@ -140,8 +140,8 @@
 				<tr onMouseOver="this.style.backgroundColor='#FFCCFF'; this.style.cursor='hand';" onMouseOut=this.style.backgroundColor="#FFFFFF">
 					<td align="center"><?=$_x++?></td>
 					<td align="center"><?=displayRoom($_datAll['room_id'])?></td>
-					<td><?=displayAdvisor($_datAll['teacher_id'])?></td>
-					<td><?=displayAdvisor($_datAll['teacher_id2'])?></td>
+					<td><?=displayAdvisor($_connection,$_datAll['teacher_id'])?></td>
+					<td><?=displayAdvisor($_connection,$_datAll['teacher_id2'])?></td>
 				</tr>
 			<? }//end while ?>
 		<? } else { ?>
@@ -160,9 +160,18 @@
 		$_room = (int)substr($_value,1,2);
 		return $_level . '/' . $_room ;
 	}
-	function displayAdvisor($_value){
+	function displayAdvisor($_connection,$_value){
 		$_sql = "select teaccode,prefix,firstname,lastname,nickname from teachers where teaccode = '" . $_value . "'";
-		$_dat = mysqli_fetch_assoc(mysqli_query($_connection,$_sql));
-		return $_dat['prefix'].$_dat['firstname'].' '.$_dat['lastname']. ' [รหัส : ' .$_dat['teaccode'] . ']';
+		$_resT = mysqli_query($_connection,$_sql);
+
+		if(mysqli_num_rows($_resT)>0){
+			$_dat = mysqli_fetch_assoc($_resT);
+			mysqli_free_result($_resT);
+			return $_dat['prefix'].$_dat['firstname'].' '.$_dat['lastname']. ' [รหัส : ' .$_dat['teaccode'] . ']';
+		}
+		else{
+			return "";
+		}
+		
 	}
 ?>

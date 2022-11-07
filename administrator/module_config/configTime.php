@@ -22,7 +22,7 @@
 		<td width="10px"></td>
 		<td>
 			<ol>
-				<li>จากโฟลเดอร์หลักของระบบคือ <font color="#CC0066"><b>bn</b></font> 
+				<li>จากโฟลเดอร์หลักของระบบคือ <font color="#CC0066"><b>pk</b></font> 
 					ให้เปิดเข้าไปที่ <font color="#CC0066"><b>pk/include/</b></font> 
 					แล้วเปิดไฟล์ <font color="#CC0066"><b>config.inc.php</b></font> ขึ้นมา
 				</li>

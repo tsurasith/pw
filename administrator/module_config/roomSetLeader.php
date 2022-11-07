@@ -56,20 +56,26 @@
 <?php
 	$xlevel;
 	$xyearth;
-	$room = substr($_POST['roomID'],2,1);
-	if(substr($_POST['roomID'],0,1) > 3)
+
+	$room = "";
+	$room = isset($_POST['roomID'])?substr($_POST['roomID'],2,1):"";
+
+	$_temp = "";
+	$_temp = isset($_POST['roomID'])?$_POST['roomID']:"";
+
+	if(substr($_temp,0,1) > 3)
 	{
 		$xlevel = 4;
-		if(substr($_POST['roomID'],0,1) == 4){ $xyearth = 1;}
-		if(substr($_POST['roomID'],0,1) == 5){ $xyearth = 2;}
-		if(substr($_POST['roomID'],0,1) == 6){ $xyearth = 3;}		
+		if(substr($_temp,0,1) == 4){ $xyearth = 1;}
+		if(substr($_temp,0,1) == 5){ $xyearth = 2;}
+		if(substr($_temp,0,1) == 6){ $xyearth = 3;}		
 	}
 	else
 	{
 		$xlevel = 3;
-		if(substr($_POST['roomID'],0,1) == 1){ $xyearth = 1;}
-		if(substr($_POST['roomID'],0,1) == 2){ $xyearth = 2;}
-		if(substr($_POST['roomID'],0,1) == 3){ $xyearth = 3;}
+		if(substr($_temp,0,1) == 1){ $xyearth = 1;}
+		if(substr($_temp,0,1) == 2){ $xyearth = 2;}
+		if(substr($_temp,0,1) == 3){ $xyearth = 3;}
 	}
 ?>
 <? if(isset($_POST['search']) && $_POST['roomID'] != ""){ ?>
@@ -146,11 +152,11 @@
 				<tr onMouseOver="this.style.backgroundColor='#FFCCFF'; this.style.cursor='hand';" onMouseOut=this.style.backgroundColor="#FFFFFF">
 					<td align="center"><?=$_x++?></td>
 					<td align="center"><?=displayRoom($_datAll['room_id'])?></td>
-					<? $_view = displayStudent($_datAll['student_id'],$_datAll['acadyear']);?>
-					<td style="padding-left:10px;"><?=$_view['prefix']==""?"-":$_view['prefix'].$_view['firstname']. ' '. $_view['lastname']?></td>
-					<td align="center"><?=$_view['nickname']==""?"-":$_view['nickname']?></td>
-					<td align="center"><?=$_view['studstatus']==""?"-":displayStatus($_view['studstatus'])?></td>
-					<td><?=$_view['p_village']==""?"-":$_view['p_village']?>
+					<? $_view = displayStudent($_connection,$_datAll['student_id'],$_datAll['acadyear']);?>
+					<td style="padding-left:10px;"><?=$_view==""?"-":$_view['prefix'].$_view['firstname']. ' '. $_view['lastname']?></td>
+					<td align="center"><?=$_view==""?"-":$_view['nickname']?></td>
+					<td align="center"><?=$_view==""?"-":displayStatus($_view['studstatus'])?></td>
+					<td><?=$_view==""?"-":$_view['p_village']?>
 				</tr>
 			<? }//end while ?>
 		<? } else { ?>
@@ -169,10 +175,18 @@
 		$_room = (int)substr($_value,1,2);
 		return $_level . '/' . $_room ;
 	}
-	function displayStudent($_value,$_year){
-		$_sql = "select id,prefix,firstname,lastname,nickname,studstatus,p_village from students where id = '" . $_value . "' and xedbe = '" . $_year . "' ";
-		$_dat = mysqli_fetch_assoc(mysqli_query($_connection,$_sql));
-		return $_dat;
+	function displayStudent($_connection,$_value,$_year){
+		$_sql  = "select id,prefix,firstname,lastname,nickname,studstatus,p_village from students where id = '" . $_value . "' and xedbe = '" . $_year . "' ";
+		$_resX = mysqli_query($_connection,$_sql);
+		
+		if(mysqli_num_rows($_resX)>0){
+			$_dat  = mysqli_fetch_assoc($_resX);
+			mysqli_free_result($_resX);
+			return $_dat;
+		}else {
+			return "";
+		}
+		
 	}
 	function displayStatus($id)
 	{

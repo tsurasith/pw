@@ -120,7 +120,7 @@
 						'" . $_POST['username'] . "',
 						'" . $_POST['password'] . "',
 						'" . $_POST['type'] . "',
-						'" . ($_POST['superuser']==1?"1":"0") . "')";
+						'" . (isset($_POST['superuser'])==1?"1":"0") . "')";
 				if(mysqli_query($_connection,$_sql))
 				{
 					echo "<center><br/><font color='green'><b>บันทึกแก้ไขข้อมูลเรียบร้อยแล้ว</b></font><br/></center>";
