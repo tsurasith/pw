@@ -87,9 +87,12 @@ function check(name,i)
 	</table>
 <? } ?>
 <?
-	  $xlevel = getXlevel($_POST['roomID']);
-	  $xyearth= getXyearth($_POST['roomID']);
-	  $room = getRoom($_POST['roomID']);
+	  $_roomID = "";
+	  $_roomID = isset($_POST['roomID'])?$_POST['roomID']:""; 
+	 
+	  $xlevel = getXlevel($_roomID);
+	  $xyearth= getXyearth($_roomID);
+	  $room = getRoom($_roomID);
  ?>
 <? if(isset($_POST['search']) && $_POST['roomID'] == ""){ ?>
 	<center><br/><font color="#FF0000">กรุณาเลือกห้องเรียนก่อน !</font></center>
@@ -98,7 +101,7 @@ function check(name,i)
 <? if(isset($_POST['search']) && $_POST['roomID'] != ""){ ?>
 	<? $_sql = "select id,prefix,firstname,lastname,nickname,gpa,studstatus,points from students where xlevel = '". $xlevel . "' and xyearth = '" . $xyearth . "' and room = '" . $room . "' and xedbe = '" . $acadyear . "'";
 		$_sql .= " and id not in (select id from students where xedbe = '". ($acadyear+1) . "') ";
-		if($_POST['studstatus']=="1,2") $_sql .= " and studstatus in (1,2) ";
+		if(isset($_POST['studstatus'])=="1,2") $_sql .= " and studstatus in (1,2) ";
 		$_sql .= " order by sex,id ";?>
 	<? $_res = mysqli_query($_connection,$_sql); ?>
 	<? if(mysqli_num_rows($_res)>0){ ?>
@@ -152,7 +155,7 @@ function check(name,i)
 <? if(isset($_POST['save'])){
 		$_operation = false;
 		for($_i = 1; $_i < $_POST['counter']; $_i++){
-			if($_POST['student'][$_i] != "")
+			if(isset($_POST['student'][$_i]))
 			{
 				$_sql = "insert into students select
 							ID, PREFIX, FIRSTNAME,LASTNAME,SCH_ID,
@@ -177,7 +180,7 @@ function check(name,i)
 							Change_Date,OLD_FIRSTNAME,OLD_LASTNAME,F_PIN,M_PIN,A_PIN,UTM_Coordinate_X,
 							UTM_Coordinate_Y,UTM_Zone,100,Color
 							from students where id = '" .$_POST['student'][$_i] . "' and xedbe = '" . $_POST['acadyear'] ."'";
-				mysqli_query($_connection,$_sql) or die ('ผิดพลาดเนื่องจาก ' . mysqli_error() . '<br/>');
+				mysqli_query($_connection,$_sql) or die ('ผิดพลาดเนื่องจาก ' . mysqli_error($_connection) . '<br/>');
 				$_operation = true;
 				//echo $_i .'. ' .$_POST['student'][$_i].'<br/>';
 				

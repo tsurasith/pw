@@ -8,7 +8,8 @@
         <span class="normal"><font color="#0066FF"><strong>3.1 แก้ไขประวัตินักเรียน(ทุกรายการ)</strong></font></span></td>
       <td >
 	  			
-		<?  $s_id;
+		<?  $s_id = "";
+
 			if(isset($_POST['search']) || isset($_POST['update'])){ $s_id = $_POST['student_id'];}
 			else if(isset($_REQUEST['studentID'])){$s_id = $_REQUEST['studentID'];}
 
@@ -48,7 +49,7 @@
 						$_sqlUpdate .= "NICKNAME = 	'" . trim($_POST['NICKNAME']) . "',";
 						$_sqlUpdate .= "SEX = 		'" . trim($_POST['SEX']) . "',";
 						$_sqlUpdate .= "ROOM = 		'" . trim($_POST['ROOM']) . "',";
-						$_sqlUpdate .= "ORDINAL =	'" . trim($_POST['ORDINAL']) . "',";
+						$_sqlUpdate .= "ORDINAL =	'" . trim($_POST['ORDINAL'])!=""?trim($_POST['ORDINAL']):0 . "',";
 						$_sqlUpdate .= "pin =		'" . trim($_POST['pin']) . "',";
 						$_sqlUpdate .= "BIRTHDAY =	'" . trim($_POST['BIRTHDAY']) . "',";
 						$_sqlUpdate .= "Race =		'" . $_POST['Race'] . "',";
@@ -61,9 +62,9 @@
 						$_sqlUpdate .= "SCH_PROVINCE =	'" . trim($_POST['SCH_PROVINCE']) . "',";
 						$_sqlUpdate .= "SCH_LEVEL =	'" . trim($_POST['SCH_LEVEL']) . "',";
 						$_sqlUpdate .= "SCH_CAUSE =	'" . trim($_POST['SCH_CAUSE']) . "',";
-						$_sqlUpdate .= "SCH_Unit =	'" . $_POST['SCH_Unit'] . "',";
-						$_sqlUpdate .= "SCH_Pass =	'" . $_POST['SCH_Pass'] . "',";
-						$_sqlUpdate .= "SCH_GPA =	'" . $_POST['SCH_GPA'] . "',";
+						$_sqlUpdate .= "SCH_Unit =	'" . is_numeric(trim($_POST['SCH_Unit']))?trim($_POST['SCH_Unit']):0.00 . "',";
+						$_sqlUpdate .= "SCH_Pass =	'" . is_numeric(trim($_POST['SCH_Pass']))?trim($_POST['SCH_Pass']):0.00 . "',";
+						$_sqlUpdate .= "SCH_GPA =	'" . is_numeric(trim($_POST['SCH_GPA']))?trim($_POST['SCH_GPA']):0.00 . "',";
 						$_sqlUpdate .= "SUBJECT_LIKE =	'" . trim($_POST['SUBJECT_LIKE']) . "',";
 						$_sqlUpdate .= "SUBJECT_HATE =	'" . trim($_POST['SUBJECT_HATE']) . "',";
 						$_sqlUpdate .= "F_NAME =	'" . trim($_POST['F_NAME']) . "',";
@@ -98,14 +99,14 @@
 						$_sqlUpdate .= "M_EARN =	'" . trim($_POST['M_EARN']) . "',";
 						$_sqlUpdate .= "M_Occupation =	'" . $_POST['M_Occupation'] . "',";
 						$_sqlUpdate .= "M_Mobile =	'" . trim($_POST['M_Mobile']) . "',";
-						$_sqlUpdate .= "All_EARN =	'" . trim($_POST['All_EARN']) . "',";
+						$_sqlUpdate .= "All_EARN =	'" . is_numeric(trim($_POST['All_EARN']))?trim($_POST['All_EARN']):0.00 . "',";
 						$_sqlUpdate .= "FM_Status =	'" . $_POST['FM_Status'] . "',";
 						$_sqlUpdate .= "A_EARN =	'" . trim($_POST['A_EARN']) . "',";
 						$_sqlUpdate .= "A_Occupation =	'" . $_POST['A_Occupation'] . "',";
 						$_sqlUpdate .= "A_Mobile =	'" . trim($_POST['A_Mobile']) . "',";
 						$_sqlUpdate .= "A_Relation ='" . $_POST['A_Relation'] . "',";
-						$_sqlUpdate .= "GPA =	'" . $_POST['GPA'] . "',";
-						$_sqlUpdate .= "PR =	'" . $_POST['PR'] . "',";
+						$_sqlUpdate .= "GPA =	'" . is_numeric(trim($_POST['GPA']))?trim($_POST['GPA']):0.00 . "',";
+						$_sqlUpdate .= "PR =	'" . is_numeric(trim($_POST['PR']))?trim($_POST['PR']):0.00 . "',";
 						$_sqlUpdate .= "advisor11 =	'" . $_POST['advisor11'] . "',";
 						$_sqlUpdate .= "advisor12 =	'" . $_POST['advisor12'] . "',";
 						$_sqlUpdate .= "advisor21 =	'" . $_POST['advisor21'] . "',";
@@ -115,9 +116,9 @@
 						$_sqlUpdate .= "TrustTeacher1 =	'" . $_POST['TrustTeacher1'] . "',";
 						$_sqlUpdate .= "TrustTeacher2 =	'" . $_POST['TrustTeacher2'] . "',";
 						$_sqlUpdate .= "TrustTeacher3 =	'" . $_POST['TrustTeacher3'] . "',";
-						$_sqlUpdate .= "education_loan1 =	'" . $_POST['education_loan1'] . "',";
-						$_sqlUpdate .= "education_loan2 =	'" . $_POST['education_loan2'] . "',";
-						$_sqlUpdate .= "education_loan3 =	'" . $_POST['education_loan3'] . "',";
+						$_sqlUpdate .= "education_loan1 =	'" . is_int(trim($_POST['education_loan1']))?trim($_POST['education_loan1']):0 . "',";
+						$_sqlUpdate .= "education_loan2 =	'" . is_int(trim($_POST['education_loan2']))?trim($_POST['education_loan2']):0 . "',";
+						$_sqlUpdate .= "education_loan3 =	'" . is_int(trim($_POST['education_loan3']))?trim($_POST['education_loan3']):0 . "',";
 						$_sqlUpdate .= "Scout =		'" . $_POST['Scout'] . "',";
 						$_sqlUpdate .= "ISSUE =		'" . trim($_POST['ISSUE']) . "',";
 						$_sqlUpdate .= "students.LEAVE =		'" . trim($_POST['LEAVE']) . "',";
@@ -138,15 +139,15 @@
 						$_sqlUpdate .= "M_Cripple =	'" . $_POST['M_Cripple'] . "',";
 						$_sqlUpdate .= "M_Status =	'" . $_POST['M_Status'] . "',";
 						$_sqlUpdate .= "travelby =	'" . $_POST['travelby'] . "',";
-						$_sqlUpdate .= "HowLong =	'" . $_POST['HowLong'] . "',";
+						$_sqlUpdate .= "HowLong =	'" . is_int(trim($_POST['HowLong']))?trim($_POST['HowLong']):0 . "',";
 						$_sqlUpdate .= "Dental =	'" . $_POST['Dental'] . "',";
 						$_sqlUpdate .= "Scholar_Status ='" . $_POST['Scholar_Status'] . "',";
 						$_sqlUpdate .= "ScholarName1 ='" . trim($_POST['ScholarName1']) . "',";
 						$_sqlUpdate .= "ScholarName2 ='" . trim($_POST['ScholarName2']) . "',";
 						$_sqlUpdate .= "ScholarName3 ='" . trim($_POST['ScholarName3']) . "',";
-						$_sqlUpdate .= "GPA1 =		'" . $_POST['GPA1'] . "',";
-						$_sqlUpdate .= "GPA2 =		'" . $_POST['GPA2'] . "',";
-						$_sqlUpdate .= "GPA3 =		'" . $_POST['GPA3'] . "',";
+						$_sqlUpdate .= "GPA1 =		'" . is_numeric(trim($_POST['GPA1']))?trim($_POST['GPA1']):0.00 . "',";
+						$_sqlUpdate .= "GPA2 =		'" . is_numeric(trim($_POST['GPA2']))?trim($_POST['GPA2']):0.00 . "',";
+						$_sqlUpdate .= "GPA3 =		'" . is_numeric(trim($_POST['GPA3']))?trim($_POST['GPA3']):0.00 . "',";
 						$_sqlUpdate .= "Change_Date ='" . $_POST['Change_Date'] . "',";
 						$_sqlUpdate .= "OLD_FIRSTNAME =	'" . $_POST['OLD_FIRSTNAME'] . "',";
 						$_sqlUpdate .= "OLD_LASTNAME =	'" . $_POST['OLD_LASTNAME'] . "',";
@@ -163,7 +164,7 @@
 							echo "&nbsp; &nbsp; &nbsp; ";
 							echo "<font color='green'><b>การดำเนินแก้ไขเรียบร้อยแล้ว</b></font>";
 						}
-						else { echo "<font color='red'>การดำเนินการผิดพลาดเนื่องจาก - " .  mysqli_error() ."</font>"; }
+						else { echo "<font color='red'>การดำเนินการผิดพลาดเนื่องจาก - " .  mysqli_error($_connection) ."</font>"; }
 					?>
 				</td>
 				<td></td>

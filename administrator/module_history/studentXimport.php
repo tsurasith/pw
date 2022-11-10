@@ -77,7 +77,7 @@
 									$_textError3 .= "<td>" . $_data[2] . "</td>";
 									$_textError3 .= "<td>" . $_data[3] . "</td>";
 									$_textError3 .= "<td>" . $_data[4] . "</td>";
-									$_textError3 .= "<td>" . mysqli_error() . "</td>";
+									$_textError3 .= "<td>" . mysqli_error($_connection) . "</td>";
 								}/// insert Error 
 								//echo $_sqlInsert . "<br/>";
 							}///ตรวจสอบข้อมูลซ้ำ
@@ -267,9 +267,9 @@
 						<td>02360</td>
                         <td>1-2222-33333-44-5</td>
 						<td>เด็กหญิง</td>
-						<td>สุกัญญา</td>
-						<td>ใหญ่สูงเนิน</td>
-						<td>เจน</td>
+						<td>คะน้า</td>
+						<td>ต้มยำกุ้ง</td>
+						<td>พริกเผา</td>
 						<td>2553</td>
 						<td>1</td>
 						<td>3</td>

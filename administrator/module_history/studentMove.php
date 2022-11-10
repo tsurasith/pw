@@ -35,6 +35,9 @@
 				
 		 <?php
 			if(isset($_REQUEST['acadyear'])) { $acadyear = $_REQUEST['acadyear']; }
+			$_student_id = "";
+			$_student_id = isset($_POST['studentid'])?$_POST['studentid']:"";
+
 		?>
 		ปีการศึกษา<?php  
 					echo "<a href=\"index.php?option=module_history/studentMove&acadyear=" . ($acadyear - 1) . "\"><img src=\"../images/pull_left.gif\" border=\"0\" /></a> " ;
@@ -43,7 +46,7 @@
 				?><br/>
 		<font   size="2" color="#000000">
 		<form method="post">
-			เพิ่มข้อมูลนักเรียนย้ายโรงเรียน <input type="text" name="studentid" onkeypress="return isNumberKey(event)" value="<?=isset($_POST['studentid'])?$_POST['studentid']:""?>" maxlength="5" size="5" class="inputboxUpdate" />
+			เพิ่มข้อมูลนักเรียนย้ายโรงเรียน <input type="text" name="studentid" onkeypress="return isNumberKey(event)" value="<?=$_student_id!=""?$_POST['studentid']:""?>" maxlength="5" size="5" class="inputboxUpdate" />
 			<input type="submit" name="search" value="เรียกดู" class="button" />
 		</form>
 		</font>
@@ -171,7 +174,7 @@
 			</tr>
 		</table>
 		</form>
-<? } else if (isset($_POST['search']) || mysqli_num_rows(mysqli_query($_connection,"select ID from students where xEDBE = '" . $acadyear . "' and studstatus = '1' and ID = '" . $_POST['studentid'] . "'")) < 0 ){ //end-if__check เพิ่มข้อมูลนักเรียนย้ายใหม่ ?>
+<? } else if (isset($_POST['search']) || mysqli_num_rows(mysqli_query($_connection,"select ID from students where xEDBE = '" . $acadyear . "' and studstatus = '1' and ID = '" . $_student_id . "'")) < 0 ){ //end-if__check เพิ่มข้อมูลนักเรียนย้ายใหม่ ?>
 		<br/><br/>
 		<table width="100%" class="admintable">
 			<tr><td class="key" colspan="2">ผลการค้นหานักเรียน</td></tr>

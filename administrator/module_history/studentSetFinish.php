@@ -99,9 +99,13 @@ function check(name,i)
 <? } ?>
 
 <?
-	  $xlevel = getXlevel($_POST['roomID']);
-	  $xyearth= getXyearth($_POST['roomID']);
-	  $room = getRoom($_POST['roomID']);
+	 
+	  $_roomID = "";
+	  $_roomID = isset($_POST['roomID'])?$_POST['roomID']:"";
+	 
+	  $xlevel = getXlevel($_roomID);
+	  $xyearth= getXyearth($_roomID);
+	  $room = getRoom($_roomID);
  ?>
 <? if(isset($_POST['search']) && $_POST['roomID'] == ""){ ?>
 	<center><br/><font color="#FF0000">กรุณาเลือกห้องเรียนก่อน !</font></center>
@@ -109,7 +113,7 @@ function check(name,i)
 
 <? if(isset($_POST['search']) && $_POST['roomID'] != ""){ ?>
 	<? $_sql = "select id,prefix,firstname,lastname,nickname,studstatus,gpa,points from students where xlevel = '". $xlevel . "' and xyearth = '" . $xyearth . "' and room = '" . $room . "' and xedbe = '" . $acadyear . "'";
-		if($_POST['studstatus']=="1,2") $_sql .= " and studstatus in (1,2) ";
+		if(isset($_POST['studstatus'])=="1,2") $_sql .= " and studstatus in (1,2) ";
 		$_sql .= " order by sex,id ";?>
 	<? $_res = mysqli_query($_connection,$_sql); ?>
 	<form method="post" id="frm1">
@@ -159,10 +163,10 @@ function check(name,i)
 <? if(isset($_POST['save'])){
 		$_operation = false;
 		for($_i = 1; $_i < $_POST['counter']; $_i++){
-			if($_POST['student'][$_i] != "")
+			if(isset($_POST['student'][$_i]))
 			{
 				$_sql = "update students set studstatus = '2' where id = '" . $_POST['student'][$_i] . "' and xedbe = '" . $_POST['acadyear'] . "'";
-				mysqli_query($_connection,$_sql) or die ('<center><font color=red><br/><br/>ผิดพลาดเนื่องจาก ' . mysqli_error() . '<br/></font></center>');
+				mysqli_query($_connection,$_sql) or die ('<center><font color=red><br/><br/>ผิดพลาดเนื่องจาก ' . mysqli_error($_connection) . '<br/></font></center>');
 				$_operation = true;
 				//echo $_i .'. ' .$_POST['student'][$_i].'<br/>';
 				
