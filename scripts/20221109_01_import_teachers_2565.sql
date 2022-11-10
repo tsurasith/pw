@@ -49,3 +49,12 @@ INSERT INTO teachers VALUES ('144','นางสาว','อุมาพร ',' 
 INSERT INTO teachers VALUES ('145','นาย','ณรงค์ ','  รอดตรง','','ครูชำนาญการ','','','','tc145','tc145','admin','1');
 INSERT INTO teachers VALUES ('146','นาง','ทองทิพย์ ',' พิบูลย์','','ครูชำนาญการพิเศษ','','','','tc146','tc146','admin','1');
 INSERT INTO teachers VALUES ('147','นางสาว','นงเยาว์ ',' เรือนบุตร','','ครู','','','','tc147','tc147','admin','1');
+
+
+-- remove space from firstname and lastname
+UPDATE teachers
+set
+    firstname = trim(firstname),
+    lastname = trim(lastname);
+
+
