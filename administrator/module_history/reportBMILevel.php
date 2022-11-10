@@ -9,6 +9,13 @@
 	  <?php
 			if(isset($_REQUEST['acadyear'])) { $acadyear = $_REQUEST['acadyear']; }
 			if(isset($_REQUEST['acadsemester'])) { $acadsemester = $_REQUEST['acadsemester']; }
+
+			$_roomID = "";
+			$_roomID = isset($_POST['roomID'])?$_POST['roomID']:"";
+
+			$_bmi = "";
+			$_bmi = isset($_POST['bmi'])?$_POST['bmi']:"";
+
 		?>
 		ปีการศึกษา<?php  
 					echo "<a href=\"index.php?option=module_history/reportBMILevel&acadyear=" . ($acadyear - 1) . "\"><img src=\"../images/pull_left.gif\" border=\"0\" /></a> " ;
@@ -38,7 +45,7 @@
 				<option value="4" <?=isset($_POST['bmi'])&&$_POST['bmi']=="4"?"selected":""?>>อ้วนเกินไป</option>
 				<option value="5" <?=isset($_POST['bmi'])&&$_POST['bmi']=="5"?"selected":""?>>ทั้งหมด</option>
 			</select><br/>
-			<input type="checkbox" name="studstatus" value="1,2"  <?=$_POST['studstatus']=="1,2"?"checked='checked'":""?> />
+			<input type="checkbox" name="studstatus" value="1,2"  <?=isset($_POST['studstatus'])=="1,2"?"checked='checked'":"";?> />
 			เฉพาะนักเรียนสถานะปกติหรือสำเร็จการศึกษา 
 			<input type="submit" value="เรียกดู" class="button" name="search"/> 
 			</font>
@@ -72,11 +79,13 @@
       	<td class="key" align="center">ความหมาย<br/>ดัชนีมวลกาย</td>
     </tr>
 	<?php
+		
+		
 		$sqlStudent = "select id,prefix,firstname,lastname,xlevel,xyearth,room,studstatus,blood_group,weight,height,bmi	from students ";
-		if($_POST['roomID']!="all"){$sqlStudent .=  " where xlevel = '". substr($_POST['roomID'],0,1) . "' and xyearth = '" . substr($_POST['roomID'],2,1) . "' and xedbe = '" . $acadyear . "' ";}
+		if($_roomID !="all"){$sqlStudent .=  " where xlevel = '". substr($_POST['roomID'],0,1) . "' and xyearth = '" . substr($_POST['roomID'],2,1) . "' and xedbe = '" . $acadyear . "' ";}
 		else {$sqlStudent .= " where xedbe = '" . $acadyear . "' " ;}
 		if($_POST['bmi']!=""){$sqlStudent .= genBMISQL($_POST['bmi']);}
-		if($_POST['studstatus']=="1,2") $sqlStudent .= " and studstatus in (1,2) ";
+		if(isset($_POST['studstatus'])=="1,2") $sqlStudent .= " and studstatus in (1,2) ";
 		$sqlStudent .= "order by xlevel,xyearth,room,sex,id";
 		
 		$resStudent = mysqli_query($_connection,$sqlStudent);
@@ -100,12 +109,12 @@
 	<?	} //end_for	?>
 	</table>
 <? } ?>
-<? if($_POST['roomID'] == "" && $_POST['bmi'] == "") {//end_if isset($_POST['search']) ?>
+<? if($_roomID == "" && $_bmi == "") {//end_if isset($_POST['search']) ?>
 	<table width="100%">
 		<tr> 
 			<th align="center">
 				<img src="../images/school_logo.png" width="120px"><br/>
-				ข้อมูลสุขภาพ <?=displayXyear($_POST['roomID'])?> <?=$_POST['roomID']!=""&&$_POST['bmi']!=""?"และ ดัชนีมวลกาย  ".displayBMI($_POST['bmi']+14+($_POST['bmi']*$_POST['bmi'])):""?><br/>
+				ข้อมูลสุขภาพ <?=displayXyear($_roomID)?> <?=$_roomID!=""&&$_bmi!=""?"และ ดัชนีมวลกาย  ".displayBMI($_POST['bmi']+14+($_POST['bmi']*$_POST['bmi'])):""?><br/>
 				ปีการศึกษา <?php echo $acadyear; ?>
 			</th>
 		</tr>

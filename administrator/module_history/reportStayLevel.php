@@ -9,6 +9,13 @@
 	  <?php
 			if(isset($_REQUEST['acadyear'])) { $acadyear = $_REQUEST['acadyear']; }
 			if(isset($_REQUEST['acadsemester'])) { $acadsemester = $_REQUEST['acadsemester']; }
+
+			$_roomID = "";
+			$_roomID = isset($_POST['roomID'])?$_POST['roomID']:"";
+
+			$_inservice = "";
+			$_inservice = isset($_POST['inservice'])?$_POST['inservice']:"";
+
 		?>
 		ปีการศึกษา<?php  
 					echo "<a href=\"index.php?option=module_history/reportStayLevel&acadyear=" . ($acadyear - 1) . "\"><img src=\"../images/pull_left.gif\" border=\"0\" /></a> " ;
@@ -21,25 +28,25 @@
 		เลือกระดับชั้น 
 		  	<select name="roomID" class="inputboxUpdate">
 		  		<option value=""></option>
-				<option value="3/1" <?=isset($_POST['roomID'])&&$_POST['roomID']=="3/1"?"selected":""?>> มัธยมศึกษาปีที่ 1 </option>
-				<option value="3/2" <?=isset($_POST['roomID'])&&$_POST['roomID']=="3/2"?"selected":""?>> มัธยมศึกษาปีที่ 2 </option>
-				<option value="3/3" <?=isset($_POST['roomID'])&&$_POST['roomID']=="3/3"?"selected":""?>> มัธยมศึกษาปีที่ 3 </option>
-				<option value="4/1" <?=isset($_POST['roomID'])&&$_POST['roomID']=="4/1"?"selected":""?>> มัธยมศึกษาปีที่ 4 </option>
-				<option value="4/2" <?=isset($_POST['roomID'])&&$_POST['roomID']=="4/2"?"selected":""?>> มัธยมศึกษาปีที่ 5 </option>
-				<option value="4/3" <?=isset($_POST['roomID'])&&$_POST['roomID']=="4/3"?"selected":""?>> มัธยมศึกษาปีที่ 6 </option>
-				<option value="all" <?=isset($_POST['roomID'])&&$_POST['roomID']=="all"?"selected":""?>> ทั้งโรงเรียน </option>
+				<option value="3/1" <?=$_roomID=="3/1"?"selected":""?>> มัธยมศึกษาปีที่ 1 </option>
+				<option value="3/2" <?=$_roomID=="3/2"?"selected":""?>> มัธยมศึกษาปีที่ 2 </option>
+				<option value="3/3" <?=$_roomID=="3/3"?"selected":""?>> มัธยมศึกษาปีที่ 3 </option>
+				<option value="4/1" <?=$_roomID=="4/1"?"selected":""?>> มัธยมศึกษาปีที่ 4 </option>
+				<option value="4/2" <?=$_roomID=="4/2"?"selected":""?>> มัธยมศึกษาปีที่ 5 </option>
+				<option value="4/3" <?=$_roomID=="4/3"?"selected":""?>> มัธยมศึกษาปีที่ 6 </option>
+				<option value="all" <?=$_roomID=="all"?"selected":""?>> ทั้งโรงเรียน </option>
 			</select><br/>
 		การพักอาศัย
 			<select name="inservice" class="inputboxUpdate">
 				<option value=""></option>
 				<? $_resInService = mysqli_query($_connection,"SELECT * FROM ref_inservice"); ?>
 				<? while($_datInService = mysqli_fetch_assoc($_resInService)) {  ?>
-						<option value="<?=$_datInService['service_id']?>" <?=($_POST['inservice']==$_datInService['service_id']?"SELECTED":"")?>><?=$_datInService['service_description']?></option>
+						<option value="<?=$_datInService['service_id']?>" <?=($_inservice==$_datInService['service_id']?"SELECTED":"")?>><?=$_datInService['service_description']?></option>
 				<?	} mysqli_free_result($_resInService); ?>
 				<option value="all" <?=isset($_POST['search'])&&$_POST['inservice']=="all"?"selected":""?>>ทั้งหมด</option>
 			</select>
 	  		<input type="submit" value="เรียกดู" class="button" name="search"/> <br/>
-			<input type="checkbox" name="studstatus" value="1,2"  <?=$_POST['studstatus']=="1,2"?"checked='checked'":""?> />
+			<input type="checkbox" name="studstatus" value="1,2"  <?=isset($_POST['studstatus'])=="1,2"?"checked='checked'":"";?> />
 			 เฉพาะนักเรียนสถานะปกติหรือสำเร็จการศึกษา
 			</font>
 	   </td>
@@ -55,7 +62,7 @@
     <tr> 
       <th colspan="7" align="center">
 	  		<img src="../images/school_logo.png" width="120px"><br/>
-			ข้อมูลการพักอาศัย <?=displayXyear($_POST['roomID'])?>  <?=isset($_POST['search'])&&$_POST['inservice']!=""?displayInservice($_POST['inservice']):""?><br/>
+			ข้อมูลการพักอาศัย <?=$_roomID>=1&&$_roomID<=6?"ชั้นมัธยมศึกษาปีที่ ":""?> <?=displayXyear($_roomID)?>  <?=isset($_POST['search'])&&$_inservice!=""?displayInservice($_inservice):""?><br/>
 			ปีการศึกษา <?=$acadyear?>	  </th>
     </tr>
     <tr> 
@@ -72,7 +79,7 @@
 		if($_POST['roomID']!="all"){$sqlStudent .=  " where xlevel = '". substr($_POST['roomID'],0,1) . "' and xyearth = '" . substr($_POST['roomID'],2,1) . "' and xedbe = '" . $acadyear . "' ";}
 		else {$sqlStudent .= " where xedbe = '" . $acadyear . "' " ;}
 		if($_POST['inservice']!="all"){$sqlStudent .= " and inservice = '" . $_POST['inservice'] . "' ";}
-		if($_POST['studstatus']=="1,2") $sqlStudent .= " and studstatus in (1,2) ";
+		if(isset($_POST['studstatus'])=="1,2") $sqlStudent .= " and studstatus in (1,2) ";
 		$sqlStudent .= "order by xlevel,xyearth,room,sex,id";
 		
 		$resStudent = mysqli_query($_connection,$sqlStudent);

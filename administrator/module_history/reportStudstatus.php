@@ -9,6 +9,10 @@
 	  <?php
 			if(isset($_REQUEST['acadyear'])) { $acadyear = $_REQUEST['acadyear']; }
 			if(isset($_REQUEST['acadsemester'])) { $acadsemester = $_REQUEST['acadsemester']; }
+
+			$_student_status = "";
+			$_student_status = isset($_POST['studstatus'])?$_POST['studstatus']:"";
+
 		?>
 		ปีการศึกษา <?php  
 					echo "<a href=\"index.php?option=module_history/reportStudstatus&acadyear=" . ($acadyear - 1) . "\"><img src=\"../images/pull_left.gif\" border=\"0\" /></a> " ;
@@ -22,7 +26,7 @@
 				<option value=""></option>
 				<? $_resStatus = mysqli_query($_connection,"SELECT * FROM ref_studstatus");?>
 				<? while($_datStatus = mysqli_fetch_assoc($_resStatus)) {  ?>
-								<option value="<?=$_datStatus['studstatus']?>" <?=($_POST['studstatus']==$_datStatus['studstatus']?"SELECTED":"")?>><?=$_datStatus['studstatus_description']?></option>
+								<option value="<?=$_datStatus['studstatus']?>" <?=($_student_status==$_datStatus['studstatus']?"SELECTED":"")?>><?=$_datStatus['studstatus_description']?></option>
 				<? }mysqli_free_result($_resStatus); ?>
 			</select>
 	  		<input type="submit" value="เรียกดู" class="button" name="search"/>
@@ -77,8 +81,8 @@
 			<td align="center" valign="top"><?=$dat['id']?></td>
 			<td valign="top"><?=displayPrefix($dat['prefix']) . $dat['firstname'] . " " . $dat['lastname']?></td>
 			<td align="center" valign="top"><?=displayRoomTable($dat['xlevel'] , $dat['xyearth']) . "/" .$dat['room']?></td>
-			<td align="center" valign="top"><?=displayThaiDate($dat['leave'])?></td>
-			<td valign="top"><?=$dat['retirecause']!=""?displayRetirecause($dat['retirecause']):"-"?></td>
+			<td align="center" valign="top"><?=$dat['leave']!=""?displayThaiDate($dat['leave']):""?></td>
+			<td valign="top"><?=$dat['retirecause']!=""?displayRetirecause($_connection,$dat['retirecause']):"-"?></td>
 		</tr>
 		<? } //end for loop ?>
 	<?  }//ปิด if-else ตรวจสอบข้อมูลในฐานข้อมูล

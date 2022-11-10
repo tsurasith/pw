@@ -37,7 +37,7 @@
 <?php
 	$_studentID = (isset($_POST['student_id'])?$_POST['student_id']:$_REQUEST['student_id']);
 	$sqlStudent = "select id,prefix,firstname,lastname,nickname,xlevel,xyearth,room,studstatus,blood_group,
-						weight,height,cripple,inservice
+						weight,height,cripple,inservice,sex
 				 from students 
 				 where id = '" . $_studentID . "' and xedbe = '" . $acadyear . "'";
 						 

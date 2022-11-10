@@ -9,6 +9,10 @@
 	  <?php
 			if(isset($_REQUEST['acadyear'])) { $acadyear = $_REQUEST['acadyear']; }
 			if(isset($_REQUEST['acadsemester'])) { $acadsemester = $_REQUEST['acadsemester']; }
+
+			$_roomID = "";
+			$_roomID = isset($_POST['roomID'])?$_POST['roomID']:"";
+
 		?>
 		ปีการศึกษา<?php  
 					echo "<a href=\"index.php?option=module_history/reportFMStatusRoom&acadyear=" . ($acadyear - 1) . "\"><img src=\"../images/pull_left.gif\" border=\"0\" /></a> " ;
@@ -56,7 +60,7 @@
 				?>
 			</select>
 	  		<input type="submit" value="เรียกดู" class="button" name="search"/> <br/>
-			<input type="checkbox" name="studstatus" value="1,2"  <?=$_POST['studstatus']=="1,2"?"checked='checked'":""?> />
+			<input type="checkbox" name="studstatus" value="1,2"  <?=isset($_POST['studstatus'])=="1,2"?"checked='checked'":"";?> />
 			 เฉพาะนักเรียนสถานะปกติหรือสำเร็จการศึกษา
 			</font>
 	   </td>
@@ -64,9 +68,9 @@
   </table>
   </form>
 <?php
-	  $xlevel = getXlevel($_POST['roomID']);
-	  $xyearth= getXyearth($_POST['roomID']);
-	  $room = getRoom($_POST['roomID']);
+	  $xlevel = getXlevel($_roomID);
+	  $xyearth= getXyearth($_roomID);
+	  $room = getRoom($_roomID);
 ?>
 
 <? if(isset($_POST['search']) && $_POST['roomID'] == ""){ ?>
@@ -97,7 +101,7 @@
 						from students 
 						where xlevel = '". $xlevel . "' and xyearth = '" . $xyearth . "' and room = '" . $room . "' 
 								and xedbe = '" . $acadyear . "' ";
-		if($_POST['studstatus']=="1,2") $sqlStudent .= " and studstatus in (1,2) ";
+		if(isset($_POST['studstatus'])=="1,2") $sqlStudent .= " and studstatus in (1,2) ";
 		$sqlStudent .= "order by sex,id ";
 		
 		$resStudent = mysqli_query($_connection,$sqlStudent);
@@ -113,8 +117,8 @@
 			<td align="center"><?=displayStudentStatusColor($dat['studstatus'])?></td>
 			<td align="center"><?=$dat['f_status']!=""?($dat['f_status']==1?"ยังมีชีวิตอยู่":"ถึงแก่กรรม"):"-"?></td>
 			<td align="center"><?=$dat['m_status']!=""?($dat['m_status']==1?"ยังมีชีวิตอยู่":"ถึงแก่กรรม"):"-"?></td>
-			<td align="center"><?=displayFMStatus($dat['fm_status'])?></td>
-			<td align="center"><?=displayRelation($dat['a_relation'])?></td>
+			<td align="center"><?=displayFMStatus($_connection,$dat['fm_status'])?></td>
+			<td align="center"><?=displayRelation($_connection,$dat['a_relation'])?></td>
 			</tr>
 	<?	} //end_for	?>
 </table>

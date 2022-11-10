@@ -9,6 +9,13 @@
 	  <?php
 			if(isset($_REQUEST['acadyear'])) { $acadyear = $_REQUEST['acadyear']; }
 			if(isset($_REQUEST['acadsemester'])) { $acadsemester = $_REQUEST['acadsemester']; }
+
+			$_roomID = "";
+			$_roomID = isset($_POST['roomID'])?$_POST['roomID']:"";
+
+			$_cripple = "";
+			$_cripple = isset($_POST['cripple'])?$_POST['cripple']:"";
+
 		?>
 		ปีการศึกษา<?php  
 					echo "<a href=\"index.php?option=module_history/reportCripple&acadyear=" . ($acadyear - 1) . "\"><img src=\"../images/pull_left.gif\" border=\"0\" /></a> " ;
@@ -36,10 +43,10 @@
 				<? while($_datC = mysqli_fetch_assoc($_resCripple)){ ?>
 					<option value="<?=$_datC['cripple_id']?>" <?=isset($_POST['cripple'])&&$_POST['cripple']==$_datC['cripple_id']?"selected":""?>><?=$_datC['cripple_description']?></option>
 				<? } ?>
-				<option value="all" <?=$_POST['cripple']=="all"?"selected":""?>>ทั้งหมด</option>
+				<option value="all" <?=$_cripple=="all"?"selected":""?>>ทั้งหมด</option>
 			</select>
 	  		<input type="submit" value="เรียกดู" class="button" name="search"/> <br/>
-			<input type="checkbox" name="studstatus" value="1,2"  <?=$_POST['studstatus']=="1,2"?"checked='checked'":""?> />
+			<input type="checkbox" name="studstatus" value="1,2"  <?=isset($_POST['studstatus'])=="1,2"?"checked='checked'":"";?> />
 			 เฉพาะนักเรียนสถานะปกติหรือสำเร็จการศึกษา
 			</font>
 	   </td>
@@ -71,11 +78,11 @@
       	<td class="key" width="200px" align="center">สถานภาพร่างกาย</td>
     </tr>
 	<?php
-		$sqlStudent = "select id,prefix,firstname,lastname,xlevel,xyearth,room,studstatus,cripple,weight,height,bmi	from students ";
+		$sqlStudent = "select id,prefix,firstname,lastname,xlevel,xyearth,room,studstatus,cripple,weight,height,bmi,blood_group	from students ";
 		if($_POST['roomID']!="all"){$sqlStudent .=  " where xlevel = '". substr($_POST['roomID'],0,1) . "' and xyearth = '" . substr($_POST['roomID'],2,1) . "' and xedbe = '" . $acadyear . "' ";}
 		else {$sqlStudent .= " where xedbe = '" . $acadyear . "' " ;}
 		if($_POST['cripple']!="all"){$sqlStudent .= "and cripple = '" . $_POST['cripple'] . "'";}
-		if($_POST['studstatus']=="1,2") $sqlStudent .= " and studstatus in (1,2) ";
+		if(isset($_POST['studstatus'])=="1,2") $sqlStudent .= " and studstatus in (1,2) ";
 		$sqlStudent .= "order by xlevel,xyearth,room,sex,id";
 		$resStudent = mysqli_query($_connection,$sqlStudent);
 		$ordinal = 1;
@@ -97,12 +104,12 @@
 	<?	} //end_for	?>
 	</table>
 <? } ?>
-<? if($_POST['roomID']=="" && $_POST['cripple']=="") {//end_if isset($_POST['search']) ?>
+<? if($_roomID == "" && $_cripple == "") {//end_if isset($_POST['search']) ?>
 	<table width="100%">
 		<tr>
 			<th colspan="10" align="center">
 	  			<img src="../images/school_logo.png" width="120px"><br/>
-				ข้อมูลสุขภาพด้านสถานภาพความพิการ <?=displayXyear($_POST['roomID'])?> <br/>
+				ข้อมูลสุขภาพด้านสถานภาพความพิการ <?=displayXyear($_roomID)?> <br/>
 				ปีการศึกษา <?php echo $acadyear; ?>
 			</th>
 		</tr>

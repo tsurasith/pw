@@ -447,10 +447,13 @@
 		}
 	}
 	
-	function displayRetirecause($_value){
+	function displayRetirecause($_connection,$_value){
 		$_resRetire = mysqli_query($_connection,"SELECT * FROM ref_retire where retire_id = '" . $_value . "'");
-		$_datRe = mysqli_fetch_assoc($_resRetire);
-		return $_datRe['retire_description'];
+		
+		if(mysqli_num_rows($_resRetire)>0){
+			$_datRe = mysqli_fetch_assoc($_resRetire);
+			return $_datRe['retire_description'];
+		}else { return ""; }
 	}
 	
 //-----

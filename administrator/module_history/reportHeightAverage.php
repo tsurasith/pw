@@ -25,7 +25,7 @@
 				<option value="2" <?=isset($_POST['detail'])&&$_POST['detail']=="2"?"selected":""?>>ระดับชั้นเรียน</option>
 			</select> 
 	  		<input type="submit" value="เรียกดู" class="button" name="search"/> <br/>
-			<input type="checkbox" name="studstatus" value="1,2"  <?=$_POST['studstatus']=="1,2"?"checked='checked'":""?> />
+			<input type="checkbox" name="studstatus" value="1,2"  <?=isset($_POST['studstatus'])=="1,2"?"checked='checked'":"";?> />
 			 เฉพาะนักเรียนสถานะปกติหรือสำเร็จการศึกษา
 			</font>
 	   </td>
@@ -46,7 +46,7 @@
 		<td align="center">
 			<? $_sql = "select xlevel,xyearth,room, sum(if(sex=1,height,0)) as WM, sum(if(sex=1,1,0)) as Male, sum(if(sex=2,height,0)) as WF , sum(if(sex=2,1,0)) as Female
 						from students where xEDBE = '" . $acadyear . "' ";
-			   if($_POST['studstatus'] == "1,2") $_sql .= " and studstatus in (1,2)";		
+			   if(isset($_POST['studstatus']) == "1,2") $_sql .= " and studstatus in (1,2)";		
 			   $_sql .= " group by xlevel,xyearth" .( $_POST['detail']==1?",room":""); ?>
 			<table class="admintable" align="center">
 				<tr> 
@@ -82,7 +82,7 @@
 	</tr>
 </table>
 <? } else { //end-if check_submit ?>  
-		<? $_sql = "select id,prefix,firstname,lastname,xlevel,xyearth,room,height from students where xEDBE = '" .$acadyear."' " . ($_POST['studstatus']=="1,2"?"and studstatus in (1,2)":"");?>
+		<? $_sql = "select id,prefix,firstname,lastname,xlevel,xyearth,room,height from students where xEDBE = '" .$acadyear."' " . (isset($_POST['studstatus'])=="1,2"?"and studstatus in (1,2)":"");?>
 		<table align="center" class="admintable" width="100%">
 			<tr>
 				<td colspan="6" class="key" align="center">

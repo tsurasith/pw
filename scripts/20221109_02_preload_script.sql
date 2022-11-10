@@ -13,4 +13,10 @@ from students
 	group by xlevel,xyearth,room;
 
 
+-- update bmi after import students data
+update students
+set
+	bmi = WEIGHT/((height/100)*(height/100))
+where
+	height > 0;
 

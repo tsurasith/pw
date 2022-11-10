@@ -34,12 +34,16 @@
   </table>
   </form>
  <?php
+  
+  $_roomID = "";
+  $_roomID = isset($_POST['roomID'])?$_POST['roomID']:"";
+ 
   $xlevel;
   $xyearth;
-  if($_POST['roomID'] != "all")
+  if($_roomID != "all" && $_roomID != "")
   {
-  	$xlevel = substr($_POST['roomID'],0,1);;
-	$xyearth = substr($_POST['roomID'],2,1);
+  	$xlevel = substr($_roomID,0,1);;
+	$xyearth = substr($_roomID,2,1);
   }
 ?>
 
