@@ -8,7 +8,7 @@
         <span class="normal"><font color="#0066FF"><strong>1.4 สืบค้นประวัติพฤติกรรมที่พึงประสงค์</strong></font></span></td>
       <td valign="bottom">
 	  	<?php
-			$s_id;
+			$s_id="";
 			if(isset($_POST['search'])){ $s_id = $_POST['studentid'];}
 			else if(isset($_REQUEST['studentID'])){$s_id = $_REQUEST['studentID'];}
 		?>

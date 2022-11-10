@@ -8,7 +8,7 @@
         <span class="normal"><font color="#0066FF"><strong>1.3 สืบค้นประวัติการเข้าเรียน</strong></font></span></td>
       <td >
 	  <?php
-			$s_id;
+			$s_id="";
 			if(isset($_POST['search'])){ $s_id = $_POST['studentid'];} 
 			else if(isset($_REQUEST['studentID']) && !isset($_POST['search'])){$s_id = $_REQUEST['studentID'];}
 			if(isset($_REQUEST['acadyear'])) { $acadyear = $_REQUEST['acadyear']; }
@@ -32,7 +32,7 @@
 		</font><br/>
 		<font   size="2" color="#000000">
 		เลขประจำตัวนักเรียน 
-	  	<input type="text" size="5" maxlength="5" name="studentid" id="studentid" onKeyPress="return isNumberKey(event)" class="inputboxUpdate" value="<?=isset($_POST['studentid'])?$_POST['studentid']:$_REQUEST['studentID']?>"/>
+	  	<input type="text" size="5" maxlength="5" name="studentid" id="studentid" onKeyPress="return isNumberKey(event)" class="inputboxUpdate" value="<?=isset($_POST['studentid'])?$_POST['studentid']:(isset($_REQUEST['studentID'])?$_REQUEST['studentID']:"")?>"/>
 	  	<input type="submit" value="สืบค้น" class="button" name="search"/></font></td>
     </tr>
   </table>
@@ -122,22 +122,24 @@
 			<td class="key" width="45px">คาบ7</td>
 			<td class="key" width="45px">คาบ8</td>
 		</tr>
-		<? $_i = 1; ?>
-		<? while($_dat = mysqli_fetch_assoc($_resx)) { ?>
-		<tr bgcolor="#FFFFFF" onMouseOver="this.style.backgroundColor='#FFCCFF'; this.style.cursor='hand';" onMouseOut=this.style.backgroundColor="#FFFFFF">
-			<td align="center"><?=$_i++?></td>
-			<td align="center"><?=displayFullDate($_dat['check_date'])?></td>
-			<td align="center"><?=displayTimecheckColor($_dat['x'])?></td>
-			<td align="center"><?=displayTimecheckColor($_dat['a'])?></td>
-			<td align="center"><?=displayTimecheckColor($_dat['b'])?></td>
-			<td align="center"><?=displayTimecheckColor($_dat['c'])?></td>
-			<td align="center"><?=displayTimecheckColor($_dat['d'])?></td>
-			<td align="center"><?=displayTimecheckColor($_dat['e'])?></td>
-			<td align="center"><?=displayTimecheckColor($_dat['f'])?></td>
-			<td align="center"><?=displayTimecheckColor($_dat['g'])?></td>
-			<td align="center"><?=displayTimecheckColor($_dat['h'])?></td>
-		</tr>
-		<? } mysqli_free_result($_resx);//end while ?>
+		<? if(mysqli_num_rows($_resx)>0) { ?> 
+			<? $_i = 1; ?>
+			<? while($_dat = mysqli_fetch_assoc($_resx)) { ?>
+			<tr bgcolor="#FFFFFF" onMouseOver="this.style.backgroundColor='#FFCCFF'; this.style.cursor='hand';" onMouseOut=this.style.backgroundColor="#FFFFFF">
+				<td align="center"><?=$_i++?></td>
+				<td align="center"><?=displayFullDate($_dat['check_date'])?></td>
+				<td align="center"><?=displayTimecheckColor($_dat['x'])?></td>
+				<td align="center"><?=displayTimecheckColor($_dat['a'])?></td>
+				<td align="center"><?=displayTimecheckColor($_dat['b'])?></td>
+				<td align="center"><?=displayTimecheckColor($_dat['c'])?></td>
+				<td align="center"><?=displayTimecheckColor($_dat['d'])?></td>
+				<td align="center"><?=displayTimecheckColor($_dat['e'])?></td>
+				<td align="center"><?=displayTimecheckColor($_dat['f'])?></td>
+				<td align="center"><?=displayTimecheckColor($_dat['g'])?></td>
+				<td align="center"><?=displayTimecheckColor($_dat['h'])?></td>
+			</tr>
+			<? } mysqli_free_result($_resx);//end while ?>
+		<? } else { echo ""; } ?>
 	</table>
 	<? } else { echo "<br><center><font color='red'>ไม่พบข้อมูลนักเรียน กรุณาตรวจสอบเลขประจำตัวนักเรียนอีกครั้ง</font></center>";}?>
 <? } //end if submit data ?>

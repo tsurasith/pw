@@ -59,25 +59,32 @@
 						?>
 			</select>
 	  		<input type="submit" value="สืบค้น" class="button" name="search"/> <br/>
-			<input type="checkbox" name="studstatus" value="1,2" <?=$_POST['studstatus']=="1,2"?"checked='checked'":""?> />
+			<input type="checkbox" name="studstatus" value="1,2" <?=isset($_POST['studstatus'])=="1,2"?"checked='checked'":""?> />
 			เฉพาะนักเรียนสถานะปกติหรือสำเร็จการศึกษา</font>
 	   </td>
     </tr>
   </table>
   </form>
   <?php
-	  $xlevel = getXlevel($_POST['roomID']);
-	  $xyearth= getXyearth($_POST['roomID']);
-	  $room = getRoom($_POST['roomID']);
+	  $_roomID = "";
+	  $_roomID = isset($_POST['roomID'])?$_POST['roomID']:"";
+
+	  $xlevel = getXlevel($_roomID);
+	  $xyearth= getXyearth($_roomID);
+	  $room = getRoom($_roomID);
+
+	  $_student_status = "";
+	  $_student_status = isset($_POST['studstatus'])?$_POST['studstatus']:"";
+
   ?>
-  <? if(isset($_POST['search']) && $_POST['roomID'] == "") { ?>
+  <? if(isset($_POST['search']) && $_roomID == "") { ?>
   		<br/><center><font color="#FF0000">กรุณาเลือกห้องเรียนก่อน !</font></center>
-  <? } else if (isset($_POST['search']) && $_POST['roomID'] != "") { ?>
+  <? } else if (isset($_POST['search']) && $_roomID != "") { ?>
   <table class="admintable"  cellpadding="1" cellspacing="1" border="0" align="center">
     <tr> 
       <td class="key" colspan="5" align="center">
 	  	<img src="../images/school_logo.png" width="120px"><br/>
-	  	รายชื่อนักเรียนห้อง <?=getFullRoomFormat($_POST['roomID']); ?> ภาคเรียนที่ <?php echo $acadsemester; ?> ปีการศึกษา <?php echo $acadyear; ?>
+	  	รายชื่อนักเรียนห้อง <?=getFullRoomFormat($_roomID); ?> ภาคเรียนที่ <?php echo $acadsemester; ?> ปีการศึกษา <?php echo $acadyear; ?>
 	</td>
     </tr>
 	<?php
@@ -85,7 +92,7 @@
 						from students 
 						where xlevel = '". $xlevel . "' and xyearth = '" . $xyearth . "' and room = '" . $room . "' 
 								and xedbe = '" . $acadyear . "' ";
-		if($_POST['studstatus']=="1,2") $sqlStudent .= " and studstatus in (1,2) ";
+		if($_student_status=="1,2") $sqlStudent .= " and studstatus in (1,2) ";
 		$sqlStudent .= " order by sex,id,ordinal ";
 		$resStudent = mysqli_query($_connection,$sqlStudent);
 		$ordinal = 1;

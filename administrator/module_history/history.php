@@ -13,7 +13,7 @@
 			if(isset($_REQUEST['acadsemester'])) { $acadsemester = $_REQUEST['acadsemester']; }
 		?>
 		ปีการศึกษา<?php  
-					$_studentID =isset($_POST['studentid'])?$_POST['studentid']:$_REQUEST['studentid'];
+					$_studentID = isset($_POST['studentid'])?$_POST['studentid']:(isset($_REQUEST['studentid'])?$_REQUEST['studentid']:"");
 					echo "<a href=\"index.php?option=module_history/history&acadyear=" . ($acadyear - 1) . "&studentid=$_studentID\"><img src=\"../images/pull_left.gif\" border=\"0\" /></a> " ;
 					echo '<font color=\'blue\'>' .$acadyear . '</font>';
 					echo " <a href=\"index.php?option=module_history/history&acadyear=" . ($acadyear + 1) . "&studentid=$_studentID\"><img src=\"../images/pull_right.gif\" border=\"0\" /></a> " ;
@@ -22,7 +22,7 @@
 		<br/>		
 	  	<font color="#000000" size="2">
 			เลขประจำตัวนักเรียน
-			<input type="text" size="5" maxlength="5" name="studentid" value="<?=isset($_POST['studentid'])?$_POST['studentid']:$_REQUEST['studentid']?>" onKeyPress="return isNumberKey(event)" id="studentid" class="inputboxUpdate"/>
+			<input type="text" size="5" maxlength="5" name="studentid" value="<?=isset($_POST['studentid'])?$_POST['studentid']:(isset($_REQUEST['studentid'])?$_REQUEST['studentid']:"")?>" onKeyPress="return isNumberKey(event)" id="studentid" class="inputboxUpdate"/>
 	  		<input type="submit" value="สืบค้น" class="button" name="search"/>
 		</font>
 	  </td>
@@ -99,7 +99,7 @@
 				</tr>
 				<tr>
 					<td align="right">ครูที่ปรึกษา :</td>
-					<td><?=display(getAdvisor($dat['xLevel'],$dat['xYearth'],$dat['ROOM'],$acadyear,$acadsemester))?></td>
+					<td><?=display(getAdvisor($_connection,$dat['xLevel'],$dat['xYearth'],$dat['ROOM'],$acadyear,$acadsemester))?></td>
 				</tr>
 				<tr> 
 					<td align="right">เบอร์โทรศัพท์ :</td>
@@ -191,38 +191,38 @@
 				<tr><td colspan="4">&nbsp;</td></tr>
 				<tr>
 					<td align="right">ครูที่ปรึกษาชั้นม.<?=$dat['xLevel']==3?1:4?> :</td>
-					<td><?=display(getTeacher($dat['advisor11']))?></td>
-					<td><?=display(getTeacher($dat['advisor12']))?></td>
+					<td><?=display(getTeacher($_connection,$dat['advisor11']))?></td>
+					<td><?=display(getTeacher($_connection,$dat['advisor12']))?></td>
 					<td>&nbsp;</td>
 				</tr>
 				<tr>
 					<td align="right">ครูที่ปรึกษาชั้นม.<?=$dat['xLevel']==3?2:5?> :</td>
-					<td><?=display(getTeacher($dat['advisor21']))?></td>
-					<td><?=display(getTeacher($dat['advisor22']))?></td>
+					<td><?=display(getTeacher($_connection,$dat['advisor21']))?></td>
+					<td><?=display(getTeacher($_connection,$dat['advisor22']))?></td>
 					<td>&nbsp;</td>
 				</tr>
 				<tr>
 					<td align="right">ครูที่ปรึกษาชั้นม.<?=$dat['xLevel']==3?3:6?> :</td>
-					<td><?=display(getTeacher($dat['advisor31']))?></td>
-					<td><?=display(getTeacher($dat['advisor32']))?></td>
+					<td><?=display(getTeacher($_connection,$dat['advisor31']))?></td>
+					<td><?=display(getTeacher($_connection,$dat['advisor32']))?></td>
 					<td>&nbsp;</td>
 				</tr>
 				<tr><td colspan="4">&nbsp;</td></tr>
 				<tr>
 					<td align="right">ครูที่ไว้วางใจคนที่ 1 :</td>
-					<td><?=display(getTeacher($dat['TrustTeacher1']))?></td>
+					<td><?=display(getTeacher($_connection,$dat['TrustTeacher1']))?></td>
 					<td>&nbsp;</td>
 					<td>&nbsp;</td>
 				</tr>
 				<tr>
 					<td align="right">ครูที่ไว้วางใจคนที่ 2 :</td>
-					<td><?=display(getTeacher($dat['TrustTeacher2']))?></td>
+					<td><?=display(getTeacher($_connection,$dat['TrustTeacher2']))?></td>
 					<td>&nbsp;</td>
 					<td>&nbsp;</td>
 				</tr>
 				<tr>
 					<td align="right">ครูที่ไว้วางใจคนที่ 3 :</td>
-					<td><?=display(getTeacher($dat['TrustTeacher3']))?></td>
+					<td><?=display(getTeacher($_connection,$dat['TrustTeacher3']))?></td>
 					<td>&nbsp;</td>
 					<td>&nbsp;</td>
 				</tr>
@@ -302,7 +302,7 @@
 				  <td align="right">ชื่อบิดา :</td>
 				  <td><?php echo display($dat['F_NAME']); ?></td>
 				  <td  align="right">อาชีพ :</td>
-				  <td><?php echo display(displayOccupation($dat['F_Occupation'])); ?></td>
+				  <td><?php echo display(displayOccupation($_connection,$dat['F_Occupation'])); ?></td>
 				</tr>
 				<tr>
 				  <td align="right">เบอร์ติดต่อ :</td><td><?=display(substr($dat['F_Mobile'],0,3) . "-". substr($dat['F_Mobile'],3,7) . " ")?></td>
@@ -326,7 +326,7 @@
 				  <td align="right">ชื่อมารดา :</td>
 				  <td><?php echo display($dat['M_NAME']); ?></td>
 				  <td  align="right">อาชีพ :</td>
-				  <td><?php echo display(displayOccupation($dat['M_Occupation'])); ?></td>
+				  <td><?php echo display(displayOccupation($_connection,$dat['M_Occupation'])); ?></td>
 				</tr>
 				<tr>
 				  <td align="right">เบอร์ติดต่อ :</td><td><?=display(substr($dat['M_Mobile'],0,3) . "-" . substr($dat['M_Mobile'],3,7) . " ")?></td>
@@ -348,7 +348,7 @@
 				  <td align="right">ชื่อผู้ปกครอง :</td>
 				  <td><?php echo display($dat['A_NAME']); ?></td>
 				  <td  align="right">อาชีพ :</td>
-				  <td><?php echo display(displayOccupation($dat['A_Occupation'])); ?></td>
+				  <td><?php echo display(displayOccupation($_connection,$dat['A_Occupation'])); ?></td>
 				 </tr>
 				<tr> 
 				  <td align="right">เบอร์โทรศัพท์ :</td>
@@ -360,11 +360,11 @@
 					<td  align="right">เบอร์มือถือ :</td>
 					<td ><?php echo display(substr($dat['A_Mobile'],0,3) . "-" . substr($dat['A_Mobile'],3,7) . " "); ?></td>
 					<td  align="right">สถานภาพบิดา-มารดา :</td>
-					<td ><?=display(displayFMStatus($dat['FM_Status']))?></td>
+					<td ><?=display(displayFMStatus($_connection,$dat['FM_Status']))?></td>
 				</tr>
 				<tr> 
 				  <td align="right">ความสัมพันธ์กับนักเรียน :</td>
-				  <td colspan="3"><?php echo display(displayRelation($dat['A_Relation'])); ?></td>
+				  <td colspan="3"><?php echo display(displayRelation($_connection,$dat['A_Relation'])); ?></td>
 				</tr>
 				<tr>
 					<td align="right">รายได้รวมบิดาและมารดา :</td>

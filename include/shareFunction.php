@@ -281,19 +281,25 @@
 			default : return "ไม่ทราบ";
 		}
 	}
-	function displayOccupation($_id){
+	function displayOccupation($_connection,$_id){
 		if($_id != ""){
-			$_dat = mysqli_fetch_assoc(mysqli_query($_connection,"select occ_description from ref_occupation where occ_id = '" . $_id . "'"));
-			return $_dat['occ_description'];
+			$_rest = mysqli_query($_connection,"select occ_description from ref_occupation where occ_id = '" . $_id . "'");
+			if(mysqli_num_rows($_rest)>0)
+			{
+				$_dat  = mysqli_fetch_assoc($_rest);
+				mysqli_free_result($_rest);
+
+				return $_dat['occ_description'];
+			} else { return "-"; }
 		} else { return "-";};
 	}
-	function displayFMStatus($_id){
+	function displayFMStatus($_connection,$_id){
 		if($_id != ""){
 			$_dat = mysqli_fetch_assoc(mysqli_query($_connection,"select fmstatus_description from ref_fmstatus where fmstatus_id = '" . $_id . "'"));
 			return $_dat['fmstatus_description'];
 		} else { return "-";};
 	}
-	function displayRelation($_id){
+	function displayRelation($_connection,$_id){
 		if($_id != ""){
 			$_dat = mysqli_fetch_assoc(mysqli_query($_connection,"select relation_description from ref_relation where relation_id = '" . $_id . "'"));
 			return $_dat['relation_description'];
@@ -322,18 +328,29 @@
 		} else { return "-"; }
 	}
 	
-	function getAdvisor($_level,$_year,$_room,$_acadyear,$_acadsemester) {
+	function getAdvisor($_connection,$_level,$_year,$_room,$_acadyear,$_acadsemester) {
 		$_roomID = (($_level == 4)?($_year+3):($_year)) . "0" . $_room;
 		$_sqlAd = "select prefix,firstname, lastname from teachers left outer join rooms on teachers.teaccode = rooms.teacher_id
 						where room_id = '" . $_roomID ."' and rooms.acadyear = '" . $_acadyear . "' and rooms.acadsemester = '" . $_acadsemester . "'";
 		$_resAd = mysqli_query($_connection,$_sqlAd);
-		$_datAd = mysqli_fetch_assoc($_resAd);
-		return "ครู" . $_datAd['firstname'] . " " . $_datAd['lastname'];
+
+		if(mysqli_num_rows($_resAd)>0){
+			$_datAd = mysqli_fetch_assoc($_resAd);
+			mysqli_free_result($_resAd);
+			
+			return "ครู" . $_datAd['firstname'] . " " . $_datAd['lastname'];
+		}
+		else { return "-";}
 	}
-	function getTeacher($_id){
+	function getTeacher($_connection,$_id){
 		$_res = mysqli_query($_connection,"select prefix,firstname,lastname from teachers where teaccode = '" . $_id . "'");
-		$_dat = mysqli_fetch_assoc($_res);
-		if(mysqli_num_rows($_res) > 0) return "ครู" . $_dat['firstname'] . " " . $_dat['lastname'] ;
+		
+		if(mysqli_num_rows($_res) > 0){
+			$_dat = mysqli_fetch_assoc($_res);
+			mysqli_free_result($_res);
+			
+			return "ครู" . $_dat['firstname'] . " " . $_dat['lastname'] ;
+		} 
 		else return "";
 	}
 	function getPoint($_point)

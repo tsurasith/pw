@@ -9,7 +9,7 @@
         <span class="normal"><font color="#0066FF"><strong>1.2 สืบค้นประวัติการเข้าร่วมกิจกรรมหน้าเสาธง</strong></font></span></td>
       <td >
 	  	<?php
-			$s_id;
+			$s_id="";
 			if(isset($_POST['search'])){ $s_id = $_POST['studentid'];}
 			else if(isset($_REQUEST['studentID'])){$s_id = $_REQUEST['studentID'];}
 			if(isset($_REQUEST['acadyear']))

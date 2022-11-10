@@ -8,11 +8,17 @@
         <span class="normal"><font color="#0066FF"><strong>1.5 สืบค้นประวัติพฤติกรรมไม่พึงประสงค์</strong></font></span></td>
       <td >
 	  	<?php
-			$s_id;
+			$s_id="";
 			if(isset($_POST['search'])){ $s_id = $_POST['studentid'];}
 			else if(isset($_REQUEST['studentID'])){$s_id = $_REQUEST['studentID'];}
 			if(isset($_REQUEST['acadyear'])) { $acadyear = $_REQUEST['acadyear']; }
 			if(isset($_REQUEST['acadsemester'])) { $acadsemester = $_REQUEST['acadsemester']; }
+
+			$_split = "";
+			if(isset($_POST['split'])){
+				$_split = $_POST['split'];
+			}
+
 		?>
 		ปีการศึกษา<?php  
 					echo "<a href=\"index.php?option=module_history/history_discipline&studentID=" . $s_id . "&acadyear=" . ($acadyear - 1) . "\"><img src=\"../images/pull_left.gif\" border=\"0\" /></a> " ;
@@ -23,7 +29,7 @@
 	  	<font color="#000000" size="2">
 		เลขประจำตัวนักเรียน <input type="text" size="5" maxlength="5" name="studentid" id="studentid" onKeyPress="return isNumberKey(event)" class="inputboxUpdate" value="<?=$s_id?>"/>
 	  				<input type="submit" value="สืบค้น" class="button" name="search" /><br/>
-					<input type="checkbox" name="split" value="split"  <?=$_POST['split']=="split"?"checked='checked'":""?> /> ไม่รวมการขาด สาย ลากิจกรรมหน้าเสาธง</font>
+					<input type="checkbox" name="split" value="split"  <?=$_split=="split"?"checked='checked'":""?> /> ไม่รวมการขาด สาย ลากิจกรรมหน้าเสาธง</font>
 		</td>
     </tr>
   </table>
@@ -74,7 +80,7 @@
 		<?	$_sql = "select a.dis_id,a.dis_date,a.dis_detail,b.dis_status
 						from student_discipline a right outer join student_disciplinestatus b on (a.dis_id = b.dis_id)
 						where a.dis_studentid = '" . $s_id . "' and b.acadyear = '".$acadyear."' ";
-			if($_POST['split']=="split") $_sql .= " and dis_detail not like '%การเข้าร่วมกิจกรรมหน้าเสาธง%' ";
+			if($_split=="split") $_sql .= " and dis_detail not like '%การเข้าร่วมกิจกรรมหน้าเสาธง%' ";
 			$_sql .= " order by dis_date";?>
 		<?	$_resDis = mysqli_query($_connection,$_sql);?>
 		<?	if(mysqli_num_rows($_resDis) > 0){ ?>

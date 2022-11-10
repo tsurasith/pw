@@ -45,16 +45,26 @@
 				<option value="3" <?=isset($_POST['search'])&&$_POST['sex']=="3"?"selected":""?>>ทั้งหมด</option>
 			</select>
 	  		<input type="submit" value="สืบค้น" class="button" name="search"/> <br/>
-			<input type="checkbox" name="studstatus" value="1,2" <?=$_POST['studstatus']=="1,2"?"checked='checked'":""?> />
+			<input type="checkbox" name="studstatus" value="1,2" <?=isset($_POST['studstatus'])=="1,2"?"checked='checked'":""?> />
 			เฉพาะนักเรียนสถานะปกติหรือสำเร็จการศึกษา</font>
 	   </td>
     </tr>
   </table>
   </form>
-  <? $xlevel = substr($_POST['roomID'],0,1);?>
-  <? $xyearth = substr($_POST['roomID'],2,1);?>
+  <?php
 
-<? if(isset($_POST['search']) && ( $_POST['roomID'] == "" || $_POST['sex'] == "")) { ?>
+		$_roomID = "";
+		$_roomID = isset($_POST['roomID'])?$_POST['roomID']:"";
+
+		$_student_status = "";
+		$_student_status = isset($_POST['studstatus'])?$_POST['studstatus']:"";
+
+  		$xlevel = substr($_roomID,0,1);
+		$xyearth = substr($_roomID,2,1);
+
+  ?>
+
+<? if(isset($_POST['search']) && ( $_roomID == "" || $_POST['sex'] == "")) { ?>
   		<br/><center><font color="#FF0000">กรุณาเลือก ระดับชั้น และ เพศ ที่ต้องการดูทำเนียบก่อน</font></center>
 <? } //?>
   
@@ -64,7 +74,7 @@
 						from students 
 						where xedbe = '" . $acadyear . "' ";
 		if($_POST['roomID'] != "all") $sqlStudent .= "and xlevel = '". $xlevel . "' and xyearth = '" . $xyearth . "' ";
-		if($_POST['studstatus']=="1,2") $sqlStudent .= " and studstatus in (1,2) ";
+		if($_student_status =="1,2") $sqlStudent .= " and studstatus in (1,2) ";
 		if($_POST['sex']!="3") $sqlStudent .= " and sex = '" . $_POST['sex'] . "' ";
 		$sqlStudent .= " order by sex,xlevel,xyearth,room,id ";
 		$resStudent = mysqli_query($_connection,$sqlStudent);
