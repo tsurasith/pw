@@ -18,12 +18,12 @@ for($i =0 ;$i < $_POST['count'] ;$i ++)
 $sql_insert_teacher = 'insert into  teachers_learn VALUES (\'' . $_POST['date'] . '-' . $_POST['room_id'] . '-' . $_POST['period'] .'\',\'' . $_POST['room_id'] .'\', \'' . $_POST['period'] . '\' , \'' . $_POST['teacherSign'] .'\' , \'' . $_POST['date'] .'\',\'' . $_POST['acadyear'] . '\', \'' . $_POST['acadsemester'] . '\' ) ';
 $b = mysqli_query($_connection,$sql_insert_teacher) or die ('Error - '. mysqli_error()); // บันทึกการเข้าใช้งานของครู
 //echo $sql_insert_teacher . '<br/>';
-updateTask($_POST['date'],$_POST['room_id'],$_POST['period']); // อัพเดทสถานะงานเป็น "บันทึก" แล้ว
+updateTask($_connection,$_POST['date'],$_POST['room_id'],$_POST['period']); // อัพเดทสถานะงานเป็น "บันทึก" แล้ว
 
 //---- code เพิ่มเติมจากของเดิม(ส่วน checkbox)
 for($cc = 1 ; $cc <= 8 ; $cc++)
 {
-	if($_POST['cperiod'][$cc] != "" || $_POST['cperiod'][$cc] != null)
+	if(isset($_POST['cperiod'][$cc]))
 	{
 		for($loop  = 0 ; $loop < $_POST['count'] ; $loop++)
 		{
@@ -35,7 +35,7 @@ for($cc = 1 ; $cc <= 8 ; $cc++)
 		}
 		$sql_insert_teacherX = 'insert into  teachers_learn VALUES (\'' . $_POST['date'] . '-' . $_POST['room_id'] . '-' . $_POST['cperiod'][$cc] .'\',\'' . $_POST['room_id'] .'\', \'' . $_POST['cperiod'][$cc] . '\' , \'' . $_POST['cTeacherSign'][$cc] .'\' , \'' . $_POST['date'] .'\',\'' .  $_POST['acadyear'] . '\', \'' . $_POST['acadsemester'] . '\' ); ';
 		$bb = mysqli_query($_connection,$sql_insert_teacherX) or die ('Error - '. mysqli_error()); // บันทึกการเข้าใช้งานของครู
-		updateTask($_POST['date'],$_POST['room_id'],$_POST['cperiod'][$cc]); // อัพเดทสถานะงานเป็น "บันทึก" แล้ว
+		updateTask($_connection,$_POST['date'],$_POST['room_id'],$_POST['cperiod'][$cc]); // อัพเดทสถานะงานเป็น "บันทึก" แล้ว
 	}
 }
 
@@ -91,12 +91,12 @@ function timecheck_id($value)
 	else return 9;
 }
 
-function updateTask($date,$room_id,$period)
+function updateTask($_connection,$date,$room_id,$period)
 {
 	
 	$sql = "update student_learn_task set task_status = '1' where task_date = '" . $date . "' and task_roomid = '" . $room_id . "' and period = '" . $period . "'" ;
 	//echo $sql . "<br/>";
-	mysqli_query($_connection,$sql) or die ('Error - ' . mysqli_error());
+	mysqli_query($_connection,$sql) or die ('Error - ' . mysqli_error($_connection));
 
 }
 

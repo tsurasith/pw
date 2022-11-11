@@ -1,17 +1,5 @@
-﻿<?php
-	include("../../include/class.mysqldb.php");
-	include("../../include/config.inc.php");
-	include("../../include/shareFunction.php");
-	if(!isset($_SESSION['pw-logined'])) {
-		echo "<meta http-equiv='refresh' content='0;url=../index.php'>";
-	} 
-?>
-<html>
-<head>
-	<title>หน้าต่างบันทึกข้อมูลการห้องเรียน</title>
-	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-	<link rel="stylesheet" type="text/css" href="css/main.css">
-    
+﻿
+<div id="content">
     <style>
 		.hover:hover{
 			color:#039;
@@ -22,12 +10,14 @@
 			cursor:pointer;
 		}
 	</style>
-</head>
-<body>
-<script language="javascript" type="text/javascript">
-	function check(name,value) { document.getElementById(name).bgColor=value; }
-</script>
+
+	<script language="javascript" type="text/javascript">
+		function check(name,value) { document.getElementById(name).bgColor=value; }
+	</script>
 <?php
+			$_roomID = "";
+			$_roomID = isset($_POST['roomID'])?$_POST['roomID']:"";
+			
 			$room_id = getRoom($_REQUEST['room']);
 			$xyear = getXyearth($_REQUEST['room']);
 			$xlevel  = getXLevel($_REQUEST['room']);
@@ -39,12 +29,12 @@
 	$xyear = 1-6
 */
 ?>
- <form method="post" action="../index.php?option=module_learn/insertStudentCheck">
+ <form method="post" action="index.php?option=module_learn/insertStudentCheck">
 <div align="center">
 	<table width="800px"  align="center" cellspacing="1" class="admintable">
 		<tr>
 			<td class="header" align="center">
-				<img src="../../images/school_logo.png" width="120px"><br/>
+				<img src="../images/school_logo.png" width="120px"><br/>
 				บันทึกการเข้าชั้นเรียน<br/>ประจำวันที่  
 				<font color="red"><?=displayFullDate($_REQUEST['date'])?></font>
 				ห้อง  <font color="red"><?=getFullRoomFormat($_REQUEST['room'])?> </font>
@@ -62,7 +52,7 @@
 				<table cellspacing="1" class="admintable">
 					<tr>
 					<? $p_sql = "select task_date,task_roomid,task_status,period from student_learn_task where task_date = '"  .$_REQUEST['date'] . "' and task_roomid = '" . $_REQUEST['room'] . "' order by period" ;?>
-					<? $p_res = mysqli_query($_connection,$p_sql) or die ( ' ' . mysqli_error());?>
+					<? $p_res = mysqli_query($_connection,$p_sql) or die ( ' ' . mysqli_error($_connection));?>
 					<? $y = 1; ?>
 					<? while($p_dat = mysqli_fetch_assoc($p_res)) {	?>
 						<? if($y == $_REQUEST['period']) {?>
@@ -127,7 +117,7 @@
 
   	$sql = 'SELECT id, prefix , firstname , lastname FROM students WHERE xLevel =  \''. $xlevel . '\' AND xYearth = \'' . $xyear .'\' and room = \'' . $room_id  .  '\' and xedbe = \'' .$acadyear . '\'  and studstatus = \'1\' order by sex,id';
 //	echo $sql;
-  	$result = mysqli_query($_connection,$sql) or die ('Error  - ' .mysqli_error());
+  	$result = mysqli_query($_connection,$sql) or die ('Error  - ' .mysqli_error($_connection));
 	$i = 1;
 	$j = 0;
 	$rows = mysqli_num_rows($result);
@@ -164,5 +154,4 @@
 <? mysqli_free_result($result); ?>		
 </div>		
 </form>	
-</body>
-</html>
+</div>

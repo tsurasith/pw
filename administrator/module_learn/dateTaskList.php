@@ -12,6 +12,11 @@
 			//==============$_POST value===========//
 			if(isset($_POST['acadyearX'])) { $acadyear = $_POST['acadyearX']; }
 			if(isset($_POST['acadsemesterX'])) { $acadsemester = $_POST['acadsemesterX']; }
+
+
+			$_date = "";
+			$_date = isset($_POST['date'])?$_POST['date']:"";
+
 		?>
         ปีการศึกษา
         <?php  
@@ -40,7 +45,7 @@
 									$sql_date = "select distinct task_date from student_learn_task where task_status = '0' and acadyear = '" .$acadyear ."' and acadsemester = '" .$acadsemester."' order by task_date " ;
 									$result = mysqli_query($_connection,$sql_date);
 									while($data = mysqli_fetch_assoc($result)) { ?>
-                                        <option value="<?=$data['task_date']?>" <?=$_POST['date']==$data['task_date']?"selected":""?>><?=displayFullDate($data['task_date'])?></option>
+                                        <option value="<?=$data['task_date']?>" <?=$_date==$data['task_date']?"selected":""?>><?=displayFullDate($data['task_date'])?></option>
                                     <? }  ?>
                                       </select>
 									   <input type="hidden" name="acadyearX" value="<?=$acadyear?>">
@@ -56,8 +61,8 @@
     <br/>
     
     <?
-		$sql_room = "select distinct task_date,task_roomid from student_learn_task where task_date  = '" .  $_POST['date']  ."' order by task_roomid" ;
-		$res = mysqli_query($_connection,$sql_room) or die (' ' . mysqli_error());
+		$sql_room = "select distinct task_date,task_roomid from student_learn_task where task_date  = '" .  (isset($_POST['date'])?$_POST['date']:"")  ."' order by task_roomid" ;
+		$res = mysqli_query($_connection,$sql_room) or die (' ' . mysqli_error($_connection));
 		$row_room  =  mysqli_num_rows($res);
 		$i  = 1;
 		if($row_room != 0)
@@ -76,12 +81,15 @@
 						<td align="center"><?=getFullRoomFormat(trim($dat['task_roomid']))?></td>
 						<?
 							$p_sql = "select task_date , task_roomid, task_status , period from student_learn_task where task_date = '" . $dat['task_date'] . "' and task_roomid = '" . trim($dat['task_roomid']) . "' order by period" ;
-							$p_res = mysqli_query($_connection,$p_sql) or die ( ' ' . mysqli_error());
+							$p_res = mysqli_query($_connection,$p_sql) or die ( ' ' . mysqli_error($_connection));
 							$x = 1;
 							while($p_dat = mysqli_fetch_assoc($p_res)) {	
 								echo "<td align=\"center\" width='35px'>";
 								if($p_dat['period'] == $x && $p_dat['task_status'] == '0') {
-									echo "<a href=\"module_learn/studentListForm.php?room=" .$dat['task_roomid'] . "&date=" .$dat['task_date'] . "&period=" . $x . "&acadyear=" . $acadyear . "&acadsemester=".$acadsemester . "\">";
+									
+									// index.php?option=module_learn/createTaskForm
+									
+									echo "<a href=\"index.php?option=module_learn/studentListForm&room=" .$dat['task_roomid'] . "&date=" .$dat['task_date'] . "&period=" . $x . "&acadyear=" . $acadyear . "&acadsemester=".$acadsemester . "\">";
 									echo "<b>คาบ $x</b>";
 									echo "</a>";
 								} else { echo "<font color=\"blue\" >คาบ $x </font>"; }

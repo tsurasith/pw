@@ -1,7 +1,11 @@
 ﻿<div id="content">
 <?php
+
+$_date = "";
+$_date = isset($_POST['date'])?$_POST['date']:"";
+
 $sql = 'SELECT distinct room_id FROM rooms  where acadyear = ' . $acadyear .' and acadsemester = ' .$acadsemester ;
-$sql2 = "select distinct task_date from student_learn_task where task_date = '" . $_POST['date'] . "'" ;
+$sql2 = "select distinct task_date from student_learn_task where task_date = '" . $_date . "'" ;
 ?>
 
 <link rel="stylesheet" type="text/css" href="module_learn/css/calendar-mos2.css"/>
@@ -20,7 +24,7 @@ $sql2 = "select distinct task_date from student_learn_task where task_date = '" 
     </tr>
   </table><br/>
   <?php
-  	if($_POST['create'])
+  	if(isset($_POST['create']))
 	{ ?>
 	<table width="75%" border="0" cellspacing="1" cellpadding="3" align="center" bgcolor="#CC99FF">
   <tr bgcolor="#CCCCCC"> 
@@ -36,7 +40,7 @@ $sql2 = "select distinct task_date from student_learn_task where task_date = '" 
 
 $c_date = mysqli_query($_connection,$sql2);
 $rows = mysqli_num_rows($c_date);
-if($_POST['date'] != "")
+if($_date != "")
 {
 	if($rows == 0)
 	{
@@ -46,7 +50,7 @@ if($_POST['date'] != "")
 			for($p = 1; $p <= 8 ; $p++)
 			{
 				$sql_insert = "insert into student_learn_task values ( null,'". $_POST['date'] ."','" . $data['room_id'] . "','0','" . $p . "','" .$acadyear."','".$acadsemester."') ";
-				mysqli_query($_connection,$sql_insert) or die ('Error - ' . mysqli_error());
+				mysqli_query($_connection,$sql_insert) or die ('Error - ' . mysqli_error($_connection));
 				//echo $sql_insert . "<br/>";
 			}
 		}

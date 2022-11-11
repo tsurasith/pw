@@ -1,17 +1,4 @@
-﻿<?php
-	include("../../include/class.mysqldb.php");
-	include("../../include/config.inc.php");
-	include("../../include/shareFunction.php");
-	if(!isset($_SESSION['pw-logined'])) {
-		echo "<meta http-equiv='refresh' content='0;url=../index.php'>";
-	} 
-?>
-<html>
-<head>
-	<title>หน้าต่างบันทึกข้อมูลการเข้าห้องเรียน</title>
-	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-	<link rel="stylesheet" type="text/css" href="css/main.css">
-    
+﻿<div id="content">    
     <style>
 		.hover:hover{
 			background-color:#C9F;
@@ -33,10 +20,7 @@
 			background-color: #00F;
 		}
 	</style>
-    
-    
-</head>
-<body>
+
 <script language="javascript" type="text/javascript">
 	function check(name,value) 
 	{ 
@@ -68,12 +52,12 @@
 	$xyear = 1-6
 */
 ?>
-<form method="post" action="../index.php?option=module_learn/insertStudentCheck2">
+<form method="post" action="index.php?option=module_learn/insertStudentCheck2">
 <div  align="center">
 	<table width="800px"  align="center" cellspacing="1" class="admintable">
 		<tr>
 			<td class="header" align="center">
-				<img src="../../images/school_logo.png" width="120px"><br/>
+				<img src="../images/school_logo.png" width="120px"><br/>
 				บันทึกการเข้าชั้นเรียน<br/>ประจำวันที่  
 				<font color="red"><?=displayFullDate($_REQUEST['date'])?></font>
 				ห้อง  <font color="red"><?=getFullRoomFormat($_REQUEST['room'])?> </font><br/>
@@ -168,5 +152,4 @@
 <? mysqli_free_result($result); ?>		
 </div>		
 </form>	
-</body>
-</html>
+</div>

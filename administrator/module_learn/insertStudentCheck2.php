@@ -22,7 +22,7 @@ for($i =1 ;$i < $_POST['count'] ;$i ++)
 								 " . $_POST['acadsemester'] . ", 
 								'" . $_SESSION['name']  . "')";
 		//echo $sql_insert_student . '<br/>';
-		$a = mysqli_query($_connection,$sql_insert_student) or die ('ผิดพลาดเนื่องจาก - ' . mysqli_error());  // บันทึกข้อมูลการเช็ค
+		$a = mysqli_query($_connection,$sql_insert_student) or die ('ผิดพลาดเนื่องจาก - ' . mysqli_error($_connection));  // บันทึกข้อมูลการเช็ค
 	}
 }
 
@@ -36,9 +36,9 @@ for($i =1 ;$i < $_POST['count'] ;$i ++)
 									'" . $_POST['date'] . "',
 									 " . $_POST['acadyear'] . ", 
 									 " . $_POST['acadsemester'] . ")";
-		 $b = mysqli_query($_connection,$sql_insert_teacher) or die ('Error - '. mysqli_error()); // บันทึกการเข้าใช้งานของครู
+		 $b = mysqli_query($_connection,$sql_insert_teacher) or die ('Error - '. mysqli_error($_connection)); // บันทึกการเข้าใช้งานของครู
 		//echo $sql_insert_teacher . '<br/>';
-		updateTask($_POST['date'],$_POST['room_id'],$_period); // อัพเดทสถานะงานเป็น "บันทึก" แล้ว
+		updateTask($_connection,$_POST['date'],$_POST['room_id'],$_period); // อัพเดทสถานะงานเป็น "บันทึก" แล้ว
 	}
 
 ?>
@@ -95,12 +95,12 @@ function timecheck_id($value)
 	else return 9;
 }
 
-function updateTask($date,$room_id,$period)
+function updateTask($_connection,$date,$room_id,$period)
 {
 	
 	$sql = "update student_learn_task set task_status = '1' where task_date = '" . $date . "' and task_roomid = '" . $room_id . "' and period = '" . $period . "'" ;
 	//echo $sql . "<br/>";
-	mysqli_query($_connection,$sql) or die ('Error - ' . mysqli_error());
+	mysqli_query($_connection,$sql) or die ('Error - ' . mysqli_error($_connection));
 
 }
 

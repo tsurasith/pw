@@ -8844,13 +8844,14 @@ CREATE TABLE IF NOT EXISTS `student_learn` (
 
 DROP TABLE IF EXISTS `student_learn_task`;
 CREATE TABLE IF NOT EXISTS `student_learn_task` (
-  `task_id` int(11) NOT NULL,
+  `task_id` INT(11) NOT NULL AUTO_INCREMENT,
   `task_date` varchar(20) NOT NULL,
   `task_roomid` varchar(3) NOT NULL,
   `task_status` varchar(2) NOT NULL,
   `period` varchar(2) NOT NULL,
   `acadyear` int(11) NOT NULL,
-  `acadsemester` int(11) NOT NULL
+  `acadsemester` int(11) NOT NULL,
+PRIMARY KEY (`task_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
