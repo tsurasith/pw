@@ -24,7 +24,7 @@
 					<option value="03" <?=isset($_POST['check'])&&$_POST['check']=='03'?"selected":""?>> ลา </option>
 					<option value="04" <?=isset($_POST['check'])&&$_POST['check']=='04'?"selected":""?>> ขาด </option>
 				</select>  <input type="submit" name="search" value="เรียกดู" class="button" /><br/>
-				<input type="checkbox" name="studstatus" value="1,2" <?=$_POST['studstatus']=="1,2"?"checked='checked'":""?> />
+				<input type="checkbox" name="studstatus" value="1,2" <?=isset($_POST['studstatus'])=="1,2"?"checked='checked'":""?> />
 				เฉพาะนักเรียนสถานะปกติหรือสำเร็จการศึกษา</font>
 		</form>
 	  </td>
@@ -42,7 +42,7 @@
 							count(timecheck_id) as 'all'
 						from student_800 right outer join students on (student_id = id)
 						where acadyear = '" . $acadyear . "' and xedbe = '" . $acadyear . "' "; ?>
-	<?  $sqlStudent .= ($_POST['studstatus']=="1,2"?" and studstatus in (1,2) ":"") ; ?>
+	<?  $sqlStudent .= (isset($_POST['studstatus'])=="1,2"?" and studstatus in (1,2) ":"") ; ?>
 	<?  $sqlStudent .= " group by month(check_date) order by year(check_date),month(check_date)"; ?>
 
 	<? $resStudent = mysqli_query($_connection,$sqlStudent); ?>

@@ -29,7 +29,7 @@
   </table>
 <?php
 			$sqlStudent = "";
-			if($_POST['studstatus']=="1,2")
+			if(isset($_POST['studstatus'])=="1,2")
 			{
 				$sqlStudent = "(select class_id,
 							  sum(if(timecheck_id = '00',timecheck_id,null)+1) as a,
@@ -91,7 +91,7 @@
 		<br/>ภาคเรียนที่ <?php echo $acadsemester; ?> ปีการศึกษา <?php echo $acadyear; ?><br/>
 		<form method="post" name="myform">
 			<input type="checkbox" name="studstatus" value="1,2"
-				onclick="document.myform.submit()" <?=$_POST['studstatus']=="1,2"?"checked='checked'":""?> />
+				onclick="document.myform.submit()" <?=isset($_POST['studstatus'])=="1,2"?"checked='checked'":""?> />
 			เฉพาะนักเรียนสถานะปกติหรือสำเร็จการศึกษา 
 		</form>
 	  </th>

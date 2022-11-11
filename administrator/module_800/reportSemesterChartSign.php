@@ -66,7 +66,7 @@
   </table>
 <?php
 		$_sql = "";
-		if($_POST['month'] == "all")
+		if(isset($_POST['month']) == "all")
 		{
 			$_sql = "SELECT room_id,
 					  sum(if(stutus = 'sign',1,null)) as 'sign',
@@ -75,7 +75,7 @@
 					where acadyear = '" . $acadyear . "' and acadsemester = '" . $acadsemester . "'
 					group by room_id";
 		}
-		else 
+		else if(isset($_POST['month']))
 		{
 			$_sql = "SELECT room_id,
 					  sum(if(stutus = 'sign',1,null)) as 'sign',

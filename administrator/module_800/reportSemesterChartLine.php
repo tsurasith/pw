@@ -40,7 +40,7 @@
 				<? if(mysqli_num_rows($_resMonth)>0){ ?><option value="all" <?=isset($_POST['month'])&&$_POST['month']=="all"?"selected":""?>>ทั้งหมด</option><? } ?>
 			 </select>
 			 <input type="submit" value="เรียกดู" class="button" name="search"/> <br/>
-			 <input type="checkbox" name="studstatus" value="1,2" <?=$_POST['studstatus']=="1,2"?"checked='checked'":""?> />
+			 <input type="checkbox" name="studstatus" value="1,2" <?=isset($_POST['studstatus'])=="1,2"?"checked='checked'":""?> />
 			 เฉพาะนักเรียนสถานะปกติหรือสำเร็จการศึกษา
 		  </font>
 		  </form>
@@ -49,7 +49,11 @@
   </table>
 <?php
 		$_sql = "";
-		if($_POST['month'] == "all") {
+		$_month = "";
+		$_month = isset($_POST['month'])?$_POST['month']:"";
+
+
+		if($_month == "all") {
 			$_sql = "select check_date,
 					  sum(if(timecheck_id = '00',timecheck_id,0)+1) as a,
 					  sum(if(timecheck_id = '01',timecheck_id,0)) as b,
@@ -59,7 +63,7 @@
 					from student_800 left outer join students on student_id = id
 					where acadyear = '" . $acadyear . "' and acadsemester = '" . $acadsemester . "'
 						and xEDBE = '" . $acadyear . "' ";
-			if($_POST['studstatus']=="1,2"){$_sql .= " and studstatus in (" . $_POST['studstatus'] . ") ";}
+			if(isset($_POST['studstatus'])=="1,2"){$_sql .= " and studstatus in (" . $_POST['studstatus'] . ") ";}
 			$_sql .= "group by check_date order by check_date";
 		}
 		else {
@@ -71,8 +75,8 @@
 					  sum(if(timecheck_id = '04',timecheck_id,0))/4 as e
 					from student_800 left outer join students on student_id = id
 					where acadyear = '" . $acadyear . "' and acadsemester = '" . $acadsemester . "'
-						and month(check_date) = '" . $_POST['month'] . "' and xEDBE = '" . $acadyear . "' ";
-			if($_POST['studstatus']=="1,2"){$_sql .= " and studstatus in (" . $_POST['studstatus'] . ") ";}
+						and month(check_date) = '" . $_month . "' and xEDBE = '" . $acadyear . "' ";
+			if(isset($_POST['studstatus'])=="1,2"){$_sql .= " and studstatus in (" . $_POST['studstatus'] . ") ";}
 			$_sql .= "group by check_date order by check_date";
 		}
 	?>	 

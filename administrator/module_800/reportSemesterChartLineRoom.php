@@ -39,7 +39,7 @@
 			?>
 			</select>
 			 <input type="submit" value="เรียกดู" class="button" name="search"/> <br/>
-			 <input type="checkbox" name="studstatus" value="1,2"  <?=$_POST['studstatus']=="1,2"?"checked='checked'":""?> />
+			 <input type="checkbox" name="studstatus" value="1,2"  <?=isset($_POST['studstatus'])=="1,2"?"checked='checked'":""?> />
 			 เฉพาะนักเรียนสถานะปกติหรือสำเร็จการศึกษา
 		  </font>
 		  </form>
@@ -47,7 +47,7 @@
     </tr>
   </table>
 <? $_sql = ""; ?>
-<? if($_POST['roomID'] == "") {
+<? if(isset($_POST['roomID']) == "") {
 			$_sql = "select student_id,prefix,firstname,lastname,
 					  sum(if(timecheck_id = '00',timecheck_id,0)+1) as a,
 					  sum(if(timecheck_id = '01',timecheck_id,0)) as b,
@@ -56,8 +56,8 @@
 					  sum(if(timecheck_id = '04',timecheck_id,0))/4 as e
 					from student_800 left outer join students on student_id = id
 					where acadyear = '" . $acadyear . "' and acadsemester = '" . $acadsemester . "' and xedbe = '" . $acadyear . "'
-					 and class_id = '601' ";
-			if($_POST['studstatus']=="1,2") $_sql .= "and studstatus in (1,2) ";
+					 ";
+			if(isset($_POST['studstatus'])=="1,2") $_sql .= "and studstatus in (1,2) ";
 			$_sql .= "group by student_id order by xlevel,xyearth,sex,student_id";
 		}
 		else {
@@ -71,7 +71,7 @@
 					where acadyear = '" . $acadyear . "' and acadsemester = '" . $acadsemester . "' 
 					 and xedbe = '" . $acadyear . "'
 					 and class_id = '" . $_POST['roomID'] ."' ";
-			if($_POST['studstatus']=="1,2") $_sql .= "and studstatus in (1,2) ";
+			if(isset($_POST['studstatus'])=="1,2") $_sql .= "and studstatus in (1,2) ";
 			$_sql .= "group by student_id order by xlevel,xyearth,sex,student_id";
 		}
 	?>	

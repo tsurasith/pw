@@ -33,7 +33,7 @@
 			<option value="03" <?=isset($_POST['check'])&&$_POST['check']=='03'?"selected":""?>> ลา </option>
 			<option value="04" <?=isset($_POST['check'])&&$_POST['check']=='04'?"selected":""?>> ขาด </option>
 		</select>  <input type="submit" name="search" value="เรียกดู" class="button" /><br/>
-		<input type="checkbox" name="studstatus" value="1,2" <?=$_POST['studstatus']=="1,2"?"checked='checked'":""?> />
+		<input type="checkbox" name="studstatus" value="1,2" <?=isset($_POST['studstatus'])=="1,2"?"checked='checked'":""?> />
 		<font color="#000000" size="2" >เฉพาะนักเรียนสถานะปกติหรือสำเร็จการศึกษา</font>
 </form>
 	  </td>
@@ -48,7 +48,7 @@
   <br/>
   <table cellpadding="1" cellspacing="1" border="0" align="center" width="100%">
 	<?php
-			if($_POST['studstatus']=="1,2")
+			if(isset($_POST['studstatus']))
 			{
 				$sqlStudent = "select class_id,
 							  sum(if(timecheck_id = '00',timecheck_id,null)+1) as a,
