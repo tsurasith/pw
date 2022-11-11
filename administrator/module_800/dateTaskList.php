@@ -88,7 +88,6 @@
                                         <td width="28%" height="22"><div align="center"><font color="#FFCC66"><strong><font size="2"  >ลำดับที่</font></strong></font></div></td>
                                         <td ><div align="center"><font color="#FFCC66"><strong><font size="2"  >ห้อง</font></strong></font></div></td>
 										<td ><div align="center"><font color="#FFCC66"><strong><font size="2"  >หมายเหตุ</font></strong></font></div></td>
-										<td>new link</td>
                                       </tr>
                                       <? while($dat = mysqli_fetch_assoc($res)) {  ?>
                                           <tr bgcolor="#FFFFFF"> 
@@ -99,7 +98,6 @@
 												echo getFullRoomFormat($dat['task_roomid']) ; 
 											?> 
                                           </font> <div align="center"></div></td>
-										  <td align="center"> <a href="<?php echo "module_800/studentListForm.php?room=" .$dat['task_roomid'] . "&date=" .$dat['task_date'] ."&acadyear=" . $acadyear . "&acadsemester=".$acadsemester  ;  ?>">บันทึก </a></td>
 										  <td>
 										  <a href="<?php echo "index.php?option=module_800/studentListForm&room=" .$dat['task_roomid'] . "&date=" .$dat['task_date'] ."&acadyear=" . $acadyear . "&acadsemester=".$acadsemester  ;  ?>">	
 										  บันทึกแบบใหม่
