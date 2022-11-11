@@ -17,6 +17,10 @@
 			{
 				$acadsemester = $_POST['acadsemesterX'];
 			}
+
+			$_date = "";
+			$_date = isset($_POST['date'])?$_POST['date']:"";
+
 		?>
         ปีการศึกษา
         <?php  
@@ -52,12 +56,11 @@
                                       <select name="date" class="inputboxUpdate" onChange="document.dateList.submit();">
                                         <option value="">  </option>
                                         <?php
-									mysqli_select_db($database_nn);
 									$sql_date = "select distinct task_date from student_800_task where task_status = '0' and acadyear = '" . $acadyear . "' and acadsemester='".$acadsemester ."' order by task_date " ;
 									$result = mysqli_query($_connection,$sql_date);
 									while($data = mysqli_fetch_assoc($result))
 									{ ?>
-                                        <option value="<?=$data['task_date']?>" <?=$_POST['date']==$data['task_date']?"selected":""?>>
+                                        <option value="<?=$data['task_date']?>" <?=$_date==$data['task_date']?"selected":""?>>
 											<?=displayFullDate($data['task_date'])?>
 										</option>
 								<?	} ?>
@@ -72,8 +75,8 @@
   </table>
   <br />
   							<?php
-								$sql_room = "select * from student_800_task where task_status = '0' and task_date  = '" .  $_POST['date']  ."' order by task_roomid" ;
-								$res = mysqli_query($_connection,$sql_room) or die (' ' . mysqli_error());
+								$sql_room = "select * from student_800_task where task_status = '0' and task_date  = '" .  $_date  ."' order by task_roomid" ;
+								$res = mysqli_query($_connection,$sql_room) or die (' ' . mysqli_error($_connection));
 								$row_room  =  mysqli_num_rows($res);
 								$i  = 1;
 								if($row_room != 0)
@@ -83,8 +86,9 @@
                                     <table width="43%" border="0" cellspacing="1" cellpadding="1" bgcolor="#FF99FF" align="center">
                                       <tr bgcolor="#006600"> 
                                         <td width="28%" height="22"><div align="center"><font color="#FFCC66"><strong><font size="2"  >ลำดับที่</font></strong></font></div></td>
-                                        <td width="37%"><div align="center"><font color="#FFCC66"><strong><font size="2"  >ห้อง</font></strong></font></div></td>
-										<td width="37%"><div align="center"><font color="#FFCC66"><strong><font size="2"  >หมายเหตุ</font></strong></font></div></td>
+                                        <td ><div align="center"><font color="#FFCC66"><strong><font size="2"  >ห้อง</font></strong></font></div></td>
+										<td ><div align="center"><font color="#FFCC66"><strong><font size="2"  >หมายเหตุ</font></strong></font></div></td>
+										<td>new link</td>
                                       </tr>
                                       <? while($dat = mysqli_fetch_assoc($res)) {  ?>
                                           <tr bgcolor="#FFFFFF"> 
@@ -96,6 +100,11 @@
 											?> 
                                           </font> <div align="center"></div></td>
 										  <td align="center"> <a href="<?php echo "module_800/studentListForm.php?room=" .$dat['task_roomid'] . "&date=" .$dat['task_date'] ."&acadyear=" . $acadyear . "&acadsemester=".$acadsemester  ;  ?>">บันทึก </a></td>
+										  <td>
+										  <a href="<?php echo "index.php?option=module_800/studentListForm&room=" .$dat['task_roomid'] . "&date=" .$dat['task_date'] ."&acadyear=" . $acadyear . "&acadsemester=".$acadsemester  ;  ?>">	
+										  บันทึกแบบใหม่
+									  </a>
+										  </td>
                                       </tr>
                                       <? $i++ ;}}
 									  	mysqli_free_result($result);  ?>

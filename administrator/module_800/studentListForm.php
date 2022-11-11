@@ -1,43 +1,11 @@
-﻿<?php
-	include("../../include/class.mysqldb.php");
-	include("../../include/config.inc.php");
-	include("../../include/shareFunction.php");
-	if(!isset($_SESSION['pw-logined'])) {
-		echo "<meta http-equiv=\"refresh\" content=\"0;url=../index.php\">";
-	} 
-	
-?>
-<html>
-	<head>
-		<title>หน้าต่างบันทึกข้อมูลการเข้าร่วมกิจกรรมหน้าเสาธง</title>
-		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-        <style>
-			body,table{
-				font-family:Tahoma;
-			}
-			th{
-				font-size:18px;
-				font-family:Tahoma;
-			}
-			
-			.hover:hover{
-				color:#00F;
-				font-weight:bold;
-				cursor:pointer;
-			}
-			input,label{
-				cursor:pointer;
-			}
-			input:hover{
-				border:1px solid #F00;
-			}
-		</style>
-	</head>
-<body>
+﻿
 <script type="text/javascript" language="javascript">
 	function check(name,value){ document.getElementById(name).bgColor=value; }
 </script>
 <?php
+			$_roomID = "";
+			$_roomID = isset($_POST['roomID'])?$_POST['roomID']:"";
+			
 			$room_id = getRoom($_REQUEST['room']);
 			$xyear = getXyearth($_REQUEST['room']);
 			$xlevel  = getXLevel($_REQUEST['room']);
@@ -50,10 +18,26 @@
 	$xyear = 1-6
 */
 ?>
-<table width="800" align="center">
+
+<div id="content">
+
+<table width="100%"  align="center" border="0" cellspacing="10" cellpadding="0"  class="header">
+  <tr> 
+    <td width="6%" align="center"><a href="index.php?option=module_800/index"><img src="../images/modules/800_clock2.png" alt="" width="48" height="48" border="0"/></a></td>
+    <td width="45%"><strong><font color="#990000" size="4">8.00 O' Clock</font></strong><br /> 
+      <span class="normal"><font color="#0066FF"><strong>1.2.1 หน้าแบบฟอร์มบันทึกข้อมูลการเข้่าร่วมกิจกรรมหน้าเสาธง</strong></font></span></td>
+    <td >
+		ปีการศึกษา
+		<?=$acadyear?> 
+		ภาคเรียนที่	<?=$acadsemester?>	
+	</td>
+  </tr>
+</table>
+
+<table width="800" align="center" border="0" cellspacing="10" cellpadding="0"  class="admintable">
                       <tr>
-                        <th > 
-								<img src="../../images/school_logo.png" width="120px"><br/>
+                        <th align="center"> 
+								<img src="../images/school_logo.png" width="120px"><br/>
 								บันทึกการมาเข้าร่วมกิจกรรมหน้าเสาธง<br />
 								ภาคเรียนที่ <?=$_REQUEST['acadsemester']?>  ปีการศึกษา <?=$_REQUEST['acadyear']?><br />
 								ประจำวันที่  
@@ -65,7 +49,7 @@
 					  <tr>
 					  <td align="center">
 					  
-					  <form method="post" action="../index.php?option=module_800/insertStudentCheck">
+					  <form method="post" action="index.php?option=module_800/insertStudentCheck">
 					  <input type="hidden" name="room_id" value="<?php echo $_REQUEST['room']; ?>" />
 					  <input type="hidden" name="acadyear" value="<?=$_REQUEST['acadyear']?>"/>
 					  <input type="hidden" name="acadsemester" value="<?=$_REQUEST['acadsemester']?>"/>
@@ -123,8 +107,8 @@
 ?>
                                             <tr bgcolor="#FFFFFF"> 
                                               <td colspan="8" align="center"> <input type="hidden" name="count" value="<?php  echo $j; ?>"/>
-                                                <input type="submit" value="บันทึก"/> 
-                                                <input type="button" value="ยกเลิก" onClick="history.go(-1)" /> 
+                                                <input class="button" type="submit" value="บันทึก"/> 
+                                                <input class="button" type="button" value="ยกเลิก" onClick="history.go(-1)" /> 
                                               </td>
                                             </tr>
                                           </table>
@@ -135,6 +119,5 @@
 </table>
 
 <? mysqli_free_result($result);  ?>					
-</body>
-</html>
 
+</div>

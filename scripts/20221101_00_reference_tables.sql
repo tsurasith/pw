@@ -8652,7 +8652,7 @@ CREATE TABLE IF NOT EXISTS `student_800` (
 
 DROP TABLE IF EXISTS `student_800_task`;
 CREATE TABLE IF NOT EXISTS `student_800_task` (
-  `task_id` int(11) NOT NULL,
+  `task_id` INT(11) NOT NULL AUTO_INCREMENT,
   `task_date` varchar(20) NOT NULL,
   `task_roomid` varchar(3) NOT NULL,
   `task_status` varchar(2) NOT NULL,

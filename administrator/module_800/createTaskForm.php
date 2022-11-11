@@ -44,7 +44,7 @@
 				while ($data = mysqli_fetch_assoc($result))
 				{
 					$sql_insert = "insert into student_800_task values ( null,'". $_POST['date'] ."','" . $data['room_id'] . "','0', '" . $acadyear . "','" .$acadsemester ."') ";
-					mysqli_query($_connection,$sql_insert) or die ('Error - ' . mysqli_error());
+					mysqli_query($_connection,$sql_insert) or die ('Error - ' . mysqli_error($_connection));
 					//echo $sql_insert . "<br/>";
 				}
 				echo "<td><font color=\"#009900\" size=\"2\" face=\"Tahoma, sans-serif\"><strong>บันทึกข้อมูลเรียบร้อยแล้ว</strong></font></td>";

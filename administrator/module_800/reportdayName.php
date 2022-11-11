@@ -61,7 +61,7 @@
 					<option value="01,02,03,04" <?=isset($_POST['checkType'])&&$_POST['checkType']=='01,02,03,04'?"selected":""?>>กิจกรรม,สาย,ลาและขาด </option>
 				</select>
 			 <br/>
-			 <input type="checkbox" name="studstatus" value="1,2"  <?=$_POST['studstatus']=="1,2"?"checked='checked'":""?> />
+			 <input type="checkbox" name="studstatus" value="1,2"  <?=isset($_POST['studstatus'])=="1,2"?"checked='checked'":""?> />
 			 เฉพาะนักเรียนสถานะปกติหรือสำเร็จการศึกษา
 		  </font>
 	    </form>
@@ -70,12 +70,17 @@
   </table>
 
   <?php
+
+  $_roomID = "";
+  $_roomID = isset($_POST['roomID'])?$_POST['roomID']:"";
+
   $xlevel;
   $xyearth;
-  if($_POST['roomID'] != "all")
+
+  if($_roomID != "all")
   {
-  	$xlevel = substr($_POST['roomID'],0,1);;
-	$xyearth = substr($_POST['roomID'],2,1);
+  	$xlevel = substr($_roomID,0,1);;
+	$xyearth = substr($_roomID,2,1);
   }
   ?>
 
@@ -96,7 +101,7 @@
 							where a.xedbe = '" . $acadyear . "' 
 							and b.check_date ='" . $_POST['date'] . "' and timecheck_id in (" . $_POST['checkType'] . ")
 							and b.acadyear = '" .$acadyear . "' and b.acadsemester = '" . $acadsemester . "' ";
-				if($_POST['studstatus']=="1,2") $sqlStudent .= " and studstatus in (1,2) ";
+				if(isset($_POST['studstatus'])) $sqlStudent .= " and studstatus in (1,2) ";
 				$sqlStudent .= " order by a.xlevel,a.xyearth,a.room,a.sex,a.id ";
 			}
 			else
@@ -106,7 +111,7 @@
 							where a.xlevel = '". $xlevel . "' and a.xyearth = '" . $xyearth . "' and a.xedbe = '" . $acadyear . "' 
 							and b.check_date ='" . $_POST['date'] . "' and timecheck_id in (" . $_POST['checkType'] . ")
 							and b.acadyear = '" .$acadyear . "' and b.acadsemester = '" . $acadsemester . "' ";
-				if($_POST['studstatus']=="1,2") $sqlStudent .= " and studstatus in (1,2) ";
+				if(isset($_POST['studstatus'])) $sqlStudent .= " and studstatus in (1,2) ";
 				$sqlStudent .= " order by a.room,a.sex,a.ordinal ";
 			}
 			//echo $sqlStudent;
@@ -193,7 +198,7 @@
 								from student_800 left outer join students on student_id = id
 								where check_date = '" . $_POST['date'] . "' and class_id like '" . displayXyear($_POST['roomID'],0,1) . "%' 
 									and xEDBE = '" . $acadyear . "' ";
-						if($_POST['studstatus']=="1,2") $_sql .= " and studstatus in (1,2)";
+						if(isset($_POST['studstatus'])) $_sql .= " and studstatus in (1,2)";
 						$_sql .= " group by class_id order by class_id";
 					}
 					else
@@ -207,7 +212,7 @@
 									  count(class_id) as sum
 								from student_800 left outer join students on student_id = id
 								where check_date = '" . $_POST['date'] . "' and xEDBE = '" . $acadyear . "' ";
-						if($_POST['studstatus']=="1,2") $_sql .= " and studstatus in (1,2)";
+						if(isset($_POST['studstatus'])) $_sql .= " and studstatus in (1,2)";
 						$_sql .= " group by check_date";
 					}
 					$_result = mysqli_query($_connection,$_sql);

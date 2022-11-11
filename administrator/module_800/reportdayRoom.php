@@ -47,7 +47,7 @@
 			</select> &nbsp; วันที่ 
 			 <input name="date" type="text" id="date" onClick="showCalendar(this.id)" size="10px" maxlength="10" value="<?=(isset($_POST['date'])&&$_POST['date']!=""?$_POST['date']:"")?>" class="inputboxUpdate" />
 			 <input type="submit" value="เรียกดู" class="button" name="search"/> <br/>
-			 <input type="checkbox" name="studstatus" value="1,2"  <?=$_POST['studstatus']=="1,2"?"checked='checked'":""?> />
+			 <input type="checkbox" name="studstatus" value="1,2"  <?=isset($_POST['studstatus'])=="1,2"?"checked='checked'":""?> />
 			 เฉพาะนักเรียนสถานะปกติหรือสำเร็จการศึกษา
 		  </font>
 		  </form>
@@ -56,9 +56,12 @@
   </table>
 
  <?php
-	  $xlevel  = getXlevel($_POST['roomID']);
-	  $xyearth = getXyearth($_POST['roomID']);
-	  $room    = getRoom($_POST['roomID']);
+	  $_roomID = "";
+	  $_roomID = isset($_POST['roomID'])?$_POST['roomID']:""; 
+	 
+	  $xlevel  = getXlevel($_roomID);
+	  $xyearth = getXyearth($_roomID);
+	  $room    = getRoom($_roomID);
  ?>
 
   <table class="admintable"  cellpadding="1" cellspacing="1" border="0" align="center" width="100%">
@@ -70,13 +73,16 @@
 		}
 		else if(isset($_POST['search']) && $_POST['date'] != "")
 		{
+			$sqlStudent = "";
 			$sqlStudent = "select a.id,a.prefix,a.firstname,a.lastname , b.timecheck_id,a.studstatus from students as a
 							join student_800 as b on a.id = b.student_id
 							where a.xlevel = '". $xlevel . "' and a.xyearth = '" . $xyearth . "' and a.room = '" . $room . "' 
 							and b.check_date ='" . $_POST['date'] . "' and a.xedbe = '" . $acadyear . "' 
 							and b.acadyear = '" . $acadyear . "' and b.acadsemester = '" . $acadsemester . "' ";
-			if($_POST['studstatus'] == "1,2") $sqlStudent .= "and studstatus in (1,2)";
-			$sqlstudent .= " order by a.sex,a.ordinal ";
+			if(isset($_POST['studstatus'])) {
+				$sqlStudent .= "and studstatus in (1,2)";
+			}
+			$sqlStudent .= " order by a.sex,a.ordinal ";
 			$resStudent = mysqli_query($_connection,$sqlStudent);
 			$ordinal = 1;
 			$totalRows = mysqli_num_rows($resStudent);
@@ -130,7 +136,7 @@
 			from student_800 left outer join students on student_id = id
 			where check_date = '" . $_POST['date'] . "' and class_id = '" . $_POST['roomID'] . "'
 			and xEDBE = '" . $acadyear . "' ";
-						if($_POST['studstatus'] == "1,2") $_sql .= "and studstatus in (1,2) ";
+						if(isset($_POST['studstatus']) == "1,2") $_sql .= "and studstatus in (1,2) ";
 						$_sql .= " group by class_id order by class_id";
 						$_result = mysqli_query($_connection,$_sql);
 						$_dat = mysqli_fetch_assoc($_result);

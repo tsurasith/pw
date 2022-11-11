@@ -21,7 +21,7 @@
 			<form action="" method="post">
 				เลือกวันที่ : 
 				<input type="text" id="date" name="date" onClick="showCalendar(this.id)" size="12" maxlength="10" value="<?=(isset($_POST['date'])&&$_POST['date']!=""?$_POST['date']:"")?>" class="inputboxUpdate" /><br/>
-				<input type="checkbox" name="studstatus" value="1,2"  <?=$_POST['studstatus']=="1,2"?"checked='checked'":""?> />
+				<input type="checkbox" name="studstatus" value="1,2"  <?=isset($_POST['studstatus'])=="1,2"?"checked='checked'":""?> />
 				เฉพาะนักเรียนสถานะปกติหรือสำเร็จการศึกษา <br/>
 				<input type="submit" value="เรียกดู" name="search" class="button"/>
 			</form>
@@ -37,7 +37,7 @@
 				if(isset($_POST['search']) && $_POST['date'] != "")
 				{
 					$sql = "";
-					if($_POST['studstatus'] == "1,2")
+					if(isset($_POST['studstatus']))
 					{
 						$sql = "select class_id,
 								  sum(if(timecheck_id = '00',timecheck_id,null)+1) as a,
@@ -75,7 +75,7 @@
 						echo "<table cellpadding=\"0\" cellspacing=\"1\" width=\"420\"  align=\"center\">";
 						echo "<tr><td align=\"center\">"; ?>
 						<br/><img src="../images/school_logo.png" width="120px"><br/>
-					<?	echo reportHeader($_POST['date'],$_POST['studstatus']);
+					<?	echo reportHeader($_POST['date'],isset($_POST['studstatus']));
 						echo "</td></tr></table>";
 						echo "<table cellpadding=\"0\" cellspacing=\"1\" width=\"420\" bgcolor=\"lightpink\" align=\"center\">";
 						echo "<tr bgcolor=\"#FEEFEF\" align=\"center\">";

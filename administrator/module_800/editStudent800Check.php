@@ -140,7 +140,7 @@ function check(name,value)
 			?>
 			
 			<?php
-				if(isset($_POST['saveedit']) && $_POST['studentid'] != '' && $_POST['date'] != '' && $_POST['check'][1] != '')
+				if(isset($_POST['saveedit']) && $_POST['studentid'] != '' && $_POST['date'] != '' && isset($_POST['check'][1]) != '')
 				{
 					echo "<tr><td>&nbsp;</td>";
 					echo "<td>";
