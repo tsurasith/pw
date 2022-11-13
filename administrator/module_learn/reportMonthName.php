@@ -62,7 +62,7 @@
 				?>
 			 </select>
 			 <input type="submit" value="เรียกดู" class="button" name="search"/> <br/>
-			 <input type="checkbox" name="studstatus" value="1,2" <?=$_POST['studstatus']=="1,2"?"checked='checked'":""?> />
+			 <input type="checkbox" name="studstatus" value="1,2" <?=isset($_POST['studstatus'])=="1,2"?"checked='checked'":""?> />
 			 เฉพาะนักเรียนสถานะปกติหรือสำเร็จการศึกษา
 		  </font>
 		  </form>
@@ -71,12 +71,16 @@
   </table>
 
   <?php
+
+  $_roomID = "";
+  $_roomID = isset($_POST['roomID'])?$_POST['roomID']:"";
+
   $xlevel;
   $xyearth;
-  if($_POST['roomID'] != "all")
+  if($_roomID != "all")
   {
-  	$xlevel = substr($_POST['roomID'],0,1);;
-	$xyearth = substr($_POST['roomID'],2,1);
+  	$xlevel = substr($_roomID,0,1);;
+	$xyearth = substr($_roomID,2,1);
   }
   ?>
 
@@ -98,7 +102,7 @@
 								where month(check_date) = '" . $_POST['month'] . "' and timecheck_id = '02'
 									  and xyearth = '" . $xyearth . "' and xlevel = '" . $xlevel ."' and xedbe = '" . $acadyear . "'
 									  and acadyear = '" . $acadyear . "' and acadsemester = '" . $acadsemester . "' ";
-				if($_POST['studstatus']=="1,2") $sqlStudent .= "and studstatus in (1,2) ";
+				if(isset($_POST['studstatus'])=="1,2") $sqlStudent .= "and studstatus in (1,2) ";
 				$sqlStudent .= " group by id order by late desc,room,sex,id";
 			}
 			else
@@ -108,7 +112,7 @@
 								from students  left outer join student_learn on students.id = student_learn.student_id
 								where month(check_date) = '" . $_POST['month'] . "' and xedbe = '" . $acadyear . "' and timecheck_id = '02'
 									  and acadyear = '" . $acadyear . "' and acadsemester = '" . $acadsemester . "' ";
-				if($_POST['studstatus']=="1,2") $sqlStudent .= "and studstatus in (1,2) ";
+				if(isset($_POST['studstatus'])=="1,2") $sqlStudent .= "and studstatus in (1,2) ";
 				$sqlStudent .= " group by id order by late desc,xlevel,xyearth,room,sex,id";			
 			}
 			$resStudent = mysqli_query($_connection,$sqlStudent);

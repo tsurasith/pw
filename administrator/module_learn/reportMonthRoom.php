@@ -56,7 +56,9 @@
 					} mysqli_free_result($_resMonth);
 				?>
 			 </select>
-			 <input type="submit" value="เรียกดู" class="button" name="search"/>
+			 <input type="submit" value="เรียกดู" class="button" name="search"/> <br/>
+			 <input type="checkbox" name="studstatus" value="1,2" <?=isset($_POST['studstatus'])=="1,2"?"checked='checked'":""?> />
+			 เฉพาะนักเรียนสถานะปกติหรือสำเร็จการศึกษา
 		  </font>
 		  </form>
 	  </td>
@@ -64,12 +66,16 @@
   </table>
 
   <?php
+
+  $_roomID = "";
+  $_roomID = isset($_POST['roomID'])?$_POST['roomID']:"";
+
   $xlevel;
   $xyearth;
-  if($_POST['roomID'] != "all")
+  if($_roomID != "all")
   {
-  	$xlevel = substr($_POST['roomID'],0,1);;
-	$xyearth = substr($_POST['roomID'],2,1);
+  	$xlevel = substr($_roomID,0,1);;
+	$xyearth = substr($_roomID,2,1);
   }
   ?>
 
@@ -83,10 +89,14 @@
 		else if(isset($_POST['search']) && $_POST['month'] != "")
 		{
 			$sqlStudent = "select class_id,count(timecheck_id) as late from student_learn
-								where acadyear = '" . $acadyear . "' and acadsemester = '". $acadsemester . "' and timecheck_id = '02'
-									and month(check_date) = '" . $_POST['month'] . "'
-								group by class_id
+						   left outer join students on student_id = id
+								where acadyear = '" . $acadyear . "' and acadsemester = '". $acadsemester . "' and timecheck_id = '02' 
+								    and xedbe = '" . $acadyear . "' 
+									and month(check_date) = '" . $_POST['month'] . "' ";
+			if(isset($_POST['studstatus'])=="1,2") $sqlStudent .= " and studstatus in (1,2) ";
+			$sqlStudent .= " group by class_id
 								order by class_id";
+			
 			$resStudent = mysqli_query($_connection,$sqlStudent);
 			$totalRows = mysqli_num_rows($resStudent);
 			if($totalRows == 0)

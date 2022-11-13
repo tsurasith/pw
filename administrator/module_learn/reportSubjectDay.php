@@ -47,7 +47,7 @@
 				mysqli_free_result($resRoom);
 			?>
 			</select> <input type="submit" name="search" value="เรียกดู" class="button" /><br/>
-			<input type="checkbox" name="studstatus" value="1,2"  <?=$_POST['studstatus']=="1,2"?"checked='checked'":""?> />
+			<input type="checkbox" name="studstatus" value="1,2"  <?=isset($_POST['studstatus'])=="1,2"?"checked='checked'":""?> />
 			 เฉพาะนักเรียนสถานะปกติหรือสำเร็จการศึกษา
 		 </form>
 		 </font>
@@ -65,13 +65,13 @@
 			  sum(if(period = 6,timecheck_id,null)) as p6,
 			  sum(if(period = 7,timecheck_id,null)) as p7,
 			  sum(if(period = 8,timecheck_id,null)) as p8
-			from students right outer join student_learn on id = student_id
+			from students left outer join student_learn on id = student_id
 			where xEDBE = '". $acadyear . "' and xLevel = '" . getXlevel($_POST['roomID']) . "' 
 				and xYearth = '". getXyearth($_POST['roomID']) ."' 
 				and room = '" . getRoom($_POST['roomID']) ."'
 				and acadyear = '". $acadyear . "' and acadsemester = '" . $acadsemester . "' 
 				and class_id = '". $_POST['roomID'] ."' and check_date = '" . $_POST['date'] . "' ";
-	if($_POST['studstatus']=="1,2") $_sql .= " and studstatus in (1,2) ";				
+	if(isset($_POST['studstatus'])=="1,2") $_sql .= " and studstatus in (1,2) ";				
 	$_sql .= " group by id order by sex,id";
 	$_res = mysqli_query($_connection,$_sql); ?>
 	<? if(@mysqli_num_rows($_res)>0) { ?>

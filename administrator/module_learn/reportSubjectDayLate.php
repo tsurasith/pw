@@ -26,6 +26,12 @@
 					else {
 						echo " <a href=\"index.php?option=module_learn/reportSubjectDayLate&acadyear=" . ($acadyear) . "&acadsemester=2 \"> 2</a> " ;
 					}
+
+					$_roomID = "";
+					$_roomID = isset($_POST['roomID'])?$_POST['roomID']:"";
+
+
+
 				?>	<br/>
 		 <font  size="2" color="#000000">
 		 <form action="" method="post">
@@ -41,7 +47,7 @@
 				<option value="4/3" <?=isset($_POST['roomID'])&&$_POST['roomID']=="4/3"?"selected":""?>> มัธยมศึกษาปีที่ 6 </option>
 				<option value="all" <?=isset($_POST['roomID'])&&$_POST['roomID']=="all"?"selected":""?>> ทั้งโรงเรียน </option>
 			</select> <input type="submit" name="search" value="เรียกดู" class="button" /><br/>
-			<input type="checkbox" name="studstatus" value="1,2"  <?=$_POST['studstatus']=="1,2"?"checked='checked'":""?> />
+			<input type="checkbox" name="studstatus" value="1,2"  <?=isset($_POST['studstatus'])=="1,2"?"checked='checked'":""?> />
 			 เฉพาะนักเรียนสถานะปกติหรือสำเร็จการศึกษา
 		 </form>
 		 </font>
@@ -64,11 +70,13 @@
 				and acadyear = '". $acadyear . "' and acadsemester = '" . $acadsemester . "' 
 				and timecheck_id != '00'
 				and check_date = '" . $_POST['date'] . "' ";
-	if($_POST['roomID']!="all") $_sql .= " and xLevel = '" . (int)substr($_POST['roomID'],0,1) . "' and xYearth = '". (int)substr($_POST['roomID'],2,1) ."' ";
-	if($_POST['studstatus']=="1,2") $_sql .= " and studstatus in (1,2) ";				
+	if($_roomID!="all") $_sql .= " and xLevel = '" . (int)substr($_roomID,0,1) . "' and xYearth = '". (int)substr($_roomID,2,1) ."' ";
+	if(isset($_POST['studstatus'])=="1,2") $_sql .= " and studstatus in (1,2) ";				
 	$_sql .= " group by id order by xlevel,xyearth,room,sex,id";
+	
+	
 	$_res = mysqli_query($_connection,$_sql); ?>
-	<? if(@mysqli_num_rows($_res)>0) { ?>
+	<? if(mysqli_num_rows($_res)>0) { ?>
 			<table class="admintable"  cellpadding="1" cellspacing="1" border="0" align="center" width="100%" >
 			<tr>
 			<th colspan="13" align="center">

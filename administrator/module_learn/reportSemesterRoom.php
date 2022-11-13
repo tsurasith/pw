@@ -33,26 +33,27 @@
 						echo " <a href=\"index.php?option=module_learn/reportSemesterRoom&acadyear=" . ($acadyear) . "&acadsemester=2 \"> 2</a> " ;
 					}
 				?>
+				<form action="" method="post">
+					<font color="#000000" size="2"  > 
+					<br/>
+				<input type="checkbox" name="studstatus" value="1,2" <?=isset($_POST['studstatus'])=="1,2"?"checked='checked'":""?> onclick="this.form.submit()" />
+				เฉพาะนักเรียนสถานะปกติหรือสำเร็จการศึกษา
+					</font>
+				</from>
 	  </td>
     </tr>
   </table>
 
-  <?php
-  $xlevel;
-  $xyearth;
-  if($_POST['roomID'] != "all")
-  {
-  	$xlevel = substr($_POST['roomID'],0,1);;
-	$xyearth = substr($_POST['roomID'],2,1);
-  }
-  ?>
 
   <table class="admintable"  cellpadding="1" cellspacing="1" border="0" align="center" width="100%" >
     <tr>
 	<?php
-	$sqlStudent = "select class_id,count(timecheck_id) as late from student_learn
-						where acadyear = '" . $acadyear . "' and acadsemester = '". $acadsemester . "' and timecheck_id = '02'
-						group by class_id
+	$sqlStudent = "select class_id,count(timecheck_id) as late from student_learn 
+					left outer join students on student_id = id
+						where acadyear = '" . $acadyear . "' and acadsemester = '". $acadsemester . "' and timecheck_id = '02' 
+						      and xedbe = '" . $acadyear . "' ";
+	if(isset($_POST['studstatus'])=="1,2") $sqlStudent .= " and studstatus in (1,2) ";
+	$sqlStudent .= " 	group by class_id
 						order by class_id";
 	$resStudent = mysqli_query($_connection,$sqlStudent);
 	$totalRows = mysqli_num_rows($resStudent);

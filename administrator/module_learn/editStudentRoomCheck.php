@@ -150,7 +150,7 @@ function check(name,value)
 						$sqlEdit = $sqlEdit . " where student_id = '" . $_POST['studentid'] . "'" ;
 						$sqlEdit = $sqlEdit . " and check_date = '" . $_POST['date']  . "'" ;
 						$sqlEdit = $sqlEdit . " and period = '" . $cc . "'" ;
-						$update = mysqli_query($_connection,$sqlEdit) or die ('Error - ' . mysqli_error());
+						$update = mysqli_query($_connection,$sqlEdit) or die ('Error - ' . mysqli_error($_connection));
 						if($update and $cc == 8)
 						{
 							echo "<font color='green' >บันทึกการแก้ไขข้อมูลเรียบร้อยแล้ว</font>";
