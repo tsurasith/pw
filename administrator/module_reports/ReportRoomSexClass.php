@@ -14,6 +14,14 @@
 		<?php
 			if(isset($_REQUEST['acadyear'])) { $acadyear = $_REQUEST['acadyear']; }
 			if(isset($_REQUEST['acadsemester'])) { $acadsemester = $_REQUEST['acadsemester']; }
+
+			$_xmlColumn = "";
+			$_catXML = "";
+			$_setA = "";
+			$_setB = "";
+			$_m = 0;
+			$_f = 0;
+			$_room = 0;
 		?>
 		ปีการศึกษา<?php  
 					echo "<a href=\"index.php?option=module_reports/ReportRoomSexClass&acadyear=" . ($acadyear - 1) . "\"><img src=\"../images/pull_left.gif\" border=\"0\" /></a> " ;
@@ -38,7 +46,7 @@
 				  count(id) as total
 				from students
 				where xedbe = '" . $acadyear . "' ";
-	if($_POST['studstatus']=="1,2") { $_sql .= " and studstatus in (1,2) ";}
+	if(isset($_POST['studstatus'])=="1,2") { $_sql .= " and studstatus in (1,2) ";}
 	$_sql .= " group by xlevel,xyearth,room ";
 	$_result = mysqli_query($_connection,$_sql);
 	if(mysqli_num_rows($_result)>0)
@@ -90,7 +98,8 @@
 					</table>
 				</td>
 			</tr>
-			<?	$_catXML .= "</categories>";
+			<?	
+				$_catXML .= "</categories>";
 				$_setA .= "</dataset>";
 				$_setB .= "</dataset>";
 				$_xmlColumn .= $_catXML . $_setA . $_setB  . "</graph>";

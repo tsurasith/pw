@@ -717,7 +717,17 @@
 		}
 	}
 	
-	
+	function displayStudent($_connection,$_value,$_year){
+		$_sql = "select id,prefix,firstname,lastname,nickname,studstatus,sex,p_village from students where id = '" . $_value . "' and xedbe = '" . $_year . "' ";
+		$_res = mysqli_query($_connection,$_sql);
+		if(mysqli_num_rows($_res)>0){
+			$_dat = mysqli_fetch_assoc($_res);
+			return $_dat;
+		}else{
+			return "";
+		}
+		
+	}
 	
 	
 ?>

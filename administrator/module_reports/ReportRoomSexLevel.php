@@ -34,7 +34,7 @@
 <?php
 	$_sql = "select xlevel,xyearth, count(distinct room) as room, sum(if(sex=1,1,0)) as male, sum(if(sex=2,1,0)) as female,
 				  count(id) as total from students where xedbe = '" . $acadyear . "' ";
-	if($_POST['studstatus']=="1,2") { $_sql .= " and studstatus in (1,2) ";}
+	if(isset($_POST['studstatus'])=="1,2") { $_sql .= " and studstatus in (1,2) ";}
 	$_sql .= " group by xlevel,xyearth ";
 	$_result = mysqli_query($_connection,$_sql);
 	if(mysqli_num_rows($_result)>0) {

@@ -51,13 +51,13 @@
 					if($_i%4==0 || $_i==1) echo "<tr>";
 					while($_dat = mysqli_fetch_assoc($_result))
 					{
-						$_student = displayStudent($_dat['student_id'],$acadyear);
+						$_student = displayStudent($_connection,$_dat['student_id'],$acadyear);
 						echo "<td align='center'  width='180px'  valign='bottom'>";
 						if(file_exists($_SERVER["DOCUMENT_ROOT"] . "/pk/images/studphoto/id" . $_dat['student_id'] . ".jpg")){ echo "<img src='../images/studphoto/id" . $_dat['student_id']. ".jpg' width='120px' height='160px' alt='หัวหน้าห้อง' style='border:#CC0CC0 solid 1px;' /><br/>";}
-						else{echo "<img src='../images/" . ($_student['sex']==1?"_unknown_male":"_unknown_female") . ".png' width='120px' height='160px' alt='รูปถ่ายนักเรียน' style='border:1px solid #CC0CC0'/><br/>";}
+						else{echo "<img src='../images/" . (isset($_student['sex'])==1?"_unknown_male":"_unknown_female") . ".png' width='120px' height='160px' alt='รูปถ่ายนักเรียน' style='border:1px solid #CC0CC0'/><br/>";}
 						echo getFullRoomFormat($_dat['room_id']). " - ";
-						echo "ชื่อเล่น : " . ($_student['nickname']==""?"-":$_student['nickname']) . "<br/>";
-						echo $_student['prefix'] . $_student['firstname'] . ' ' . $_student['lastname'] ;
+						echo "ชื่อเล่น : " . (isset($_student['nickname'])==""?"-":$_student['nickname']) . "<br/>";
+						echo isset($_student['prefix'])==""?"-":$_student['prefix'] . $_student['firstname'] . ' ' . $_student['lastname'] ;
 						//echo "<br/>สถานภาพ : " . (trim($_student['id'])==""?"-":displayStatus($_student['studstatus']));
 						echo "</td>";
 						if($_i%4==0) echo "</tr>";
@@ -69,10 +69,3 @@
 	else { echo "<font color='red'><center><br/>ไม่มีข้อมูลในภาคเรียนที่ " .$acadsemester." ปีการศึกษา " .$acadyear."</center></font>"; }?>
 	
 </div>
-<?
-	function displayStudent($_value,$_year){
-		$_sql = "select id,prefix,firstname,lastname,nickname,studstatus,sex,p_village from students where id = '" . $_value . "' and xedbe = '" . $_year . "' ";
-		$_dat = mysqli_fetch_assoc(mysqli_query($_connection,$_sql));
-		return $_dat;
-	}
-?>

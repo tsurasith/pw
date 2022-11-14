@@ -59,8 +59,8 @@
 			<tr>
 				<td align="center" valign="top"><?=$_i++?></td>
 				<td align="center" valign="top"><?=getFullRoomFormat($_dat['room_id'])?></td>
-				<td align="left" style="padding-left:20px;"><?=$_dat['teacher_id']!=""?getTeacher($_dat['teacher_id']):"-"?></td>
-				<td align="left" style="padding-left:20px;"><?=$_dat['teacher_id2']!=""?getTeacher($_dat['teacher_id2']):"-"?></td>
+				<td align="left" style="padding-left:20px;"><?=$_dat['teacher_id']!=""?getTeacher($_connection,$_dat['teacher_id']):"-"?></td>
+				<td align="left" style="padding-left:20px;"><?=$_dat['teacher_id2']!=""?getTeacher($_connection,$_dat['teacher_id2']):"-"?></td>
 			</tr>
 			<? } //end while ?>
 		</table> 
