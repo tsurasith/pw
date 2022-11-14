@@ -9,6 +9,13 @@
 	  <?php
 			if(isset($_REQUEST['acadyear'])) { $acadyear = $_REQUEST['acadyear']; }
 			else if(isset($_POST['acadyear'])) { $acadyear = $_POST['acadyear']; }
+
+			$_travel_by = "";
+			$_travel_by = isset($_POST['travelby'])?$_POST['travelby']:"";
+
+			$_roomID = "";
+			$_roomID = isset($_POST['roomID'])?$_POST['roomID']:"";
+
 		?>
 		ปีการศึกษา<?php  
 					echo "<a href=\"index.php?option=module_maps/studentListPicsTravelBy&acadyear=" . ($acadyear - 1) .  "\"><img src=\"../images/pull_left.gif\" border=\"0\" /></a> " ;
@@ -36,7 +43,7 @@
 			<select name="travelby" class="inputboxUpdate">
 				<option value=""></option>
 				<? while($_datTravel = mysqli_fetch_assoc($_resTravel)) { ?>
-					<option value="<?=$_datTravel['travel_id']?>" <?=$_POST['travelby']==$_datTravel['travel_id']?"selected":""?>><?=$_datTravel['travel_description']?></option>
+					<option value="<?=$_datTravel['travel_id']?>" <?=$_travel_by==$_datTravel['travel_id']?"selected":""?>><?=$_datTravel['travel_description']?></option>
 				<? } //end-while ?>
 				<? mysqli_free_result($_resTravel); ?>
 			</select> 
@@ -48,7 +55,7 @@
 				<option value="all" <?=isset($_POST['sex']) && $_POST['sex']=="all"?"selected":""?>>ทั้งหมด</option>
 			</select>
 	  		 <br/>
-			<input type="checkbox" name="studstatus" value="1,2" <?=$_POST['studstatus']=="1,2"?"checked='checked'":""?> />
+			<input type="checkbox" name="studstatus" value="1,2" <?=isset($_POST['studstatus'])=="1,2"?"checked='checked'":""?> />
 			 เฉพาะนักเรียนสถานะปกติหรือสำเร็จการศึกษา 
 			 
 			</font>
@@ -66,7 +73,7 @@
 						from students 
 						where travelby = '" . $_POST['travelby'] . "'
 								and xedbe = '" . $acadyear . "' ";
-		if($_POST['studstatus']=="1,2") $sqlStudent .= " and studstatus in (1,2) ";
+		if(isset($_POST['studstatus'])=="1,2") $sqlStudent .= " and studstatus in (1,2) ";
 		if($_POST['sex'] != "all") $sqlStudent .= " and sex = '" . $_POST['sex'] . "' ";
 		if($_POST['roomID'] != "all") $sqlStudent .= " and xlevel = '" . substr($_POST['roomID'],0,1) . "' and xyearth = '" . substr($_POST['roomID'],-1) . "' ";
 		$sqlStudent .= " order by xlevel,xyearth,room,sex,id";
