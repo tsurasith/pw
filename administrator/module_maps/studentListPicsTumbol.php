@@ -33,7 +33,7 @@
 				<option value="all" <?=isset($_POST['sex']) && $_POST['sex']=="all"?"selected":""?>>ทั้งหมด</option>
 			</select>
 			<input type="submit" value="เรียกดู" class="button" name="search"/><br/>
-			<input type="checkbox" name="studstatus" value="1,2"  <?=$_POST['studstatus']=="1,2"?"checked='checked'":""?> /> เฉพาะนักเรียนสถานะปกติหรือสำเร็จการศึกษา</font>
+			<input type="checkbox" name="studstatus" value="1,2"  <?=isset($_POST['studstatus'])=="1,2"?"checked='checked'":""?> /> เฉพาะนักเรียนสถานะปกติหรือสำเร็จการศึกษา</font>
 	   </td>
     </tr>
   </table>
@@ -48,7 +48,7 @@
 						from students 
 						where p_tumbol = '" . $_POST['p_tumbol'] . "'
 								and xedbe = '" . $acadyear . "' ";
-		if($_POST['studstatus']=="1,2") $sqlStudent .= " and studstatus in (1,2) ";
+		if(isset($_POST['studstatus'])=="1,2") $sqlStudent .= " and studstatus in (1,2) ";
 		if($_POST['sex'] != "all") $sqlStudent .= " and sex = '" . $_POST['sex'] . "' ";
 		$sqlStudent .= " order by xlevel,xyearth,room,sex,id";
 		$resStudent = mysqli_query($_connection,$sqlStudent);
