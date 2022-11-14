@@ -82,7 +82,7 @@
                                             </tr>
  <?php
 
-  	$sql = 'SELECT id, prefix , firstname , lastname FROM students WHERE xLevel =  \''. $xlevel . '\' AND xYearth = \'' . $xyear .'\' and room = \'' . $room_id  .  '\' and studstatus = \'1\' and xedbe = \'' .$acadyear . '\' order by sex,id';
+  	$sql = 'SELECT id, prefix , firstname , lastname FROM students WHERE xLevel =  \''. $xlevel . '\' AND xYearth = \'' . $xyear .'\' and room = \'' . $room_id  .  '\' and studstatus = \'1\' and xedbe = \'' .$acadyear . '\' order by sex,convert(firstname using tis620), convert(lastname using tis620) ';
 	//echo $sql;
   	$result = mysqli_query($_connection,$sql) or die ('ผิดพลาดเนื่องจาก  - ' .mysqli_error());
 	$i = 1;
