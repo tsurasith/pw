@@ -111,7 +111,7 @@
 								  count(class_id) as sum
 								from students  left outer join student_800 on students.id = student_800.student_id
 								where acadyear = '" . $acadyear . "' and acadsemester = '" . $acadsemester . "' and xedbe = '" .$acadyear . "' ";
-				if($_POST['studstatus']=="1,2") $sqlStudent .= " and studstatus in (1,2) ";
+				if(isset($_POST['studstatus'])=="1,2") $sqlStudent .= " and studstatus in (1,2) ";
 				$sqlStudent .= "group by id order by a,e desc,xlevel,xyearth,room,sex,id";			
 			}
 			$resStudent = mysqli_query($_connection,$sqlStudent);
