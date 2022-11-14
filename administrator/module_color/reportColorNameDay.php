@@ -56,7 +56,7 @@
 					<option value="01,02,03,04" <?=isset($_POST['checkType'])&&$_POST['checkType']=='01,02,03,04'?"selected":""?>>กิจกรรม,สาย,ลาและขาด </option>
 				</select>
 			<input type="submit" name="submit" value="เรียกดู" class="button" /><br/>
-			<input type="checkbox" name="studstatus" value="1,2"  <?=$_POST['studstatus']=="1,2"?"checked='checked'":""?> />
+			<input type="checkbox" name="studstatus" value="1,2"  <?=isset($_POST['studstatus'])=="1,2"?"checked='checked'":""?> />
 				เฉพาะนักเรียนสถานะปกติหรือสำเร็จการศึกษา
 			 </font>
 	  </form>

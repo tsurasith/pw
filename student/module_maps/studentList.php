@@ -85,7 +85,7 @@
 						 from students   where xlevel = '". $xlevel . "' and xyearth = '" . $xyearth . "' 
 						 		and room = '" . $room . "' and xedbe = '" . $acadyear . "' ";
 			if($_POST['studstatus']=="1,2") $sqlStudent .= " and studstatus in (1,2) ";
-			$sqlStudent .= " order by sex,id ";
+			$sqlStudent .= "order by sex,convert(firstname using tis620), convert(lastname using tis620) ";
 			$resStudent = mysqli_query($_connection,$sqlStudent); ?>
 		<? 	$ordinal = 1; ?>
 		<? while($_dat = mysqli_fetch_assoc($resStudent)) { ?>

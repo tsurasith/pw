@@ -39,7 +39,7 @@
 		ระดับชั้น 	 
 			 <input type="radio" name="level" value="3" <?=$_POST['level']!=4?"checked":""?> /> ม.ต้น |
 			 <input type="radio" name="level" value="4" <?=$_POST['level']==4?"checked":""?> /> ม.ปลาย<br/>
-			<input type="checkbox" name="studstatus" value="1,2"  <?=$_POST['studstatus']=="1,2"?"checked='checked'":""?> />
+			<input type="checkbox" name="studstatus" value="1,2"  <?=isset($_POST['studstatus'])=="1,2"?"checked='checked'":""?> />
 				เฉพาะนักเรียนสถานะปกติหรือสำเร็จการศึกษา
 			 </font>
 	  </form>

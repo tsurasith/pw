@@ -48,7 +48,7 @@
 				<option value="all" <?=isset($_POST['roomID'])&&$_POST['roomID']=="all"?"selected":""?>> ทั้งโรงเรียน </option>
 			</select> 
 	  		<input type="submit" value="สืบค้น" class="button" name="search"/> <br/>
-			<input type="checkbox" name="studstatus" value="1,2"  <?=$_POST['studstatus']=="1,2"?"checked='checked'":""?> />
+			<input type="checkbox" name="studstatus" value="1,2"  <?=isset($_POST['studstatus'])=="1,2"?"checked='checked'":""?> />
 			 เฉพาะนักเรียนสถานะปกติหรือสำเร็จการศึกษา <br/>
             <input type="checkbox" name="regradeonly" value="1" <?=$_POST['regradeonly']=="1"?"checked":""?>> 
              เฉพาะวิชาที่มีการดำเนินการแก้ไข
