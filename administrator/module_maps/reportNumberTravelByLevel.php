@@ -9,6 +9,13 @@
 	  <?php
 			if(isset($_REQUEST['acadyear'])) { $acadyear = $_REQUEST['acadyear']; }
 			if(isset($_REQUEST['acadsemester'])) { $acadsemester = $_REQUEST['acadsemester']; }
+
+			$_travel_by = "";
+			$_travel_by = isset($_POST['travelby'])?$_POST['travelby']:"";
+
+			$_roomID = "";
+			$_roomID = isset($_POST['roomID'])?$_POST['roomID']:"";
+
 		?>
 		ปีการศึกษา<?php  
 					echo "<a href=\"index.php?option=module_maps/reportNumberTravelByLevel&acadyear=" . ($acadyear - 1) . "\"><img src=\"../images/pull_left.gif\" border=\"0\" /></a> " ;
@@ -22,12 +29,12 @@
 		  	<select name="travelby" class="inputboxUpdate">
 				<option value=""></option>
 				<? while($_datTravel = mysqli_fetch_assoc($_resTravel)) { ?>
-					<option value="<?=$_datTravel['travel_id']?>" <?=$_POST['travelby']==$_datTravel['travel_id']?"selected":""?>><?=$_datTravel['travel_description']?></option>
+					<option value="<?=$_datTravel['travel_id']?>" <?=$_travel_by==$_datTravel['travel_id']?"selected":""?>><?=$_datTravel['travel_description']?></option>
 				<? } //end-while ?>
 				<? mysqli_free_result($_resTravel); ?>
 			</select>
 	  		<input type="submit" value="เรียกดู" class="button" name="search"/> <br/>
-			<input type="checkbox" name="studstatus" value="1,2" <?=$_POST['studstatus']=="1,2"?"checked='checked'":""?> />
+			<input type="checkbox" name="studstatus" value="1,2" <?=isset($_POST['studstatus'])=="1,2"?"checked='checked'":""?> />
 			 เฉพาะนักเรียนสถานะปกติหรือสำเร็จการศึกษา
 			 </font>
 	   </td>
@@ -41,20 +48,20 @@
   if(isset($_POST['search'])&&$_POST['travelby'] != ""){
   $_sql = "";
   $_totalStudent = 0;
-  if($_POST['roomID']=="all")
+  if($_roomID=="all")
   {
   	$_sql = "select xlevel,xyearth,sum(if(sex=1,1,0)) as 'm',sum(if(sex=2,1,0)) as 'f',count(*)as c from students where xedbe = '" . $acadyear . "'  ";
-	if($_POST['studstatus']=="1,2") $_sql .= "and studstatus in (1,2) ";
+	if(isset($_POST['studstatus'])=="1,2") $_sql .= "and studstatus in (1,2) ";
 	$_sql .= " group by xlevel,xyearth order by xlevel,xyearth ";
-	$_totalStudent = mysqli_fetch_assoc(mysqli_query($_connection,"select count(*) as total from students where xedbe = '" . $acadyear . "'" . ($_POST['studstatus']=="1,2"?"and studstatus in (1,2)":"")));
+	$_totalStudent = mysqli_fetch_assoc(mysqli_query($_connection,"select count(*) as total from students where xedbe = '" . $acadyear . "'" . (isset($_POST['studstatus'])=="1,2"?"and studstatus in (1,2)":"")));
   }
   else
   {
   	$_sql = "select xlevel,xyearth,sum(if(sex=1,1,0)) as 'm',sum(if(sex=2,1,0)) as 'f',count(*)as c from students 
 				where xedbe = '" . $acadyear . "' and travelby = '" . $_POST['travelby'] . "'  ";
-	if($_POST['studstatus']=="1,2") $_sql .= "and studstatus in (1,2) ";
+	if(isset($_POST['studstatus'])=="1,2") $_sql .= "and studstatus in (1,2) ";
 	$_sql .= " group by xlevel,xyearth order by xlevel,xyearth ";
-	$_totalStudent = mysqli_fetch_assoc(mysqli_query($_connection,"select count(*) as total from students where xedbe = '" . $acadyear . "' and travelby = '" . $_POST['travelby'] . "' " . ($_POST['studstatus']=="1,2"?"and studstatus in (1,2)":"")));
+	$_totalStudent = mysqli_fetch_assoc(mysqli_query($_connection,"select count(*) as total from students where xedbe = '" . $acadyear . "' and travelby = '" . $_POST['travelby'] . "' " . (isset($_POST['studstatus'])=="1,2"?"and studstatus in (1,2)":"")));
   }
   $_result = mysqli_query($_connection,$_sql);
   if(mysqli_num_rows($_result)>0) {
@@ -90,7 +97,7 @@
 						<td style="padding-right:15px;" align="right"><?=$_dat['f']>0?number_format($_dat['f'],0,'',','):"-"?></td>
 						<td style="padding-right:15px;" align="right"><?=number_format($_dat['c'],0,'',',')?></td>
 						<td style="padding-right:45px;" align="right"><?=number_format(($_dat['c']/$_totalStudent['total'])*100,'2','.',',')?></td>
-						<? $_Point += $_dat['travelby'] * $_dat['c'] ; $_sumTime += $_dat['c'];?>
+						<? $_Point += 1 * $_dat['c'] ; $_sumTime += $_dat['c'];?>
 						<? $_m += $_dat['m']; $_f += $_dat['f']; ?>
 					</tr>	
 				<?	} mysqli_free_result($_result); ?>

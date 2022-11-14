@@ -30,7 +30,7 @@
 				<option value="all" <?=isset($_POST['roomID'])&&$_POST['roomID']=="all"?"selected":""?>> ทั้งโรงเรียน </option>
 			</select>  
 	  		<input type="submit" value="เรียกดู" class="button" name="search"/> <br/>
-			<input type="checkbox" name="studstatus" value="1,2" <?=$_POST['studstatus']=="1,2"?"checked='checked'":""?> />
+			<input type="checkbox" name="studstatus" value="1,2" <?=isset($_POST['studstatus'])=="1,2"?"checked='checked'":""?> />
 			 เฉพาะนักเรียนสถานะปกติหรือสำเร็จการศึกษา
 			 </font>
 	   </td>
@@ -49,18 +49,18 @@
   if($_POST['roomID']=="all")
   {
   	$_sql = "select travelby,count(*)as c from students where xedbe = '" . $acadyear . "'  ";
-	if($_POST['studstatus']=="1,2") $_sql .= "and studstatus in (1,2) ";
+	if(isset($_POST['studstatus'])=="1,2") $_sql .= "and studstatus in (1,2) ";
 	$_sql .= " group by travelby order by 1 ";
-	$_totalStudent = mysqli_fetch_assoc(mysqli_query($_connection,"select count(*) as total from students where xedbe = '" . $acadyear . "'" . ($_POST['studstatus']=="1,2"?"and studstatus in (1,2)":"")));
+	$_totalStudent = mysqli_fetch_assoc(mysqli_query($_connection,"select count(*) as total from students where xedbe = '" . $acadyear . "'" . (isset($_POST['studstatus'])=="1,2"?"and studstatus in (1,2)":"")));
   }
   else
   {
   	$_sql = "select travelby,count(*)as c from students 
 				where xedbe = '" . $acadyear . "' and xlevel = '" . substr($_POST['roomID'],0,1) . "' 
 					and xyearth = '" . substr($_POST['roomID'],2,1) . "' ";
-	if($_POST['studstatus']=="1,2") $_sql .= "and studstatus in (1,2) ";
+	if(isset($_POST['studstatus'])=="1,2") $_sql .= "and studstatus in (1,2) ";
 	$_sql .= " group by travelby order by 1 ";
-	$_totalStudent = mysqli_fetch_assoc(mysqli_query($_connection,"select count(*) as total from students where xedbe = '" . $acadyear . "' and xlevel = '" . substr($_POST['roomID'],0,1) . "' and xyearth = '" . substr($_POST['roomID'],2,1) . "' " . ($_POST['studstatus']=="1,2"?"and studstatus in (1,2)":"")));
+	$_totalStudent = mysqli_fetch_assoc(mysqli_query($_connection,"select count(*) as total from students where xedbe = '" . $acadyear . "' and xlevel = '" . substr($_POST['roomID'],0,1) . "' and xyearth = '" . substr($_POST['roomID'],2,1) . "' " . (isset($_POST['studstatus'])=="1,2"?"and studstatus in (1,2)":"")));
   }
   $_result = mysqli_query($_connection,$_sql);
   if(mysqli_num_rows($_result)>0) {

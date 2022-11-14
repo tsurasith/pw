@@ -9,6 +9,10 @@
 	  <?php
 			if(isset($_REQUEST['acadyear'])) { $acadyear = $_REQUEST['acadyear']; }
 			if(isset($_REQUEST['acadsemester'])) { $acadsemester = $_REQUEST['acadsemester']; }
+
+			$_roomID = "";
+			$_roomID = isset($_POST['roomID'])?$_POST['roomID']:"";
+
 		?>
 		ปีการศึกษา<?php  
 					echo "<a href=\"index.php?option=module_maps/reportNumberHowlong&acadyear=" . ($acadyear - 1) . "\"><img src=\"../images/pull_left.gif\" border=\"0\" /></a> " ;
@@ -30,7 +34,7 @@
 				<option value="all" <?=isset($_POST['roomID'])&&$_POST['roomID']=="all"?"selected":""?>> ทั้งโรงเรียน </option>
 			</select>  
 	  		<input type="submit" value="เรียกดู" class="button" name="search"/> <br/>
-			<input type="checkbox" name="studstatus" value="1,2" <?=$_POST['studstatus']=="1,2"?"checked='checked'":""?> />
+			<input type="checkbox" name="studstatus" value="1,2" <?=isset($_POST['studstatus'])=="1,2"?"checked='checked'":""?> />
 			 เฉพาะนักเรียนสถานะปกติหรือสำเร็จการศึกษา
 			 </font>
 	   </td>
@@ -45,21 +49,21 @@
  <?php
   $_sql = "";
   $_totalStudent = 0;
-  if($_POST['roomID']=="all")
+  if($_roomID=="all")
   {
   	$_sql = "select howlong,count(*)as c from students where xedbe = '" . $acadyear . "'  ";
-	if($_POST['studstatus']=="1,2") $_sql .= "and studstatus in (1,2) ";
+	if(isset($_POST['studstatus'])=="1,2") $_sql .= "and studstatus in (1,2) ";
 	$_sql .= " group by howlong order by 1 desc";
-	$_totalStudent = mysqli_fetch_assoc(mysqli_query($_connection,"select count(*) as total from students where xedbe = '" . $acadyear . "'" . ($_POST['studstatus']=="1,2"?"and studstatus in (1,2)":"")));
+	$_totalStudent = mysqli_fetch_assoc(mysqli_query($_connection,"select count(*) as total from students where xedbe = '" . $acadyear . "'" . (isset($_POST['studstatus'])=="1,2"?"and studstatus in (1,2)":"")));
   }
   else
   {
   	$_sql = "select howlong,count(*)as c from students 
-				where xedbe = '" . $acadyear . "' and xlevel = '" . substr($_POST['roomID'],0,1) . "' 
-					and xyearth = '" . substr($_POST['roomID'],2,1) . "' ";
-	if($_POST['studstatus']=="1,2") $_sql .= "and studstatus in (1,2) ";
+				where xedbe = '" . $acadyear . "' and xlevel = '" . substr($_roomID,0,1) . "' 
+					and xyearth = '" . substr($_roomID,2,1) . "' ";
+	if(isset($_POST['studstatus'])=="1,2") $_sql .= "and studstatus in (1,2) ";
 	$_sql .= " group by howlong desc order by 1 desc";
-	$_totalStudent = mysqli_fetch_assoc(mysqli_query($_connection,"select count(*) as total from students where xedbe = '" . $acadyear . "' and xlevel = '" . substr($_POST['roomID'],0,1) . "' and xyearth = '" . substr($_POST['roomID'],2,1) . "' " . ($_POST['studstatus']=="1,2"?"and studstatus in (1,2)":"")));
+	$_totalStudent = mysqli_fetch_assoc(mysqli_query($_connection,"select count(*) as total from students where xedbe = '" . $acadyear . "' and xlevel = '" . substr($_roomID,0,1) . "' and xyearth = '" . substr($_roomID,2,1) . "' " . (isset($_POST['studstatus'])=="1,2"?"and studstatus in (1,2)":"")));
   }
   $_result = mysqli_query($_connection,$_sql);
   if(mysqli_num_rows($_result)>0) {

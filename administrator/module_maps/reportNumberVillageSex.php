@@ -25,7 +25,7 @@
 				<option value="4" <?=isset($_POST['xlevel'])&&$_POST['xlevel']=="4"?"selected":""?>> มัธยมศึกษาตอนปลาย </option>
 			</select>  
 	  		<input type="submit" value="เรียกดู" class="button" name="search"/> <br/>
-			<input type="checkbox" name="studstatus" value="1,2" <?=$_POST['studstatus']=="1,2"?"checked='checked'":""?> />
+			<input type="checkbox" name="studstatus" value="1,2" <?=isset($_POST['studstatus'])=="1,2"?"checked='checked'":""?> />
 			 เฉพาะนักเรียนสถานะปกติหรือสำเร็จการศึกษา
 			 </font>
 	   </td>
@@ -37,7 +37,11 @@
 <? } //end if ?>
  <?php
   $_sql = "";
-  if($_POST['xlevel'] !="" && isset($_POST['search'])) {
+  
+  $_xlevel = "";
+  $_xlevel = isset($_POST['xlevel'])?$_POST['xlevel']:"";
+
+  if($_xlevel !="" && isset($_POST['search'])) {
 	$_sql = "select p_village,
 				  sum(if(sex=1 and xyearth=1,1,0)) as 'm1',
 				  sum(if(sex=2 and xyearth=1,1,0)) as 'f1',
@@ -47,8 +51,8 @@
 				  sum(if(sex=2 and xyearth=3,1,0)) as 'f3',
 				  count(*) as 'total'
 				from students where xedbe = '" . $acadyear . "' ";
-	if($_POST['xlevel']!="all"){ $_sql .= " and xlevel = '" . $_POST['xlevel'] . "' "; }
-	if($_POST['studstatus']=="1,2"){ $_sql .= " and studstatus in (1,2) ";}
+	if($_xlevel!="all"){ $_sql .= " and xlevel = '" . $_POST['xlevel'] . "' "; }
+	if(isset($_POST['studstatus'])=="1,2"){ $_sql .= " and studstatus in (1,2) ";}
 	$_sql .= " group by p_village order by count(*) desc ";
  	$_result = mysqli_query($_connection,$_sql);
 	if(mysqli_num_rows($_result)>0) {
