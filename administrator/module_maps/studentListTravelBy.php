@@ -81,7 +81,7 @@
 						 where xedbe = '" . $acadyear . "' and travelby = '" . $_POST['travelby'] . "' ";
 		if(isset($_POST['studstatus'])=="1,2") $sqlStudent .= " and studstatus in (1,2) ";
 		if($_POST['sex']!="all") $sqlStudent .= " and sex = '" . $_POST['sex'] . "' ";
-		$sqlStudent .= " order by xlevel,xyearth,room,sex ,id ";
+		$sqlStudent .= " order by xlevel,xyearth,room,sex ,convert(firstname using tis620), convert(lastname using tis620) ";
 		$resStudent = mysqli_query($_connection,$sqlStudent);
 		$ordinal = 1; ?>
 		<? if(mysqli_num_rows($resStudent)>0) { ?>
