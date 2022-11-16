@@ -1,7 +1,9 @@
 ﻿<?php
-$_teacherCode = (isset($_REQUEST['teacher_code']))?$_REQUEST['teacher_code']:$_POST['teacher_code'];
 
-$_target = $_SERVER["DOCUMENT_ROOT"] . "/pk/images/teacphoto/";
+include("../include/config.upload.php");
+$_target = $_target . $_img_root_folder . $_img_teacher_folder . "/";
+
+
 $_uploadError = 0;
 if(isset($_POST['upload']))
 {
@@ -21,7 +23,7 @@ if(isset($_POST['upload']))
 			move_uploaded_file($_FILES["file"]["tmp_name"], $_target . $_FILES["file"]["name"]);
 			if($_FILES["file"]["name"] != ( "TC" . $_teacherCode . ".jpg"))
 			{
-				@rename($_target . $_FILES["file"]["name"] , $_target . "TC" . $_teacherCode . ".jpg");
+				rename($_target . $_FILES["file"]["name"] , $_target . "TC" . $_teacherCode . ".jpg");
 				$_uploadError = 4; // upload Complete	
 			}
 		}
