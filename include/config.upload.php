@@ -16,10 +16,14 @@
     $_img_teacher_folder = "/teacphoto";
     $_img_parent_folder  = "/aphoto";
     $_img_father_folder  = "/papaphoto";
-    $_img_monther_folder = "/mamaphoto";
+    $_img_mother_folder = "/mamaphoto";
 
     $_target = $_SERVER["DOCUMENT_ROOT"];
 
-
-
+    $_student_img_path  = $_target . $_img_root_folder . $_img_student_folder . "/";
+    $_teacher_img_path  = $_target . $_img_root_folder . $_img_teacher_folder . "/";
+    $_parent_img_path   = $_target . $_img_root_folder . $_img_parent_folder . "/";
+    $_father_img_path   = $_target . $_img_root_folder . $_img_father_folder . "/";
+    $_mother_img_path   = $_target . $_img_root_folder . $_img_mother_folder . "/";
+    
 ?>

@@ -1,6 +1,6 @@
 ﻿<?php
 
-include("../include/config.upload.php");
+//include("../include/config.upload.php");
 $_target = $_target . $_img_root_folder . $_img_teacher_folder . "/";
 
 $_teacherCode = (isset($_REQUEST['teacher_code']))?$_REQUEST['teacher_code']:$_POST['teacher_code'];

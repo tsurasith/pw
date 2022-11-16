@@ -179,8 +179,8 @@
 							<td align="right" width="250px">ชื่อ - สกุล :</td>
 							<td width="230px"><?=$_datS['prefix'].$_datS['firstname']. ' '  .$_datS['lastname']?></td>
 							<td rowspan="4" valign="top">
-								<? if(file_exists($_SERVER["DOCUMENT_ROOT"] . "/pk/images/studphoto/id" . $_datS['id'] . ".jpg"))
-									{ echo "<img src='../images/studphoto/id" . $_datS['id'] . ".jpg' width='120px' height='160px' alt='รูปถ่ายนักเรียน' style='border:1px solid #CC0CC0'/><br/>"; }
+								<? if(file_exists($_student_img_path . "/id" . $_datS['id'] . ".jpg"))
+									{ echo "<img src='../images" . $_img_student_folder . "/id" . $_datS['id'] . ".jpg' width='120px' height='160px' alt='รูปถ่ายนักเรียน' style='border:1px solid #CC0CC0'/><br/>"; }
 									else 
 									{echo "<img src='../images/" . ($_datS['sex']==1?"_unknown_male":"_unknown_female") . ".png' width='120px' height='160px' alt='รูปถ่ายนักเรียน' style='border:1px solid #CC0CC0'/><br/>"; } ?>
 							</td>

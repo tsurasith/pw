@@ -1,10 +1,13 @@
 ﻿<?php
+
 $_acadyear;
 $_studentID;
 $_roomID;
 
-$_target = $_SERVER["DOCUMENT_ROOT"] . "/pk/images/studphoto/";
+$_target = $_target . $_img_root_folder . $_img_student_folder . "/";
+
 $_uploadError = 0;
+
 if(isset($_POST['upload']))
 {
 	$_acadyear = $_POST['acadyear'];
@@ -75,8 +78,8 @@ else
 	  <td width="60%"><b><?=$_dat['prefix'] . $_dat['firstname'] . ' ' . $_dat['lastname']?></b></td>
 	  <td valign="top" rowspan="4" width="20%" align="center">
 		<?
-			if(file_exists($_SERVER["DOCUMENT_ROOT"] . "/pk/images/studphoto/id" . $_dat['id'] . ".jpg"))
-				{ echo "<img src='../images/studphoto/id" . $_dat['id'] . ".jpg' width='120px' height='160px' alt='รูปถ่ายนักเรียน' style='border:1px solid #CC0CC0'/><br/>"; }
+			if(file_exists($_student_img_path. "id" . $dat['id'] . ".jpg"))
+				{ echo "<img src='../images" . $_img_student_folder . "/id" . $_dat['id'] . ".jpg' width='120px' height='160px' alt='รูปถ่ายนักเรียน' style='border:1px solid #CC0CC0'/><br/>"; }
 			else 
 				{echo "<img src='../images/" . ($_dat['sex']==1?"_unknown_male":"_unknown_female") . ".png' width='120px' height='160px' alt='รูปถ่ายนักเรียน' style='border:1px solid #CC0CC0'/><br/>"; }
 		?>

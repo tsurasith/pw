@@ -21,6 +21,7 @@
 
         
 	include("../include/config.inc.php");
+    include("../include/config.upload.php");
     include("../include/mysqli.php");
 	include("../include/shareFunction.php");
 

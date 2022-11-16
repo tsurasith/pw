@@ -94,8 +94,8 @@
 						$dat = mysqli_fetch_array($resStudent);
 						echo "<td align='center' width='160px'>";
 						echo "<font color='red'><b>$ordinal</b></font>";
-						if(file_exists($_SERVER["DOCUMENT_ROOT"] . "/pk/images/studphoto/id" . $dat['id'] . ".jpg"))
-							{ echo "<img src='../images/studphoto/id" . $dat['id'] . ".jpg' width='120px' height='160px' alt='รูปถ่ายนักเรียน' style='border:1px solid #CC0CC0'/><br/>"; }
+						if(file_exists($_student_img_path. "id" . $dat['id'] . ".jpg"))
+							{ echo "<img src='../images" . $_img_student_folder . "/id" . $dat['id'] . ".jpg' width='120px' height='160px' alt='รูปถ่ายนักเรียน' style='border:1px solid #CC0CC0'/><br/>"; }
 						else 
 							{echo "<img src='../images/" . ($dat['sex']==1?"_unknown_male":"_unknown_female") . ".png' width='120px' height='160px' alt='รูปถ่ายนักเรียน' style='border:1px solid #CC0CC0'/><br/>"; }
 						echo "" . ($dat['xlevel']==3?$dat['xyearth']:$dat['xyearth']+3).'/'.$dat['room'] . '-' . $dat['id'] . "-[". displayPoint($dat['nickname']) . "]<br/>" ;

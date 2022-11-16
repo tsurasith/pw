@@ -74,8 +74,8 @@
 			<td width="205px" align="right">เลขประจำตัว :</td>
 			<td ><b><?=$_dat['id']?></b></td>
 			<td rowspan="9" valign="top" width="200px" align="center">
-				<? if(file_exists($_SERVER["DOCUMENT_ROOT"] . "/pk/images/studphoto/id" . $_dat['id'] . ".jpg"))
-						{ echo "<img src='../images/studphoto/id" . $_dat['id'] . ".jpg' width='120px' height='160px' alt='รูปถ่ายนักเรียน' style='border:1px solid #000000'/><br/>"; }
+				<? if(file_exists($_student_img_path . "/id" . $_dat['id'] . ".jpg"))
+						{ echo "<img src='../images" . $_img_student_folder . "/id" . $_dat['id'] . ".jpg' width='120px' height='160px' alt='รูปถ่ายนักเรียน' style='border:1px solid #000000'/><br/>"; }
 						else 
 						{echo "<img src='../images/" . ($_dat['sex']==1?"_unknown_male":"_unknown_female") . ".png' width='120px' height='160px' alt='รูปถ่ายนักเรียน' style='border:1px solid #CC0CC0'/><br/>"; } 
 				?>

@@ -53,7 +53,7 @@
 					{
 						$_student = displayStudent($_connection,$_dat['student_id'],$acadyear);
 						echo "<td align='center'  width='180px'  valign='bottom'>";
-						if(file_exists($_SERVER["DOCUMENT_ROOT"] . "/pk/images/studphoto/id" . $_dat['student_id'] . ".jpg")){ echo "<img src='../images/studphoto/id" . $_dat['student_id']. ".jpg' width='120px' height='160px' alt='หัวหน้าห้อง' style='border:#CC0CC0 solid 1px;' /><br/>";}
+						if(file_exists($_student_img_path . "/id" . $_dat['student_id'] . ".jpg")){ echo "<img src='../images" . $_img_student_folder . "/id" . $_dat['student_id']. ".jpg' width='120px' height='160px' alt='หัวหน้าห้อง' style='border:#CC0CC0 solid 1px;' /><br/>";}
 						else{echo "<img src='../images/" . (isset($_student['sex'])==1?"_unknown_male":"_unknown_female") . ".png' width='120px' height='160px' alt='รูปถ่ายนักเรียน' style='border:1px solid #CC0CC0'/><br/>";}
 						echo getFullRoomFormat($_dat['room_id']). " - ";
 						echo "ชื่อเล่น : " . (isset($_student['nickname'])==""?"-":$_student['nickname']) . "<br/>";

@@ -8,7 +8,7 @@
 								utm_coordinate_y = '" . $_POST['lat_y'] . "',
 								p_village = '" . trim($_POST['p_village']) ."',
 								p_tumbol = '" . trim($_POST['p_tumbolupdate']) . "',
-								howlong = '" . $_POST['howlong'] . "',
+								howlong = '" . (trim($_POST['howlong'])==""?0:trim($_POST['howlong'])) . "',
 								travelby = '" . $_POST['travelby'] . "',
 								nickname = '" . $_POST['nickname'] . "'
 							where id = '" . $_POST['student_id'] . "' and xedbe = '" . $acadyear . "'";
@@ -48,7 +48,7 @@
 <? if(isset($_POST['update'])){ ?>
 	<? if(mysqli_query($_connection,$_sqlUpdate)) { ?>
 		<b><br/><center><font color="#008000">บันทึกการแก้ไขข้อมูลเรียบร้อยแล้ว</font></center></b>
-	<? }else { ?> <br/><br/><center><font color="#FF0000">เกิดข้อผิดพลาดเนื่องจาก : <?=mysqli_error()?></font></center> <? } ?>
+	<? }else { ?> <br/><br/><center><font color="#FF0000">เกิดข้อผิดพลาดเนื่องจาก : <?=mysqli_error($_connection)?></font></center> <? } ?>
 <? } ?>
 <?php
 $_studentID = (isset($_POST['student_id'])?$_POST['student_id']:$_REQUEST['student_id']);

@@ -83,8 +83,8 @@
 			<b><?=$_dat['ID']?></b><input type="hidden" name="studentid" value="<?=$_dat['ID']?>" />
 		</td>
 		<td rowspan="9" valign="top">
-			<? if(file_exists($_SERVER["DOCUMENT_ROOT"] . "/pk/images/studphoto/id" . $_dat['ID'] . ".jpg"))
-						{ echo "<img src='../images/studphoto/id" . $_dat['ID'] . ".jpg' width='120px' height='160px' alt='รูปถ่ายนักเรียน' style='border:1px solid #000000'/><br/>"; }
+			<? if(file_exists($_student_img_path . "/id" . $_dat['ID'] . ".jpg"))
+						{ echo "<img src='../images" . $_img_student_folder . "/id" . $_dat['ID'] . ".jpg' width='120px' height='160px' alt='รูปถ่ายนักเรียน' style='border:1px solid #000000'/><br/>"; }
 						else 
 						{echo "<img src='../images/" . ($_dat['SEX']==1?"_unknown_male":"_unknown_female") . ".png' width='120px' height='160px' alt='รูปถ่ายนักเรียน' style='border:1px solid #CC0CC0'/><br/>"; } ?>
 		</td>

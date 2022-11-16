@@ -15,6 +15,7 @@
 			{
 				$acadsemester = $_REQUEST['acadsemester'];
 			}
+
 		?>
 		ปีการศึกษา<?php  
 					echo "<a href=\"index.php?option=module_history/studentListPics&acadyear=" . ($acadyear - 1) . "\"><img src=\"../images/pull_left.gif\" border=\"0\" /></a> " ;
@@ -108,8 +109,8 @@
 				echo "<td align='center' width='160px'>";
 				echo "<font color='red'><b>$ordinal</b></font>
 						<a href='index.php?option=module_history/studentEditPics&student_id=" . $dat['id'] ."&acadyear=" . $acadyear . "&roomID=". $_POST['roomID'] . "'> ";
-				if(file_exists($_SERVER["DOCUMENT_ROOT"] . "/pk/images/studphoto/id" . $dat['id'] . ".jpg"))
-					{ echo "<img src='../images/studphoto/id" . $dat['id'] . ".jpg' width='120px' height='160px' alt='รูปถ่ายนักเรียน' style='border:1px solid #CC0CC0'/></a><br/>"; }
+				if(file_exists($_student_img_path . "id" . $dat['id'] . ".jpg"))
+					{ echo "<img src='../images" . $_img_student_folder . "/id" . $dat['id'] . ".jpg' width='120px' height='160px' alt='รูปถ่ายนักเรียน' style='border:1px solid #CC0CC0'/></a><br/>"; }
 				else 
 					{echo "<img src='../images/" . ($dat['sex']==1?"_unknown_male":"_unknown_female") . ".png' width='120px' height='160px' alt='รูปถ่ายนักเรียน' style='border:1px solid #CC0CC0'/></a><br/>"; }
 				echo "" . $dat['id'] . "- [". displayPoint($dat['nickname']) . "]<br/>" ;
