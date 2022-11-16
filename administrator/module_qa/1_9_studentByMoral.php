@@ -55,7 +55,7 @@
 							<td class="key" width="70px" align="center">ชุมชน</td>
 							<td class="key" width="70px" align="center">กิจกรรมภายใน</td>
 						</tr>
-						<?	$_a;$_b;$_c;$_d;$_e; $_sum; ?>
+						<?	$_a=0;$_b=0;$_c=0;$_d=0;$_e=0; $_sum=0; ?>
 						<?	while($_dat = mysqli_fetch_assoc($_result)){ ?>
 						<tr>
 							<td style="padding-left:10px;"><?=$_dat['moral_description']?></td>

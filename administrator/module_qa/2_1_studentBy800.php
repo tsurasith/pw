@@ -27,7 +27,7 @@
   </form>
 <br/>
 <? $_sql = "select timecheck_id,count(a.id) as 'count' from students a left outer join student_800 on (a.id = student_id) ";?>
-<? $_sql .= " where  xedbe = '" . $acadyear . "' and acadyear = '" . $acadyear . "' " . ($_POST['studstatus']=="1,2"?"and studstatus in (1,2) ":"") . "  group by timecheck_id ";?>
+<? $_sql .= " where  xedbe = '" . $acadyear . "' and acadyear = '" . $acadyear . "' " . (isset($_POST['studstatus'])=="1,2"?"and studstatus in (1,2) ":"") . "  group by timecheck_id ";?>
 <? $_result = mysqli_query($_connection,$_sql); ?>
 <? if(mysqli_num_rows($_result)>0) { ?>
 		<table class="admintable" width="100%"  cellpadding="1" cellspacing="1" border="0" align="center">
@@ -35,7 +35,7 @@
 				<th align="center">
 					<img src="../images/school_logo.png" width="120px"><br/><br/>
 					การเช็คนักเรียนเข้าร่วมกิจกรรมหน้าเสาธง ปีการศึกษา <?=$acadyear?><br/>
-					<? $_resTotal = mysqli_query($_connection,"select count(a.id) as 'total' from students a left outer join student_800 on (a.id = student_id) where  xedbe = '" . $acadyear . "' and acadyear = '" .$acadyear."' " . ($_POST['studstatus']=="1,2"?"and studstatus in (1,2) ":""));?>
+					<? $_resTotal = mysqli_query($_connection,"select count(a.id) as 'total' from students a left outer join student_800 on (a.id = student_id) where  xedbe = '" . $acadyear . "' and acadyear = '" .$acadyear."' " . (isset($_POST['studstatus'])=="1,2"?"and studstatus in (1,2) ":""));?>
 					<? $_total = mysqli_fetch_assoc($_resTotal); ?>
 				</th>
 			</tr>
@@ -50,7 +50,7 @@
 							<td class="key" width="70px" align="center">รวม</td>
 							<td class="key" width="100px" align="center">คิดเป็นร้อยละ</td>
 						</tr>
-						<?	$_sum; ?>
+						<?	$_sum=0; ?>
 						<?	while($_dat = mysqli_fetch_assoc($_result)){ ?>
 						<tr>
 							<td style="padding-left:25px;"><?=displayTimecheckID($_dat['timecheck_id'])?></td>

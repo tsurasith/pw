@@ -32,7 +32,7 @@
   </table>
   </form>
 <br/>
-<? if($_POST['studstatus'] != ""){ ?>
+<? if(isset($_POST['studstatus']) != ""){ ?>
 		<? mysqli_query($_connection,"set @x = (select count(*) from students where xedbe = '" . ($acadyear-1) . "')"); ?>
 		<? mysqli_query($_connection,"set @y = (select count(*) from students where xedbe = '" . $acadyear . "')"); ?>
 		<? mysqli_query($_connection,"set @z = (select count(*) from students where xedbe = '" . ($acadyear+1) . "')");?>
@@ -73,7 +73,7 @@
 									<td class="key" width="60px" align="center">จำนวน</td>
 									<td class="key" width="70px" align="center">คิดเป็น<br/>ร้อยละ</td>
 								</tr>
-								<?	$_a1;$_a2;$_b1;$_b2;$_c1;$_c2; ?>
+								<?	$_a1=0;$_a2=0;$_b1=0;$_b2=0;$_c1=0;$_c2=0; ?>
 								<?	while($_dat = mysqli_fetch_assoc($_result)){ ?>
 								<tr>
 									<td style="padding-left:10px;">มัธยมศึกษาปีที่ <?=$_dat['xlevel']==3?$_dat['xyearth']:$_dat['xyearth']+3?></td>

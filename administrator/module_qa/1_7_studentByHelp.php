@@ -31,24 +31,29 @@
   </table>
   </form>
 <br/>
-<? $_text = ($_POST['type']=="cripple"?"cripple":"absent"); ?>
+<?  $_text = "";
+	$_text = isset($_POST['type'])=="cripple"?"cripple":"absent";
+
+?>
 <? $_sql = "select ".$_text."_description as 'desc',
 				sum(if(sex=1 && xlevel = 3,1,0)) as 'am',
 				sum(if(sex=2 && xlevel = 3,1,0)) as 'af',
 				sum(if(sex=1 && xlevel = 4,1,0)) as 'bm',
 				sum(if(sex=2 && xlevel = 4,1,0)) as 'bf',
 				count(sex) as 'sum'
-			from ref_".($_POST['type']=="cripple"?"cripple":"studabsent")." right outer join students 
-			on (".$_text."_id = ".($_POST['type']=="cripple"?"cripple":"studabsent").")
-			where xedbe = '" . $acadyear . "' group by ".($_POST['type']=="cripple"?"cripple":"studabsent") ;?>			
+			from ref_".($_text=="cripple"?"cripple":"studabsent")." right outer join students 
+			on (".$_text."_id = ".($_text=="cripple"?"cripple":"studabsent").")
+			where xedbe = '" . $acadyear . "' ";
+	$_sql .= (isset($_POST['studstatus'])=="1,2"?" and studstatus in (1,2) ":"");
+	$_sql .= " group by ".($_text=="cripple"?"cripple":"studabsent") ;?>			
 <? $_result = mysqli_query($_connection,$_sql); ?>
 <? if(mysqli_num_rows($_result)>0) { ?>
 		<table class="admintable" width="100%"  cellpadding="1" cellspacing="1" border="0" align="center">
 			<tr> 
 				<th align="center">
 					<img src="../images/school_logo.png" width="120px"><br/><br/>
-					ข้อมูลนักเรียนด้าน<?=$_POST['type']=="cripple"?"ร่างกายและความพิการ":"ความขาดแคลน"?> ปีการศึกษา <?=$acadyear?><br/>
-					<? $_resTotal = mysqli_query($_connection,"select count(id) as 'total' from students where xedbe = '" . $acadyear . "'" . ($_POST['studstatus']=="1,2"?"and studstatus in (1,2) ":""));?>
+					ข้อมูลนักเรียนด้าน<?=$_text=="cripple"?"ร่างกายและความพิการ":"ความขาดแคลน"?> ปีการศึกษา <?=$acadyear?><br/>
+					<? $_resTotal = mysqli_query($_connection,"select count(id) as 'total' from students where xedbe = '" . $acadyear . "'" . (isset($_POST['studstatus'])=="1,2"?"and studstatus in (1,2) ":""));?>
 					<? $_total = mysqli_fetch_assoc($_resTotal); ?>
 				</th>
 			</tr>
@@ -70,7 +75,7 @@
 							<td class="key" width="50px" align="center">ชาย</td>
 							<td class="key" width="50px" align="center">หญิง</td>
 						</tr>
-						<?	$_am;$_af;$_bm;$_bf; $_sum; ?>
+						<?	$_am=0;$_af=0;$_bm=0;$_bf=0; $_sum=0; ?>
 						<?	while($_dat = mysqli_fetch_assoc($_result)){ ?>
 						<tr>
 							<td style="padding-left:10px;" align="left"><?=trim($_dat['desc'])!=""?$_dat['desc']:"ยังไม่บันทึกข้อมูล"?></td>

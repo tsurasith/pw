@@ -40,7 +40,7 @@
 			  sum(if(month(check_date)='03',1,0)) as 'mar',
 			  count(check_date) as 'sum'
 			from student_800 left outer join students on (student_id = id)
-			where acadyear = '" . $acadyear . "' ". ($_POST['studstatus']=="1,2"?" and studstatus in (1,2)":"") . "
+			where acadyear = '" . $acadyear . "' ". (isset($_POST['studstatus'])=="1,2"?" and studstatus in (1,2)":"") . "
 				and timecheck_id = 04 and xedbe = '" . $acadyear . "' group by class_id";?>
 <? $_result = mysqli_query($_connection,$_sql); ?>
 <? if(mysqli_num_rows($_result)>0) { ?>
@@ -49,7 +49,7 @@
 				<th align="center">
 					<img src="../images/school_logo.png" width="120px"><br/><br/>
 					แสดงการมาเรียนของผู้เรียนในแต่ละห้องเรียน ปีการศึกษา <?=$acadyear?><br/>
-					<? $_resTotal = mysqli_query($_connection,"select count(student_id) as 'total' from student_800 left outer join students on (student_id = id) where acadyear = '" . $acadyear . "' ". ($_POST['studstatus']=="1,2"?" and studstatus in (1,2)":"") . " and xedbe = '" . $acadyear . "' ");?>
+					<? $_resTotal = mysqli_query($_connection,"select count(student_id) as 'total' from student_800 left outer join students on (student_id = id) where acadyear = '" . $acadyear . "' ". (isset($_POST['studstatus'])=="1,2"?" and studstatus in (1,2)":"") . " and xedbe = '" . $acadyear . "' ");?>
 					<? $_total = mysqli_fetch_assoc($_resTotal); ?>
 				</th>
 			</tr>
@@ -57,7 +57,7 @@
 			<tr>
 				<td>
 					<? $_resDateCount = mysqli_query($_connection,"select distinct task_date from student_800_task where acadyear = '" . $acadyear . "'");?>
-					<? $_resStudentCount = mysqli_query($_connection,"select id from students where xedbe = '" . $acadyear . "'" . ($_POST['studstatus']=="1,2"?" and studstatus in (1,2)":""));?>
+					<? $_resStudentCount = mysqli_query($_connection,"select id from students where xedbe = '" . $acadyear . "'" . (isset($_POST['studstatus'])=="1,2"?" and studstatus in (1,2)":""));?>
 					<ul>
 						<li>จำนวนห้องเรียนในปีการศึกษา <?=displayText($acadyear)?> มีทั้งหมดจำนวน <?=displayText(mysqli_num_rows($_result))?> ห้องเรียน</li>
 						<li>จำนวนวันที่ต้องเรียนต้องมาเรียนทั้งหมดจำนวน <?=displayText(mysqli_num_rows($_resDateCount))?> วัน</li>

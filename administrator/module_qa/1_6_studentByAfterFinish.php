@@ -62,7 +62,7 @@
 							<td class="key" width="50px" align="center">จำนวน</td>
 							<td class="key" width="50px" align="center">ร้อยละ</td>
 						</tr>
-						<?	$_learn; $_work; $_other; $_sum; ?>
+						<?	$_learn=0; $_work=0; $_other=0; $_sum=0; ?>
 						<?	while($_dat = mysqli_fetch_assoc($_result)){ ?>
 						<tr>
 							<td style="padding-left:10px;">มัธยมศึกษาปีที่ <?=$_dat['xlevel']==3?$_dat['xyearth']:$_dat['xyearth']+3?></td>

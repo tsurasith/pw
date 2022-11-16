@@ -27,7 +27,7 @@
   </form>
 <br/>
 <? $_sql = "select xlevel,xyearth, sum(if(sex=1,1,0)) as 'male', sum(if(sex=2,1,0)) as 'female', count(sex) as 'sum' ";?>
-<? $_sql .= " from students where xedbe = '" . $acadyear . "' " . ($_POST['studstatus']=="1,2"?"and studstatus in (1,2) ":"") . "  group by xlevel,xyearth ";?>
+<? $_sql .= " from students where xedbe = '" . $acadyear . "' " . (isset($_POST['studstatus'])=="1,2"?"and studstatus in (1,2) ":"") . "  group by xlevel,xyearth ";?>
 <? $_result = mysqli_query($_connection,$_sql); ?>
 <? if(mysqli_num_rows($_result)>0) { ?>
 		<table class="admintable" width="100%"  cellpadding="1" cellspacing="1" border="0" align="center">
@@ -35,7 +35,7 @@
 				<th align="center">
 					<img src="../images/school_logo.png" width="120px"><br/><br/>
 					จำนวนนักเรียนทุกระดับชั้น ปีการศึกษา <?=$acadyear?><br/>
-					<? $_resTotal = mysqli_query($_connection,"select count(id) as 'total' from students where xedbe = '" . $acadyear . "'" . ($_POST['studstatus']=="1,2"?"and studstatus in (1,2) ":""));?>
+					<? $_resTotal = mysqli_query($_connection,"select count(id) as 'total' from students where xedbe = '" . $acadyear . "'" . (isset($_POST['studstatus'])=="1,2"?"and studstatus in (1,2) ":""));?>
 					<? $_total = mysqli_fetch_assoc($_resTotal); ?>
 				</th>
 			</tr>
@@ -52,7 +52,7 @@
 							<td class="key" width="70px" align="center">รวม</td>
 							<td class="key" width="100px" align="center">คิดเป็นร้อยละ</td>
 						</tr>
-						<?	$_male; $_female; $_sum; ?>
+						<?	$_male=0; $_female=0; $_sum=0; ?>
 						<?	while($_dat = mysqli_fetch_assoc($_result)){ ?>
 						<tr>
 							<td style="padding-left:10px;">มัธยมศึกษาปีที่ <?=$_dat['xlevel']==3?$_dat['xyearth']:$_dat['xyearth']+3?></td>
