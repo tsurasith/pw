@@ -1,4 +1,9 @@
 ﻿
+<?php
+	include("../include/config.upload.php");
+?>
+
+
 <div id="content">
 <table width="100%" border="0" align="center" cellpadding="0" cellspacing="10" class="header">
   <tr>
@@ -20,7 +25,7 @@
 	</tr>
 	<tr>
 		<td rowspan="12" width="160px" valign="top" align="center" class="key"><br/>
-			<img src="../images/teacphoto/TC<?=$_dat['TeacCode']?>.jpg" width="140px" height="190px" alt="รูปภาพที่ใช้ในระบบ" />
+			<img src="../images<?=$_img_teacher_folder;?>/TC<?=$_dat['TeacCode']?>.jpg" width="140px" height="190px" alt="รูปภาพที่ใช้ในระบบ" />
 			<br/>
 			<a href="index.php?option=module_profile/AdminEditPic&teacher_code=<?=$_dat['TeacCode']?>">เปลี่ยนรูปภาพ</a>
 		</td>
