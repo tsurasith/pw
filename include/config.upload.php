@@ -16,7 +16,8 @@
     $_img_teacher_folder = "/teacphoto";
     $_img_parent_folder  = "/aphoto";
     $_img_father_folder  = "/papaphoto";
-    $_img_mother_folder = "/mamaphoto";
+    $_img_mother_folder  = "/mamaphoto";
+    $_img_student_home   = "/studhome";
 
     $_target = $_SERVER["DOCUMENT_ROOT"];
 
@@ -25,5 +26,8 @@
     $_parent_img_path   = $_target . $_img_root_folder . $_img_parent_folder . "/";
     $_father_img_path   = $_target . $_img_root_folder . $_img_father_folder . "/";
     $_mother_img_path   = $_target . $_img_root_folder . $_img_mother_folder . "/";
+    $_student_img_path  = $_target . $_img_root_folder . $_img_student_home  . "/";
+
+    
     
 ?>

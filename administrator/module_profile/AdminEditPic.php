@@ -1,7 +1,5 @@
 ﻿<?php
 
-//include("../include/config.upload.php");
-$_target = $_target . $_img_root_folder . $_img_teacher_folder . "/";
 
 $_teacherCode = (isset($_REQUEST['teacher_code']))?$_REQUEST['teacher_code']:$_POST['teacher_code'];
 
@@ -20,11 +18,11 @@ if(isset($_POST['upload']))
 		}
 		else
 		{
-			@unlink($_target . "TC" . $_teacherCode . ".jpg");
-			move_uploaded_file($_FILES["file"]["tmp_name"], $_target . $_FILES["file"]["name"]);
+			@unlink($_teacher_img_path . "TC" . $_teacherCode . ".jpg");
+			move_uploaded_file($_FILES["file"]["tmp_name"], $_teacher_img_path . $_FILES["file"]["name"]);
 			if($_FILES["file"]["name"] != ( "TC" . $_teacherCode . ".jpg"))
 			{
-				rename($_target . $_FILES["file"]["name"] , $_target . "TC" . $_teacherCode . ".jpg");
+				rename($_teacher_img_path . $_FILES["file"]["name"] , $_teacher_img_path . "TC" . $_teacherCode . ".jpg");
 				$_uploadError = 4; // upload Complete	
 			}
 		}
@@ -57,7 +55,7 @@ if(isset($_POST['upload']))
 			<tr>
 				<td width="140" valign="top" align="right" class="key">รูปภาพ</td>
 				<td class="key">
-					<img src="../images/teacphoto/TC<?=$_teacherCode?>.jpg" width="150px" height="200" border="1"><br/>
+					<img src="../images<?=$_img_teacher_folder?>/TC<?=$_teacherCode?>.jpg" width="150px" height="200" border="1"><br/>
 					<br/>
 					รูปภาพส่วนตัวที่อัพโหลดควรมีขนาด กว้าง 200 pixel สูง 266 pixel <br/>
 					และมีรูปแบบไฟล์เป็น .jpg <br/>

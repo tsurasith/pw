@@ -51,7 +51,7 @@
 			<td><?=$_dat['password']?></td>
 			<td align="center">
 				<a href="index.php?option=module_config/userAddPics&teacher_code=<?=$_dat['TeacCode']?>">
-					<? if(file_exists($_SERVER["DOCUMENT_ROOT"] . "/pk/images/teacphoto/TC" . $_dat['TeacCode'] .".jpg")) { ?>
+					<? if(file_exists($_teacher_img_path . "/TC" . $_dat['TeacCode'] .".jpg")) { ?>
 						<img src="../images/apply.png" width="16px" alt="คลิกเพื่อแก้ไขรูปถ่ายของบัญชีผู้ใช้" />
 					<? } else { ?>
 						<img src="../images/delete.png" width="16px" alt="คลิกเพื่อแก้ไขรูปถ่ายของบัญชีผู้ใช้" />
