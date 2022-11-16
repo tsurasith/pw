@@ -52,10 +52,10 @@
 				from students
 				where xedbe = '" . $acadyear . "' "; ?>
 	<? $_sqlTotal = "select count(*) as 'xx' from students where xedbe = '" . $acadyear . "' "; ?>
-	<? $_sqlTotal .= ($_POST['studstatus']=="1,2"?" and studstatus in (1,2) ":"") ; ?>
+	<? $_sqlTotal .= (isset($_POST['studstatus'])=="1,2"?" and studstatus in (1,2) ":"") ; ?>
 	<? $_sqlTotal .= ($_POST['roomID']!="all"?" and xlevel = '" . substr($_POST['roomID'],0,1) . "' and xyearth = '" . substr($_POST['roomID'],2,1) . "'":"");?>
 	
-	<? $_sql .= ($_POST['studstatus']=="1,2"?" and studstatus in (1,2) ":"") ; ?>
+	<? $_sql .= (isset($_POST['studstatus'])=="1,2"?" and studstatus in (1,2) ":"") ; ?>
 	<? $_sql .= ($_POST['roomID']!="all"?" and xlevel = '" . substr($_POST['roomID'],0,1) . "' and xyearth = '" . substr($_POST['roomID'],2,1) . "'":""); ?>
 	<? $_sql .=	" group by fm_status order by count(*) desc"; ?>
 	<? $_resTotal = mysqli_query($_connection,$_sqlTotal); ?>
@@ -98,14 +98,14 @@
 							<td class="key" align="center">หญิง</td>
 						</tr>
 							<? while($_dat = mysqli_fetch_assoc($_result)) { ?>
-								<? $_catXML .= "<category name='" . ($_dat['fm_status']==""?"ไม่ระบุ":displayFMStatus($_dat['fm_status'])) . "' hoverText=''/>"; ?>
+								<? $_catXML .= "<category name='" . ($_dat['fm_status']==""?"ไม่ระบุ":displayFMStatus($_connection,$_dat['fm_status'])) . "' hoverText=''/>"; ?>
 								<? $_color = getFCColor(); ?>
 								<? $_setA .= "<set value='" . $_dat['male'] . "' color = '" . $_color . "' />"; ?>
 								<? $_setB .= "<set value='" . $_dat['female'] . "' color = '" . $_color . "' />"; ?>
-								<? $_xmlPie .= "<set value='" . ($_dat['male']+$_dat['female']) . "' name='" .($_dat['fm_status']==""?"ไม่ระบุ":displayFMStatus($_dat['fm_status'])). "' color='" . $_color . "'/>"; ?>
+								<? $_xmlPie .= "<set value='" . ($_dat['male']+$_dat['female']) . "' name='" .($_dat['fm_status']==""?"ไม่ระบุ":displayFMStatus($_connection,$_dat['fm_status'])). "' color='" . $_color . "'/>"; ?>
 								<? $_m += $_dat['male']; $_f +=$_dat['female']; $_t += $_dat['total']; ?>
 								<tr>
-									<td align="left" style="padding-left:15px;"><?=$_dat['fm_status']==""?"ไม่ระบุ":displayFMStatus($_dat['fm_status'])?></td>
+									<td align="left" style="padding-left:15px;"><?=$_dat['fm_status']==""?"ไม่ระบุ":displayFMStatus($_connection,$_dat['fm_status'])?></td>
 									<td align="right" style="padding-right:20px;"><?=$_dat['male']==0?"-":number_format($_dat['male'],0,'',',')?></td>
 									<td align="right" style="padding-right:20px;"><?=$_dat['female']==0?"-":number_format($_dat['female'],0,'',',')?></td>
 									<td align="right" style="padding-right:20px;"><?=$_dat['total']==0?"-":number_format($_dat['total'],0,'',',')?></td>

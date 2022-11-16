@@ -52,10 +52,10 @@
 				from students
 				where xedbe = '" . $acadyear . "' "; ?>
 	<? $_sqlTotal = "select count(*) as 'xx' from students where xedbe = '" . $acadyear . "' "; ?>
-	<? $_sqlTotal .= ($_POST['studstatus']=="1,2"?" and studstatus in (1,2) ":"") ; ?>
+	<? $_sqlTotal .= (isset($_POST['studstatus'])=="1,2"?" and studstatus in (1,2) ":"") ; ?>
 	<? $_sqlTotal .= ($_POST['roomID']!="all"?" and xlevel = '" . substr($_POST['roomID'],0,1) . "' and xyearth = '" . substr($_POST['roomID'],2,1) . "'":"");?>
 	
-	<? $_sql .= ($_POST['studstatus']=="1,2"?" and studstatus in (1,2) ":"") ; ?>
+	<? $_sql .= (isset($_POST['studstatus'])=="1,2"?" and studstatus in (1,2) ":"") ; ?>
 	<? $_sql .= ($_POST['roomID']!="all"?" and xlevel = '" . substr($_POST['roomID'],0,1) . "' and xyearth = '" . substr($_POST['roomID'],2,1) . "'":""); ?>
 	<? $_sql .=	" group by inservice order by count(*) desc"; ?>
 	<? $_resTotal = mysqli_query($_connection,$_sqlTotal); ?>

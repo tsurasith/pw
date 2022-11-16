@@ -58,8 +58,8 @@
 					count(timecheck_id) as 'total'
 			from students a right outer join student_800 b on (a.id = b.student_id)
 			where xedbe = '" . $acadyear . "' and acadyear = '" . $acadyear . "' and acadsemester = '" . $acadsemester . "'"; ?>
-	<? $_sql .= ($_POST['studstatus']=="1,2"?" and studstatus in (1,2) ":"") ; ?>
-	<? $_sql .=	" group by p_tumbol order by 1 desc"; ?>
+	<? $_sql .= (isset($_POST['studstatus'])=="1,2"?" and studstatus in (1,2) ":"") ; ?>
+	<? $_sql .=	" group by p_tumbol order by convert(p_tumbol using tis620) "; ?>
 	<? $_result = mysqli_query($_connection,$_sql); ?>
 	<? if(mysqli_num_rows($_result)>0){ ?>
 	<? $_xmlColumn = "<?xml version='1.0' encoding='UTF-8' ?>";

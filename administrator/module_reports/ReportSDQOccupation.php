@@ -65,7 +65,7 @@
 	<? $_sql = makeSQL($_POST['questioner'],$_POST['type']); ?>
 	
 	<? $_sql .= " where xedbe = '" . $acadyear . "' and acadyear = '" . $acadyear . "' and acadsemester = '" . $acadsemester . "' and questioner = '" . $_POST['questioner'] . "' "; ?>
-	<? $_sql .= ($_POST['studstatus']=="1,2"?" and studstatus in (1,2) ":"") ; ?>
+	<? $_sql .= (isset($_POST['studstatus'])=="1,2"?" and studstatus in (1,2) ":"") ; ?>
 	<? $_sql .=	" group by a_occupation order by count(*) desc"; ?>
 	<? //echo $_sql; ?>
 	<? $_result = mysqli_query($_connection,$_sql); ?>

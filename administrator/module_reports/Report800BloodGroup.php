@@ -57,7 +57,7 @@
 					count(timecheck_id) as 'total'
 			from students a right outer join student_800 b on (a.id = b.student_id)
 			where xedbe = '" . $acadyear . "' and acadyear = '" . $acadyear . "' and acadsemester = '" . $acadsemester . "'"; ?>
-	<? $_sql .= ($_POST['studstatus']=="1,2"?" and studstatus in (1,2) ":"") ; ?>
+	<? $_sql .= (isset($_POST['studstatus'])=="1,2"?" and studstatus in (1,2) ":"") ; ?>
 	<? $_sql .=	" group by blood_group order by 1 desc"; ?>
 	<? $_result = mysqli_query($_connection,$_sql); ?>
 	<? if(mysqli_num_rows($_result)>0){ ?>

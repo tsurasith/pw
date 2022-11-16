@@ -65,7 +65,7 @@
 	<? $_sql = makeSQL($_POST['questioner'],$_POST['type']); ?>
 	
 	<? $_sql .= " where xedbe = '" . $acadyear . "' and acadyear = '" . $acadyear . "' and acadsemester = '" . $acadsemester . "' and questioner = '" . $_POST['questioner'] . "' "; ?>
-	<? $_sql .= ($_POST['studstatus']=="1,2"?" and studstatus in (1,2) ":"") ; ?>
+	<? $_sql .= (isset($_POST['studstatus'])=="1,2"?" and studstatus in (1,2) ":"") ; ?>
 	<? $_sql .=	" group by a_earn < 30000,a_earn between 30000 and 50000,a_earn between 50001 and 90000,
 							a_earn between 90001 and 120000,a_earn between 120001 and 150000,
 							a_earn between 150001 and 200000,a_earn>200000 order by 1 desc"; ?>

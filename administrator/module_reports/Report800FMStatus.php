@@ -58,7 +58,7 @@
 					count(timecheck_id) as 'total'
 			from students a right outer join student_800 b on (a.id = b.student_id)
 			where xedbe = '" . $acadyear . "' and acadyear = '" . $acadyear . "' and acadsemester = '" . $acadsemester . "'"; ?>
-	<? $_sql .= ($_POST['studstatus']=="1,2"?" and studstatus in (1,2) ":"") ; ?>
+	<? $_sql .= (isset($_POST['studstatus'])=="1,2"?" and studstatus in (1,2) ":"") ; ?>
 	<? $_sql .=	" group by fm_status order by 2 desc"; ?>
 	<? $_result = mysqli_query($_connection,$_sql); ?>
 	<? if(mysqli_num_rows($_result)>0){ ?>
@@ -99,16 +99,16 @@
 						</tr>
 							<? while($_dat = mysqli_fetch_assoc($_result)) { ?>
 								<? if($_dat['sum']>0){ ?>
-									<? $_catXML .= "<category name='" . ($_dat['fm_status']==""?"ไม่ระบุ":displayFMstatus($_dat['fm_status'])) . "' hoverText=''/>"; ?>
+									<? $_catXML .= "<category name='" . ($_dat['fm_status']==""?"ไม่ระบุ":displayFMstatus($_connection,$_dat['fm_status'])) . "' hoverText=''/>"; ?>
 									<? $_color = getFCColor(); ?>
 									<? $_setA .= "<set value='" . $_dat['male'] . "' color = '" . $_color . "' />"; ?>
 									<? $_setB .= "<set value='" . $_dat['female'] . "' color = '" . $_color . "' />"; ?>
-									<? $_xmlPie .= "<set value='" . (100*$_dat['sum']/$_dat['total']) . "' name='" .($_dat['fm_status']==""?"ไม่ระบุ":displayFMstatus($_dat['fm_status'])). "' color='" . $_color . "'/>"; ?>
+									<? $_xmlPie .= "<set value='" . (100*$_dat['sum']/$_dat['total']) . "' name='" .($_dat['fm_status']==""?"ไม่ระบุ":displayFMstatus($_connection,$_dat['fm_status'])). "' color='" . $_color . "'/>"; ?>
 								<? } //end ตรวจสอบข้อมูลว่างไม่ให้แสดงที่แผนภูมิ ?>
 								<? $_m += $_dat['male']; $_f +=$_dat['female']; $_x += $_dat['sum'];
 									$_s += $_dat['student']; $_t += $_dat['total']; ?>
 								<tr>
-									<td align="left" style="padding-left:15px;"><?=$_dat['fm_status']==""?"ไม่ระบุ":displayFMstatus($_dat['fm_status'])?></td>
+									<td align="left" style="padding-left:15px;"><?=$_dat['fm_status']==""?"ไม่ระบุ":displayFMstatus($_connection,$_dat['fm_status'])?></td>
 									<td align="right" style="padding-right:20px;"><?=$_dat['student']==0?"-":number_format($_dat['student'],0,'',',')?></td>
 									<td align="right" style="padding-right:20px;"><?=$_dat['male']==0?"-":number_format($_dat['male'],0,'',',')?></td>
 									<td align="right" style="padding-right:20px;"><?=$_dat['female']==0?"-":number_format($_dat['female'],0,'',',')?></td>

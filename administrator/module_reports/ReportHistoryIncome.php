@@ -52,7 +52,7 @@
 				  sum(if(".$_POST['income']." is null,1,0)) as 'null',
 				  count(*) as 'total'
 				from students where xedbe = '" . $acadyear . "' "; ?>
-	<? $_sql .= ($_POST['studstatus']=="1,2"?" and studstatus in (1,2) ":"") ; ?>
+	<? $_sql .= (isset($_POST['studstatus'])=="1,2"?" and studstatus in (1,2) ":"") ; ?>
 	<? $_sql .=	" group by xlevel,xyearth order by 1,2 "; ?>	
 	<? $_result = mysqli_query($_connection,$_sql); ?>
 	<? $_30k=0; $_50k=0; $_90k=0; $_120k=0; $_150k=0; $_200k=0; $_201k=0; $_null=0; $_t=0; ?>
