@@ -109,7 +109,8 @@
 				echo "<td align='center' width='160px'>";
 				echo "<font color='red'><b>$ordinal</b></font>
 						<a href='index.php?option=module_history/studentEditPics&student_id=" . $dat['id'] ."&acadyear=" . $acadyear . "&roomID=". $_POST['roomID'] . "'> ";
-				if(file_exists($_student_img_path . "id" . $dat['id'] . ".jpg"))
+				$_img_file = $_student_img_path . "id" . $dat['id'] . ".jpg";		
+				if(file_exists($_img_file))
 					{ echo "<img src='../images" . $_img_student_folder . "/id" . $dat['id'] . ".jpg' width='120px' height='160px' alt='รูปถ่ายนักเรียน' style='border:1px solid #CC0CC0'/></a><br/>"; }
 				else 
 					{echo "<img src='../images/" . ($dat['sex']==1?"_unknown_male":"_unknown_female") . ".png' width='120px' height='160px' alt='รูปถ่ายนักเรียน' style='border:1px solid #CC0CC0'/></a><br/>"; }
