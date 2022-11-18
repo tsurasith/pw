@@ -48,7 +48,7 @@
 				<option value="all" <?=isset($_POST['roomID'])&&$_POST['roomID']=="all"?"selected":""?>> ทั้งโรงเรียน </option>
 			</select> 
 	  		<input type="submit" value="สืบค้น" class="button" name="search"/> <br/>
-            <input type="checkbox" name="failstatus" value="1" <?=$_POST['failstatus']=="1"?"checked":""?> />
+            <input type="checkbox" name="failstatus" value="1" <?=isset($_POST['failstatus'])=="1"?"checked":""?> />
              เฉพาะรายวิชาที่ยังไม่ดำเนินการแก้ไขผลการเรียน <br/>
 			<input type="checkbox" name="studstatus" value="1,2"  <?=isset($_POST['studstatus'])=="1,2"?"checked='checked'":""?> />
 			 เฉพาะนักเรียนสถานะปกติหรือสำเร็จการศึกษา
@@ -58,12 +58,17 @@
   </table>
   </form>
   <?php
+
+
+   $_roomID = "";
+   $_roomID = isset($_POST['roomID'])?$_POST['roomID']:"";
+
    $xlevel;
    $xyearth;
-   if($_POST['roomID'] != "all")
+   if($_roomID != "all")
    {
-   	 $xlevel = substr($_POST['roomID'],0,1);;
-	 $xyearth = substr($_POST['roomID'],2,1);
+   	 $xlevel = substr($_roomID,0,1);;
+	 $xyearth = substr($_roomID,2,1);
    }
   ?>
   
@@ -113,8 +118,8 @@
 							 xyearth = '" . $xyearth . "' and  ";
 		}
 			$sqlStudent .= " grade in ('0','ร','มส') ";
-		if($_POST['studstatus']=="1,2") $sqlStudent .= " and studstatus in (1,2) ";
-		if($_POST['failstatus']=="1") $sqlStudent .= " and regrade is null or regrade in ('','0','ร','มส') ";
+		if(isset($_POST['studstatus'])=="1,2") $sqlStudent .= " and studstatus in (1,2) ";
+		if(isset($_POST['failstatus'])=="1") $sqlStudent .= " and regrade is null or regrade in ('','0','ร','มส') ";
 		$sqlStudent .= "group by student_id ";
 		$sqlStudent .= "order by count(grade) desc,sex,id ";
 		

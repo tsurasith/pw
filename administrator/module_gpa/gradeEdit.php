@@ -1,4 +1,10 @@
 ﻿<?
+	$_student_id = "";
+	$_student_id = isset($_POST['student_id'])?$_POST['student_id']:"";
+
+	$_subject_id = "";
+	$_subject_id = isset($_POST['subject_id'])?$_POST['subject_id']:"";
+	
 	if(isset($_POST['regrade'])) {
 			$_sqlUpdate = " update grades 
 							set	regrade 		= '" . trim($_POST['regrade']) . "',
@@ -120,12 +126,12 @@
                     </tr>
                     <tr>
                         <th align="right">เลขประจำตัวนักเรียน :</th>
-                        <td><input type="text" name="student_id" value="<?=$_POST['student_id']?>" maxlength="5" size="10" onkeypress="return isNumberKey(event)" class="inputboxUpdate" /></td>
+                        <td><input type="text" name="student_id" value="<?=$_student_id?>" maxlength="5" size="10" onkeypress="return isNumberKey(event)" class="inputboxUpdate" /></td>
                     </tr>
                     <tr>
                         <th align="right">รหัสวิชา :</th>
                         <td>
-                            <input type="text" name="subject_id" value="<?=$_POST['subject_id']?>" maxlength="10" size="10"  class="inputboxUpdate" />
+                            <input type="text" name="subject_id" value="<?=$_student_id?>" maxlength="10" size="10"  class="inputboxUpdate" />
                         </td>
                     </tr>
                 </table>

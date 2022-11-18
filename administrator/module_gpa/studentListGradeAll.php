@@ -64,9 +64,13 @@
   </table>
   </form>
 <?php
-	  $xlevel = getXlevel($_POST['roomID']);
-	  $xyearth= getXyearth($_POST['roomID']);
-	  $room = getRoom($_POST['roomID']);
+	 
+	  $_roomID = "";
+	  $_roomID = isset($_POST['roomID'])?$_POST['roomID']:"";
+	 
+	  $xlevel = getXlevel($_roomID);
+	  $xyearth= getXyearth($_roomID);
+	  $room = getRoom($_roomID);
 ?>
 
   
@@ -109,9 +113,11 @@
 					   		students.xlevel = '". $xlevel . "' and 
 							xyearth = '" . $xyearth . "' and 
 							room = '" . $room . "'  and 
-							xedbe = '" . $acadyear . "'";
+							xedbe = '" . $acadyear . "' and 
+							grades.acadyear = '" . $acadyear . "' and
+							grades.acadsemester = '" . $acadsemester . "'";
 							// and	grade in ('0','ร','มส','') ";
-		if($_POST['studstatus']=="1,2") $sqlStudent .= " and studstatus in (1,2) ";
+		if(isset($_POST['studstatus'])=="1,2") $sqlStudent .= " and studstatus in (1,2) ";
 		$sqlStudent .= "group by student_id ";
 		$sqlStudent .= "order by sex,convert(firstname using tis620), convert(lastname using tis620) ";
 		

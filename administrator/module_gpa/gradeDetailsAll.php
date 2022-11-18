@@ -29,9 +29,16 @@
         </tr>
         <tr>
           <th colspan="10">
+            <?php
+
+              $xyearth = isset($_REQUEST['xyearth'])?$_REQUEST['xyearth']:"";
+              
+              $xlevel  = isset($_REQUEST['xlevel'])?$_REQUEST['xlevel']:"";
+              $xlevel  = $xlevel==3?$xyearth:($xyearth+3)
+            ?>
                 ผลสัมฤทธิ์ทางการเรียน<br/>
                 ภาคเรียนที่ <?=$acadsemester;?> ปีการศึกษา <?=$acadyear;?><br/>
-                ของ <?=$_REQUEST['name']?> เลขประจำตัว <?=$_REQUEST['student_id']?> นักเรียนชั้นมัธยมศึกษาปีที่ <?=$xlevel==3?$xyearth:($xyearth+3)?>/<?=$_REQUEST['room']?><br/>
+                ของ <?=$_REQUEST['name']?> เลขประจำตัว <?=$_REQUEST['student_id']?> นักเรียนชั้นมัธยมศึกษาปีที่ <?=$xlevel?>/<?=$_REQUEST['room']?><br/>
           </th>
         </tr>
         <tr> 
