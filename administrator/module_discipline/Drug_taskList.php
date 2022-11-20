@@ -108,8 +108,11 @@
 	{
 		if ($_value == 1) return "<img src='../images/apply.png' alt='บันทึกแล้ว' width='16' height='16' />";
 		else return 
-			"<a href='module_discipline/studentListForm.php?room=" . $room . "&month=" .$month . "&drugType=" . $drugType . "&acadyear=" . $year . "&acadsemester=".$semes . "'>
+			"<a href='index.php?option=module_discipline/studentListForm&room=" . $room . "&month=" .$month . "&drugType=" . $drugType . "&acadyear=" . $year . "&acadsemester=".$semes . "'>
 			<img src='../images/delete.png' alt='บันทึกแล้ว' width='16' height='16' /></a>";
 		
 	}
+
+// index.php?option=module_discipline/disciplineSanction
+
 ?>

@@ -78,9 +78,13 @@
   </table>
   <br/>
   <?php
-  	  $xlevel  = getXlevel($_POST['roomID']);
-	  $xyearth = getXyearth($_POST['roomID']);
-	  $room    = getRoom($_POST['roomID']);
+  	 
+	  $_roomID = "";
+	  $_roomID = isset($_POST['roomID'])?$_POST['roomID']:"";
+	 
+	  $xlevel  = getXlevel($_roomID);
+	  $xyearth = getXyearth($_roomID);
+	  $room    = getRoom($_roomID);
   ?>
 <table class="admintable"  cellpadding="1" cellspacing="1" border="0" align="center" width="100%" >
     <tr>

@@ -1,7 +1,6 @@
 ﻿<?php
-	include("../../include/class.mysqldb.php");
-	include("../../include/config.inc.php");
-	include("../../include/shareFunction.php");
+
+
 	if(!isset($_SESSION['pw-logined'])) {
 		echo "<meta http-equiv='refresh' content='0;url=../../index.php'>";
 	} 
@@ -24,11 +23,11 @@
 ?>
 
 <div align="center">
-<form method="post" action="../index.php?option=module_discipline/insertStudentCheck">
+<form method="post" action="index.php?option=module_discipline/insertStudentCheck">
 	<table width="800px"  align="center" cellspacing="1" class="admintable">
             <tr>
                 <td class="header" align="center">
-                    <img src="../../images/school_logo.png" width="120px"><br/>
+                    <img src="../images/school_logo.png" width="120px"><br/>
                     บันทึกการคัดกรองสารเสพติด "<font color="red"><?=displayDrug($_REQUEST['drugType'])?></font>"<br/>
                     เดือน	<font color="red"><?=displayMonth($_REQUEST['month'])?></font>
                     ห้อง <font color="red"><?=getFullRoomFormat($_REQUEST['room'])?> </font><br/>

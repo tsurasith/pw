@@ -76,16 +76,16 @@
 						while ($data = mysqli_fetch_assoc($result))
 						{
 							$sql_insert = "insert into student_drug_task values ( null,'". $_POST['date'] ."','" . $data['room_id'] . "','0','00', '" . $acadyear . "','" .$acadsemester ."') ";
-							mysqli_query($_connection,$sql_insert) or die ('Error - ' . mysqli_error());
+							mysqli_query($_connection,$sql_insert) or die ('Error - ' . mysqli_error($_connection));
 							
 							$sql_insert = "insert into student_drug_task values ( null,'". $_POST['date'] ."','" . $data['room_id'] . "','0','01', '" . $acadyear . "','" .$acadsemester ."') ";
-							mysqli_query($_connection,$sql_insert) or die ('Error - ' . mysqli_error());
+							mysqli_query($_connection,$sql_insert) or die ('Error - ' . mysqli_error($_connection));
 							
 							$sql_insert = "insert into student_drug_task values ( null,'". $_POST['date'] ."','" . $data['room_id'] . "','0','02', '" . $acadyear . "','" .$acadsemester ."') ";
-							mysqli_query($_connection,$sql_insert) or die ('Error - ' . mysqli_error());
+							mysqli_query($_connection,$sql_insert) or die ('Error - ' . mysqli_error($_connection));
 							
 							$sql_insert = "insert into student_drug_task values ( null,'". $_POST['date'] ."','" . $data['room_id'] . "','0','03', '" . $acadyear . "','" .$acadsemester ."') ";
-							mysqli_query($_connection,$sql_insert) or die ('Error - ' . mysqli_error());
+							mysqli_query($_connection,$sql_insert) or die ('Error - ' . mysqli_error($_connection));
 						}
 						echo "<font color=\"#009900\" size=\"2\" face=\"Tahoma\"><strong>บันทึกข้อมูลเรียบร้อยแล้ว</strong></font>";
 						mysqli_free_result($result);

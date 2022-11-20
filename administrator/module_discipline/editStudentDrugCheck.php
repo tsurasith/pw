@@ -18,11 +18,13 @@
 <? 
  if(isset($_POST['update'])){
 	for($_i=0;$_i<4;$_i++){
-		$_sql = "update student_drug set druglevel = '" . timecheck_id($_POST['check'][$_i]) . "'
-				 where student_id = '" . $_POST['student_id'] ."' and drugtype = '" . $_POST['drugtype'][$_i] . "' and
-					   check_date = '" . $_POST['month'] . "'";
-		//echo $_sql . "<br/>";
-		if(isset($_POST['drugtype'][$_i]) && $_POST['drugtype'][$_i] != "") mysqli_query($_connection,$_sql);
+		if(isset($_POST['check'][$_i])){
+			$_sql = "update student_drug set druglevel = '" . timecheck_id($_POST['check'][$_i]) . "'
+					where student_id = '" . $_POST['student_id'] ."' and drugtype = '" . $_POST['drugtype'][$_i] . "' and
+						check_date = '" . $_POST['month'] . "'";
+			//echo $_sql . "<br/>";
+			if(isset($_POST['drugtype'][$_i]) && $_POST['drugtype'][$_i] != "") mysqli_query($_connection,$_sql);
+		}
 	}
  } //end if 
 ?>
