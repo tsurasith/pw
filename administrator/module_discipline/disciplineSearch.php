@@ -107,23 +107,37 @@
 			where xedbe = '" .$acadyear . "' and acadyear = '" .$acadyear . "' and acadsemester = '" .$acadsemester . "' "; ?>
 	<? $_id =  (isset($_POST['student_id'])?$_POST['student_id']:$_REQUEST['student_id']); ?>
 	<? if($_id != ""){ $_sql = $_sql . " and students.id = '" . $_id . "'"; } ?>
-	<? $_level = (isset($_POST['level'])?$_POST['level']:$_REQUEST['level']);
+	<? $_level = "";
+	   $_level = isset($_POST['level'])?$_POST['level']:(isset($_REQUEST['level'])?$_REQUEST['level']:"");
 		if($_level != "" && $_level != "all")
 		{ $_sql = $_sql . " and xlevel = '" . substr($_level,0,1) . "' and xyearth = '" . substr($_level,2,1) . "'"; }
 		
-		$_firstname = (isset($_POST['firstname'])?$_POST['firstname']:$_REQUEST['firstname']);
+		$_firstname = "";
+		$_firstname = isset($_POST['firstname'])?$_POST['firstname']:"";
+		$_firstname = ($_firstname!=""?$_REQUEST['firstname']:$_firstname);
+
 		if($_firstname != ""){ $_sql .=  " and firstname like '%" . $_firstname . "%' ";}
 		
-		$_lastname = (isset($_POST['lastname'])?$_POST['lastname']:$_REQUEST['lastname']);
+
+
+		$_lastname = "";
+		$_lastname = isset($_POST['lastname'])?$_POST['lastname']:"";
+		$_lastname = ($_lastname!=""?$_REQUEST['lastname']:$_lastname);
 		if($_lastname != ""){ $_sql .=  " and lastname like '%" . $_lastname . "%' ";}
 		
-		$_date = (isset($_POST['date'])?$_POST['date']:$_REQUEST['date']);
+		$_date = "";
+		if(isset($_POST['date']))    $_date = $_POST['date'];
+		if(isset($_REQUEST['date'])) $_date = $_REQUEST['date'];
 		if($_date != ""){ $_sql .= " and dis_date = '" . $_date . "' ";}
 		
-		$_status = (isset($_POST['status'])?$_POST['status']:$_REQUEST['status']);
+		$_status = "";
+		if(isset($_POST['status']))    $_status = $_POST['status'];
+		if(isset($_REQUEST['status'])) $_status = $_REQUEST['status'];
 		if($_status != "") { $_sql .= " and student_disciplinestatus.dis_status = '" . $_status . "' ";}
 		
-		$_disID = (isset($_POST['dis_id'])?$_POST['dis_id']:$_REQUEST['dis_id']);
+		$_disID = "";
+		if(isset($_POST['dis_id']))    $_status = $_POST['dis_id'];
+		if(isset($_REQUEST['dis_id'])) $_status = $_REQUEST['dis_id'];
 		if($_disID != ""){ $_sql .=  " and student_discipline.dis_id = '" . $_disID . "' ";}
 		
 		$_sqlAll = $_sql; // นับจำนวนแถวทั้งหมด

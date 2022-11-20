@@ -35,7 +35,11 @@
 </script>
 
 <div id="content">
-<? $_disID = (isset($_POST['dis_id'])?$_POST['dis_id']:$_REQUEST['dis_id']); ?>
+<? 
+	$_disID = "";
+	if(isset($_POST['dis_id'])) $_disID = $_POST['dis_id'];
+	if(isset($_REQUEST['dis_id'])) $_disID = $_REQUEST['dis_id']; 
+?>
 <table width="100%"  align="center" border="0" cellspacing="10" cellpadding="0"  class="header">
     <tr> 
       <td width="6%" align="center"><a href="index.php?option=module_discipline/index"><img src="../images/discipline.png" alt="" width="48" height="48" border="0"/></a></td>
@@ -104,7 +108,7 @@
 				</tr>
 				<tr>
 					<td align="right" valign="top"><b>ข้อมูลนักเรียน</b></td>
-					<td ><?=studentData($_dat['dis_studentid'],$acadyear)?></td>
+					<td ><?=studentData($_connection,$_dat['dis_studentid'],$acadyear)?></td>
 				</tr>
 				<tr>
 					<td align="right" valign="top"><b>พฤติกรรมที่ไม่พึงประสงค์</b></td>
@@ -153,12 +157,12 @@
 				<tr>
 					<td align="right" valign="top"><b>ครูผู้สอบสวน</b></td>
 					<td>
-						<? $_sqlTeacher = "select teaccode,prefix,firstname,lastname from teachers where type in ('admin','teacher') order by firstname"; ?>
+						<? $_sqlTeacher = "select teaccode,prefix,firstname,lastname from teachers where type in ('admin','teacher') order by convert(firstname using tis620) "; ?>
 						<? $_resTeacher = mysqli_query($_connection,$_sqlTeacher); ?>
 						<select id="teacher" name="teacher" class="inputboxUpdate">
 							<option value=""></option>
 						<? while($_dat = mysqli_fetch_assoc($_resTeacher)){ ?>
-							<option value="<?=$_dat['prefix'].$_dat['firstname'].' '.$_dat['lastname']?>" <?=$_dat['teaccode']==$_datRoom['teacher_id']?"selected":""?> ><?=$_dat['prefix'].$_dat['firstname'].' '.$_dat['lastname']?></option>
+							<option value="<?=$_dat['prefix'].$_dat['firstname'].' '.$_dat['lastname']?>" <?=$_dat['teaccode']=="xx"?"selected":""?> ><?=$_dat['prefix'].$_dat['firstname'].' '.$_dat['lastname']?></option>
 						<? } mysqli_free_result($_resTeacher);//end while ?>
 						</select>
 					</td>
@@ -184,7 +188,7 @@
 </form>
 
 <?php
-	if(isset($_POST['save']) && $_POST['noDis'] != "nodis") {
+	if(isset($_POST['save']) && isset($_POST['noDis']) != "nodis") {
 				//update student_disciplinestatus -> status = 2 && sanc_status = 02;
 				//insert student_investigeate-> 1 Record;
 				$_sql = "update student_disciplinestatus set dis_status = 2 , sanc_status = '02' where dis_id = '" . $_POST['dis_id'] . "'";
@@ -202,11 +206,11 @@
 							ดำเนินการต่อคลิกที่ : <a href='index.php?option=module_discipline/disciplineSanction&dis_id=" .  $_POST['dis_id'] . "&acadyear=". $acadyear . "&acadsemester=". $acadsemester . "'>"
 								.  $_POST['dis_id'] ."</a></font></center>"; 
 				}
-				else{ echo "<br/><center><font color=\"red\">เกิดข้อผิดพลาด เนื่องจาก - " . mysqli_error() . "</font></center>"; }
+				else{ echo "<br/><center><font color=\"red\">เกิดข้อผิดพลาด เนื่องจาก - " . mysqli_error($_connection) . "</font></center>"; }
 	}//end if
 	else
 	{
-			if($_POST['teacher'] != "" && $_POST['invest_date'] != "" && $_POST['investigate'] != "")
+			if(isset($_POST['teacher']) != "" && $_POST['invest_date'] != "" && $_POST['investigate'] != "")
 			{
 				//update student_disciplinestatus -> status = 0 && sanc_status = 01;
 				//insert student_investigeate-> 1 Record;
@@ -224,7 +228,7 @@
 							ดำเนินการต่อคลิกที่ : <a href='index.php?option=module_discipline/disciplineFinished&dis_id=" .  $_POST['dis_id'] . "&acadyear=". $acadyear . "&acadsemester=". $acadsemester . "'>"
 								.  $_POST['dis_id'] ."</a></font></center>"; 
 				}
-				else{ echo "<br/><center><font color=\"red\">เกิดข้อผิดพลาด เนื่องจาก - " . mysqli_error() . "</font></center>"; }
+				else{ echo "<br/><center><font color=\"red\">เกิดข้อผิดพลาด เนื่องจาก - " . mysqli_error($_connection) . "</font></center>"; }
 			}
 	}
 ?>
@@ -232,7 +236,7 @@
 
 <?php
 
-	function studentData($_id,$acadyear)
+	function studentData($_connection,$_id,$acadyear)
 	{
 		$_sql = "select id,prefix,firstname,lastname,xlevel,xyearth,room,p_village from students where xedbe = '" . $acadyear  ."' and id = '". $_id . "'";
 		$_result = mysqli_query($_connection,$_sql);

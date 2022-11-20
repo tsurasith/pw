@@ -97,7 +97,7 @@
 			</tr>
 			<tr>
 				<td align="right" valign="top"><b>ข้อมูลนักเรียน</b></td>
-				<td ><?=studentData($_dat['dis_studentid'],$acadyear)?></td>
+				<td ><?=studentData($_connection,$_dat['dis_studentid'],$acadyear)?></td>
 			</tr>
 			<tr>
 				<td align="right" valign="top"><b>พฤติกรรมที่ไม่พึงประสงค์</b></td>
@@ -128,7 +128,7 @@
 			</tr>
 			<tr>
 				<td align="right" valign="top"><b>บันทึกบทลงโทษ</b></td>
-				<td><?=disSanction($_dat['dis_id'])?></td>
+				<td><?=disSanction($_connection,$_dat['dis_id'])?></td>
 			</tr>
 		</table>
 		
@@ -255,7 +255,7 @@
 
 <?php
 	
-	function studentData($_id,$acadyear)
+	function studentData($_connection,$_id,$acadyear)
 	{
 		$_sql = "select id,prefix,firstname,lastname,xlevel,xyearth,room,p_village from students where xedbe = '" . $acadyear  ."' and id = '". $_id . "'";
 		$_result = mysqli_query($_connection,$_sql);
@@ -297,7 +297,7 @@
 			default : return "ผิดพลาด";
 		}
 	}
-	function disSanction($_disID)
+	function disSanction($_connection,$_disID)
 	{
 		$_sql = "select * from student_sanction where dis_id = '" . $_disID . "' order by id ";
 		$_result = mysqli_query($_connection,$_sql);

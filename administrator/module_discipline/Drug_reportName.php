@@ -100,7 +100,7 @@
 					  and acadyear = '" . $acadyear . "' and acadsemester = '" . $acadsemester . "' and check_date = '" . $_POST['month'] . "'
 					  and xEDBE = '" . $acadyear . "'"  ;
 			if($_POST['roomID']!="all") $_sql .= " and xlevel = '" . substr($_POST['roomID'],0,1) ."' and xyearth = '" . substr($_POST['roomID'],2,1) . "' ";
-			if($_POST['studstatus']=="1,2") $_sql .= " and studstatus in (1,2) ";
+			if(isset($_POST['studstatus'])=="1,2") $_sql .= " and studstatus in (1,2) ";
 			$_sql .= " order by drugLevel,class_id,sex,id";
 			
 			@$_res = mysqli_query($_connection,$_sql);

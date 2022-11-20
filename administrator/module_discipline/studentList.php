@@ -49,9 +49,14 @@
   </table>
   </form>
 <?php
-  	  $xlevel = getXlevel($_POST['roomID']);
-	  $xyearth= getXyearth($_POST['roomID']);
-	  $room = getRoom($_POST['roomID']);
+  	  
+	  $_roomID = "";
+	  $_roomID = isset($_POST['roomID'])?$_POST['roomID']:"";
+
+
+	  $xlevel = getXlevel($_roomID);
+	  $xyearth= getXyearth($_roomID);
+	  $room = getRoom($_roomID);
 ?>
   
 <? if(isset($_POST['search']) && $_POST['roomID'] == "") { ?>
@@ -73,15 +78,17 @@
       	<td class="key" width="195px" align="center" >ชื่อ - นามสกุล</td>
       	<td class="key" width="100px"  align="center" >สถานภาพ</td>
 		<td class="key" width="95px" align="center" >คะแนน<br/>ความประพฤติ</td>
+		<td class="key" align="center" >จำนวนคดี</td>
 		<td class="key" align="center" >-</td>
     </tr>
 	<?php
-		$sqlStudent = "select id,prefix,firstname,lastname,studstatus,points
-						
-					from students 
+		$sqlStudent = "select 
+							id,prefix,firstname,lastname,studstatus,points,
+							count(dis_id) as 'dis_count'
+					from students left join student_discipline on (id = student_discipline.dis_studentid)
 					where xlevel = '". $xlevel . "' and xyearth = '" . $xyearth . "' and room = '" . $room . "'  
 					        and xedbe = '" . $acadyear . "' ";
-		if($_POST['studstatus']=="1,2") $sqlStudent .= " and studstatus in (1,2) ";
+		if(isset($_POST['studstatus'])=="1,2") $sqlStudent .= " and studstatus in (1,2) ";
 		$sqlStudent .= "group by id ";
 		$sqlStudent .= "order by sex,convert(firstname using tis620), convert(lastname using tis620) ";
 		// echo $sqlStudent;
@@ -96,6 +103,7 @@
 			<td><?=$dat['prefix'] . $dat['firstname'] . " " . $dat['lastname']?></td>
 			<td align="center"><?=displayStudentStatusColor($dat['studstatus'])?></td>
 			<td align="center"><?=displayPoint($dat['points'])?></td>
+			<td align="center"><?=$dat['dis_count']!=0?$dat['dis_count']:"-"?></td>
             <td>
             	<a href="index.php?option=module_discipline/disciplineSearch&page=1&student_id=<?=$dat['id']?>&acadyear=<?=$acadyear?>&acadsemester=<?=$acadsemester?>">
 					แสดงคดี

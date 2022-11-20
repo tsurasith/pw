@@ -90,7 +90,7 @@
 					  and xEDBE = '" . $acadyear . "'" ;
 			if($_POST['level']!="all" && $_POST['level']=="4") $_sql .= " and substr(class_id,1,1) > 3 ";
 			if($_POST['level']!="all" && $_POST['level']=="3") $_sql .= " and substr(class_id,1,1) < 4 ";
-			if($_POST['studstatus']=="1,2") $_sql .= " and studstatus in (1,2) ";
+			if(isset($_POST['studstatus'])=="1,2") $_sql .= " and studstatus in (1,2) ";
 			$_sql .= " group by drugtype  order by drugtype";
 			
 			@$_res = mysqli_query($_connection,$_sql);

@@ -109,7 +109,7 @@
 							 xyearth = '" . $xyearth . "' and  ";
 		}
 			$sqlStudent .= " grade in ('0','ร','มส') ";
-		if($_POST['studstatus']=="1,2") $sqlStudent .= " and studstatus in (1,2) ";
+		if(isset($_POST['studstatus'])=="1,2") $sqlStudent .= " and studstatus in (1,2) ";
 		$sqlStudent .= "group by student_id ";
 		$sqlStudent .= "order by count(grade) desc,sex,id ";
 		

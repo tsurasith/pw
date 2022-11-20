@@ -89,7 +89,7 @@
 					where drugType = '" . $_POST['drugType'] ."' and check_date = '" . $_POST['month'] . "'
 					  and acadyear = '" . $acadyear . "' and acadsemester = '" . $acadsemester . "'
 					  and xEDBE = '" . $acadyear . "'" ;
-			if($_POST['studstatus']=="1,2") $_sql .= " and studstatus in (1,2) ";
+			if(isset($_POST['studstatus'])=="1,2") $_sql .= " and studstatus in (1,2) ";
 			$_sql .= " group by substr(class_id,1,1)  order by class_id";
 			
 			@$_res = mysqli_query($_connection,$_sql);

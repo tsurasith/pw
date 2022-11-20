@@ -21,7 +21,11 @@ function checkFormValue()
 </script>
 
 <div id="content">
-	<? $_disID = isset($_POST['dis_id'])?$_POST['dis_id']:$_REQUEST['dis_id']; ?>
+<? 
+	$_disID = "";
+	if(isset($_POST['dis_id'])) $_disID = $_POST['dis_id'];
+	if(isset($_REQUEST['dis_id'])) $_disID = $_REQUEST['dis_id']; 
+?>
   <table width="100%"  align="center" border="0" cellspacing="10" cellpadding="0"  class="header">
     <tr> 
       <td width="6%" align="center"><a href="index.php?option=module_discipline/index"><img src="../images/discipline.png" alt="" width="48" height="48" border="0"/></a></td>
@@ -89,7 +93,7 @@ function checkFormValue()
 				</tr>
 				<tr>
 					<td align="right" valign="top"><b>ข้อมูลนักเรียน</b></td>
-					<td><?=studentData($_dat['dis_studentid'],$acadyear)?></td>
+					<td><?=studentData($_connection,$_dat['dis_studentid'],$acadyear)?></td>
 				</tr>
 				<tr>
 					<td align="right" valign="top"><b>พฤติกรรมที่ไม่พึงประสงค์</b></td>
@@ -203,7 +207,7 @@ function checkFormValue()
 								.  $_POST['dis_id'] ."</a>
 							</font></center>"; 
 				}
-				else { echo "<br/><font color='red'><center>เกิดข้อผิดพลาด เนื่องจาก - " . mysqli_error() . "</center></font>"; }
+				else { echo "<br/><font color='red'><center>เกิดข้อผิดพลาด เนื่องจาก - " . mysqli_error($_connection) . "</center></font>"; }
 			}//end else if user click refresh button
 	}//end if submit data
 ?>
@@ -212,7 +216,7 @@ function checkFormValue()
 
 <?php
 	
-	function studentData($_id,$acadyear)
+	function studentData($_connection,$_id,$acadyear)
 	{
 		$_sql = "select id,prefix,firstname,lastname,xlevel,xyearth,room,p_village from students where xedbe = '" . $acadyear  ."' and id = '". $_id . "'";
 		$_result = mysqli_query($_connection,$_sql);

@@ -95,7 +95,7 @@
 					from students right outer join student_disciplinestatus on (id = student_id)
 					where xlevel = '". $xlevel . "' and xyearth = '" . $xyearth . "' and room = '" . $room . "'  and xedbe = '" . $acadyear . "' 
 							and acadyear = '" . $acadyear . "' and acadsemester = '" . $acadsemester . "' ";
-		if($_POST['studstatus']=="1,2") $sqlStudent .= " and studstatus in (1,2) ";
+		if(isset($_POST['studstatus'])=="1,2") $sqlStudent .= " and studstatus in (1,2) ";
 		$sqlStudent .= "group by id ";
 		$sqlStudent .= "order by sex,convert(firstname using tis620), convert(lastname using tis620) ";
 		// echo $sqlStudent;

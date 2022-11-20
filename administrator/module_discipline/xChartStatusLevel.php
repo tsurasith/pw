@@ -25,6 +25,9 @@
 					else {
 						echo " <a href=\"index.php?option=module_discipline/xChartStatusLevel&acadyear=" . ($acadyear) . "&acadsemester=2 \"> 2</a> " ;
 					}
+					$_chartType = "pie";
+					$_chartType = isset($_POST['chartType'])?$_POST['chartType']:"pie";
+
 				?>
 		<font color="#000000" size="2">
 		  <form action="" method="post">
@@ -39,11 +42,11 @@
 				<option value="4/3" <?=isset($_POST['level'])&&$_POST['level']=="4/3"?"selected":""?>> มัธยมศึกษาปีที่ 6 </option>
 				<option value="all" <?=isset($_POST['level'])&&$_POST['level']=="all"?"selected":""?>>ทั้งโรงเรียน</option>
 			</select> <input type="submit" name="search" value="เรียกดู" class="button"/><br/>
-			<input name="chartType" type="radio" value="column" <?=$_POST['chartType']!="pie"?"checked":""?>> กราฟแท่ง 
-			<input type="radio" value="pie" name="chartType" <?=isset($_POST['chartType'])&&$_POST['chartType']=="pie"?"checked":""?>> กราฟวงกลม<br/>
+			<input name="chartType" type="radio" value="column" <?=$_chartType!="pie"?"checked":""?>> กราฟแท่ง 
+			<input type="radio" value="pie" name="chartType" <?=$_chartType=="pie"?"checked":""?>> กราฟวงกลม<br/>
 		    <input type="checkbox" name="studstatus" value="1,2" <?=isset($_POST['studstatus'])=="1,2"?"checked='checked'":""?> />
 			 เฉพาะนักเรียนสถานะปกติหรือสำเร็จการศึกษา<br/>
-			 <input type="checkbox" name="split" value="split" <?=$_POST['split']=="split"?"checked='checked'":""?> />
+			 <input type="checkbox" name="split" value="split" <?=isset($_POST['split'])=="split"?"checked='checked'":""?> />
 			 ไม่นับรวมการขาด สาย ลา กิจกรรมหน้าเสาธง
 		  </form>
 		  </font>
@@ -63,8 +66,8 @@
 						from  student_disciplinestatus left outer join
 							ref_disciplinestatus on dis_status = status
 						where acadyear = '" . $acadyear . "' and acadsemester = '" . $acadsemester . "' ";
-			if($_POST['studstatus']=="1,2"){ $_sql .= " and student_id in (select id from students where studstatus in (1,2)) "; }
-			if($_POST['split']=="split"){$_sql.= " and dis_id in (select dis_id from student_discipline where dis_detail not like '%การเข้าร่วมกิจกรรมหน้าเสาธง%')";}
+			if(isset($_POST['studstatus'])=="1,2"){ $_sql .= " and student_id in (select id from students where studstatus in (1,2)) "; }
+			if(isset($_POST['split'])=="split"){$_sql.= " and dis_id in (select dis_id from student_discipline where dis_detail not like '%การเข้าร่วมกิจกรรมหน้าเสาธง%')";}
 			$_sql .= " group by dis_status order by dis_status";
 		}else {
 			$_sql = "select status_detail, count(dis_status) as 'cc'
@@ -72,14 +75,14 @@
 							ref_disciplinestatus on dis_status = status
 						where acadyear = '" . $acadyear . "' and acadsemester = '" . $acadsemester . "'
 							  and student_id in (select id from students where xlevel = '" . substr($_POST['level'],0,1) . "' and xyearth = '" . substr($_POST['level'],2,1) . "' and xedbe = '". $acadyear . "') ";
-			if($_POST['studstatus']=="1,2"){ $_sql .= " and student_id in (select id from students where studstatus in (1,2)) "; }
-			if($_POST['split']=="split"){$_sql.= " and dis_id in (select dis_id from student_discipline where dis_detail not like '%การเข้าร่วมกิจกรรมหน้าเสาธง%')";}
+			if(isset($_POST['studstatus'])=="1,2"){ $_sql .= " and student_id in (select id from students where studstatus in (1,2)) "; }
+			if(isset($_POST['split'])=="split"){$_sql.= " and dis_id in (select dis_id from student_discipline where dis_detail not like '%การเข้าร่วมกิจกรรมหน้าเสาธง%')";}
 			$_sql .= " group by dis_status order by dis_status";
 		}
 		$_res = mysqli_query($_connection,$_sql);
 		if(mysqli_num_rows($_res) > 0) {			
 			$_strXML = "<?xml version='1.0' encoding='UTF-8' ?>" ;
-			if($_POST['chartType'] == "column") { $_strXML = $_strXML . "<graph caption='' xAxisName='สถานะ' yAxisName='Units' decimalPrecision='0' formatNumberScale='0' >"; }
+			if(isset($_POST['chartType']) == "column") { $_strXML = $_strXML . "<graph caption='' xAxisName='สถานะ' yAxisName='Units' decimalPrecision='0' formatNumberScale='0' >"; }
 			else { $_strXML = $_strXML . "<graph caption='' decimalPrecision='0' showNames='1' numberSuffix=' คดี' pieSliceDepth='30' formatNumberScale='0'>"; }
 			while($_dat = mysqli_fetch_assoc($_res))
 			{
@@ -101,7 +104,7 @@
 				<td>
 <?				
 				FC_SetRenderer("javascript");
-				if($_POST['chartType'] == "column") { echo renderChart("../fusionII/charts/Column3D.swf", "", $_strXML , "discipline", 600, 450); }
+				if($_chartType == "column") { echo renderChart("../fusionII/charts/Column3D.swf", "", $_strXML , "discipline", 600, 450); }
 				else { echo renderChart("../fusionII/charts/Pie3D.swf", "", $_strXML , "discipline", 600, 450); }	
 ?>				</td>
 			</tr>

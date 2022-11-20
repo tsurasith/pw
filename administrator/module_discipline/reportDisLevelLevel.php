@@ -29,7 +29,7 @@
 		<font color="#000000" size="2">
 			 <input type="checkbox" name="studstatus" value="1,2" <?=isset($_POST['studstatus'])=="1,2"?"checked='checked'":""?> onclick="document.myform.submit();" />
 			 เฉพาะนักเรียนสถานะปกติหรือสำเร็จการศึกษา<br/>
-			 <input type="checkbox" name="split" value="split" <?=$_POST['split']=="split"?"checked='checked'":""?> onclick="document.myform.submit();" />
+			 <input type="checkbox" name="split" value="split" <?=isset($_POST['split'])=="split"?"checked='checked'":""?> onclick="document.myform.submit();" />
 			 ไม่นับรวมการขาด สาย ลา กิจกรรมหน้าเสาธง
 		  </font>
 		  </form>
@@ -55,8 +55,8 @@
 			on (b.dis_id = c.dis_id)
 			where xedbe = '" . $acadyear . "' and b.acadyear = '" . $acadyear . "' and c.dis_level != '00' 
 			and b.acadsemester = '" . $acadsemester . "' "; ?>
-<? if($_POST['studstatus']=="1,2"){ $_sql .= " and studstatus in (1,2) "; } ?>
-<? if($_POST['split']=="split"){$_sql.= " and b.dis_id in (select dis_id from student_discipline where dis_detail not like '%การเข้าร่วมกิจกรรมหน้าเสาธง%')";}?>
+<? if(isset($_POST['studstatus'])=="1,2"){ $_sql .= " and studstatus in (1,2) "; } ?>
+<? if(isset($_POST['split'])=="split"){$_sql.= " and b.dis_id in (select dis_id from student_discipline where dis_detail not like '%การเข้าร่วมกิจกรรมหน้าเสาธง%')";}?>
 <? $_sql .= " group by xlevel,xyearth";?>
 <? $_res = @mysqli_query($_connection,$_sql); ?>
 <? if(mysqli_num_rows($_res) > 0){ ?>
@@ -77,7 +77,7 @@
 				<td class="key" align="center" width="80px">สถานหนักมาก</td>
 				<td class="key" align="center" width="100px">รวม</td>
 			</tr>
-			<? $_a;$_b;$_c;$_d; $_total; ?>
+			<? $_a=0; $_b=0; $_c=0; $_d=0; $_total=0; ?>
 			<? while($_dat = mysqli_fetch_assoc($_res)){ ?>
 			<tr onMouseOver="this.style.backgroundColor='#FFCCFF'; this.style.cursor='hand';" onMouseOut=this.style.backgroundColor="#FFFFFF" >
 				<td align="center">ม.<?=$_dat['xlevel']==3?$_dat['xyearth']:$_dat['xyearth']+3?></td>

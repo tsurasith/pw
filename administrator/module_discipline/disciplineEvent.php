@@ -203,7 +203,7 @@ function formCheckValue()
 								<a href='index.php?option=module_discipline/disciplineInvestigate&dis_id=" .  $_datID['dis_id'] . "&acadyear=". $acadyear . "&acadsemester=". $acadsemester . "'>"
 								. $_datID['dis_id'] ."</a></b></font></td></tr>";
 					}
-					else{ showError("การบันทึกข้อมูลผิดพลาด เนื่องจาก ". mysqli_error()); } ?>		
+					else{ showError("การบันทึกข้อมูลผิดพลาด เนื่องจาก ". mysqli_error($_connection)); } ?>		
 		</table>
 		</form>
 	<? } ?>

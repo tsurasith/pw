@@ -9,6 +9,10 @@
 		<?php
 			if(isset($_REQUEST['acadyear'])){ $acadyear = $_REQUEST['acadyear']; }
 			if(isset($_REQUEST['acadsemester'])) { $acadsemester = $_REQUEST['acadsemester']; }
+
+			$_teacher = "";
+			$_teacher = isset($_POST['teacher'])?$_POST['teacher']:"";
+
 		?>
 		ปีการศึกษา <?php  
 					echo "<a href=\"index.php?option=module_discipline/reportTeacherSanction&acadyear=" . ($acadyear - 1) . "\"><img src=\"../images/pull_left.gif\" border=\"0\" /></a> " ;
@@ -44,7 +48,7 @@
   </table>
 <br/>
 
-<? if($_POST['teacher'] != "") {?>
+<? if($_teacher != "") {?>
 		<? $_sql = "select a.dis_id,sanc_date,sanc_detail,sanc_time
 						from student_sanction a left outer join student_disciplinestatus b
 						on (a.dis_id = b.dis_id)
@@ -67,7 +71,7 @@
 						<td class="key" align="center" width="140px">วัน เดือน ปี</td>
 						<td class="key" align="center" width="140px">เวลาที่<br/>นักเรียนทำกิจกรรม</td>
 					</tr>
-					<? $_z = 1; $_allTime; $_disID = ""; ?>
+					<? $_z = 1; $_allTime=0; $_disID = ""; ?>
 					<? while($_dat = mysqli_fetch_assoc($_resDetail)) { ?>
 							<tr onMouseOver="this.style.backgroundColor='#FFCCFF'; this.style.cursor='hand';" onMouseOut=this.style.backgroundColor="#FFFFFF" >
 								<td align="center"><?=$_z++?></td>
@@ -109,7 +113,7 @@
 						<td class="key" align="center" width="90px">จำนวนคดี<br/>ที่ควบคุม</td>
 						<td class="key" align="center" width="140px">เวลารวม</td>
 					</tr>
-					<? $_i = 1; $_count;$_time; ?>
+					<? $_i = 1; $_count=0;$_time=0; ?>
 					<? while($_dat = mysqli_fetch_assoc($_res)){ ?>
 					<tr onMouseOver="this.style.backgroundColor='#FFCCFF'; this.style.cursor='hand';" onMouseOut=this.style.backgroundColor="#FFFFFF" >
 						<td align="center"><?=$_i++?></td>
