@@ -9,7 +9,7 @@
      <td >
 		<?  $_numID = "";
 			if(isset($_REQUEST['num_id'])){$_numID = $_REQUEST['num_id'];}
-			else {$_numID = $_POST['num_id'];}
+			else if(isset($_POST['num_id'])) {$_numID = $_POST['num_id'];}
 			
 			if(isset($_REQUEST['acadyear'])) { $acadyear = $_REQUEST['acadyear']; }
 			if(isset($_REQUEST['acadsemester'])) { $acadsemester = $_REQUEST['acadsemester']; }
@@ -22,7 +22,7 @@
 		<font color="#000000" size="2">
 		<form method="post" autocomplete="off">
 			 รหัสพฤติกรรมที่พึงประสงค์ 
-			 <input type="text" name="num_id" maxlength="5" size="4" class="inputboxUpdate" value="<?=isset($_POST['num_id'])?$_POST['num_id']:$_REQUEST['num_id']?>" onKeyPress="return isNumberKey(event)"/>
+			 <input type="text" name="num_id" maxlength="5" size="4" class="inputboxUpdate" value="<?=$_numID?>" onKeyPress="return isNumberKey(event)"/>
 			 <input type="submit" name="search" value="เรียกดู" class="button" />
 		</form>
 		</font>
@@ -128,7 +128,7 @@
             <tr>
             	<td align="right">รูปภาพเกียรติบัตร :</td>
                 <td>
-                	<? $_fileCertificate = $_SERVER["DOCUMENT_ROOT"] . "/pk/certificates/". $dat['image'] . ".jpg"; ?>
+                	<? $_fileCertificate = $_student_certificate_path . $dat['image'] . ".jpg"; ?>
 					<? if(file_exists($_fileCertificate)){?>
                     		<a target="_blank" href="module_moral/displayCertificate.php?id=<?=$dat['image'];?>">
                             	<b>เกียรติบัตร</b>

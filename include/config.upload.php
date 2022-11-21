@@ -18,6 +18,7 @@
     $_img_father_folder  = "/papaphoto";
     $_img_mother_folder  = "/mamaphoto";
     $_img_student_home   = "/studhome";
+    $_img_student_certificate = "/student_certificate";
 
     $_target = $_SERVER["DOCUMENT_ROOT"];
 
@@ -27,6 +28,9 @@
     $_father_img_path   = $_target . $_img_root_folder . $_img_father_folder . "/";
     $_mother_img_path   = $_target . $_img_root_folder . $_img_mother_folder . "/";
     $_img_student_home  = $_target . $_img_root_folder . $_img_student_home  . "/";
+
+    $_student_certificate_path = $_target . $_img_root_folder . $_img_student_certificate . "/";
+    
 
     /* test */
     

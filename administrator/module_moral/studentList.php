@@ -57,10 +57,15 @@
 		<br/><br/><center><font color="#FF0000">กรุณาเลือก ห้องเรียน ที่ต้องการทราบข้อมูลก่อน</font></center>
 <? } ?>
 
-<? if($_POST['roomID'] != ""){ 
-		$xlevel = getXlevel($_POST['roomID']);
-		$xyearth= getXyearth($_POST['roomID']);
-		$room = getRoom($_POST['roomID']);
+<? 
+
+	$_roomID = "";
+	$_roomID = isset($_POST['roomID'])?$_POST['roomID']:"";
+
+	if($_roomID != ""){ 
+		$xlevel = getXlevel($_roomID);
+		$xyearth= getXyearth($_roomID);
+		$room = getRoom($_roomID);
 ?>
   <table class="admintable" align="center">
             <tr> 
@@ -84,7 +89,7 @@
                                  from students 
                                  where xlevel = '". $xlevel . "' and xyearth = '" . $xyearth . "' 
                                         and room = '" . $room . "' and xedbe = '" . $acadyear . "' ";
-                if($_POST['studstatus']=="1,2") {$sqlStudent .= " and studstatus in (1,2) ";}
+                if(isset($_POST['studstatus'])=="1,2") {$sqlStudent .= " and studstatus in (1,2) ";}
                 $sqlStudent .= "order by sex,convert(firstname using tis620), convert(lastname using tis620) "; ?>
             <? $resStudent = mysqli_query($_connection,$sqlStudent); ?>
             <? $ordinal=1;?>

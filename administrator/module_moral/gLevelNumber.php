@@ -23,6 +23,10 @@
 					else {
 						echo " <a href=\"index.php?option=module_moral/gLevelNumber&acadyear=" . ($acadyear) . "&acadsemester=2 \"> 2</a> " ;
 					}
+
+					$_mtype = "";
+					$_mtype = isset($_POST['mtype'])?$_POST['mtype']:"";
+
 				?><br/>
 		<form method="post">
 			<font color="#000000" size="2"  >
@@ -31,9 +35,9 @@
 			<select name="mtype" class="inputboxUpdate">
 				<option value=""></option>
 				<? while($_dat = mysqli_fetch_assoc($_resMtype)) { ?>
-				<option value="<?=$_dat['moral_id']?>" <?=(isset($_POST['mtype']) && $_POST['mtype'] == $_dat['moral_id'])?"selected":""?>><?=$_dat['moral_description']?></option>
+				<option value="<?=$_dat['moral_id']?>" <?=$_mtype == $_dat['moral_id']?"selected":""?>><?=$_dat['moral_description']?></option>
 				<? } ?>
-				<option value="all" <?=$_POST['mtype']=="all"?"selected":""?>>รวมทั้งหมด</option>
+				<option value="all" <?=$_mtype=="all"?"selected":""?>>รวมทั้งหมด</option>
 			</select>
 			<input type="submit" value="เรียกดู" class="button" name="search"/> <br/>
 			<input type="checkbox" name="studstatus" value="1,2"  <?=isset($_POST['studstatus'])=="1,2"?"checked='checked'":""?> />

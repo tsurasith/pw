@@ -38,6 +38,10 @@
 					{
 						echo " <a href=\"index.php?option=module_moral/reportTeacherNumber&acadyear=" . ($acadyear) . "&acadsemester=2 \"> 2</a> " ;
 					}
+
+					$_mteacher = "";
+					$_mteacher = isset($_POST['mteacher'])?$_POST['mteacher']:"";
+
 				?><br/>
 		<form method="post">
 			<font color="#000000" size="2"  >
@@ -48,7 +52,7 @@
 				<? while($_dat = mysqli_fetch_assoc($_resTeacher)) { ?>
 				<option value="<?=$_dat['mteacher']?>" <?=isset($_POST['mteacher']) && $_POST['mteacher']==$_dat['mteacher']?"selected":""?>><?=$_dat['mteacher']?></option>
 				<? } ?>
-				<option value="all" <?=$_POST['mteacher']=="all"?"selected":""?>>ทั้งหมด</option>
+				<option value="all" <?=$_mteacher=="all"?"selected":""?>>ทั้งหมด</option>
 			</select>
 			<input type="submit" value="เรียกดู" class="button" name="search"/><br/>
 			<input type="checkbox" name="studstatus" value="1,2"  <?=isset($_POST['studstatus'])=="1,2"?"checked='checked'":""?> />

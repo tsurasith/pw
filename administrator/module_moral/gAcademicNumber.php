@@ -23,6 +23,10 @@
 					else {
 						echo " <a href=\"index.php?option=module_moral/gAcademicNumber&acadyear=" . ($acadyear) . "&acadsemester=2 \"> 2</a> " ;
 					}
+
+					$_academic = "";
+					$_academic = isset($_POST['academic'])?$_POST['academic']:"";
+
 				?><br/>
 		<form method="post">
 			<font color="#000000" size="2">
@@ -31,9 +35,9 @@
 			<select name="academic" class="inputboxUpdate">
 				<option value=""></option>
 				<? while($_dat = mysqli_fetch_assoc($_resAcademic)){ ?>
-				<option value="<?=$_dat['academic_id']?>" <?=(isset($_POST['academic']) && $_POST['academic'] == $_dat['academic_id'])?"selected":""?>><?=$_dat['academic_description']?></option>
+				<option value="<?=$_dat['academic_id']?>" <?=($_academic == $_dat['academic_id'])?"selected":""?>><?=$_dat['academic_description']?></option>
 				<? } ?>
-				<option value="all" <?=$_POST['academic']=="all"?"selected":""?>>รวมทุกกลุ่มสาระการเรียนรู้</option>
+				<option value="all" <?=$_academic=="all"?"selected":""?>>รวมทุกกลุ่มสาระการเรียนรู้</option>
 			</select>
 			<input type="submit" value="เรียกดู" class="button" name="search"/> <br/>
 			<input type="checkbox" name="studstatus" value="1,2"  <?=isset($_POST['studstatus'])=="1,2"?"checked='checked'":""?> />

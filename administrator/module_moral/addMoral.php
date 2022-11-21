@@ -57,10 +57,11 @@
 		<?php
 			$_studentID = "";
 			if(isset($_REQUEST['studentid'])){$_studentID = $_REQUEST['studentid'];}
-			else {$_studentID = $_POST['studentid'];}
+			else if(isset($_POST['studentid'])){$_studentID = $_POST['studentid'];}
 			
 			if(isset($_REQUEST['acadyear'])) { $acadyear = $_REQUEST['acadyear']; }
 			if(isset($_REQUEST['acadsemester'])) { $acadsemester = $_REQUEST['acadsemester']; }
+
 		?>
 		ปีการศึกษา<?php  
 					echo "<a href=\"index.php?option=module_moral/addMoral&acadyear=" . ($acadyear - 1) . "\"><img src=\"../images/pull_left.gif\" border=\"0\" /></a> " ;
@@ -80,7 +81,7 @@
 			<font color="#000000" size="2">
 			<form method="post" autocomplete="off">
 				เลขประจำตัวนักเรียน
-				<input type="text" name="studentid" maxlength="5" size="5" class="inputboxUpdate" value="<?=isset($_POST['studentid'])?$_POST['studentid']:$_REQUEST['studentid']?>" onKeyPress="return isNumberKey(event)"/>
+				<input type="text" name="studentid" maxlength="5" size="5" class="inputboxUpdate" value="<?=$_studentID?>" onKeyPress="return isNumberKey(event)"/>
 				<input type="submit" name="search" value="เรียกดู" class="button" onkeypress="return isNumberKey(event)" />
 			</form>
 			</font>
@@ -91,7 +92,7 @@
 		<br/><br/><font color="#FF0000"><center>กรุณาป้อน เลขประจำตัวนักเรียนที่ต้องการทราบข้อมูก่อน</center></font>
 <? }//end if ?>  
 
- <? if((isset($_POST['search']) && $_POST['studentid'] != "") || (!isset($_POST['saveedit']) && $_REQUEST['studentid'] !="")) { ?>
+ <? if((isset($_POST['search']) && $_studentID != "") || (!isset($_POST['saveedit']) && $_studentID !="")) { ?>
  		<? $sql = "select id,pin,prefix,firstname,lastname,nickname,xlevel,xyearth,room from students where id = '" . $_studentID . "' and xedbe = '" . $acadyear . "'" ;?>
 		<? $result = mysqli_query($_connection,$sql); ?>
 		<? if(mysqli_num_rows($result)>0){ ?>
@@ -219,7 +220,7 @@
 
 <? if(isset($_POST['saveedit'])) {
 		
-		$_target = $_SERVER["DOCUMENT_ROOT"] . "/pk/certificates/";
+		$_target = $_student_certificate_path;
 		$_fileName = $acadyear . '-' . $acadsemester . '-' . $_POST['student_id'] . '-' . time();
 		
 		$sql = "insert into student_moral values (null,
@@ -248,11 +249,11 @@
 				{ $_uploadError = 3; /* error ที่ขนาดไฟล์ใหญ่กว่าที่กำหนด 1MB */ }
 				else
 				{
-					// @unlink($_target . "id" . $_studentID . ".jpg");
+					@unlink($_target . "id" . $_studentID . ".jpg");
 					move_uploaded_file($_FILES["file"]["tmp_name"], $_target . $_FILES["file"]["name"]);
 					if($_FILES["file"]["name"] != ( $_fileName . ".jpg"))
 					{
-						@rename($_target . $_FILES["file"]["name"] , $_target.$_fileName . ".jpg");
+						rename($_target . $_FILES["file"]["name"] , $_target.$_fileName . ".jpg");
 						$_uploadError = 4; // upload Complete	
 					}
 				}
@@ -281,6 +282,6 @@
 								&acadyear=". $_datID['acadyear']."
 								&acadsemester=". $_datID['acadsemester']."
 								&certificate=" . $_datID['image'] . "'>" . $_datID['id'] ."</a></b></font></center><br/>";
-		} else { echo "<br/><br/><center><font color='red' size='4'>การบันทึกข้อมูลผิดพลาด เนื่องจาก ". mysqli_error() . "</font></center>"; }
+		} else { echo "<br/><br/><center><font color='red' size='4'>การบันทึกข้อมูลผิดพลาด เนื่องจาก ". mysqli_error($_connection) . "</font></center>"; }
 	} //end isset($_POST['save']) ?>
 </div>

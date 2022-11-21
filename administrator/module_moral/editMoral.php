@@ -202,7 +202,7 @@
             <tr>
             	<td align="right" valign="top">ไฟล์รูปภาพเกียรติบัตร</td>
                 <td>
-                	<? $_fileCertificate = $_SERVER["DOCUMENT_ROOT"] . "/pk/certificates/". $dat['image'] . ".jpg"; ?>
+                	<? $_fileCertificate = $_student_certificate_path . $dat['image'] . ".jpg"; ?>
 					<? if(file_exists($_fileCertificate)){?>
                     		<a target="_blank" href="module_moral/displayCertificate.php?id=<?=$dat['image'];?>">
                             	<b>เกียรติบัตร</b>
@@ -247,7 +247,7 @@
 					where id = '" . $_POST['num_id'] . "' ";
 		
 		
-		$_target = $_SERVER["DOCUMENT_ROOT"] . "/pk/certificates/";
+		$_target = $_student_certificate_path;
 		$_fileName = $_POST['fileName'];
 		$_uploadError = 0;
 
@@ -289,6 +289,6 @@
 				//echo $sql;
 				echo "<br/><br/><center><font color='green'><b>บันทึกการแก้ไขเรียบร้อยแล้ว</b></font></center>";
 				//echo "<br/>" . $_uploadError;
-		} else {  echo "<br/><br/><center><font color='red'>การบันทึกข้อมูลผิดพลาด เนื่องจาก ". mysqli_error() . "</font></center>";}
+		} else {  echo "<br/><br/><center><font color='red'>การบันทึกข้อมูลผิดพลาด เนื่องจาก ". mysqli_error($_connection) . "</font></center>";}
 	} ?>
 </div>

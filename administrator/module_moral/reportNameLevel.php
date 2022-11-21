@@ -65,7 +65,7 @@
 									 from students a right outer join student_moral b on a.id = b.student_id
 									 where  xedbe = '" . $acadyear . "' and acadyear = '" . $acadyear . "' and acadsemester = '" . $acadsemester . "' "; ?>
 		<? if($_POST['roomID']!="all") $sqlStudent .= " and xlevel = '". substr($_POST['roomID'],0,1) . "' and xyearth = '" . substr($_POST['roomID'],2,1) . "' "; ?>
-		<? if($_POST['studstatus']=="1,2") $sqlStudent .= " and studstatus in (1,2) "; ?>
+		<? if(isset($_POST['studstatus'])=="1,2") $sqlStudent .= " and studstatus in (1,2) "; ?>
 		<? $sqlStudent .= " order by a.id,sex,mdate "; ?>
 		<? $resStudent = mysqli_query($_connection,$sqlStudent); ?>
 		<? $ordinal = 1; $_xID = ""; ?>

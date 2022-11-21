@@ -62,7 +62,7 @@
     <tr> 
       <th colspan="6" align="center">
 	  		<img src="../images/school_logo.png" width="120px"><br/>
-			สรุปพฤติกรรมที่พึงประสงค์โดย "<?=$_POST['mteacher']!=""?"ของ" . $_POST['mteacher']:""?>" เป็นผู้ควบคุม ดูแล<br/>
+			สรุปพฤติกรรมที่พึงประสงค์โดย "<?=$_POST['mteacher']!=""?$_POST['mteacher']:""?>" เป็นผู้ควบคุม ดูแล<br/>
 			ประจำภาคเรียนที่ <?=$acadsemester?> ปีการศึกษา <?=$acadyear?>
 	  </th>
     </tr>
@@ -81,7 +81,7 @@
 						 where mteacher = '" .$_POST['mteacher'] . "'
 						 		and xedbe = '" . $acadyear . "'
 								and acadyear = '" . $acadyear . "' and acadsemester = '" . $acadsemester . "' ";
-		if($_POST['studstatus']=="1,2") $sqlStudent .= " and studstatus in (1,2) ";
+		if(isset($_POST['studstatus'])=="1,2") $sqlStudent .= " and studstatus in (1,2) ";
 		$sqlStudent .= " order by xlevel,xyearth,a.id,sex,mdate ";
 		
 		$resStudent = mysqli_query($_connection,$sqlStudent);

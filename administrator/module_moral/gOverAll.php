@@ -7,6 +7,11 @@
       <td ><strong><font color="#990000" size="4">ระบบสารสนเทศธนาคารความดี</font></strong><br />
 	<span class="normal"><font color="#0066FF"><strong>3.3 แผนภูมิสรุปเปรียบเทียบตาม<br/>ประเภทพฤติกรรมที่พึงประสงค์รายภาคเรียน</strong></font></span></td>
      <td align="right" valign="top">
+		<?php
+			$_mtype = "";
+			$_mtype = isset($_POST['mtype'])?$_POST['mtype']:"";
+
+		?>
 		<form method="post">
 			<font color="#000000" size="2">
 			ประเภทของกิจกรรม
@@ -14,9 +19,9 @@
 			<select name="mtype" class="inputboxUpdate">
 				<option value=""></option>
 				<? while($_dat = mysqli_fetch_assoc($_resMtype)) { ?>
-				<option value="<?=$_dat['moral_id']?>" <?=(isset($_POST['mtype']) && $_POST['mtype'] == $_dat['moral_id'])?"selected":""?>><?=$_dat['moral_description']?></option>
+				<option value="<?=$_dat['moral_id']?>" <?=$_mtype==$_dat['moral_id']?"selected":""?>><?=$_dat['moral_description']?></option>
 				<? } ?>
-				<option value="all" <?=$_POST['mtype']=="all"?"selected":""?>>รวมทุกประเภท</option>
+				<option value="all" <?=$_mtype=="all"?"selected":""?>>รวมทุกประเภท</option>
 			</select>
 			<input type="submit" value="เรียกดู" class="button" name="search"/> <br/>
 			</font>
