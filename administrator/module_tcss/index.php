@@ -8,23 +8,30 @@
 	  	<form action="" method="post">
 		ปีการศึกษา <?=$acadyear?>
 		ภาคเรียนที่ <?=$acadsemester?>
+
+		<?php
+			$_content = "";
+			$_content = isset($_POST['content'])?$_POST['content']:"";
+			$_content = isset($_REQUEST['content'])?$_REQUEST['content']:"";
+		?>
+
 		<br/>
 		<font color="#000000" size="2"  >
 		เลือกแบบประเมิน </font>
 		  	<select name="content" onChange="this.form.submit()" class="inputboxUpdate">
 		  		<option value=""></option>
-				<option value="sdq" <?=($_POST['content'] == "sdq" || $_REQUEST['content'] == "sdq") ? "selected":""?>>งานประเมิน SDQ</option>
-				<option value="eq" <?=isset($_POST['content'])&&$_POST['content'] == "eq" ? "selected":""?>> งานประเมิน EQ</option>
-				<option value="stress" <?=isset($_POST['content'])&&$_POST['content'] == "stress" ? "selected":""?>>งานประเมินความเครียด</option>
-				<option value="moral" <?=isset($_POST['content'])&&$_POST['content'] == "moral" ? "selected":""?>>งานประเมินภาวะซึมเศร้า</option>
-				<option value="game" <?=isset($_POST['content'])&&$_POST['content'] == "game" ? "selected":""?>>งานประเมินการติดเกมส์</option>
+				<option value="sdq" <?=$_content == "sdq" ? "selected":""?>>งานประเมิน SDQ</option>
+				<option value="eq" <?=isset($_content)&&$_content == "eq" ? "selected":""?>> งานประเมิน EQ</option>
+				<option value="stress" <?=isset($_content)&&$_content == "stress" ? "selected":""?>>งานประเมินความเครียด</option>
+				<option value="moral" <?=isset($_content)&&$_content == "moral" ? "selected":""?>>งานประเมินภาวะซึมเศร้า</option>
+				<option value="game" <?=isset($_content)&&$_content == "game" ? "selected":""?>>งานประเมินการติดเกมส์</option>
 			</select>
 		 
 		  </form>
 	  </td>
     </tr>
   </table>
-<? if($_REQUEST['content'] == "sdq" || $_POST['content'] == "sdq") { ?>
+<? if($_content == "sdq") { ?>
     <table width="100%" align="center" cellspacing="1" class="admintable">
 		<tr> 
 			<td class="key" colspan="2">1. แบบประเมินตนเอง (The Strengths and Difficulties Questionaire: SDQ)</td>
@@ -88,7 +95,7 @@
 			<td><a href="index.php?option=module_tcss/sdq_ReportStatSchool">3.5 รายงานการคัดกรองทั้งโรงเรียน</a></td>
 		</tr>		
 	</table>
-<? } else if($_REQUEST['content'] == "eq" || $_POST['content'] == "eq") { ?>
+<? } else if($_content == "eq") { ?>
 				   <!-- <table width="100%" align="center" cellspacing="1" class="admintable">
 							  <tr><td class="key" colspan="2">1. การประเมินความฉลาดทางอารมณ์ (EQ)</td></tr>
 						   </tr>
@@ -128,7 +135,7 @@
 						</tr>
 					</table>-->
 			<center><font color="#FF0000" size="4"><br/><br/>ขออภัย ส่วนงานประเมินความฉลาดทางอารมณ์ (EQ) ยังไม่เปิดให้ใช้บริการ</font></center>
-<? } else if($_REQUEST['content'] == "stress" || $_POST['content'] == "stress") { ?>
+<? } else if($_content == "stress") { ?>
                   <!--<table width="100%" align="center" cellspacing="1" class="admintable">
 							  <tr><td class="key" colspan="2">1. การประเมินความเครียด</td></tr>
 						   </tr>
@@ -168,7 +175,7 @@
 						</tr>
 					</table>-->
 			<center><font color="#FF0000" size="4"><br/><br/>ขออภัย ส่วนงานประเมินภาวะความเครียด ยังไม่เปิดให้ใช้บริการ</font></center>
-<? } else if($_REQUEST['content'] == "moral" || $_POST['content'] == "moral") { ?>
+<? } else if($_content == "moral") { ?>
 			 <!--<table width="100%" align="center" cellspacing="1" class="admintable">
 							  <tr><td class="key" colspan="2">1. การประเมินความภาวะซึมเศร้า</td></tr>
 						   </tr>
@@ -208,7 +215,7 @@
 						</tr>
 					</table>-->
 			<center><font color="#FF0000" size="4"><br/><br/>ขออภัย ส่วนงานประเมินภาวะซึมเศร้า ยังไม่เปิดให้ใช้บริการ</font></center>
-<? } else if($_REQUEST['content'] == "game" || $_POST['content'] == "game") { ?>
+<? } else if($_content == "game") { ?>
 			 <!--<table width="100%" align="center" cellspacing="1" class="admintable">
 							  <tr><td class="key" colspan="2">1. การประเมินการติดเกมส์</td></tr>
 						   </tr>

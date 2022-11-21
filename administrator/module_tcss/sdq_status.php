@@ -73,7 +73,7 @@
 							<td class="key"><img src='../images/delete.png' alt='ยังไม่ได้ประเมิน' /></td><td align="center" class="key"><img src="../images/ball_green.png" alt="ประเมินแล้ว"/></td>
 							<td class="key"><img src='../images/delete.png' alt='ยังไม่ได้ประเมิน' /></td><td align="center" class="key"><img src="../images/ball_green.png" alt="ประเมินแล้ว"/></td>
 						</tr>
-						<? $_b0 = 0; $_c0 = 0; $_d0 = 0; ?>
+						<? $_b0 = 0; $_c0 = 0; $_d0 = 0; $_i=0;?>
 						<? while($_dat = mysqli_fetch_assoc($_res)){ ?>
 						<tr bgcolor='<?=($_i%2==0?"#FFFFFF":"#FAF9FB")?>'>
 							<td align='center'><?=($_dat['xlevel']==4?$_dat['xyearth']+3:$_dat['xyearth']) . "/" . $_dat['room']?></td>
@@ -84,7 +84,7 @@
 							<td align='right'><font color='red' size='4'><?=$_dat['d0']==0?"-":$_dat['d0']?></font></td>
 							<td align='right'><font color='green' size='4'><?=$_dat['d1']==0?"-":$_dat['d1']?></font></td>
 						</tr>
-						<? $_b0 += $_dat['b0']; $_c0 += $_dat['c0']; $_d0 += $_dat['d0']; ?>
+						<? $_b0 += $_dat['b0']; $_c0 += $_dat['c0']; $_d0 += $_dat['d0']; $_i++?>
 						<? } //end while ?>
 						<tr>
 							<td align='center' class="key"><b>รวม</b></td>

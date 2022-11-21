@@ -62,7 +62,7 @@
 	<? $_sql = makeSQL($_POST['questioner'],$_POST['type']); ?>
 	
 	<? $_sql .= " where xedbe = '" . $acadyear . "' and acadyear = '" . $acadyear . "' and acadsemester = '" . $acadsemester . "' and questioner = '" . $_POST['questioner'] . "' "; ?>
-	<? $_sql .= ($_POST['studstatus']=="1,2"?" and studstatus in (1,2) ":"") ; ?>
+	<? $_sql .= (isset($_POST['studstatus'])=="1,2"?" and studstatus in (1,2) ":"") ; ?>
 	<? $_sql .=	" group by xlevel,xyearth order by xlevel,xyearth"; ?>
 	<? //echo $_sql; ?>
 	<? $_result = mysqli_query($_connection,$_sql); ?>
@@ -103,9 +103,9 @@
 						<? $_na=0; $_n4=0; $_r4=0; $_d4=0; ?>
 							<? while($_dat = mysqli_fetch_assoc($_result)) { ?>
 								<? $_catXML .= "<category name='ม." . ($_dat['xlevel']==3?$_dat['xyearth']:($_dat['xyearth']+3)) . "' hoverText=''/>"; ?>
-								<? $_setA .= "<set value='" . ($_dat['normal3']+$_dat['normal4']) . "' />"; ?>
-								<? $_setB .= "<set value='" . ($_dat['risk3']+$_dat['risk4']) . "'  />"; ?>
-								<? $_setC .= "<set value='" . ($_dat['damage3']+$_dat['damage4']) . "' />"; ?>
+								<? $_setA .= "<set value='" . ($_dat['normal4']) . "' />"; ?>
+								<? $_setB .= "<set value='" . ($_dat['risk4']) . "'  />"; ?>
+								<? $_setC .= "<set value='" . ($_dat['damage4']) . "' />"; ?>
 								<? $_t += $_dat['total']; ?>
 								<tr>
 									<td align="left" style="padding-left:15px;">ชั้นมัธยมศึกษาปีที่ <?=$_dat['xlevel']==3?$_dat['xyearth']:($_dat['xyearth']+3)?></td>

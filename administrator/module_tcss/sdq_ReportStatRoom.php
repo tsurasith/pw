@@ -73,9 +73,12 @@
 <? if(isset($_POST['search']) && ($_POST['questioner'] =="" || $_POST['type'] == "" || $_POST['roomID'] == "")) { ?>
 	<? echo "<br/><br/><center><font color='red'>กรุณาเลือก ห้องเรียน ด้านประเมิน และ ชุดประเมิน ที่ต้องการทราบข้อมูลก่อน</font></center>";} ?>
 <?  
-  $xlevel = getXlevel($_POST['roomID']);
-  $xyearth= getXyearth($_POST['roomID']);
-  $room = getRoom($_POST['roomID']);
+  $_roomID = "";
+  $_roomID = isset($_POST['roomID'])?$_POST['roomID']:"";
+
+  $xlevel = getXlevel($_roomID);
+  $xyearth= getXyearth($_roomID);
+  $room = getRoom($_roomID);
 ?>
 
 <? if(isset($_POST['search']) && $_POST['questioner'] != "" && $_POST['type'] != "" && $_POST['roomID'] != ""){ ?>
@@ -83,7 +86,7 @@
 	
 	<? $_sql .= " where xedbe = '" . $acadyear . "' and acadyear = '" . $acadyear . "' and acadsemester = '" . $acadsemester . "' and questioner = '" . $_POST['questioner'] . "' "; ?>
 	<? $_sql .= " and xlevel = '" . $xlevel . "' and xyearth = '" . $xyearth . "' and room = '" . $room . "' "; ?>
-	<? $_sql .= ($_POST['studstatus']=="1,2"?" and studstatus in (1,2) ":"") ; ?>
+	<? $_sql .= (isset($_POST['studstatus'])=="1,2"?" and studstatus in (1,2) ":"") ; ?>
 	<? $_sql .=	" group by sex order by sex"; ?>
 	<? //echo $_sql; ?>
 	<? $_result = mysqli_query($_connection,$_sql); ?>
@@ -127,9 +130,9 @@
 						<? $_na=0; $_n4=0; $_r4=0; $_d4=0; ?>
 							<? while($_dat = mysqli_fetch_assoc($_result)) { ?>
 								<? $_catXML .= "<category name='" . ($_dat['sex']=="1"?"ชาย":"หญิง") . "' hoverText=''/>"; ?>
-								<? $_setA .= "<set value='" . ($_dat['normal3']+$_dat['normal4']) . "' />"; ?>
-								<? $_setB .= "<set value='" . ($_dat['risk3']+$_dat['risk4']) . "'  />"; ?>
-								<? $_setC .= "<set value='" . ($_dat['damage3']+$_dat['damage4']) . "' />"; ?>
+								<? $_setA .= "<set value='" . ($_dat['normal4']) . "' />"; ?>
+								<? $_setB .= "<set value='" . ($_dat['risk4']) . "'  />"; ?>
+								<? $_setC .= "<set value='" . ($_dat['damage4']) . "' />"; ?>
 								<? $_t += $_dat['total']; ?>
 								<tr>
 									<td align="left" style="padding-left:15px;"><?=$_dat['sex']=="1"?"ชาย":"หญิง"?></td>

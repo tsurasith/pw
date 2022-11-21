@@ -171,6 +171,13 @@
 					else {
 						echo " <a href=\"index.php?option=module_tcss/sdq_xEdit&acadyear=" . ($acadyear) . "&acadsemester=2 \"> 2</a> " ;
 					}
+
+					$_roomID = "";
+					$_roomID = isset($_POST['roomID'])?$_POST['roomID']:"";
+
+					$_student_id = "";
+					$_student_id = isset($_POST['student_id'])?$_POST['student_id']:"";
+
 				?>
 		<br/>
 		<form name="myform" autocomplete="off" method="post">
@@ -189,11 +196,11 @@
 					<option value="<?=$dat['room_id']?>"<?=(isset($_POST['roomID'])&&$_POST['roomID'] == $dat['room_id']?"selected":"")?>><?=getFullRoomFormat($dat['room_id'])?></option>
 				<? } mysqli_free_result($resRoom);?>
 			</select> <input type="submit" value="เรียกดู" name="search" class="button"/><br/>
-			<? if($_POST['roomID'] != "" && $_POST['questioner'] != ""){ ?>
+			<? if($_roomID != "" && $_POST['questioner'] != ""){ ?>
 				<?    $_table = ($_POST['questioner']=="parent"?"sdq_parent":($_POST['questioner']=="teacher"?"sdq_teacher":"sdq_student"));
-					  $xlevel = getXlevel($_POST['roomID']);
-					  $xyearth= getXyearth($_POST['roomID']);
-					  $room = getRoom($_POST['roomID']); ?>
+					  $xlevel = getXlevel($_roomID);
+					  $xyearth= getXyearth($_roomID);
+					  $room = getRoom($_roomID); ?>
 					
 					นักเรียน 
 					<? $sql_Student = "select id,prefix,firstname,lastname from students left outer join $_table on (id = student_id)
@@ -205,7 +212,7 @@
 					<select name="student_id" class="inputboxUpdate">
 						<option value=""></option>
 						<? while($_datSt = mysqli_fetch_assoc($resStud)){ ?>
-							<option value="<?=$_datSt['id']?>" <?=$_datSt['id']==$_POST['student_id']?"selected":""?>><?=$_datSt['id']."-".$_datSt['prefix'].$_datSt['firstname']." ".$_datSt['lastname']?></option>
+							<option value="<?=$_datSt['id']?>" <?=$_datSt['id']==$_student_id?"selected":""?>><?=$_datSt['id']."-".$_datSt['prefix'].$_datSt['firstname']." ".$_datSt['lastname']?></option>
 						<? }mysqli_free_result($resStud); ?>
 					</select>
 			<? } //end if check roomID submit ?>
@@ -280,7 +287,7 @@
 					</tr>
 					<tr>
 						<td align="right" width="120px" class="key">ชื่อผู้ปกครอง :</td>
-						<td><?=$_dat['a_name']?></td>
+						<td><?=isset($_dat['a_name'])?$_dat['a_name']:""?></td>
 					</tr>
 				</table>
 				
@@ -584,7 +591,10 @@
 		$_type3 = $_POST['choice2'] + $_POST['choice10'] + $_POST['choice15'] + $_POST['choice21'] + $_POST['choice25'];
 		$_type4 = $_POST['choice6'] + $_POST['choice11'] + $_POST['choice14'] + $_POST['choice19'] + $_POST['choice23'];
 		$_type5 = $_POST['choice1'] + $_POST['choice4'] + $_POST['choice9'] + $_POST['choice17'] + $_POST['choice20'];
-		$_type6 = $_POST['choice26'] + $_POST['choice27'] + $_POST['choice28'] + $_POST['choice29'] + $_POST['choice30'] + $_POST['choice33'];
+		
+		if(isset($_POST['choice27'])){
+			$_type6 = $_POST['choice26'] + $_POST['choice27'] + $_POST['choice28'] + $_POST['choice29'] + $_POST['choice30'] + $_POST['choice33'];
+		}
 		$_all = $_type1 + $_type2 + $_type3 + $_type4;
 
 		$_sql = "update " . $_POST['table'] . "

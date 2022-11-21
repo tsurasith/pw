@@ -74,7 +74,7 @@
 	
 	<? $_sql .= " where xedbe = '" . $acadyear . "' and acadyear = '" . $acadyear . "' and acadsemester = '" . $acadsemester . "' and questioner = '" . $_POST['questioner'] . "' "; ?>
 	<? $_sql .= " and xlevel = '" . substr($_POST['roomID'],0,1) . "' and xyearth = '" . substr($_POST['roomID'],2,1) . "' "; ?>
-	<? $_sql .= ($_POST['studstatus']=="1,2"?" and studstatus in (1,2) ":"") ; ?>
+	<? $_sql .= (isset($_POST['studstatus'])=="1,2"?" and studstatus in (1,2) ":"") ; ?>
 	<? $_sql .=	" group by room order by room"; ?>
 	<? //echo $_sql; ?>
 	<? $_result = mysqli_query($_connection,$_sql); ?>
@@ -118,9 +118,9 @@
 						<? $_na=0; $_n4=0; $_r4=0; $_d4=0; ?>
 							<? while($_dat = mysqli_fetch_assoc($_result)) { ?>
 								<? $_catXML .= "<category name='" . ($_class . '/' . $_dat['room']) . "' hoverText=''/>"; ?>
-								<? $_setA .= "<set value='" . ($_dat['normal3']+$_dat['normal4']) . "' />"; ?>
-								<? $_setB .= "<set value='" . ($_dat['risk3']+$_dat['risk4']) . "'  />"; ?>
-								<? $_setC .= "<set value='" . ($_dat['damage3']+$_dat['damage4']) . "' />"; ?>
+								<? $_setA .= "<set value='" . ($_dat['normal4']) . "' />"; ?>
+								<? $_setB .= "<set value='" . ($_dat['risk4']) . "'  />"; ?>
+								<? $_setC .= "<set value='" . ($_dat['damage4']) . "' />"; ?>
 								<? $_t += $_dat['total']; ?>
 								<tr>
 									<td align="left" style="padding-left:15px;"><?=$_class . '/' . $_dat['room']?></td>

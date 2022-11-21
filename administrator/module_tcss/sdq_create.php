@@ -120,7 +120,10 @@
 			<tr>
 			  <td >&nbsp;</td>
 			  <td ><?php
-						if($_POST['date'] == "") { 
+			  			$_date_create = "";
+						$_date_create = isset($_POST['date'])?$_POST['date']:"";
+
+						if($_date_create == "") { 
 							if(isset($_POST['date']))
 							echo "<font color='red'>ผิดพลาดกรุณาเลือกวันที่ก่อน</font>";
 						}

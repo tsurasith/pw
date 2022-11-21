@@ -192,10 +192,15 @@
 					<option value="<?=$dat['room_id']?>"<?=(isset($_POST['roomID'])&&$_POST['roomID'] == $dat['room_id']?"selected":"")?>><?=getFullRoomFormat($dat['room_id'])?></option>
 				<? } mysqli_free_result($resRoom);?>
 			</select> <input type="submit" value="เรียกดู" name="search" class="button"/><br/>
-			<? if($_POST['roomID'] != ""){ ?>
-				<?    $xlevel = getXlevel($_POST['roomID']);
-					  $xyearth= getXyearth($_POST['roomID']);
-					  $room = getRoom($_POST['roomID']);
+			<?php
+				$_roomID = "";
+				$_roomID = isset($_POST['roomID'])?$_POST['roomID']:"";
+
+			?>
+			<? if($_roomID != ""){ ?>
+				<?    $xlevel = getXlevel($_roomID);
+					  $xyearth= getXyearth($_roomID);
+					  $room = getRoom($_roomID);
 	  			 ?>
 					
 					นักเรียน 
@@ -208,7 +213,11 @@
 					<select name="student_id" class="inputboxUpdate">
 						<option value=""></option>
 						<? while($_datSt = mysqli_fetch_assoc($resStud)){ ?>
-							<option value="<?=$_datSt['id']?>" <?=$_datSt['id']==$_POST['student_id']?"selected":""?>><?=$_datSt['id']."-".$_datSt['prefix'].$_datSt['firstname']." ".$_datSt['lastname']?></option>
+							<?php
+								$_student_id = "";
+								$_student_id = isset($_POST['student_id'])?$_POST['student_id']:"";
+							?>
+							<option value="<?=$_datSt['id']?>" <?=$_datSt['id']==$_student_id?"selected":""?>><?=$_datSt['id']."-".$_datSt['prefix'].$_datSt['firstname']." ".$_datSt['lastname']?></option>
 						<? }mysqli_free_result($resStud); ?>
 					</select>
 			<? } //end if check roomID submit ?>
@@ -593,7 +602,9 @@
 		$_type3 = $_POST['choice2'] + $_POST['choice10'] + $_POST['choice15'] + $_POST['choice21'] + $_POST['choice25'];
 		$_type4 = $_POST['choice6'] + $_POST['choice11'] + $_POST['choice14'] + $_POST['choice19'] + $_POST['choice23'];
 		$_type5 = $_POST['choice1'] + $_POST['choice4'] + $_POST['choice9'] + $_POST['choice17'] + $_POST['choice20'];
-		$_type6 = $_POST['choice26'] + $_POST['choice27'] + $_POST['choice28'] + $_POST['choice29'] + $_POST['choice30'] + $_POST['choice31'] + $_POST['choice32'] + $_POST['choice33'];
+		if(isset($_POST['choice27'])){
+			$_type6 = $_POST['choice26'] + $_POST['choice27'] + $_POST['choice28'] + $_POST['choice29'] + $_POST['choice30'] + $_POST['choice31'] + $_POST['choice32'] + $_POST['choice33'];
+		}
 		$_all = $_type1 + $_type2 + $_type3 + $_type4;
 
 		$_sql = "update sdq_student

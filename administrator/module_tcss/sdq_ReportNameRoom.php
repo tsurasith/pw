@@ -101,7 +101,7 @@ if(isset($_POST['search']) && $_POST['roomID'] != "")
 										and b.acadyear = '" .$acadyear ."'
 										and b.acadsemester = '" .$acadsemester ."'
 										and b.questioner = '" . $_POST['questioner'] . "' ";
-		if($_POST['studstatus']=="1,2") $sqlStudent .= " and studstatus in (1,2) ";
+		if(isset($_POST['studstatus'])=="1,2") $sqlStudent .= " and studstatus in (1,2) ";
 		$sqlStudent .= " order by sex,id,ordinal";
 		$resStudent = mysqli_query($_connection,$sqlStudent);
 		$ordinal = 1;
