@@ -35,7 +35,7 @@
     </tr>
   </table>
   
-<? if($_POST['budgetType']==""){ ?>  
+<? if(@$_POST['budgetType']==""){ ?>  
 <?php
 	$_sql = "select budget_type,count(project_id) as num,sum(budget_income) as income from project where acadyear = '" .$acadyear. "'  group by budget_type";
 	$_result = mysqli_query($_connection,$_sql);

@@ -30,7 +30,7 @@
 				?><br/>
 		<form method="post" name="myform">
 			<font size="2" color="#000000">
-				<input type="checkbox" value="1" name="budgetType" onclick="document.myform.submit();" <?=$_POST['budgetType']=="1"?"checked":""?> /> เฉพาะเงินงบประมาณแผ่นดิน
+				<input type="checkbox" value="1" name="budgetType" onclick="document.myform.submit();" <?=@$_POST['budgetType']=="1"?"checked":""?> /> เฉพาะเงินงบประมาณแผ่นดิน
 			</font>
 		</form>
 	  </td>
@@ -41,7 +41,7 @@
 			  a.budget_academic
 			from project a left outer join project_budget b on (a.project_id = b.project_id)
 			where acadyear = '" . $acadyear . "' and acadsemester = '" . $acadsemester . "' "; ?>
-<? $_sql .= ($_POST['budgetType']!="1"?"":" and a.budget_type = '00' ");	?>
+<? @$_sql .= ($_POST['budgetType']!="1"?"":" and a.budget_type = '00' ");	?>
 <? $_sql .= " group by a.project_id order by acadyear,acadsemester"; ?>
 <?	$_res = @mysqli_query($_connection,$_sql); ?>
 <?	if(@mysqli_num_rows($_res)>0) { ?>

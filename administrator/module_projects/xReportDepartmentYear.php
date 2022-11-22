@@ -25,10 +25,10 @@
 				ฝ่าย 
 				<select name="budget_academic" id="budget_academic" class="inputboxUpdate">
 					<option value=""></option>
-					<option value="กิจการนักเรียน" <?=$_POST['budget_academic']=="กิจการนักเรียน"?"selected":""?>>กิจการนักเรียน</option>
-					<option value="วิชาการ"  <?=$_POST['budget_academic']=="วิชาการ"?"selected":""?>>วิชาการ</option>
-					<option value="บริหารทั่วไป" <?=$_POST['budget_academic']=="บริหารทั่วไป"?"selected":""?>>บริหารทั่วไป</option>
-					<option value="อำนวยการ" <?=$_POST['budget_academic']=="อำนวยการ"?"selected":""?>>อำนวยการ</option>
+					<option value="กิจการนักเรียน" <?=@$_POST['budget_academic']=="กิจการนักเรียน"?"selected":""?>>กิจการนักเรียน</option>
+					<option value="วิชาการ"  <?=@$_POST['budget_academic']=="วิชาการ"?"selected":""?>>วิชาการ</option>
+					<option value="บริหารทั่วไป" <?=@$_POST['budget_academic']=="บริหารทั่วไป"?"selected":""?>>บริหารทั่วไป</option>
+					<option value="อำนวยการ" <?=@$_POST['budget_academic']=="อำนวยการ"?"selected":""?>>อำนวยการ</option>
 				</select>
 				<input type="submit" value="เรียกดู" class="button" />
 			</form>
@@ -37,7 +37,7 @@
     </tr>
   </table>
   
-<? if($_POST['budget_academic']==""){ ?>  
+<? if(@$_POST['budget_academic']==""){ ?>  
 <?php
 	$_sql = "select budget_academic,count(project_id) as num,sum(budget_income) as income from project where acadyear = '" .$acadyear. "' group by budget_academic";
 	$_result = mysqli_query($_connection,$_sql);

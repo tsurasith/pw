@@ -24,12 +24,12 @@
 				มาตรฐาน
 				<select name="standard" class="inputboxUpdate">
 					<option value=""></option>
-					<option value="00" <?=$_POST['standard']=="00"?"selected":""?>>สมศ.</option>
-					<option value="01" <?=$_POST['standard']=="01"?"selected":""?>>สพฐ.</option>
-					<option value="02" <?=$_POST['standard']=="02"?"selected":""?>>ท้องถิ่นฯ</option>
+					<option value="00" <?=@$_POST['standard']=="00"?"selected":""?>>สมศ.</option>
+					<option value="01" <?=@$_POST['standard']=="01"?"selected":""?>>สพฐ.</option>
+					<option value="02" <?=@$_POST['standard']=="02"?"selected":""?>>ท้องถิ่นฯ</option>
 				</select> 
 				<input type="submit" value="เรียกดู" name="search" class="button" /><br/>
-				<input type="checkbox" value="1" name="budgetType" onclick="document.myform.submit();" <?=$_POST['budgetType']=="1"?"checked":""?> /> เฉพาะเงินงบประมาณแผ่นดิน
+				<input type="checkbox" value="1" name="budgetType" onclick="document.myform.submit();" <?=@$_POST['budgetType']=="1"?"checked":""?> /> เฉพาะเงินงบประมาณแผ่นดิน
 			</font>
 		</form>
 	  </td>
@@ -39,11 +39,11 @@
 		<center><font color="#FF0000"><br/><br/>กรุณาเลือก มาตรฐาน ที่ต้องการทราบข้อมูลก่อน</font></center>
 <? }//end if ?>
 
-<? if($_POST['standard'] != "") { ?>
+<? if(@$_POST['standard'] != "") { ?>
 		<?	$_sql = "select a.standard,a.indexof,b.project_name,b.budget_income,b.budget_academic
 					from project_qa a left outer join project b on (a.project_id = b.project_id)
 					where organize = '" . $_POST['standard'] . "' and acadyear = '" . $acadyear . "' "; ?>
-		<? $_sql .= ($_POST['budgetType']!="1"?"":" and a.budget_type = '00' ");	?>
+		<? @$_sql .= ($_POST['budgetType']!="1"?"":" and a.budget_type = '00' ");	?>
 		<? $_sql .= " order by b.acadyear,b.acadsemester,a.standard,a.indexof,b.finish_date"; ?>
 		<?	$_res = @mysqli_query($_connection,$_sql); ?>
 		<?	if(@mysqli_num_rows($_res)>0) { ?>

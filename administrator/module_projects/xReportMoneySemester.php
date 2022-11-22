@@ -13,6 +13,10 @@
 				<?php
 					if(isset($_REQUEST['acadyear'])) { $acadyear = $_REQUEST['acadyear']; }
 					if(isset($_REQUEST['acadsemester'])) { $acadsemester = $_REQUEST['acadsemester']; }
+
+					$_budget_type = "";
+					$_budget_type = isset($_POST['budgetType'])?$_POST['budgetType']:"";
+
 				?>
 				ปีการศึกษา<?php  
 					echo "<a href=\"index.php?option=module_projects/xReportMoneySemester&acadyear=" . ($acadyear - 1) . "\"><img src=\"../images/pull_left.gif\" border=\"0\" /></a> " ;
@@ -30,8 +34,8 @@
 				แหล่งเงินงบประมาณ 
 				<select name="budgetType" class="inputboxUpdate">
 					<option value=""></option>
-					<option value="00" <?=isset($_POST['budgetType'])&&$_POST['budgetType']=="00"?"selected":""?>>เงินงบประมาณ</option>
-					<option value="01" <?=isset($_POST['budgetType'])&&$_POST['budgetType']=="01"?"selected":""?>>เงินอุดหนุนอื่น</option>
+					<option value="00" <?=$_budget_type=="00"?"selected":""?>>เงินงบประมาณ</option>
+					<option value="01" <?=$_budget_type=="01"?"selected":""?>>เงินอุดหนุนอื่น</option>
 				</select>
 				<input type="submit" value="เรียกดู" class="button" />
 			</form>
@@ -40,7 +44,7 @@
     </tr>
   </table>
   
-<? if($_POST['budgetType']==""){ ?>  
+<? if($_budget_type==""){ ?>  
 <?php
 	$_sql = "select budget_type,count(project_id) as num,sum(budget_income) as income from project where acadyear = '" .$acadyear. "' and acadsemester = '" . $acadsemester ."' group by budget_type";
 	$_result = mysqli_query($_connection,$_sql);

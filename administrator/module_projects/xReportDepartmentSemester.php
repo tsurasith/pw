@@ -25,16 +25,20 @@
 					else { echo " <a href=\"index.php?option=module_projects/xReportDepartmentSemester&acadyear=" . ($acadyear) . "&acadsemester=1 \"> 1</a> , " ; }
 					if($acadsemester == 2) { echo "<font color='blue'>2</font>"; }
 					else { echo " <a href=\"index.php?option=module_projects/xReportDepartmentSemester&acadyear=" . ($acadyear) . "&acadsemester=2 \"> 2</a> " ; }
+
+					$_budget_academic = "";
+					$_budget_academic = isset($_POST['budget_academic'])?$_POST['budget_academic']:"";
+
 				?>
 		<font size="2" color="#000000">
 			<form method="post" autocomplete="off">
 				ฝ่าย 
 				<select name="budget_academic" id="budget_academic" class="inputboxUpdate">
 					<option value=""></option>
-					<option value="กิจการนักเรียน" <?=$_POST['budget_academic']=="กิจการนักเรียน"?"selected":""?>>กิจการนักเรียน</option>
-					<option value="วิชาการ" <?=$_POST['budget_academic']=="วิชาการ"?"selected":""?>>วิชาการ</option>
-					<option value="บริหารทั่วไป" <?=$_POST['budget_academic']=="บริหารทั่วไป"?"selected":""?>>บริหารทั่วไป</option>
-					<option value="อำนวยการ" <?=$_POST['budget_academic']=="อำนวยการ"?"selected":""?>>อำนวยการ</option>
+					<option value="กิจการนักเรียน" <?=$_budget_academic=="กิจการนักเรียน"?"selected":""?>>กิจการนักเรียน</option>
+					<option value="วิชาการ" <?=$_budget_academic=="วิชาการ"?"selected":""?>>วิชาการ</option>
+					<option value="บริหารทั่วไป" <?=$_budget_academic=="บริหารทั่วไป"?"selected":""?>>บริหารทั่วไป</option>
+					<option value="อำนวยการ" <?=$_budget_academic=="อำนวยการ"?"selected":""?>>อำนวยการ</option>
 				</select>
 				<input type="submit" value="เรียกดู" class="button" />
 			</form>
@@ -43,7 +47,7 @@
     </tr>
   </table>
   
-<? if($_POST['budget_academic']==""){ ?>  
+<? if(isset($_POST['budget_academic'])==""){ ?>  
 <?php
 	$_sql = "select budget_academic,count(project_id) as num,sum(budget_income) as income from project where acadyear = '" .$acadyear. "' and acadsemester = '" . $acadsemester ."' group by budget_academic";
 	$_result = mysqli_query($_connection,$_sql);

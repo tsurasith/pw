@@ -43,6 +43,11 @@
 			<?php
 				if(isset($_REQUEST['acadyear'])) { $acadyear = $_REQUEST['acadyear']; }
 				if(isset($_REQUEST['acadsemester'])) { $acadsemester = $_REQUEST['acadsemester']; }
+
+
+				$_project_id = "";
+				$_project_id = isset($_POST['project_id'])?$_POST['project_id']:"";
+
 			?>
 			ปีการศึกษา<?php  
 						echo "<a href=\"index.php?option=module_projects/edit&acadyear=" . ($acadyear - 1) . "\"><img src=\"../images/pull_left.gif\" border=\"0\" /></a> " ;
@@ -73,7 +78,7 @@
 				<select name="project_id" class="inputboxUpdate">
 					<option value=""></option>
 					<? while($_dat = mysqli_fetch_assoc($_res)) { ?>
-						<option value="<?=$_dat['project_id']?>" <?=$_POST['project_id']==$_dat['project_id']?"selected":""?>><?=strlen(trim($_dat['project_name']))>102?(substr($_dat['project_name'],0,102) . "..."):$_dat['project_name']?></option>
+						<option value="<?=$_dat['project_id']?>" <?=$_project_id==$_dat['project_id']?"selected":""?>><?=strlen(trim($_dat['project_name']))>102?(substr($_dat['project_name'],0,102) . "..."):$_dat['project_name']?></option>
 					<? }//end while ?>
 				</select> <input type="submit" class="button" name="search" value="เรียกดู" />
 			</td>
@@ -81,7 +86,7 @@
 	</table>
 </form>
 
-<? if($_POST['save']){ 
+<? if(isset($_POST['save'])){ 
 		$_sql = "update project set
 					project_name = '" . trim($_POST['project_name']) . "',
 					detail = '" . trim($_POST['detail']) . "',

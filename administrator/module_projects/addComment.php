@@ -45,6 +45,11 @@
 					else {
 						echo " <a href=\"index.php?option=module_projects/addComment&acadyear=" . ($acadyear) . "&acadsemester=2 \"> 2</a> " ;
 					}
+
+					$_p_id = "";
+					$_p_id = isset($_POST['p_id'])?$_POST['p_id']:"";
+
+
 				?>
 		<font size="2" color="#000000">
 			<form method="post" autocomplete="off">
@@ -52,7 +57,7 @@
 				<select name="p_id" class="inputboxUpdate">
 					<option value=""></option>
 					<? while($_dat = mysqli_fetch_assoc($_res)) { ?>
-						<option value="<?=$_dat['project_id']?>" <?=$_POST['p_id']==$_dat['project_id'] || $_REQUEST['p_id']==$_dat['project_id']?"selected":""?>><?=strlen(trim($_dat['project_name']))>90?(substr($_dat['project_name'],0,90) . "..."):$_dat['project_name']?></option>
+						<option value="<?=$_dat['project_id']?>" <?=$_p_id==$_dat['project_id']?"selected":""?>><?=strlen(trim($_dat['project_name']))>90?(substr($_dat['project_name'],0,90) . "..."):$_dat['project_name']?></option>
 					<? }//end while ?>
 				</select> <input type="submit" class="button" name="search" value="เรียกดู" />
 			</form>
@@ -68,16 +73,16 @@
 						'" . $_POST['detail'] . "'
 							)";
 			$_smsError = "ผิดพลาดเนื่องจาก : ";
-			mysqli_query($_connection,$_sql) or die ( "<center><font color='red'><br/>" . $_smsError . mysqli_error() . "</font></center>");
+			mysqli_query($_connection,$_sql) or die ( "<center><font color='red'><br/>" . $_smsError . mysqli_error($_connection) . "</font></center>");
 		}
 	?>
 	 
-  <? if(isset($_POST['search']) && $_POST['p_id'] == "") { ?>
+  <? if(isset($_POST['search']) && $_p_id == "") { ?>
   		<center><font color="#FF0000"><br/>กรุณาเลือก กิจกรรมโครงการ ที่ต้องการเพิ่ม/แก้ไขข้อมูลก่อน </font></center>
   <? } ?>
 
 <?
-	$_sql = "select * from project where project_id ='" . (isset($_POST['p_id'])?$_POST['p_id']:$_REQUEST['p_id']) . "'";
+	$_sql = "select * from project where project_id ='" . ($_p_id) . "'";
 	$_res = @mysqli_query($_connection,$_sql);
 	if(@mysqli_num_rows($_res)>0) {
 		$_datProj = mysqli_fetch_assoc($_res);

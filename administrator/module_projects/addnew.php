@@ -62,6 +62,10 @@
 					else{
 						echo " <a href=\"index.php?option=module_projects/addnew&acadyear=" . ($acadyear) . "&acadsemester=2 \"> 2</a> " ;
 					}
+
+					$_project_id = "";
+					$_project_id = isset($_POST['project_id'])?$_POST['project_id']:getNextProjectID($_connection,$acadyear,$acadsemester);
+
 				?>
 	  </td>
     </tr>
@@ -81,7 +85,7 @@
 		<tr>
 			<td align="right" width="200px" valign="top" class="key">รหัสกิจกรรม/โครงการ :</td>
 			<td>
-				<input type="text" id="project_id" name="project_id" class="noborder2" size="10" maxlength="10" value="<?=isset($_POST['save'])?$_POST['project_id']:getNextProjectID($acadyear,$acadsemester)?>" />
+				<input type="text" id="project_id" name="project_id" class="noborder2" size="10" maxlength="10" value="<?=$_project_id?>" />
 				<font color="#FF0000">*</font>(อัตโนมัติ รูปแบบ : YYYY-T-XXX)
 			</td>
 		</tr>
@@ -147,6 +151,7 @@
 	</table>
 </form>
 <? } else { 
+	$_checkID = 0;
 	$_chekcID = mysqli_num_rows(mysqli_query($_connection,"select project_id from project where project_id = '" . $_POST['project_id'] . "'"));
 	if($_checkID > 0) { ?>
 		<center><br/><font color="#FF0000">ไม่สามารถบันทึกข้อมูลได้เนื่องจาก "รหัสกิจกรรม/โครงการ" ซ้ำกับฐานข้อมูลเดิม</font><br/>
@@ -173,17 +178,17 @@
 				<font color="#008000">บันทึกกิจกรรมโครงการเรียบร้อยแล้ว</font>
 					<br/><br/><input type="button" value="ดำเนินการต่อไป" onclick="location.href= 'index.php?option=module_projects/index'" />
 			</font></center>
-<?		} else { echo "<center><font color='red'><br/> ผิดพลาดเนื่องจาก - " . mysqli_error() . "</font></center>";} //end insert
+<?		} else { echo "<center><font color='red'><br/> ผิดพลาดเนื่องจาก - " . mysqli_error($_connection) . "</font></center>";} //end insert
    } //end else
 ?>
 </div>
 
 <?php
-	function getNextProjectID($acadyear,$acadsemester)
+	function getNextProjectID($_connection,$acadyear,$acadsemester)
 	{
 		$_sql = "select substr(project_id,8,3) as id from project where acadyear='".$acadyear."' and acadsemester='".$acadsemester."' order by 1 desc limit 0,1";
 		$_dat = mysqli_fetch_assoc(mysqli_query($_connection,$_sql));
-		if($_dat['id']==""){
+		if(isset($_dat['id'])==""){
 			return  $acadyear.'-'.$acadsemester.'-001';
 		}
 		else

@@ -49,6 +49,12 @@
 		<?php
 			if(isset($_REQUEST['acadyear'])) { $acadyear = $_REQUEST['acadyear']; }
 			if(isset($_REQUEST['acadsemester'])) { $acadsemester = $_REQUEST['acadsemester']; }
+
+			$_p_id = "";
+			$_p_id = isset($_POST['p_id'])?$_POST['p_id']:"";
+			if(isset($_REQUEST['p_id'])) $_p_id = $_REQUEST['p_id'];
+
+
 		?>
 		ปีการศึกษา<?php  
 					echo "<a href=\"index.php?option=module_projects/addBudget&acadyear=" . ($acadyear - 1) . "\"><img src=\"../images/pull_left.gif\" border=\"0\" /></a> " ;
@@ -71,7 +77,7 @@
 				<select name="p_id" class="inputboxUpdate">
 					<option value=""></option>
 					<? while($_dat = mysqli_fetch_assoc($_res)) { ?>
-						<option value="<?=$_dat['project_id']?>" <?=$_POST['p_id']==$_dat['project_id'] || $_REQUEST['p_id']==$_dat['project_id']?"selected":""?>><?=strlen(trim($_dat['project_name']))>90?(substr($_dat['project_name'],0,90) . "..."):$_dat['project_name']?></option>
+						<option value="<?=$_dat['project_id']?>" <?=$_p_id==$_dat['project_id']?"selected":""?>><?=strlen(trim($_dat['project_name']))>90?(substr($_dat['project_name'],0,90) . "..."):$_dat['project_name']?></option>
 					<? }//end while ?>
 				</select> <input type="submit" class="button" name="search" value="เรียกดู" />
 			</form>
@@ -85,7 +91,7 @@
 <? }//end_if ?>
 
 <?
-	$_sql = "select * from project where project_id ='" . (isset($_POST['p_id'])?$_POST['p_id']:$_REQUEST['p_id']) ."'";
+	$_sql = "select * from project where project_id ='" . ($_p_id) ."'";
 	$_res = @mysqli_query($_connection,$_sql);
 	if(@mysqli_num_rows($_res)>0) {
 		$_datProj = mysqli_fetch_assoc($_res);
@@ -155,7 +161,7 @@
 						'" . $_POST['money'] . "'
 							)";
 			$_smsError = "ผิดพลาดเนื่องจาก : ";
-			mysqli_query($_connection,$_sql) or die ($_smsError . mysqli_error());
+			mysqli_query($_connection,$_sql) or die ($_smsError . mysqli_error($_connection));
 			//echo $_sql;
 		}
 	?>

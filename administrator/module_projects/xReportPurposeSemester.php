@@ -40,7 +40,7 @@
     </tr>
   </table>
   
-<? if($_POST['purpose']==""){ ?>  
+<? if(isset($_POST['purpose'])==""){ ?>  
 <?php
 	$_sql = "select purpose,count(project_id) as num,sum(budget_income) as income from project where acadyear = '" .$acadyear. "' and acadsemester = '" . $acadsemester ."' group by purpose order by purpose desc";
 	$_result = mysqli_query($_connection,$_sql);
