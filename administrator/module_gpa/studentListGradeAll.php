@@ -92,7 +92,7 @@
       	<td class="key" width="195px" align="center" rowspan="2">ชื่อ - นามสกุล</td>
       	<td class="key" width="100px"  align="center" rowspan="2">สถานภาพ</td>
 		<td class="key" width="95px" align="center" rowspan="2">คะแนน<br/>ความประพฤติ</td>
-		<td class="key" align="center" colspan="14">ผลการเรียนไม่พึงประสงค์</td>
+		<td class="key" align="center" colspan="14">ผลการเรียน</td>
 		<td class="key" width="70px" align="center" rowspan="2">-</td>
     </tr>
     <tr>
