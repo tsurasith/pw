@@ -13,7 +13,7 @@
 	# configuration for module grade
 	$_config['grade'] = array("tc004","admin","tc208");
 	
-	$_line_token = "WByf00hGQL0URoh8FYDIcuwKNiJjIFTTIJL0PPdfcA0";
+	$_line_token = "";
 
 	//@session_start();
 ?>
