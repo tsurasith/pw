@@ -4,7 +4,7 @@
 echo $_POST['room_id'] . "<br/>";
 echo date('Y-m-d') . "<br/>";
 echo $_POST['date'] . "<br/>"; */
-
+	$a = false;
 	for($i =0 ;$i < $_POST['count'] ;$i ++)
 	{
 		$row_id = '';
@@ -33,6 +33,45 @@ echo $_POST['date'] . "<br/>"; */
 	$sql_insert_teacher = 'insert into  teachers_800 VALUES (\'' . $_POST['date'] . '-' . $_POST['room_id'] .'\',\'' . $_POST['room_id'] .'\',\'' . $_POST['teacherSign'] .'\' , \'' . $_POST['date'] .'\', ' .$_POST['acadyear'] .', ' . $_POST['acadsemester'] . ') ';
 	$b = mysqli_query($_connection,$sql_insert_teacher) or die ('Error - '. mysqli_error($_connection)); // บันทึกการเข้าใช้งานของครู
 	updateTask($_connection,$_POST['date'],$_POST['room_id']); // อัพเดทสถานะงานเป็น "บันทึก" แล้ว
+
+	// add line notification
+	if($a && $b){
+
+		$_verifySQL = "
+						select class_id,
+							sum(if(timecheck_id = '00',timecheck_id,null)+1) as a,
+							sum(if(timecheck_id = '01',timecheck_id,null)) as b,
+							sum(if(timecheck_id = '02',timecheck_id,null))/2 as c,
+							sum(if(timecheck_id = '03',timecheck_id,null))/3 as d,
+							sum(if(timecheck_id = '04',timecheck_id,null))/4 as e,
+							count(class_id) as sum
+						from student_800
+						where check_date = '" . $_POST['date'] . "' and class_id = '" . $_POST['room_id'] . "' 
+						group by class_id ";
+		$_text = "ผลการมาเข้าร่วมกิจกรรมหน้าเสาธงนักเรียนชั้น " . getFullRoomFormat($_POST['room_id']);
+		$_text .= "\n" . reportHeader($_POST['date']);
+
+		$result = mysqli_query($_connection,$_verifySQL);
+		if($result){
+		$dat = mysqli_fetch_assoc($result);
+
+		$_text .= "\n" . "มา: " .      ($dat['a']>0?$dat['a']:"-");
+		$_text .= "\n" . "กิจกรรม: " .  ($dat['b']>0?$dat['b']:"-");
+		$_text .= "\n" . "สาย: " .     ($dat['c']>0?$dat['c']:"-");
+		$_text .= "\n" . "ลา: " .      ($dat['d']>0?$dat['d']:"-");
+		$_text .= "\n" . "ขาด: " .     ($dat['e']>0?$dat['e']:"-");
+
+		$_sum = 0;
+		$_sum = ($dat['a']+$dat['b']+$dat['c']+$dat['d']+$dat['e']);
+
+		$_text .= "\n" . "รวมทั้งหมด " . $_sum . " คน ";
+		$_text .= "\n" . "บันทึกข้อมูลโดย - " . $_SESSION['shortname'];
+
+		$message = $_text;
+			SendLineMessage($message,$_line_token);
+		}
+		
+	}
 ?>
 	  <div id="content">
 	  <table width="100%"  align="center" border="0" cellspacing="10" cellpadding="0"  class="header">
@@ -59,6 +98,21 @@ echo $_POST['date'] . "<br/>"; */
   <tr bgcolor="white"> 
     <td><font size="2"  >บันทึกการเข้าแถว</font></td>
     <td><font color="#009900" size="2"  ><strong>เรียบร้อย</strong></font></td>
+  </tr>
+  <tr bgcolor="white"> 
+    <td><font size="2"  >บันทึกการเข้าร่วมของครูที่ปรึกษา</font></td>
+    <td><font color="#009900" size="2"  ><strong>เรียบร้อย</strong></font></td>
+  </tr>
+  <tr bgcolor="white"> 
+    <td><font size="2"  >ส่งข้อความแจ้งทางไลน์</font></td>
+    <td>
+		<?php
+			if(isset($_SESSION['line-success']) && $_SESSION['line-success'] != "") { ?>	
+				<font color="#009900" size="2"  ><strong>เรียบร้อย</strong></font>
+		<? } else { ?>
+				<font color="red" size="2"  ><?=$_SESSION['line-error']?></font>
+		<? } ?>
+	</td>
   </tr>
   <tr bgcolor="white"> 
     <td><font size="2"  >บันทึกการเข้าร่วมของครูที่ปรึกษา</font></td>
@@ -104,6 +158,65 @@ function updateTask($_connection,$date,$room_id)
 	//echo $sql . "<br/>";
 	mysqli_query($_connection,$sql) or die ('Error - ' . mysqli_error($_connection));
 
+}
+
+function SendLineMessage($message,$token)
+{
+	//ini_set('display_errors', 1);
+	//ini_set('display_startup_errors', 1);
+	//error_reporting(E_ALL);
+	//date_default_timezone_set("Asia/Bangkok");
+
+	$sToken = "";
+	$sToken = $token;
+	$sMessage = "";
+	$sMessage = $message;
+
+	
+	$chOne = curl_init(); 
+	curl_setopt( $chOne, CURLOPT_URL, "https://notify-api.line.me/api/notify"); 
+	curl_setopt( $chOne, CURLOPT_SSL_VERIFYHOST, 0); 
+	curl_setopt( $chOne, CURLOPT_SSL_VERIFYPEER, 0); 
+	curl_setopt( $chOne, CURLOPT_POST, 1); 
+	curl_setopt( $chOne, CURLOPT_POSTFIELDS, "message=".$sMessage); 
+	$headers = array( 'Content-type: application/x-www-form-urlencoded', 'Authorization: Bearer '.$sToken.'', );
+	curl_setopt($chOne, CURLOPT_HTTPHEADER, $headers); 
+	curl_setopt( $chOne, CURLOPT_RETURNTRANSFER, 1); 
+	$result = curl_exec( $chOne ); 
+	
+	$_SESSION['line-success'] = "";
+	$_SESSION['line-error'] = "";
+
+	if($result){
+		$_SESSION['line-success'] = 'ส่งข้อความแจ้งในไลน์เรียบร้อยแล้ว';
+	}else{
+		$_SESSION['line-error'] = 'ระบบไม่สามารถส่งข้อความแจ้งทางไลน์ได้';
+	}
+	curl_close( $chOne );   
+}
+
+function reportHeader($date)
+{
+	$txt = "ประจำวันที่ " ;
+
+	$_x = explode('-',$date,3);
+	switch ($_x[1]) {
+		case "01" : $txt = $txt . number_format($_x[2],0,'.','') . " เดือน มกราคม  พ.ศ. " . ($_x[0] + 543) ;break;
+		case "02" : $txt = $txt . number_format($_x[2],0,'.','') . " เดือน กุมภาพันธ์  พ.ศ. " . ($_x[0] + 543) ;break;
+		case "03" : $txt = $txt . number_format($_x[2],0,'.','') . " เดือน มีนาคม  พ.ศ. " . ($_x[0] + 543) ;break;
+		case "04" : $txt = $txt . number_format($_x[2],0,'.','') . " เดือน เมษายน  พ.ศ. " . ($_x[0] + 543) ;break;
+		case "05" : $txt = $txt . number_format($_x[2],0,'.','') . " เดือน พฤษภาคม  พ.ศ. " . ($_x[0] + 543) ;break;
+		case "06" : $txt = $txt . number_format($_x[2],0,'.','') . " เดือน มิถุุนายน  พ.ศ. " . ($_x[0] + 543) ;break;
+		case "07" : $txt = $txt . number_format($_x[2],0,'.','') . " เดือน กรกฎาคม  พ.ศ. " . ($_x[0] + 543) ;break;
+		case "08" : $txt = $txt . number_format($_x[2],0,'.','') . " เดือน สิงหาคม  พ.ศ. " . ($_x[0] + 543) ;break;
+		case "09" : $txt = $txt . number_format($_x[2],0,'.','') . " เดือน กันยายน  พ.ศ. " . ($_x[0] + 543) ;break;
+		case "10" : $txt = $txt . number_format($_x[2],0,'.','') . " เดือน ตุลาคม  พ.ศ. " . ($_x[0] + 543) ;break;
+		case "11" : $txt = $txt . number_format($_x[2],0,'.','') . " เดือน พฤศจิกายน  พ.ศ. " . ($_x[0] + 543) ;break;
+		case "12" : $txt = $txt . number_format($_x[2],0,'.','') . " เดือน ธันวาคม  พ.ศ. " . ($_x[0] + 543) ;break;
+		default : $txt = $txt . "ผิดพลาด";
+	}
+	
+	return $txt  ;
 }
 
 ?>

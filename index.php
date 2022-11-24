@@ -67,6 +67,7 @@
 					$_SESSION['pw-logined'] = true;
 					$_SESSION['username'] = $_REQUEST['username'];
 					$_SESSION['name'] = $data->PREFIX . $data->FIRSTNAME ." ".  $data->LASTNAME;
+					$_SESSION['shortname'] =  $data->FIRSTNAME ." ".  $data->LASTNAME;
 					$_SESSION['pw-type'] = $_REQUEST['type'] ;
 					if($data->TeacCode == "999" || $data->superuser == "1"){ $_SESSION['superAdmin'] = true; }
 				
