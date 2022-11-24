@@ -16,11 +16,11 @@ echo $_POST['date'] . "<br/>"; */
 		{
 			$row_id = $_POST['date'] . $_POST['room_id'] .$i;
 		}
-		$sql_insert_student = 'INSERT INTO student_800 VALUES (\'' . $row_id . '\', \'' . $_POST['student_id'][$i]  . '\', \''. $_POST['room_id'] .'\', \'' . timecheck_id($_POST['check'][$i]) .'\', \''. $_POST['date'] . '\',\'' . date('Y-m-d') . '\', ' .$_POST['acadyear'] .', ' . $_POST['acadsemester'] . ', \''. $_SESSION['name']  . '\');'; 
+		$sql_insert_student = 'REPLACE INTO student_800 VALUES (\'' . $row_id . '\', \'' . $_POST['student_id'][$i]  . '\', \''. $_POST['room_id'] .'\', \'' . timecheck_id($_POST['check'][$i]) .'\', \''. $_POST['date'] . '\',\'' . date('Y-m-d') . '\', ' .$_POST['acadyear'] .', ' . $_POST['acadsemester'] . ', \''. $_SESSION['name']  . '\');'; 
 		$a = mysqli_query($_connection,$sql_insert_student) or die ('Error - ' . mysqli_error($_connection));  // บันทึกข้อมูลการเช็ค
 		if($_POST['check'][$i] == "yellow" || $_POST['check'][$i] == "blue" || $_POST['check'][$i] == "red")
 		{
-			$sql = "insert into student_discipline values (null,'" . $_POST['student_id'][$i] . "','" . $_POST['date'] . "','08.00',' ',' ','". $_SESSION['name'] . "',curdate(),
+			$sql = "replace into student_discipline values (null,'" . $_POST['student_id'][$i] . "','" . $_POST['date'] . "','08.00',' ',' ','". $_SESSION['name'] . "',curdate(),
 								'ครู','" . $_SESSION['name'] . "','" . $_POST['date'] . "','เห็นควรมอบให้หัวหน้าระดับดำเนินการสอบสวน',
 								'" . disDetail($_POST['check'][$i]) . "','" . $_SESSION['name'] . "')";
 			$sql_status = "insert into student_disciplinestatus values('" . $_POST['student_id'][$i]  . "',null,'1','00','0','" . $acadyear . "','" . $acadsemester . "')";
@@ -30,7 +30,7 @@ echo $_POST['date'] . "<br/>"; */
 	}
 	
 	
-	$sql_insert_teacher = 'insert into  teachers_800 VALUES (\'' . $_POST['date'] . '-' . $_POST['room_id'] .'\',\'' . $_POST['room_id'] .'\',\'' . $_POST['teacherSign'] .'\' , \'' . $_POST['date'] .'\', ' .$_POST['acadyear'] .', ' . $_POST['acadsemester'] . ') ';
+	$sql_insert_teacher = 'replace into  teachers_800 VALUES (\'' . $_POST['date'] . '-' . $_POST['room_id'] .'\',\'' . $_POST['room_id'] .'\',\'' . $_POST['teacherSign'] .'\' , \'' . $_POST['date'] .'\', ' .$_POST['acadyear'] .', ' . $_POST['acadsemester'] . ') ';
 	$b = mysqli_query($_connection,$sql_insert_teacher) or die ('Error - '. mysqli_error($_connection)); // บันทึกการเข้าใช้งานของครู
 	updateTask($_connection,$_POST['date'],$_POST['room_id']); // อัพเดทสถานะงานเป็น "บันทึก" แล้ว
 
