@@ -6,7 +6,21 @@
       <td ><strong><font color="#990000" size="4">Learning Achievement</font></strong><br />
         <span class="normal"><font color="#0066FF"><strong>รายละเอียดผลการศึกษาที่มีผลการประเมินไม่ผ่าน</strong></font></span></td>
       <td align="right">
-      	<input type="button" class="button" value="ย้อนกลับ" onClick="history.go(-1);">
+      <?php
+          $_previospage = "index.php?option=module_gpa/";
+          $_previospage .= isset($_REQUEST['previouspage'])?$_REQUEST['previouspage']:"";
+
+          //$_previospage = "index.php?option=module_800/studentList";
+
+          $_roomID = "";
+          $_roomID = isset($_REQUEST['roomID'])?$_REQUEST['roomID']:"";
+
+
+        ?>
+        <form method="post" action="<?=$_previospage?>">
+            <input type="hidden" name="roomID" value="<?=$_roomID?>" />
+            <input type="submit" name="search" class="button" value="ย้อนกลับ" />
+        </form>
       </td>
     </tr>
   </table>
@@ -18,12 +32,24 @@
 	  
 	  
 	  $_sql =   "select 
-					 a.acadyear,a.acadsemester,a.psubjectcode,b.psubjectname,b.psubjectcredit,a.p100,a.grade,a.regrade,b.groupsara
-				from grades a 
-					 left outer join subjects b on (a.psubjectcode = b.psubjectcode and a.acadyear = b.acadyear)
-				where a.student_id = '" . trim($_REQUEST['student_id']) . "' and 
-				      grade in ('0','ร','มส') 
-				order by a.acadyear desc,a.acadsemester desc,b.groupsara";
+              a.acadyear,
+              a.acadsemester,
+              a.subjectcode,
+              b.subjectname,
+              b.subjectunit,
+              a.score100,
+              a.grade,
+              a.regrade,
+              b.firstgroup
+          from learn_grades a left outer join learn_subjects b 
+              on (a.subjectcode = b.subjectcode and a.acadyear = b.acadyear and a.acadsemester = b.acadsemester
+              and a.RegisterClass = b.SubjectClass )
+          where a.studentcode = '" . $_REQUEST['student_id'] . "' and 
+				      trim(grade) in ('0','ร','มส','') 
+				order by a.acadyear desc,a.acadsemester desc,b.firstgroup";
+
+        
+
 	  // echo $_sql;
 	  @$_result = mysqli_query($_connection,$_sql);
 	  $_no = 1;
@@ -65,15 +91,15 @@
 	        <tr>
         		<td align="center"><?=$_dat['acadyear']==$_xYear?"":$_dat['acadyear']?></td>
                 <td align="center"><?=$_dat['acadsemester']==$_xSemester && $_dat['acadyear']==$_xYear?"":$_dat['acadsemester']?></td>
-                <td style="padding-left:20px;"><?=$_dat['psubjectcode']?></td>
-                <td><?=$_dat['psubjectname']?></td>
-                <td align="center"><?=$_dat['psubjectcredit']?></td>
-                <td align="right" style="padding-right:25px;"><?=displayP100($_dat['p100'])?></td>
+                <td style="padding-left:20px;"><?=$_dat['subjectcode']?></td>
+                <td><?=$_dat['subjectname']?></td>
+                <td align="center"><?=$_dat['subjectunit']?></td>
+                <td align="right" style="padding-right:25px;"><?=displayP100($_dat['score100'])?></td>
                 <td align="center"><b><?=displayGrade($_dat['grade'])?></b></td>
                 <td align="center"><b><?=$_dat['regrade']==""?"":displayGrade($_dat['regrade'])?></b></td>
                 <td align="center">
                 	<? 	$_fileAttached = $_SERVER["DOCUMENT_ROOT"] . "/bn/grades/"; ?>
-					<? 	$_fileAttached .= $_dat['acadyear'].$_dat['acadsemester'].$_REQUEST['student_id'].$_dat['groupsara'].substr($_dat['psubjectcode'],-5).".jpg"; ?>
+					<? 	$_fileAttached .= $_dat['acadyear'].$_dat['acadsemester'].$_REQUEST['student_id'].$_dat['firstgroup'].substr($_dat['subjectcode'],-5).".jpg"; ?>
                     <?  	 if($_dat['regrade']!="") {
 								if(file_exists($_fileAttached)) {
 									echo "<a target='_blank' href='module_gpa/displayFileAttached.php?id=" . substr($_fileAttached,-20) . "'>";

@@ -78,7 +78,7 @@
 <div align="center">
   <table class="admintable"  cellpadding="1" cellspacing="1" border="0" align="center">
     <tr> 
-      <th colspan="10" align="center">
+      <th colspan="13" align="center">
 	  		<img src="../images/school_logo.png" width="120px"><br/>
 			รายชื่อนักเรียนชั้นมัธยมศึกษาปีที่ 
 			<?
@@ -95,35 +95,39 @@
         <td class="key" width="40px" align="center" rowspan="2">ห้อง</td>
       	<td class="key" width="100px"  align="center" rowspan="2">สถานภาพ</td>
 		<td class="key" width="85px" align="center" rowspan="2">คะแนน<br/>ความประพฤติ</td>
-		<td class="key" align="center" colspan="4">ผลการเรียนไม่พึงประสงค์</td>
+		<td class="key" align="center" colspan="6">ผลการเรียนไม่พึงประสงค์</td>
 		<td class="key" width="70px" align="center" rowspan="2">-</td>
     </tr>
     <tr>
-      	<td class="key" width="50px" align="center">0</td>
-      	<td class="key" width="50px" align="center">ร</td>
-      	<td class="key" width="50px"  align="center">มส.</td>
-        <td class="key" width="60px"  align="center">รวม</td>
+		<td class="key"  align="center">0</td>
+      	<td class="key"  align="center">ร</td>
+      	<td class="key"  align="center">มส.</td>
+		<td class="key"  align="center">มผ</td>
+		<td class="key"  align="center">n/a</td>
+		<td class="key"  align="center">รวม</td>
     </tr>
 	<?php
 		$sqlStudent = "select 
-							id,prefix,firstname,lastname,studstatus,points,room,students.xlevel,xyearth,
-							sum(if(grade='0',1,0)) as z0,
-							sum(if(grade='ร',1,0)) as z1,
-							sum(if(grade='มส',1,0)) as z2,
-							count(grade) as total
-					   from students left outer join grades on (id = student_id)
-					   where 1=1 and xedbe = '" . $acadyear . "' and ";
-		if($_POST['roomID'] != "all"){		
-			$sqlStudent .= " students.xlevel = '". $xlevel . "' and 
-							 xyearth = '" . $xyearth . "' and  ";
+							id,prefix,firstname,lastname,studstatus,points,room,s.xlevel,xyearth,
+							sum(if(grade='0' or grade = '0.0',1,0)) as 'grade00',
+							sum(if(grade='ร',1,0)) as 'gradewait',
+							sum(if(grade='มส',1,0)) as 'gradedismiss',
+							sum(if(grade='มผ',1,0)) as 'gradenotpass',
+							sum(if(trim(grade)='',1,0)) as 'nograde'
+						from 
+							students s left join learn_grades g on (s.id = g.studentcode)				   
+					   where 
+					   		1=1 and xedbe = '" . $acadyear . "' ";
+		if($_roomID != "all"){		
+			$sqlStudent .= " and  s.xlevel = '". $xlevel . "' and 
+							 s.xyearth = '" . $xyearth . "'  ";
 		}
-			$sqlStudent .= " grade in ('0','ร','มส') ";
-		if(isset($_POST['studstatus'])=="1,2") $sqlStudent .= " and studstatus in (1,2) ";
+			$sqlStudent .= "and trim(grade) in ('0','ร','มส','') ";
+		if(isset($_POST['studstatus'])=="1,2") $sqlStudent .= " and s.studstatus in (1,2) ";
 		if(isset($_POST['failstatus'])=="1") $sqlStudent .= " and regrade is null or regrade in ('','0','ร','มส') ";
-		$sqlStudent .= "group by student_id ";
-		$sqlStudent .= "order by count(grade) desc,sex,id ";
+		$sqlStudent .= "group by s.id ";
+		$sqlStudent .= "order by count(grade) desc,sex, convert(firstname using tis620), convert(lastname using tis620) ";
 		
-		//echo $sqlStudent;
 		
 		$resStudent = mysqli_query($_connection,$sqlStudent);
 		$ordinal = 1;
@@ -131,18 +135,24 @@
 		for($i = 0; $i < $totalRows ; $i++) { ?>
 		<tr onMouseOver="this.style.backgroundColor='#FFCCFF'; this.style.cursor='hand';" onMouseOut=this.style.backgroundColor="#FFFFFF">
 			<? $dat = mysqli_fetch_array($resStudent); ?>
+			<?php
+				$_grade_total = 0;
+				$_grade_total = $dat['grade00']+$dat['gradewait']+$dat['gradedismiss']+$dat['gradenotpass']+$dat['nograde'];
+			?>
 			<td align="center"><?=$ordinal++?></td>
 			<td align="center"><?=$dat['id']?></td>
 			<td><?=$dat['prefix'] . $dat['firstname'] . " " . $dat['lastname']?></td>
             <td align="center"><?=$dat['xlevel']==3?$dat['xyearth']:$dat['xyearth']+3?>/<?=$dat['room']?></td>
 			<td align="center"><?=displayStudentStatusColor($dat['studstatus'])?></td>
 			<td align="center"><?=displayPoint($dat['points'])?></td>
-			<td align="center"><?=$dat['z0']==0?"-":("<b>" . $dat['z0'] . "</b>")?></td>
-            <td align="center"><?=$dat['z1']==0?"-":("<b>" . $dat['z1'] . "</b>")?></td>
-            <td align="center"><?=$dat['z2']==0?"-":("<b>" . $dat['z2'] . "</b>")?></td>
-            <td align="center"><?=$dat['total']==0?"-":("<b>" . $dat['total'] . "</b>")?></td>
+			<td align="center"><?=$dat['grade00']==0?"-":("<b><font color='red'>" . $dat['grade00'] . "</font></b>")?></td>
+			<td align="center"><?=$dat['gradewait']==0?"-":("<b>" . $dat['gradewait'] . "</b>")?></td>
+            <td align="center"><?=$dat['gradedismiss']==0?"-":("<b>" . $dat['gradedismiss'] . "</b>")?></td>
+            <td align="center"><?=$dat['gradenotpass']==0?"-":("<b>" . $dat['gradenotpass'] . "</b>")?></td>
+			<td align="center"><?=$dat['nograde']==0?"-":("<b>" . $dat['nograde'] . "</b>")?></td>
+			<td align="center"><?=$_grade_total==0?"-":("<b>" . $_grade_total . "</b>")?></td>
             <td align="center">
-            	<a href="index.php?option=module_gpa/gradeStudentListFailsLevel&xlevel=<?=$dat['xlevel']?>&xyearth=<?=$dat['xyearth']?>&room=<?=$dat['room']?>&name=<?=$dat['prefix'] . $dat['firstname'] . " " . $dat['lastname']?>&student_id=<?=$dat['id']?>">
+            	<a href="index.php?option=module_gpa/gradeStudentListFailsLevel&xlevel=<?=$dat['xlevel']?>&xyearth=<?=$dat['xyearth']?>&room=<?=$dat['room']?>&name=<?=$dat['prefix'] . $dat['firstname'] . " " . $dat['lastname']?>&student_id=<?=$dat['id']?>&previouspage=studentListFailsLevel&roomID=<?=$_roomID?>">
                 	รายละเอียด
                 </a>
             </td>

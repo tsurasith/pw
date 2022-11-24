@@ -16,7 +16,7 @@
 		</tr>
         <tr>
             <td width="20px">&nbsp;</td>
-            <td><a href="index.php?option=module_gpa/studentListGradeAll">1.2 ผลสัมฤทธิ์นักเรียนตามห้องเรียน (ทุกภาคเรียน)</a></td>
+            <td><a href="index.php?option=module_gpa/studentListGradeAll">1.2 ผลสัมฤทธิ์นักเรียนตามห้องเรียน (แสดงผลการเรียนทั้งหมด)</a></td>
 		</tr>
 		<tr>
 			<td>&nbsp;</td>
@@ -24,17 +24,18 @@
 		</tr>
         <tr>
 			<td>&nbsp;</td>
-			<td><a href="index.php?option=module_gpa/studentListRegradeLevel">1.4 รายชื่อนักเรียนที่ส่งผลสอบแก้ไขผลการเรียนแล้ว</a></td>
+			<td>1.4 รายชื่อนักเรียนที่ส่งผลสอบแก้ไขผลการเรียนแล้ว</td>
+			<!-- <td><a href="index.php?option=module_gpa/studentListRegradeLevel">1.4 รายชื่อนักเรียนที่ส่งผลสอบแก้ไขผลการเรียนแล้ว</a></td> -->
 		</tr>
 	   <tr>
 		<td class="key" colspan="2">2. แผนภูมิ </td>
 	   </tr>
 		<tr><td>&nbsp;</td>
-			<td><a href="#">2.1 ค่าเฉลี่ยของห้องเรียนตามรายวิชา</a></td>
+			<td>2.1 ค่าเฉลี่ยของห้องเรียนตามรายวิชา</td>
 		</tr>
 		<tr>
 			<td>&nbsp;</td>
-			<td><a href="#">2.2 ภาพรวมผลสัมฤทธิ์ทั้งโรงเรียน</a></td> </tr>
+			<td>2.2 ภาพรวมผลสัมฤทธิ์ทั้งโรงเรียน</td> </tr>
        <!-- <tr>
 			<td>&nbsp;</td>
 			<td><a href="http://122.154.151.154/download/grades.xls" target="_blank">2.3 ดาวน์โหลดผลการเรียนสำหรับสร้างรายงาน Pivot Table</a></td> </tr> -->
@@ -45,7 +46,8 @@
 	   </tr>
 		<tr>
         	<td>&nbsp;</td>
-			<td><a href="index.php?option=module_gpa/gradeEdit">3.1 แก้ไขผลการเรียนนักเรียน</a></td>
+			<td>3.1 แก้ไขผลการเรียนนักเรียน</td>
+			<!-- <td><a href="index.php?option=module_gpa/gradeEdit">3.1 แก้ไขผลการเรียนนักเรียน</a></td> -->
         </tr>    
         <? } ?>
 	</table>

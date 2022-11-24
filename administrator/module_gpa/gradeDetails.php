@@ -11,15 +11,15 @@
             <input type="hidden" name="roomID" 
             	value="<?=displayRoomTable($_REQUEST['xlevel'],$_REQUEST['xyearth']) . (strlen(trim($_REQUEST['room']))>1?$_REQUEST['room']:("0".$_REQUEST['room']));?>"/>
         </form>
-        <? $_result = mysqli_query($_connection,"select distinct concat(acadsemester,'/',acadyear) as display 
-									from grades where student_id = '" . $_REQUEST['student_id'] . "' order by acadyear,acadsemester"); ?>
+        <? $_result = mysqli_query($_connection,"select distinct concat(acadsemester,'/',acadyear) as display,acadyear,acadsemester
+									from learn_grades where studentcode = '" . $_REQUEST['student_id'] . "' order by acadyear,acadsemester"); ?>
         <br/>
         <font size="2" color="#000000">
         <form name="filter" method="post">
         	เลือกภาคเรียนเพื่อแสดงผลการเรียน
             <select name="term" class="inputboxUpdate" onChange="document.filter.submit();">
                 <? while($_term = mysqli_fetch_assoc($_result)){ ?>
-                		<option value="<?=$_term['display']?>" <?=$_term['display']==$_POST['term']?"selected":""?>><?=$_term['display']?></option>
+                		<option value="<?=$_term['display']?>" <?=$_term['display']==@$_POST['term']?"selected":""?>><?=$_term['display']?></option>
 						<?
 							$_dd = explode("/",$_term['display']);
 							$Qacadyear =   $_dd[1];
@@ -41,7 +41,7 @@
 	  $_unitPoint = 0.0;
 	  $_gpa = "";
 	  
-	  if(isset($_POST['term']) || $_POST['term'] != "")
+	  if(isset($_POST['term']) || @$_POST['term'] != "")
 	  {
 			$_dd = explode("/",$_POST['term']);
 			$Qacadyear =   $_dd[1];
@@ -53,14 +53,26 @@
 	  $room = $_REQUEST['room'];
 	  
 	  
-	  $_sql =   "select 
-					 a.psubjectcode,b.psubjectname,b.psubjectcredit,a.p100,a.grade,a.regrade,b.groupsara
-				from grades a 
-					 left outer join subjects b on (a.psubjectcode = b.psubjectcode)
-				where a.student_id = '" . $_REQUEST['student_id'] . "' and a.acadyear = '" . $Qacadyear . "' and 
-					  acadsemester = '" . $Qacadsemester ."' and
-					  b.acadyear = '" . $Qacadyear . "'
-				order by b.groupsara";
+	  $_sql = "select 
+                a.acadyear,
+                a.acadsemester,
+                a.subjectcode,
+                b.subjectname,
+                b.subjectunit,
+                a.score100,
+                a.grade,
+                a.regrade,
+                b.firstgroup
+            from learn_grades a left outer join learn_subjects b 
+                on (a.subjectcode = b.subjectcode and a.acadyear = b.acadyear and a.acadsemester = b.acadsemester
+                and a.registerclass = b.subjectclass )
+				where 
+                a.studentcode = '" . $_REQUEST['student_id'] . "' and 
+                a.acadyear = '" . $Qacadyear . "' and 
+					      a.acadsemester = '" . $Qacadsemester ."' and 
+                b.acadyear = '" . $Qacadyear . "' and 
+                b.acadsemester = '" . $Qacadsemester ."' 
+				order by b.firstgroup";
 	  // echo $_sql;
 	  @$_result = mysqli_query($_connection,$_sql);
 	  $_no = 1;
@@ -97,15 +109,15 @@
         <? while($_dat = mysqli_fetch_assoc($_result)) { ?>
 	        <tr>
         		<td align="center"><?=$_no++?></td>
-                <td style="padding-left:20px;"><?=$_dat['psubjectcode']?></td>
-                <td><?=$_dat['psubjectname']?></td>
-                <td align="center"><?=$_dat['psubjectcredit']?></td>
-                <td align="right" style="padding-right:25px;"><?=displayP100($_dat['p100'])?></td>
+                <td style="padding-left:20px;"><?=$_dat['subjectcode']?></td>
+                <td><?=$_dat['subjectname']?></td>
+                <td align="center"><?=$_dat['subjectunit']?></td>
+                <td align="right" style="padding-right:25px;"><?=displayP100($_dat['score100'])?></td>
                 <td align="center"><b><?=$_dat['regrade']!=""?displayGrade($_dat['regrade']):displayGrade($_dat['grade'])?></b></td>
                 <td align="center"><b><?=$_dat['regrade']==""?"":displayGrade($_dat['grade'])?></b></td>
                 <td align="center">
                 	<? 	$_fileAttached = $_SERVER["DOCUMENT_ROOT"] . "/pk/grades/"; ?>
-					<? 	$_fileAttached .= $Qacadyear.$Qacadsemester.$_REQUEST['student_id'].$_dat['groupsara'].substr($_dat['psubjectcode'],-5).".jpg"; ?>
+					<? 	$_fileAttached .= $Qacadyear.$Qacadsemester.$_REQUEST['student_id'].$_dat['firstgroup'].substr($_dat['subjectcode'],-5).".jpg"; ?>
                     <?  	 if($_dat['regrade']!="") {
 								if(file_exists($_fileAttached)) {
 									echo "<a target='_blank' href='module_gpa/displayFileAttached.php?id=" . substr($_fileAttached,-20) . "'>";
@@ -117,19 +129,19 @@
 					?>
                 </td>
 					<?
-                    	$_credit += $_dat['psubjectcredit'];
-						if(is_numeric($_dat['grade']) && $_dat['grade'] > 0) { $_unitPoint += $_dat['grade'] * $_dat['psubjectcredit']; }
-						else if (is_numeric($_dat['regrade']) && $_dat['regrade'] > 0) { $_unitPoint += $_dat['regrade'] * $_dat['psubjectcredit'];}
+                    	$_credit += $_dat['subjectunit'];
+						if(is_numeric($_dat['grade']) && $_dat['grade'] > 0) { $_unitPoint += $_dat['grade'] * $_dat['subjectunit']; }
+						else if (is_numeric($_dat['regrade']) && $_dat['regrade'] > 0) { $_unitPoint += $_dat['regrade'] * $_dat['subjectunit'];}
                     ?>
     	    </tr>
         <? } ?>
         <tr>
         	<td class="key2" colspan="3" align="center" height="40px">รวมหน่วยการเรียน/รวมคะแนนหน่วยการเรียน/GPA</td>
             <td class="key2" align="center"><?=$_credit?></td>
-            <td class="key2" align="center"><?=$_unitPoint>0?$_unitPoint:"-"?></td>
+            <td class="key2" align="center"><?="-"?></td>
             <td class="key2" align="center">
-				<? $_gpa = substr($_unitPoint/$_credit,0,4); ?>
-				<?=number_format($_gpa,2,'.',',')?>
+				<? @$_gpa = substr($_unitPoint/$_credit,0,4); ?>
+				<?=@number_format($_gpa,2,'.',',')?>
             </td>
             <td class="key2" colspan="2"></td>
         </tr>
