@@ -58,7 +58,7 @@
 			<td class="key" colspan="2">
 				4. ระบบคัดกรองยาเสพติด 
 				[<a href="index.php?option=module_discipline/Drug_createTask">สร้างงานคัดกรอง</a>]
-				[<a href="index.php?option=module_discipline/Drug_tasklist">บันทึกงานคัดกรอง</a>]
+				[<a href="index.php?option=module_discipline/Drug_taskList">บันทึกงานคัดกรอง</a>]
 				[<a href="index.php?option=module_discipline/editStudentDrugCheck">แก้ไขการคัดกรอง</a>]
 			</td>
 		</tr>
