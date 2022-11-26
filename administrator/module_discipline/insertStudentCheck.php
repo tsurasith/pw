@@ -96,7 +96,7 @@
   </tr>
   <tr bgcolor="white">
     <td colspan="2" align="center">
-		<form action="index.php?option=module_discipline/Drug_tasklist" method="post">
+		<form action="index.php?option=module_discipline/Drug_taskList" method="post">
 			<input type="hidden" name="month" value="<?=$_POST['month']?>"/>
 			<input type="submit" name="search" value="ดำเนินการต่อไป" />
 		</form>

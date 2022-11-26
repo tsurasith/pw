@@ -11,9 +11,9 @@
 			if(isset($_REQUEST['acadsemester'])){ $acadsemester = $_REQUEST['acadsemester']; }
 		?>
 		ปีการศึกษา<?php  
-					echo "<a href=\"index.php?option=module_discipline/Drug_tasklist&acadyear=" . ($acadyear - 1) . "\"><img src=\"../images/pull_left.gif\" border=\"0\" /></a> " ;
+					echo "<a href=\"index.php?option=module_discipline/Drug_taskList&acadyear=" . ($acadyear - 1) . "\"><img src=\"../images/pull_left.gif\" border=\"0\" /></a> " ;
 					echo '<font color=\'blue\'>' .$acadyear . '</font>';
-					echo " <a href=\"index.php?option=module_discipline/Drug_tasklist&acadyear=" . ($acadyear + 1) . "\"><img src=\"../images/pull_right.gif\" border=\"0\" /></a> " ;
+					echo " <a href=\"index.php?option=module_discipline/Drug_taskList&acadyear=" . ($acadyear + 1) . "\"><img src=\"../images/pull_right.gif\" border=\"0\" /></a> " ;
 				?>
 		ภาคเรียนที่   <?php 
 					if($acadsemester == 1)
@@ -22,7 +22,7 @@
 					}
 					else
 					{
-						echo " <a href=\"index.php?option=module_discipline/Drug_tasklist&acadyear=" . ($acadyear) . "&acadsemester=1 \"> 1</a> , " ;
+						echo " <a href=\"index.php?option=module_discipline/Drug_taskList&acadyear=" . ($acadyear) . "&acadsemester=1 \"> 1</a> , " ;
 					}
 					if($acadsemester == 2)
 					{
@@ -30,11 +30,11 @@
 					}
 					else
 					{
-						echo " <a href=\"index.php?option=module_discipline/Drug_tasklist&acadyear=" . ($acadyear) . "&acadsemester=2 \"> 2</a> " ;
+						echo " <a href=\"index.php?option=module_discipline/Drug_taskList&acadyear=" . ($acadyear) . "&acadsemester=2 \"> 2</a> " ;
 					}
 				?>
 			<font color="#000000" size="2"  >
-			<form method="post" action="index.php?option=module_discipline/Drug_tasklist"> <b>เลือกเดือนสำหรับบันทึก</b>
+			<form method="post" action="index.php?option=module_discipline/Drug_taskList"> <b>เลือกเดือนสำหรับบันทึก</b>
 			<? $_sqlMonth = "select distinct month(task_date) as m,year(task_date) as y from student_drug_task 
 								where acadyear = '" . $acadyear . "' and acadsemester = '" . $acadsemester . "' and task_status = '0' 
 								order by year(task_date),month(task_date)";
