@@ -1,0 +1,60 @@
+
+
+DROP TABLE IF EXISTS
+    `assets_history`;
+
+
+CREATE TABLE IF NOT EXISTS `assets_history`(
+    `history_asset_id` INT(11) ZEROFILL NOT NULL AUTO_INCREMENT COMMENT 'Running number',
+    `asset_id` INT(6) ZEROFILL NULL COMMENT 'Running number',
+    `asset_id_new` INT(6) ZEROFILL NULL COMMENT 'Running number',
+    `asset_number` VARCHAR(15) NULL COMMENT 'เลขทะเบียนครุภัณฑ์',
+    `asset_number_new` VARCHAR(15) NULL COMMENT 'เลขทะเบียนครุภัณฑ์',
+    `asset_name` VARCHAR(100) NULL COMMENT 'ชื่อครุภัณฑ์',
+    `asset_name_new` VARCHAR(100) NULL COMMENT 'ชื่อครุภัณฑ์',
+    `asset_type` VARCHAR(100) NULL COMMENT 'ประเภทครุภัณฑ์',
+    `asset_type_new` VARCHAR(100) NULL COMMENT 'ประเภทครุภัณฑ์',
+    `asset_received_date` VARCHAR(10) NULL COMMENT 'วันที่ได้ถือกรรมสิทธิ์',
+    `asset_received_date_new` VARCHAR(10) NULL COMMENT 'วันที่ได้ถือกรรมสิทธิ์',
+    `asset_suspend_date` VARCHAR(10) NULL COMMENT 'วันที่จำหน่าย',
+    `asset_suspend_date_new` VARCHAR(10) NULL COMMENT 'วันที่จำหน่าย',
+    `asset_service_life` INT NOT NULL COMMENT 'อายุการใช้งานในหน่วย ปี',
+    `asset_service_life_new` INT NOT NULL COMMENT 'อายุการใช้งานในหน่วย ปี',
+    `asset_budget_code` INT(2) ZEROFILL NULL DEFAULT 0 COMMENT 'รหัสงบประมาณ',
+    `asset_budget_code_new` INT(2) ZEROFILL NULL DEFAULT 0 COMMENT 'รหัสงบประมาณ',
+    `asset_price` DECIMAL(24, 2) NULL COMMENT 'ราคาต่อหนึ่งหน่วย',
+    `asset_price_new` DECIMAL(24, 2) NULL COMMENT 'ราคาต่อหนึ่งหน่วย',
+    `asset_description` VARCHAR(255) NULL COMMENT 'คุณลักษณะครุภัณฑ์ เพิ่มเติม',
+    `asset_description_new` VARCHAR(255) NULL COMMENT 'คุณลักษณะครุภัณฑ์ เพิ่มเติม',
+    `asset_amount` INT NOT NULL DEFAULT 0 COMMENT 'จำนวน',
+    `asset_amount_new` INT NOT NULL DEFAULT 0 COMMENT 'จำนวน',
+    `asset_unit_code` INT(2) ZEROFILL NOT NULL DEFAULT 0 COMMENT 'รหัสหน่วยครุภัณฑ์',
+    `asset_unit_code_new` INT(2) ZEROFILL NOT NULL DEFAULT 0 COMMENT 'รหัสหน่วยครุภัณฑ์',
+    `asset_status_code` INT(2) ZEROFILL NOT NULL DEFAULT 0  COMMENT 'รหัสสถานะ',
+    `asset_status_code_new` INT(2) ZEROFILL NOT NULL DEFAULT 0  COMMENT 'รหัสสถานะ',
+    `asset_status_internal` INT(2) ZEROFILL NOT NULL DEFAULT 0 COMMENT 'รหัสสถานะภายใน',
+    `asset_status_internal_new` INT(2) ZEROFILL NOT NULL DEFAULT 0 COMMENT 'รหัสสถานะภายใน',
+    `asset_internal_location_code` INT(3) ZEROFILL NULL DEFAULT 0 COMMENT 'ที่ตั้งภายในโรงเรียน',
+    `asset_internal_location_code_new` INT(3) ZEROFILL NULL DEFAULT 0 COMMENT 'ที่ตั้งภายในโรงเรียน',
+    `asset_owner_user` VARCHAR(36) NULL,
+    `asset_owner_user_new` VARCHAR(36) NULL,
+    `project_id` VARCHAR(36) NULL,
+    `project_id_new` VARCHAR(36) NULL,
+    `sub_project_id` VARCHAR(36) NULL,
+    `sub_project_id_new` VARCHAR(36) NULL,
+    `asset_report_1` VARCHAR(1) NOT NULL DEFAULT 'Y' COMMENT 'รายงาน สท1',
+    `asset_report_1_new` VARCHAR(1) NOT NULL DEFAULT 'Y' COMMENT 'รายงาน สท1',
+    `asset_report_2` VARCHAR(1) NOT NULL DEFAULT 'Y' COMMENT 'รายงาน สท2',
+    `asset_report_2_new` VARCHAR(1) NOT NULL DEFAULT 'Y' COMMENT 'รายงาน สท2',
+    `asset_report_3` VARCHAR(1) NOT NULL DEFAULT 'Y' COMMENT 'รายงาน สท3',
+    `asset_report_3_new` VARCHAR(1) NOT NULL DEFAULT 'Y' COMMENT 'รายงาน สท3',
+    `asset_report_internal` VARCHAR(1) NOT NULL DEFAULT 'N' COMMENT 'รายงาน ภายในโรงเรียนเท่านั้น',
+    `asset_report_internal_new` VARCHAR(1) NOT NULL DEFAULT 'N' COMMENT 'รายงาน ภายในโรงเรียนเท่านั้น',
+    `created_datetime` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    `created_user` VARCHAR(36) NULL,
+    `updated_datetime` DATETIME NULL,
+    `updated_user` VARCHAR(36) NULL,
+    PRIMARY KEY(`history_asset_id`)
+) ENGINE = InnoDB DEFAULT CHARSET = utf8;
+
+

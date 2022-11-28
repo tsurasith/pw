@@ -1,0 +1,151 @@
+
+
+DROP TABLE IF EXISTS
+    `assets`;
+
+
+CREATE TABLE IF NOT EXISTS `assets`(
+    `asset_id` INT(6) ZEROFILL NOT NULL AUTO_INCREMENT COMMENT 'Running number',
+    `asset_number` VARCHAR(15) NULL COMMENT 'เลขทะเบียนครุภัณฑ์',
+    `asset_name` VARCHAR(100) NULL COMMENT 'ชื่อครุภัณฑ์',
+    `asset_type` VARCHAR(100) NULL COMMENT 'ประเภทครุภัณฑ์',
+    `asset_received_date` VARCHAR(10) NULL COMMENT 'วันที่ได้ถือกรรมสิทธิ์',
+    `asset_suspend_date` VARCHAR(10) NULL COMMENT 'วันที่จำหน่าย',
+    `asset_service_life` INT NOT NULL COMMENT 'อายุการใช้งานในหน่วย ปี',
+    `asset_budget_code` INT(2) ZEROFILL NULL DEFAULT 0 COMMENT 'รหัสงบประมาณ',
+    `asset_price` DECIMAL(24, 2) NULL COMMENT 'ราคาต่อหนึ่งหน่วย',
+    `asset_description` VARCHAR(255) NULL COMMENT 'คุณลักษณะครุภัณฑ์ เพิ่มเติม',
+    `asset_amount` INT NOT NULL DEFAULT 0 COMMENT 'จำนวน',
+    `asset_unit_code` INT(2) ZEROFILL NOT NULL DEFAULT 0 COMMENT 'รหัสหน่วยครุภัณฑ์',
+    `asset_status_code` INT(2) ZEROFILL NOT NULL DEFAULT 0  COMMENT 'รหัสสถานะ',
+    `asset_status_internal` INT(2) ZEROFILL NOT NULL DEFAULT 0 COMMENT 'รหัสสถานะภายใน',
+    `asset_internal_location_code` INT(3) ZEROFILL NULL DEFAULT 0 COMMENT 'ที่ตั้งภายในโรงเรียน',
+    `asset_owner_user` VARCHAR(36) NULL,
+    `project_id` VARCHAR(36) NULL,
+    `sub_project_id` VARCHAR(36) NULL,
+    `asset_report_1` VARCHAR(1) NOT NULL DEFAULT 'Y' COMMENT 'รายงาน สท1',
+    `asset_report_2` VARCHAR(1) NOT NULL DEFAULT 'Y' COMMENT 'รายงาน สท2',
+    `asset_report_3` VARCHAR(1) NOT NULL DEFAULT 'Y' COMMENT 'รายงาน สท3',
+    `asset_report_internal` VARCHAR(1) NOT NULL DEFAULT 'N' COMMENT 'รายงาน ภายในโรงเรียนเท่านั้น',
+    `created_datetime` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    `created_user` VARCHAR(36) NULL,
+    `updated_datetime` DATETIME NULL,
+    `updated_user` VARCHAR(36) NULL,
+    PRIMARY KEY(`asset_id`)
+) ENGINE = InnoDB DEFAULT CHARSET = utf8;
+
+
+-- TRIGGER to handle assets_history
+DELIMITER $$
+
+DROP TRIGGER IF EXISTS trigger_assets_history;
+
+CREATE TRIGGER trigger_assets_history
+    AFTER UPDATE
+    ON `assets` FOR EACH ROW
+BEGIN
+    INSERT INTO `assets_history`(
+    `history_asset_id`,
+    `asset_id`,
+    `asset_id_new`,
+    `asset_number`,
+    `asset_number_new`,
+    `asset_name`,
+    `asset_name_new`,
+    `asset_type`,
+    `asset_type_new`,
+    `asset_received_date`,
+    `asset_received_date_new`,
+    `asset_suspend_date`,
+    `asset_suspend_date_new`,
+    `asset_service_life`,
+    `asset_service_life_new`,
+    `asset_budget_code`,
+    `asset_budget_code_new`,
+    `asset_price`,
+    `asset_price_new`,
+    `asset_description`,
+    `asset_description_new`,
+    `asset_amount`,
+    `asset_amount_new`,
+    `asset_unit_code`,
+    `asset_unit_code_new`,
+    `asset_status_code`,
+    `asset_status_code_new`,
+    `asset_status_internal`,
+    `asset_status_internal_new`,
+    `asset_internal_location_code`,
+    `asset_internal_location_code_new`,
+    `asset_owner_user`,
+    `asset_owner_user_new`,
+    `project_id`,
+    `project_id_new`,
+    `sub_project_id`,
+    `sub_project_id_new`,
+    `asset_report_1`,
+    `asset_report_1_new`,
+    `asset_report_2`,
+    `asset_report_2_new`,
+    `asset_report_3`,
+    `asset_report_3_new`,
+    `asset_report_internal`,
+    `asset_report_internal_new`,
+    `created_datetime`,
+    `created_user`,
+    `updated_datetime`,
+    `updated_user`
+)
+VALUES(
+    NULL,
+    OLD.`asset_id`,
+    NEW.`asset_id`,
+    OLD.`asset_number`,
+    NEW.`asset_number`,
+    OLD.`asset_name`,
+    NEW.`asset_name`,
+    OLD.`asset_type`,
+    NEW.`asset_type`,
+    OLD.`asset_received_date`,
+    NEW.`asset_received_date`,
+    OLD.`asset_suspend_date`,
+    NEW.`asset_suspend_date`,
+    OLD.`asset_service_life`,
+    NEW.`asset_service_life`,
+    OLD.`asset_budget_code`,
+    NEW.`asset_budget_code`,
+    OLD.`asset_price`,
+    NEW.`asset_price`,
+    OLD.`asset_description`,
+    NEW.`asset_description`,
+    OLD.`asset_amount`,
+    NEW.`asset_amount`,
+    OLD.`asset_unit_code`,
+    NEW.`asset_unit_code`,
+    OLD.`asset_status_code`,
+    NEW.`asset_status_code`,
+    OLD.`asset_status_internal`,
+    NEW.`asset_status_internal`,
+    OLD.`asset_internal_location_code`,
+    NEW.`asset_internal_location_code`,
+    OLD.`asset_owner_user`,
+    NEW.`asset_owner_user`,
+    OLD.`project_id`,
+    NEW.`project_id`,
+    OLD.`sub_project_id`,
+    NEW.`sub_project_id`,
+    OLD.`asset_report_1`,
+    NEW.`asset_report_1`,
+    OLD.`asset_report_2`,
+    NEW.`asset_report_2`,
+    OLD.`asset_report_3`,
+    NEW.`asset_report_3`,
+    OLD.`asset_report_internal`,
+    NEW.`asset_report_internal`,
+    CURRENT_TIMESTAMP,
+    NEW.`created_user`,
+    CURRENT_TIMESTAMP,
+    NEW.`updated_user`
+    );
+END$$    
+
+DELIMITER ;
