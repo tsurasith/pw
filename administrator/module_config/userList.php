@@ -18,11 +18,12 @@
 	  </td>
     </tr>
   </table>
+  <div align="center">
   <? $_sql = "select * from teachers";
   	 if(isset($_POST['type']) && $_POST['type']=="xcancel") $_sql .= " where type in ('admin','teacher') ";
-	 $_sql .= " order by TeacCode,type,FIRSTNAME"; ?>
+	 $_sql .= " order by convert(FIRSTNAME using tis620), TeacCode,type"; ?>
   <? $_res = mysqli_query($_connection,$_sql) ?>
-	<table width="100%" class="admintable">
+	<table class="admintable">
 		<tr>
 			<td colspan="8"><h3>บัญชีรายชื่อผู้ใช้งานระบบสารสนเทศกิจการนักเรียน</h3></td>
 		</tr>
@@ -47,8 +48,8 @@
 			</td>
 			<td><?=$_dat['PREFIX'].$_dat['FIRSTNAME']. ' ' .$_dat['LASTNAME']?></td>
 			<td><?=$_dat['NICKNAME']?></td>
-			<td><?=$_dat['username']?></td>
-			<td><?=$_dat['password']?></td>
+			<td align="center"><?=$_dat['username']?></td>
+			<td><?="***************"?></td>
 			<td align="center">
 				<a href="index.php?option=module_config/userAddPics&teacher_code=<?=$_dat['TeacCode']?>">
 					<? if(file_exists($_teacher_img_path . "/TC" . $_dat['TeacCode'] .".jpg")) { ?>
@@ -62,6 +63,7 @@
 		</tr>
 		<? } //end while ?>
 	</table>
+					</div>
 </div>
 <? 
 	function displayPrivillage($_value){

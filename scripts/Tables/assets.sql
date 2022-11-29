@@ -36,9 +36,9 @@ CREATE TABLE IF NOT EXISTS `assets`(
 
 
 -- TRIGGER to handle assets_history
-DELIMITER $$
-
 DROP TRIGGER IF EXISTS trigger_assets_history;
+
+DELIMITER $$
 
 CREATE TRIGGER trigger_assets_history
     AFTER UPDATE
