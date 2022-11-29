@@ -21,14 +21,24 @@ CREATE TABLE IF NOT EXISTS `users_account` (
   PRIMARY KEY (`user_account_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-
 /* 
     password = hash("sha256","password_to_encrypt");
 */
 
-
-
 -- script to migrate from table: teacher
+INSERT INTO users_account 
+    (
+        user_account_id,
+        user_account_prefix,
+        user_account_firstname,
+        user_account_lastname,
+        user_account_email,
+        user_account_status,
+        user_account_type,
+        user_account_logon,
+        user_account_password,
+        created_datetime
+    )
 SELECT
     concat('XXXXXXXX-',right(rand(),4),'-XXXX-',right(rand(),4),'-XXXXXXXXXXXX'),
     PREFIX, firstname, LASTNAME, t_email, 'active', 'teacher', username, PASSWORD, CURRENT_TIMESTAMP
