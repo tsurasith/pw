@@ -85,7 +85,7 @@ where b.asset_budget_code is not null
 -- 2.2 update asset_receive_type
 update assets_clean c
 set
-	c.asset_receive_type = '2'
+	c.asset_receive_type = 2
 where
 	c.asset_receive_type = 'เงินประมาณ'
 ;
@@ -93,7 +93,7 @@ where
 -- 2.3 update asset_receive_type
 update assets_clean c
 set
-	c.asset_receive_type = '2'
+	c.asset_receive_type = 2
 where
 	c.asset_receive_type = 'งบประมาณ'
 ;
@@ -101,7 +101,7 @@ where
 -- 2.4 update asset_receive_type
 update assets_clean c
 set
-	c.asset_receive_type = '2'
+	c.asset_receive_type = 2
 where
 	c.asset_receive_type = 'งบประมมาณ'
 ;

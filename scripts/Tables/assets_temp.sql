@@ -1,4 +1,27 @@
 
+DROP TABLE IF EXISTS `assets_temp`;
+ 
+CREATE TABLE `assets_temp` (
+  `report_type` varchar(255)  NULL ,
+  `no_order` varchar(255)  NULL ,
+  `asset_name` varchar(255)  NULL ,
+  `asset_number` varchar(255)  NULL ,
+  `asset_type` varchar(255)  NULL ,
+  `asset_description` varchar(255)  NULL ,
+  `asset_received_date` varchar(255)  NULL ,
+  `nday` varchar(255)  NULL ,
+  `nmonth` varchar(255)  NULL ,
+  `nyear` varchar(255)  NULL ,
+  `asset_available_year` varchar(255)  NULL ,
+  `asset_receive_type` varchar(255)  NULL ,
+  `asset_amount` varchar(255)  NULL ,
+  `asset_unit` varchar(255)  NULL ,
+  `asset_status` varchar(255)  NULL ,
+  `asset_location` varchar(255)  NULL ,
+  `a_comment` varchar(255)  NULL
+);
+
+
 
 TRUNCATE TABLE assets_temp;
 

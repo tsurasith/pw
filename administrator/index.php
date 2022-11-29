@@ -135,6 +135,14 @@
                 </div>
                 <div style="float:left;">
                     <div class="icon">
+                        <a href="index.php?option=module_assets/index">
+                        <img src="../images/asset.png" alt="ครุภัณฑ์" align="middle" border="0" />
+                        <span>ครุภัณฑ์</span>
+                        </a>
+                    </div>
+                </div>
+                <div style="float:left;">
+                    <div class="icon">
                         <a href="index.php?option=module_tcss/index">
                         <img src="../images/tcss.png" alt="ระบบดูแลช่วยเหลือนักเรียน" align="middle" border="0" />
                         <span>TCSS</span>
