@@ -3,6 +3,7 @@
 	
 	include("include/config.inc.php");
 	include("include/mysqli.php");
+	include("include/shareFunction.php");
 
 	$username = "";
 	$password = "";
@@ -59,10 +60,53 @@
 					case 'student' : $sql = "select * from students where id = '".$_REQUEST['username']."' and id = '".($_REQUEST['password'])."' order by xedbe desc" ; break;
 				}
 				$result = mysqli_query($_connection,$sql);
+
+				$_guid_logon_history = "";
+				$_guid_logon_history = gen_uuid();
+
+				$_user_account_id = "";
+
+				$_sql_history_logon = "
+				INSERT INTO `users_logon_history`(
+					`user_logon_history_id`,
+					`user_account_id`,
+					`user_logon_by`,
+					`user_ip`,
+					`user_browser`,
+					`user_logon_result`
+				)
+				VALUES(
+					'" . $_guid_logon_history . "',
+					'" . $_user_account_id . "',
+					'" . $username . "',
+					'" . $_SERVER['REMOTE_ADDR'] . "',
+					'" . $_SERVER['HTTP_USER_AGENT'] . "',
+					'failed'
+				)";
+
+				
+				$_res_logon_history = mysqli_query($_connection,$_sql_history_logon);
+
+
 				if(mysqli_num_rows($result) == 0) {
 
 					$message = "<span class=\"red\">ข้อมูลของท่านไม่ถูกต้อง กรุณาตรวจสอบข้อมูลด้วย</span>";
 				} else {
+
+					$_user_account_id = "";
+					$_his_dat = mysqli_fetch_assoc(mysqli_query($_connection,"select user_account_id from users_account where user_account_logon = '". $username . "'"));
+					$_user_account_id = $_his_dat['user_account_id'];
+
+					$_sql_update_logon_history = "update 
+													users_logon_history 
+												set 
+													user_account_id = '" . $_user_account_id . "',
+													user_logon_result = 'success'
+												where user_logon_history_id = '". $_guid_logon_history ."'";
+
+					$_res_logon_history = mysqli_query($_connection,$_sql_update_logon_history);
+
+
 					$data = mysqli_fetch_object($result);
 					$_SESSION['pw-logined'] = true;
 					$_SESSION['username'] = $_REQUEST['username'];
@@ -73,6 +117,11 @@
 				
 					mysqli_free_result($result);
 					mysqli_close($_connection);	
+
+					$_login_notification_message  = $_SESSION['shortname'];
+					$_login_notification_message .= " ได้ทำการล็อกอินเข้าใช้งานระบบ";
+
+					SendLineMessage($_login_notification_message,$_line_token);
 
 					if($_SESSION['pw-type'] == 'admin')
 					{		

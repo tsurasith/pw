@@ -160,40 +160,6 @@ function updateTask($_connection,$date,$room_id)
 
 }
 
-function SendLineMessage($message,$token)
-{
-	//ini_set('display_errors', 1);
-	//ini_set('display_startup_errors', 1);
-	//error_reporting(E_ALL);
-	//date_default_timezone_set("Asia/Bangkok");
-
-	$sToken = "";
-	$sToken = $token;
-	$sMessage = "";
-	$sMessage = $message;
-
-	
-	$chOne = curl_init(); 
-	curl_setopt( $chOne, CURLOPT_URL, "https://notify-api.line.me/api/notify"); 
-	curl_setopt( $chOne, CURLOPT_SSL_VERIFYHOST, 0); 
-	curl_setopt( $chOne, CURLOPT_SSL_VERIFYPEER, 0); 
-	curl_setopt( $chOne, CURLOPT_POST, 1); 
-	curl_setopt( $chOne, CURLOPT_POSTFIELDS, "message=".$sMessage); 
-	$headers = array( 'Content-type: application/x-www-form-urlencoded', 'Authorization: Bearer '.$sToken.'', );
-	curl_setopt($chOne, CURLOPT_HTTPHEADER, $headers); 
-	curl_setopt( $chOne, CURLOPT_RETURNTRANSFER, 1); 
-	$result = curl_exec( $chOne ); 
-	
-	$_SESSION['line-success'] = "";
-	$_SESSION['line-error'] = "";
-
-	if($result){
-		$_SESSION['line-success'] = 'ส่งข้อความแจ้งในไลน์เรียบร้อยแล้ว';
-	}else{
-		$_SESSION['line-error'] = 'ระบบไม่สามารถส่งข้อความแจ้งทางไลน์ได้';
-	}
-	curl_close( $chOne );   
-}
 
 function reportHeader($date)
 {
