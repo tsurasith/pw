@@ -69,7 +69,7 @@
 							</td>
 						<? } else { ?>
 							<td valign="top" class="key">
-								<input type="checkbox" name="cperiod[<?=$y?>]" value="<?=$y?>" checked>
+								<input type="checkbox" name="cperiod[<?=$y?>]" value="<?=$y?>" >
 								คาบที่ <?=$y?><br/>
 								<input type="radio" name="cTeacherSign[<?=$y?>]" checked value="sign">มี <br/>
 								<input type="radio" name="cTeacherSign[<?=$y?>]" value="unsign">ไม่มี
