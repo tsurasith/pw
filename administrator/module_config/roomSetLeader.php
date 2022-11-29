@@ -175,19 +175,7 @@
 		$_room = (int)substr($_value,1,2);
 		return $_level . '/' . $_room ;
 	}
-	function displayStudent($_connection,$_value,$_year){
-		$_sql  = "select id,prefix,firstname,lastname,nickname,studstatus,p_village from students where id = '" . $_value . "' and xedbe = '" . $_year . "' ";
-		$_resX = mysqli_query($_connection,$_sql);
-		
-		if(mysqli_num_rows($_resX)>0){
-			$_dat  = mysqli_fetch_assoc($_resX);
-			mysqli_free_result($_resX);
-			return $_dat;
-		}else {
-			return "";
-		}
-		
-	}
+
 	function displayStatus($id)
 	{
 		switch ($id) {
