@@ -1,6 +1,9 @@
 ﻿<?php
-		include("../../include/class.mysqldb.php");
+		
 		include("../../include/config.inc.php");
+		include("../../include/mysqli.php");
+
+
 		$_zIndex = 1;
 		$sqlStudent = "select id,prefix,firstname,lastname,xlevel,xyearth,room,
 								howlong,travelby,utm_coordinate_x,utm_coordinate_y,studstatus
@@ -18,12 +21,12 @@
 	
 	<script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=true"></script>
     <script type="text/javascript" language="javascript">
-	// lat=15.560862&long=101.995992 --> โรงเรียน
+	// 16.342293698174675, 102.27524189881196 --> โรงเรียน
 		var map;
 		function initialize() {
 			  var myOptions = {
 				zoom: 14,
-				center: new google.maps.LatLng(15.764, 101.557),
+				center: new google.maps.LatLng(16.3422, 102.2752),
 				mapTypeId: google.maps.MapTypeId.SATELLITE
 			  }
 			  map = new google.maps.Map(document.getElementById("map_canvas"),myOptions);
@@ -35,7 +38,7 @@
 			<? $_room = ($_dat['xlevel']==3?$_dat['xyearth']:$_dat['xyearth']+3) . '/' . $_dat['room']; ?>
 				['<?=$_dat['id'] . ' ' . $_dat['prefix'] . $_dat['firstname'] . ' ' . $_dat['lastname']?>', <?=$_dat['utm_coordinate_x']?>, <?=$_dat['utm_coordinate_y']?>, <?=$_zIndex++?>,'<?=$_dat['id']?>', '<?=displayStatus($_dat['studstatus'])?>' ,<?=$_dat['howlong']?>,'<?=displayTravel($_dat['travelby'])?>','<?=$_room?>','<?=displayFlag($_dat['studstatus'])?>'],
 			<? } ?>
-				['โรงเรียนเพชรวิทยาคาร', 15.764025, 101.557868, 1000,'00000','ปกติ',0,'เดิน','พิเศษ','<?=displayFlag(2)?>']
+				['โรงเรียนเพชรวิทยาคาร', 16.3422, 102.2752, 1000,'00000','ปกติ',0,'เดิน','พิเศษ','<?=displayFlag(2)?>']
 				//[id+ชื่อ-สกุล,lat,long,zindex,id,status,howlong,travelby,flag path]				
 		];
 			
