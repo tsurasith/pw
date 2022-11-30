@@ -158,6 +158,16 @@
                         </a>
                     </div>
                 </div>
+                <? if($_SESSION['username'] == "admin" || $_SESSION['username'] == "tc100") { ?>
+                <div style="float:left;">
+                    <div class="icon">
+                        <a href="index.php?option=module_eis/index">
+                        <img src="../images/eis2.png" width="49px" alt="EIS" align="middle" border="0" />
+                        <span>EIS</span>
+                        </a>
+                    </div>
+                </div>
+                <? } ?>
 
                 <div style="float:left;display:none;">
                     <div class="icon">

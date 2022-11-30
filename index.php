@@ -97,6 +97,7 @@
 					$_his_dat = mysqli_fetch_assoc(mysqli_query($_connection,"select user_account_id from users_account where user_account_logon = '". $username . "'"));
 					$_user_account_id = $_his_dat['user_account_id'];
 
+					$_SESSION['user_account_id'] = $_user_account_id;
 					$_sql_update_logon_history = "update 
 													users_logon_history 
 												set 
@@ -121,7 +122,9 @@
 					$_login_notification_message  = $_SESSION['shortname'];
 					$_login_notification_message .= " ได้ทำการล็อกอินเข้าใช้งานระบบ";
 
-					SendLineMessage($_login_notification_message,$_line_token);
+					if($_SESSION['username']!="admin"){
+						SendLineMessage($_login_notification_message,$_line_token);
+					}
 
 					if($_SESSION['pw-type'] == 'admin')
 					{		
