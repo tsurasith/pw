@@ -53,22 +53,36 @@ echo $_POST['date'] . "<br/>"; */
 
 		$result = mysqli_query($_connection,$_verifySQL);
 		if($result){
-		$dat = mysqli_fetch_assoc($result);
+			$dat = mysqli_fetch_assoc($result);
 
-		$_text .= "\n" . "มา: " .      ($dat['a']>0?$dat['a']:"-");
-		$_text .= "\n" . "กิจกรรม: " .  ($dat['b']>0?$dat['b']:"-");
-		$_text .= "\n" . "สาย: " .     ($dat['c']>0?$dat['c']:"-");
-		$_text .= "\n" . "ลา: " .      ($dat['d']>0?$dat['d']:"-");
-		$_text .= "\n" . "ขาด: " .     ($dat['e']>0?$dat['e']:"-");
+			$_text .= "\n" . "มา: " .      ($dat['a']>0?$dat['a']:"-");
+			$_text .= "\n" . "กิจกรรม: " .  ($dat['b']>0?$dat['b']:"-");
+			$_text .= "\n" . "สาย: " .     ($dat['c']>0?$dat['c']:"-");
+			$_text .= "\n" . "ลา: " .      ($dat['d']>0?$dat['d']:"-");
+			$_text .= "\n" . "ขาด: " .     ($dat['e']>0?$dat['e']:"-");
 
-		$_sum = 0;
-		$_sum = ($dat['a']+$dat['b']+$dat['c']+$dat['d']+$dat['e']);
+			$_sum = 0;
+			$_sum = ($dat['a']+$dat['b']+$dat['c']+$dat['d']+$dat['e']);
 
-		$_text .= "\n" . "รวมทั้งหมด " . $_sum . " คน ";
-		$_text .= "\n" . "บันทึกข้อมูลโดย - " . $_SESSION['shortname'];
+			$_text .= "\n" . "รวมทั้งหมด " . $_sum . " คน ";
+			$_text .= "\n" . "บันทึกข้อมูลโดย - " . $_SESSION['shortname'];
 
-		$message = $_text;
+			$message = $_text;
 			SendLineMessage($message,$_line_token);
+
+			$_event_details = "";
+			$_event_details .= "บันทึกการมาเข้าร่วมกิจกรรมหน้าเสาธงห้อง " . getFullRoomFormat($_POST['room_id']). ' '. reportHeader($_POST['date']);
+
+			$_event_key = hash("sha256",$_event_details);
+
+			$_event_user_id = $_SESSION['user_account_id'];
+			if(checkDuplicateEventLog($_connection,$_event_key)){
+				event_log($_connection,1,1,2,
+				$_event_key,
+				$_event_details,
+				$_event_user_id,$acadyear,$acadsemester);
+			}
+			
 		}
 		
 	}

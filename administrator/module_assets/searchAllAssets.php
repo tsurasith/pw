@@ -326,6 +326,14 @@
 		
 		$_result = mysqli_query($_connection,$_sql_results);
 		//echo $_sql_results ;
+
+		$_event_details = "สืบค้นข้อมูลสินทรัพย์";
+		$_event_key = hash("sha256",$_sql_results.time());
+
+		if(checkDuplicateEventLog($_connection,$_event_key)){
+			event_log($_connection,4,0,0,$_event_key,$_event_details,$_SESSION['user_account_id'],$acadyear,$acadsemester);
+		}
+
 		
 ?>
 	<table width="100%" align="center" cellspacing="1" class="admintable" border="0" cellpadding="3">
