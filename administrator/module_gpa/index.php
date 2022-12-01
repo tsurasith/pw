@@ -40,7 +40,6 @@
 			<td>&nbsp;</td>
 			<td><a href="http://122.154.151.154/download/grades.xls" target="_blank">2.3 ดาวน์โหลดผลการเรียนสำหรับสร้างรายงาน Pivot Table</a></td> </tr> -->
             
-       <? if(in_array($_SESSION['username'],$_config['grade'])) { ?>
        <tr>
 			<td class="key" colspan="2">3. งานทะเบียนวัดผล </td>
 	   </tr>
@@ -49,7 +48,10 @@
 			<td>3.1 แก้ไขผลการเรียนนักเรียน</td>
 			<!-- <td><a href="index.php?option=module_gpa/gradeEdit">3.1 แก้ไขผลการเรียนนักเรียน</a></td> -->
         </tr>    
-        <? } ?>
+		<tr>
+        	<td>&nbsp;</td>
+			<td><a href="index.php?option=module_gpa/learnTables">3.2 เพิ่มข้อมูลตารางสอน</a></td>
+        </tr>
 	</table>
 				  
 </div>

@@ -24,6 +24,7 @@
 		</tr>
 		<tr>
 			<td class="key" width="45px" align="center">ลำดับที่</td>
+			<td class="key" width="45px" align="center">รหัส</td>
 			<td class="key" width="160px" align="center">โมดูล/ส่วนงานหลัก</td>
 			<td class="key" width="400px" align="center">คำอธิบายเพิ่มเติม</td>
             <td class="key" align="center">แก้ไขล่าสุด</td>
@@ -33,6 +34,7 @@
 		<? while($_dat = mysqli_fetch_assoc($_resModule)) { ?>
 			<tr>
 				<td align="center" valign="top"><?=$_ordinal++?></td>
+				<td align="center" valign="top"><?=$_dat['event_module_code']?></td>
 				<td valign="top"><?=$_dat['event_module_name']?></td>
 				<td valign="top"><?=$_dat['event_module_description']?></td>
                 <td valign="top"><?=$_dat['updated_datetime']?></td>
