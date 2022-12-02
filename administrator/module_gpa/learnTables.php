@@ -169,7 +169,22 @@
 
 		<font  size="2" color="#000000">เลือกครูผู้สอน
 			<?php 
-					$sql_teacher = " SELECT * FROM users_account order by convert(user_account_firstname using tis620) ";
+					$sql_teacher = " 
+						select 
+							u.user_account_prefix,
+							u.user_account_firstname,
+							u.user_account_lastname,
+							u.user_account_id,
+							count(t.SubjectCode) as c
+						from 
+							users_account u 
+							left join teaching_schedule t on (u.user_account_id = t.teacher_id)
+						group by 
+							u.user_account_id,
+							u.user_account_prefix,
+							u.user_account_firstname,
+							u.user_account_lastname
+						order by convert(u.user_account_firstname using tis620) ";
 					//echo $sql_Room ;
 					$resTeacher = mysqli_query($_connection,$sql_teacher);	
 					$_submit_teacher_name = "";		
@@ -182,7 +197,7 @@
 					{
 						$_select = (isset($_POST['teacher_id'])&&$_POST['teacher_id'] == $dat['user_account_id']?"selected":"");
 						echo "<option value=\"" . $dat['user_account_id'] . "\" $_select>";
-						echo $dat['user_account_prefix'].$dat['user_account_firstname']. ' ' . $dat['user_account_lastname'];
+						echo $dat['user_account_prefix'].$dat['user_account_firstname']. ' ' . $dat['user_account_lastname'] . ' (' . $dat['c'] . ')';
 						echo "</option>";
 						if($_select == "selected"){
 							$_submit_teacher_name = $dat['user_account_firstname']. ' ' . $dat['user_account_lastname'];
