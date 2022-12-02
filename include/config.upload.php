@@ -14,9 +14,9 @@
     */
     $_img_student_folder = "/studphoto";
     $_img_teacher_folder = "/teacphoto";
-    $_img_parent_folder  = "/aphoto";
-    $_img_father_folder  = "/papaphoto";
-    $_img_mother_folder  = "/mamaphoto";
+    $_img_parent_folder  = "/parentphoto";
+    $_img_father_folder  = "/fatherphoto";
+    $_img_mother_folder  = "/motherphoto";
     $_img_student_home   = "/studhome";
     $_img_student_certificate = "/student_certificate";
 
@@ -27,7 +27,7 @@
     $_parent_img_path   = $_target . $_img_root_folder . $_img_parent_folder . "/";
     $_father_img_path   = $_target . $_img_root_folder . $_img_father_folder . "/";
     $_mother_img_path   = $_target . $_img_root_folder . $_img_mother_folder . "/";
-    $_img_student_home  = $_target . $_img_root_folder . $_img_student_home  . "/";
+    $_student_img_home_path  = $_target . $_img_root_folder . $_img_student_home  . "/";
 
     $_student_certificate_path = $_target . $_img_root_folder . $_img_student_certificate . "/";
     

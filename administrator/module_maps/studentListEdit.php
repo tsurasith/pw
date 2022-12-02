@@ -102,8 +102,14 @@
 			<td><?=$dat['prefix'] . $dat['firstname'] . " " . $dat['lastname']?></td>
 			<td align="center"><?=displayStatus($dat['studstatus'])?></td>
 			<td align="center">
-				<a href="index.php?option=module_maps/updateHomePics&room=<?=$_POST['roomID']?>&acadsemester=<?=$acadsemester?>&acadyear=<?=$acadyear?>&student_id=<?=$dat['id']?>&report=studentListEdit">
-				<? if(file_exists($_SERVER["DOCUMENT_ROOT"] . "/pk/images/studhome/id" . $dat['id'] .".jpg")) { ?>
+				<a href="index.php?option=module_maps/updateHomePics&roomID=<?=$_POST['roomID']?>&acadsemester=<?=$acadsemester?>&acadyear=<?=$acadyear?>&student_id=<?=$dat['id']?>&report=studentListEdit">
+				<?php
+					$_homeImage =  $_student_img_home_path .  "id" . $dat['id'] . ".jpg";
+					$_fatherImage = $_father_img_path . "id" . $dat['id'] . ".jpg";
+					$_motherImage = $_mother_img_path . "id" . $dat['id'] . ".jpg";
+					$_parentImage = $_parent_img_path . "id" . $dat['id'] . ".jpg";
+				?>
+				<? if(file_exists($_homeImage)) { ?>
 					<img src="../images/home.png" width="16px" alt="คลิ๊กเพื่อแก้ไขรูปถ่ายบ้านพักของนักเรียน" />
 				<? } else { ?>
 					<img src="../images/delete.png" width="16px" alt="คลิ๊กเพื่อแก้ไขรูปถ่ายบ้านพักของนักเรียน" />
@@ -111,8 +117,8 @@
 				</a>
 			</td>
 			<td align="center">
-				<a href="index.php?option=module_maps/updateFatherPics&room=<?=$_POST['roomID']?>&acadsemester=<?=$acadsemester?>&acadyear=<?=$acadyear?>&student_id=<?=$dat['id']?>&report=studentListEdit">
-				<? if(file_exists($_SERVER["DOCUMENT_ROOT"] . "/pk/images/PapaPhoto/id" . $dat['id'] .".jpg")) { ?>
+				<a href="index.php?option=module_maps/updateFatherPics&roomID=<?=$_POST['roomID']?>&acadsemester=<?=$acadsemester?>&acadyear=<?=$acadyear?>&student_id=<?=$dat['id']?>&report=studentListEdit">
+				<? if(file_exists($_fatherImage)) { ?>
 					<img src="../images/apply.png" width="16px" alt="คลิ๊กเพื่อแก้ไขรูปบิดาของนักเรียน" />
 				<? } else { ?>
 					<img src="../images/delete.png" width="16px" alt="คลิ๊กเพื่อแก้ไขรูปบิดาของนักเรียน" />
@@ -120,8 +126,8 @@
 				</a>
 			</td>
 			<td align="center">
-				<a href="index.php?option=module_maps/updateMotherPics&room=<?=$_POST['roomID']?>&acadsemester=<?=$acadsemester?>&acadyear=<?=$acadyear?>&student_id=<?=$dat['id']?>&report=studentListEdit">
-				<? if(file_exists($_SERVER["DOCUMENT_ROOT"] . "/pk/images/MamaPhoto/id" . $dat['id'] .".jpg")) { ?>
+				<a href="index.php?option=module_maps/updateMotherPics&roomID=<?=$_POST['roomID']?>&acadsemester=<?=$acadsemester?>&acadyear=<?=$acadyear?>&student_id=<?=$dat['id']?>&report=studentListEdit">
+				<? if(file_exists($_motherImage)) { ?>
 					<img src="../images/apply.png" width="16px" alt="คลิ๊กเพื่อแก้ไขรูปมารดาของนักเรียน" />
 				<? } else { ?>
 					<img src="../images/delete.png" width="16px" alt="คลิ๊กเพื่อแก้ไขรูปมารดาของนักเรียน" />
@@ -129,8 +135,8 @@
 				</a>
 			</td>
 			<td align="center">
-				<a href="index.php?option=module_maps/updateAPics&room=<?=$_POST['roomID']?>&acadsemester=<?=$acadsemester?>&acadyear=<?=$acadyear?>&student_id=<?=$dat['id']?>&report=studentListEdit">
-				<? if(file_exists($_SERVER["DOCUMENT_ROOT"] . "/pk/images/APhoto/id" . $dat['id'] .".jpg")) { ?>
+				<a href="index.php?option=module_maps/updateAPics&roomID=<?=$_POST['roomID']?>&acadsemester=<?=$acadsemester?>&acadyear=<?=$acadyear?>&student_id=<?=$dat['id']?>&report=studentListEdit">
+				<? if(file_exists($_parentImage)) { ?>
 					<img src="../images/apply.png" width="16px" alt="คลิ๊กเพื่อแก้ไขรูปผู้ปกครองของนักเรียน" />
 				<? } else { ?>
 					<img src="../images/delete.png" width="16px" alt="คลิ๊กเพื่อแก้ไขรูปผู้ปกครองของนักเรียน" />

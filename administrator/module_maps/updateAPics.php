@@ -3,8 +3,13 @@ $_acadyear;
 $_studentID;
 $_roomID;
 
-$_target = $_SERVER["DOCUMENT_ROOT"] . "/pk/images/APhoto/";
 $_uploadError = 0;
+
+$_studentID = "";
+$_studentID = isset($_REQUEST['student_id'])?$_REQUEST['student_id']:"";
+
+$_parentImage =  $_parent_img_path .  "id" . $_studentID . ".jpg";
+
 if(isset($_POST['upload']))
 {
 	$_acadyear = $_POST['acadyear'];
@@ -23,11 +28,11 @@ if(isset($_POST['upload']))
 		}
 		else
 		{
-			@unlink($_target . "id" . $_studentID . ".jpg");
-			move_uploaded_file($_FILES["file"]["tmp_name"], $_target . $_FILES["file"]["name"]);
+			@unlink($_parentImage);
+			move_uploaded_file($_FILES["file"]["tmp_name"], $_parent_img_path . $_FILES["file"]["name"]);
 			if($_FILES["file"]["name"] != ( "id" . $_studentID . ".jpg"))
 			{
-				@rename($_target . $_FILES["file"]["name"] , $_target . "id" . $_studentID . ".jpg");
+				@rename($_parent_img_path . $_FILES["file"]["name"] , $_parentImage);
 				$_uploadError = 4; // upload Complete	
 			}
 		}
@@ -41,7 +46,7 @@ else
 {
 	$_acadyear = $_REQUEST['acadyear'];
 	$_studentID = $_REQUEST['student_id'];
-	$_roomID = $_REQUEST['roomID'];
+	$_roomID = isset($_REQUEST['roomID'])?$_REQUEST['roomID']:"";
 }
 ?>
 
@@ -67,7 +72,7 @@ else
 		<td align="center" class="key">
 			<form method="post" action="index.php?option=module_maps/<?=$_REQUEST['report']?>">
 				<input type="hidden" value="<?=$_REQUEST['acadyear']?>" name="acadyear" />
-				<input type="hidden" value="<?=$_REQUEST['room']?>" name="roomID" />
+				<input type="hidden" value="<?=$_REQUEST['roomID']?>" name="roomID" />
 				<input type="hidden" value="<?=$_REQUEST['acadsemester']?>" name="acadsemester"/>
 				<input type="hidden" value="<?=$_dat['p_village']?>" name="p_village"  />
 				<input type="submit" value="เสร็จสิ้น"  name="search"/>
@@ -120,8 +125,8 @@ else
     </tr>
 	<tr>
 		<td colspan="3" align="center">
-			<? if(file_exists($_SERVER["DOCUMENT_ROOT"] . "/pk/images/APhoto/id" . $_studentID .".jpg")) { ?>
-				<img src="../images/APhoto/id<?=$_studentID?>.jpg" width="160px" alt="รูปผู้ปกครองนักเรียน" style="border:solid #000000 1px"  />
+			<? if(file_exists($_parentImage)) { ?>
+				<img src="../images/<?=$_img_parent_folder?>/id<?=$_studentID?>.jpg" width="160px" alt="รูปผู้ปกครองนักเรียน" style="border:solid #000000 1px"  />
 			<? } else { ?>
 				<img src="../images/_unknown_female.png" width="160px" alt="รูปผู้ปกครองนักเรียน" style="border:solid #000000 1px"  />
 			<? } //end if-else ?>

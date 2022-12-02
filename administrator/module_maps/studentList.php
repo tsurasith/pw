@@ -117,10 +117,11 @@
 				</td>
 				<td align="center">
                 	<?php
-						$_homeImage = "/pk/images/studhome/id" . $_dat['id'] . ".jpg";
-						if(file_exists($_SERVER["DOCUMENT_ROOT"] . $_homeImage))
+						
+						$_homeImage =  $_student_img_home_path .  "id" . $_dat['id'] . ".jpg";
+						if(file_exists($_homeImage))
 						{ 
-							echo "<a href='module_maps/displayHomeImage.php?student_id=" . $_dat['id'] . "' target='_blank'>";
+							echo "<a href='index.php?option=module_maps/displayHomeImage&student_id=" . $_dat['id'] . "' target='_blank'>";
 							echo "แสดง";
 							echo "</a>";
 						}
