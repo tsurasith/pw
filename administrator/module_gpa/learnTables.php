@@ -58,69 +58,76 @@
 		$room = getRoom($_roomID);
 
 		if(isset($_POST['addnew'])){
-			$_sql = "INSERT INTO `teaching_schedule`(
-				`teacher_id`,
-				`SubjectCode`,
-				`weekday`,
-				`period`,
-				`location`,
-				`acadyear`,
-				`acadsemester`,
-				`acadslevel`,
-				`level`,
-				`room`,
-				`created_datetime`,
-				`created_user`
-			)
-			VALUES(
-				'" . $_POST['teacher_id'] . "',
-				'" . trim($_POST['subject_code']) . "',
-				'" . $_POST['weekday'] . "',
-				'" . $_POST['period'] . "',
-				'" . trim($_POST['location']) . "',
-				'" . $acadyear . "',
-				'" . $acadsemester . "',
-				'" . $xlevel . "',
-				'" . substr($_POST['roomID'],0,1) . "',
-				'" . $room . "',
-				CURRENT_TIMESTAMP,
-				'" . $_SESSION['user_account_id'] . "'
-			) ";
+			if(trim($_POST['subject_code'])==""){
+				$_addnew_result = "<font color='red'>ไม่สามารถเพิ่มรายวิชาที่สอนได้ กรุณาใส่รหัสวิชาให้ถูกต้อง</font>";
+			}else {
 
-			$_resAddnew = mysqli_query($_connection,$_sql);
-			if($_resAddnew){
-				$_addnew_result = "<font color='green'>เพิ่มวิชาที่สอนเรียบร้อยแล้ว</font>";
 
-				        /*
-						event_log($_connection,
-						$_event_action_type_code,
-						$_event_module_code,
-						$_event_task_code,
-						$_event_key,  -- $_event_key = hash("sha256",$_event_details);
+				$_sql = "INSERT INTO `teaching_schedule`(
+					`teacher_id`,
+					`SubjectCode`,
+					`weekday`,
+					`period`,
+					`location`,
+					`acadyear`,
+					`acadsemester`,
+					`acadslevel`,
+					`level`,
+					`room`,
+					`created_datetime`,
+					`created_user`
+				)
+				VALUES(
+					'" . $_POST['teacher_id'] . "',
+					'" . trim($_POST['subject_code']) . "',
+					'" . $_POST['weekday'] . "',
+					'" . $_POST['period'] . "',
+					'" . trim($_POST['location']) . "',
+					'" . $acadyear . "',
+					'" . $acadsemester . "',
+					'" . $xlevel . "',
+					'" . substr($_POST['roomID'],0,1) . "',
+					'" . $room . "',
+					CURRENT_TIMESTAMP,
+					'" . $_SESSION['user_account_id'] . "'
+				) ";
+
+				$_resAddnew = mysqli_query($_connection,$_sql);
+
+				if($_resAddnew){
+					$_addnew_result = "<font color='green'>เพิ่มวิชาที่สอนเรียบร้อยแล้ว</font>";
+
+							/*
+							event_log($_connection,
+							$_event_action_type_code,
+							$_event_module_code,
+							$_event_task_code,
+							$_event_key,  -- $_event_key = hash("sha256",$_event_details);
+							$_event_details,
+							$_event_user_id,$acadyear,$acadsemester)
+							*/
+
+					$_key = $_POST['teacher_id'].trim($_POST['subject_code']).$_POST['weekday'].$_POST['period'].$_POST['roomID'].$acadyear.$acadsemester;
+					
+					$_event_details = "";
+					$_event_details .= "บันทึกข้อมูลตารางสอน วิชา " . trim($_POST['subject_code']) ;
+					$_event_details .= " ห้อง " . substr($_POST['roomID'],0,1) . '/' .$room . " สอนวัน" . displayDayofWeek($_POST['weekday']) ;
+					$_event_details .= " คาบเรียนที่ " . $_POST['period'];
+					
+					$_event_key = hash("sha256",$_key);
+		
+					$_event_user_id = $_SESSION['user_account_id'];
+					if(checkDuplicateEventLog($_connection,$_event_key)){
+						event_log($_connection,1,2,3,
+						$_event_key,
 						$_event_details,
-						$_event_user_id,$acadyear,$acadsemester)
-						*/
+						$_event_user_id,$acadyear,$acadsemester);
+					}
 
-				$_key = $_POST['teacher_id'].trim($_POST['subject_code']).$_POST['weekday'].$_POST['period'].$_POST['roomID'].$acadyear.$acadsemester;
-				
-				$_event_details = "";
-				$_event_details .= "บันทึกข้อมูลตารางสอน วิชา " . trim($_POST['subject_code']) ;
-				$_event_details .= " ห้อง " . substr($_POST['roomID'],0,1) . '/' .$room . " สอนวัน" . displayDayofWeek($_POST['weekday']) ;
-				$_event_details .= " คาบเรียนที่ " . $_POST['period'];
-				
-				$_event_key = hash("sha256",$_key);
-	
-				$_event_user_id = $_SESSION['user_account_id'];
-				if(checkDuplicateEventLog($_connection,$_event_key)){
-					event_log($_connection,1,2,3,
-					$_event_key,
-					$_event_details,
-					$_event_user_id,$acadyear,$acadsemester);
+
+				}else{
+					$_addnew_result = "<font color='red'>ไม่สามารถเพิ่มรายวิชาที่สอนได้เนื่องจาก <br/>" . mysqli_error($_connection) . "</font>";
 				}
-
-
-			}else{
-				$_addnew_result = "<font color='red'>ไม่สามารถเพิ่มรายวิชาที่สอนได้เนื่องจาก <br/>" . mysqli_error($_connection) . "</font>";
 			}
 		}
   ?>
