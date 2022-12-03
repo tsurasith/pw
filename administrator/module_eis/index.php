@@ -50,6 +50,23 @@
 			<a href="index.php?option=module_eis/eventTaskList">2.2 เพิ่ม/แก้ไข ส่วนงานย่อยของโมดูลการทำงาน</a> 
 		</td>
 	</tr>
+	<tr>
+		<td colspan="2" class="key">
+			3. ส่วนวิเคราะห์การใช้งาน &nbsp; &nbsp;
+		</td>
+	</tr>
+	<tr>
+		<td width="20px">&nbsp;</td>
+		<td>
+			<a href="index.php?option=module_eis/userLoginCount">3.1 ประวัติการ Login เข้าใช้งาน</a> 
+		</td>
+	</tr>
+	<tr>
+		<td width="20px">&nbsp;</td>
+		<td>
+			<a href="index.php?option=module_eis/uploadStudentPictureProgress">3.2 ความคืบหน้าการอัพโหลดรูปนักเรียน</a> 
+		</td>
+	</tr>
 </table>
 </div>
 </div>
