@@ -110,7 +110,7 @@
 					<input type="hidden" name="acadyear" value="<?=$acadyear?>" />
 					<input type="hidden" name="acadsemester" value="<?=$acadsemester?>" />
 					<input type="submit" name="save" value="บันทึก" class="button" /> 
-					<input type="button" value="ยกเลิก" class="button" onclick="location.href='index.php?option=module_config/roomSetAdvisor&acadyear=<?=$acadyear?>&acadsemester=<?=$acadsemester?>'" />
+					<input type="button" value="ยกเลิก" class="button" onclick="location.href='index.php?option=module_config/roomSetLeader&acadyear=<?=$acadyear?>&acadsemester=<?=$acadsemester?>'" />
 					<br/><br/><br/>
 				</td>
 			</tr>
