@@ -1,12 +1,20 @@
 ﻿
 <?php
+	if(isset($_REQUEST['acadyear'])) { $acadyear = $_REQUEST['acadyear']; }
+	if(isset($_REQUEST['acadsemester'])) { $acadsemester = $_REQUEST['acadsemester']; }
+
+	if(isset($_POST['acadyear'])) { $acadyear = $_POST['acadyear']; }
+	if(isset($_POST['acadsemester'])) { $acadsemester = $_POST['acadsemester']; }
+?>
+
+
+<?php
 	if(isset($_POST['delete']))
 	{
 		$_sqlDel = "
 			DELETE from teaching_schedule
 			WHERE
 				teacher_id = '" . $_POST['teacher_id'] . "' and 
-				SubjectCode = '" . $_POST['subject_code'] . "' and 
 				weekday = '" . $_POST['weekday'] . "' and 
 				period = '" . $_POST['period'] . "' and 
 				acadyear = '" . $_POST['acadyear'] . "' and 
@@ -62,71 +70,92 @@
 				$_addnew_result = "<font color='red'>ไม่สามารถเพิ่มรายวิชาที่สอนได้ กรุณาใส่รหัสวิชาให้ถูกต้อง</font>";
 			}else {
 
+				$_existing = 0;
+				$_sqlExisting = "SELECT * FROM teaching_schedule 
+							WHERE
+								teacher_id 		= '" . $_POST['teacher_id'] . "'
+								and weekday 	= '" . $_POST['weekday'] . "'
+								and period 		= '" . $_POST['period'] . "'
+								and acadyear 	= '" . $acadyear . "'
+								and acadsemester = '" . $acadsemester ."' ;
+							";
+				$_resExisting = mysqli_query($_connection,$_sqlExisting);
+				$_existing = mysqli_num_rows($_resExisting);
+				if($_existing > 0){
 
-				$_sql = "INSERT INTO `teaching_schedule`(
-					`teacher_id`,
-					`SubjectCode`,
-					`weekday`,
-					`period`,
-					`location`,
-					`acadyear`,
-					`acadsemester`,
-					`acadslevel`,
-					`level`,
-					`room`,
-					`created_datetime`,
-					`created_user`
-				)
-				VALUES(
-					'" . $_POST['teacher_id'] . "',
-					'" . trim($_POST['subject_code']) . "',
-					'" . $_POST['weekday'] . "',
-					'" . $_POST['period'] . "',
-					'" . trim($_POST['location']) . "',
-					'" . $acadyear . "',
-					'" . $acadsemester . "',
-					'" . $xlevel . "',
-					'" . substr($_POST['roomID'],0,1) . "',
-					'" . $room . "',
-					CURRENT_TIMESTAMP,
-					'" . $_SESSION['user_account_id'] . "'
-				) ";
+					$_addnew_result  = "<font color='red'>";
+					$_addnew_result .= "ไม่สามารถบันทึกได้เนื่องจาก " . "ปีการศึกษา " . $acadyear . " ภาคเรียนที่ " . $acadsemester . "<br/> ";;
+					$_addnew_result .= "วัน" . displayDayofWeek($_POST['weekday']);
+					$_addnew_result .= " คาบเรียนที่ " . $_POST['period'] . " มีคาบสอนอยู่ก่อนแล้ว หากต้องการเพิ่มให้ทำการลบ วิชาที่สอนออกจากตารางก่อน";
+					$_addnew_result .= "</font>";
+					
+				}
+				else{
 
-				$_resAddnew = mysqli_query($_connection,$_sql);
-
-				if($_resAddnew){
-					$_addnew_result = "<font color='green'>เพิ่มวิชาที่สอนเรียบร้อยแล้ว</font>";
-
-							/*
-							event_log($_connection,
-							$_event_action_type_code,
-							$_event_module_code,
-							$_event_task_code,
-							$_event_key,  -- $_event_key = hash("sha256",$_event_details);
+					$_sql = "INSERT INTO `teaching_schedule`(
+						`teacher_id`,
+						`SubjectCode`,
+						`weekday`,
+						`period`,
+						`location`,
+						`acadyear`,
+						`acadsemester`,
+						`acadslevel`,
+						`level`,
+						`room`,
+						`created_datetime`,
+						`created_user`
+					)
+					VALUES(
+						'" . $_POST['teacher_id'] . "',
+						'" . trim($_POST['subject_code']) . "',
+						'" . $_POST['weekday'] . "',
+						'" . $_POST['period'] . "',
+						'" . trim($_POST['location']) . "',
+						'" . $acadyear . "',
+						'" . $acadsemester . "',
+						'" . $xlevel . "',
+						'" . substr($_POST['roomID'],0,1) . "',
+						'" . $room . "',
+						CURRENT_TIMESTAMP,
+						'" . $_SESSION['user_account_id'] . "'
+					) ";
+	
+					$_resAddnew = mysqli_query($_connection,$_sql);
+	
+					if($_resAddnew){
+						$_addnew_result = "<font color='green'>เพิ่มวิชาที่สอนเรียบร้อยแล้ว</font>";
+	
+								/*
+								event_log($_connection,
+								$_event_action_type_code,
+								$_event_module_code,
+								$_event_task_code,
+								$_event_key,  -- $_event_key = hash("sha256",$_event_details);
+								$_event_details,
+								$_event_user_id,$acadyear,$acadsemester)
+								*/
+	
+						$_key = $_POST['teacher_id'].trim($_POST['subject_code']).$_POST['weekday'].$_POST['period'].$_POST['roomID'].$acadyear.$acadsemester;
+						
+						$_event_details = "";
+						$_event_details .= "บันทึกข้อมูลตารางสอน วิชา " . trim($_POST['subject_code']) ;
+						$_event_details .= " ห้อง " . substr($_POST['roomID'],0,1) . '/' .$room . " สอนวัน" . displayDayofWeek($_POST['weekday']) ;
+						$_event_details .= " คาบเรียนที่ " . $_POST['period'];
+						
+						$_event_key = hash("sha256",$_key);
+			
+						$_event_user_id = $_SESSION['user_account_id'];
+						if(checkDuplicateEventLog($_connection,$_event_key)){
+							event_log($_connection,1,2,3,
+							$_event_key,
 							$_event_details,
-							$_event_user_id,$acadyear,$acadsemester)
-							*/
-
-					$_key = $_POST['teacher_id'].trim($_POST['subject_code']).$_POST['weekday'].$_POST['period'].$_POST['roomID'].$acadyear.$acadsemester;
-					
-					$_event_details = "";
-					$_event_details .= "บันทึกข้อมูลตารางสอน วิชา " . trim($_POST['subject_code']) ;
-					$_event_details .= " ห้อง " . substr($_POST['roomID'],0,1) . '/' .$room . " สอนวัน" . displayDayofWeek($_POST['weekday']) ;
-					$_event_details .= " คาบเรียนที่ " . $_POST['period'];
-					
-					$_event_key = hash("sha256",$_key);
-		
-					$_event_user_id = $_SESSION['user_account_id'];
-					if(checkDuplicateEventLog($_connection,$_event_key)){
-						event_log($_connection,1,2,3,
-						$_event_key,
-						$_event_details,
-						$_event_user_id,$acadyear,$acadsemester);
+							$_event_user_id,$acadyear,$acadsemester);
+						}
+					}else{
+						$_addnew_result = "<font color='red'>ไม่สามารถเพิ่มวิชาที่สอนได้ เนื่องจาก : " . mysqli_error($_connection) . "</font>";
 					}
 
-
-				}else{
-					$_addnew_result = "<font color='red'>ไม่สามารถเพิ่มรายวิชาที่สอนได้เนื่องจาก <br/>" . mysqli_error($_connection) . "</font>";
 				}
 			}
 		}
@@ -141,13 +170,7 @@
       <td ><strong><font color="#990000" size="4">Learning Achievement</font></strong><br />
         <span class="normal"><font color="#0066FF"><strong>3.2 จัดการรายวิชาที่สอน</strong></font></span></td>
       <td >
-	  <?php
-			if(isset($_REQUEST['acadyear'])) { $acadyear = $_REQUEST['acadyear']; }
-			if(isset($_REQUEST['acadsemester'])) { $acadsemester = $_REQUEST['acadsemester']; }
 
-			if(isset($_POST['acadyear'])) { $acadyear = (int)$_POST['acadyear']; }
-			if(isset($_POST['acadsemester'])) { $acadsemester = (int)$_POST['acadsemester']; }
-		?>
 		ปีการศึกษา<?php  
 					echo "<a href=\"index.php?option=module_gpa/learnTables&acadyear=" . ($acadyear - 1) . "\"><img src=\"../images/pull_left.gif\" border=\"0\" /></a> " ;
 					echo '<font color=\'blue\'>' .$acadyear . '</font>';
@@ -185,7 +208,8 @@
 							count(t.SubjectCode) as c
 						from 
 							users_account u 
-							left join teaching_schedule t on (u.user_account_id = t.teacher_id)
+							left join teaching_schedule t 
+							on (u.user_account_id = t.teacher_id and t.acadyear = '" . $acadyear ."' and t.acadsemester = '" . $acadsemester ."')
 						group by 
 							u.user_account_id,
 							u.user_account_prefix,
@@ -250,7 +274,14 @@
 	<?php
 
 
-		$_sqlTable = "select * from teaching_schedule_display where teacher_id = '" . $_POST['teacher_id'] . "' order by weekday";
+		$_sqlTable = "
+					select * 
+					from teaching_schedule_display 
+					where 
+						teacher_id = '" . $_POST['teacher_id'] . "' and
+						acadyear = '" . $acadyear . "' and 
+						acadsemester = '" . $acadsemester . "'
+						order by weekday";
 		$_resTable = mysqli_query($_connection,$_sqlTable);
 	?>
 	<? while($_dat = mysqli_fetch_assoc($_resTable)) { ?>
