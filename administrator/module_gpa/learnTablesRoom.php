@@ -119,8 +119,6 @@
 		
 		$resStudent = mysqli_query($_connection,$sqlStudent);
 		$totalRows = mysqli_num_rows($resStudent);
-		
-		$_learnTable = array();
 
 
 		if($totalRows>0){
@@ -150,9 +148,14 @@
 								if($_initSubject == $_dat['SubjectCode']){
 									echo "<br/>" . "ครู". $_dat['user_account_firstname'];
 								}else{
-									echo $_dat['SubjectCode'] . "<br/>" . "ครู". $_dat['user_account_firstname'];
+									echo "<br/>" . $_dat['SubjectCode'] . "<br/>" . "ครู". $_dat['user_account_firstname'];
 								}
-								
+								if($_counter < $totalRows){
+									$_dat = mysqli_fetch_assoc($resStudent);
+									$_initPeriod = $_dat['period'];
+									$_initWeekday = $_dat['weekday'];
+									$_counter++;
+								}
 							}
 							else{
 								$_initPeriod = $_dat['period'];
