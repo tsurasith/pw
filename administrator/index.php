@@ -1,23 +1,15 @@
 <?php
     session_start();
 
-	if(!isset($_SESSION['pw-logined']) && $_SESSION['pw-type'] != 'admin') {
+	if(!isset($_SESSION['pw-logined']) || $_SESSION['pw-type'] != 'admin') {
 
         $_host  = $_SERVER['HTTP_HOST'];
-        $_uris  = rtrim(dirname($_SERVER['PHP_SELF']),'/\\');
-        $_uri   = explode("/",$_uris);
-        $_page  = "index.php";
-
-        //echo $_uris . "<br/>";
-        //echo $_uri[1] . "<br/>";
-        //echo "Location: http://$_host/$_uri[1]/$_page";
-
-        header("Location: http://$_host/$_uri[1]/$_page");
+        header("Location: http://" . $_host . "/" . $_SESSION['deploy_folder'] . "");
         exit;
 	}
     
     
-    else {
+    else if ($_SESSION['pw-type'] == "admin"){
 
         
 	include("../include/config.inc.php");
@@ -241,5 +233,4 @@
 </html>
 <?php
 	}// end-else
-	
 ?>

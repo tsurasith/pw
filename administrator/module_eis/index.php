@@ -67,6 +67,12 @@
 			<a href="index.php?option=module_eis/uploadStudentPictureProgress">3.2 ความคืบหน้าการอัพโหลดรูปนักเรียน</a> 
 		</td>
 	</tr>
+	<tr>
+		<td width="20px">&nbsp;</td>
+		<td>
+			<a href="index.php?option=module_eis/uploadStudentHomePictureProgress">3.3 ความคืบหน้าการอัพโหลดรูปบ้าน รูปผู้ปกครองนักเรียน</a> 
+		</td>
+	</tr>
 </table>
 </div>
 </div>

@@ -1,11 +1,25 @@
 ﻿<?php
-	include("../include/class.mysqldb.php");
+    session_start();
+
+	if(!isset($_SESSION['pw-logined']) || $_SESSION['pw-type'] != 'student') {
+
+        $_host  = $_SERVER['HTTP_HOST'];
+        header("Location: http://" . $_host . "/" . $_SESSION['deploy_folder'] . "");
+        exit;
+	}
+    
+    
+    else if ($_SESSION['pw-type'] == "student"){
+
+        
 	include("../include/config.inc.php");
+    include("../include/config.upload.php");
+    include("../include/mysqli.php");
 	include("../include/shareFunction.php");
-	if(!isset($_SESSION['pw-logined']) && $_SESSION['pw-type'] != 'student') {
-		echo "<meta http-equiv='refresh' content='0;url=../index.php'>";
-	} else
-	{
+    include("../include/system_log.php");
+
+    
+
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
@@ -181,7 +195,4 @@
     </div>
 </body>
 </html>
-<?php
-	}// end-else
-	$link->closeConnect();
-?>
+<? } //end else-if ?>

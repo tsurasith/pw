@@ -12,6 +12,10 @@
 	$_protocol = stripos($_SERVER['SERVER_PROTOCOL'],'https') === 0 ? 'https://' : 'http://';
 	$_host = $_SERVER['HTTP_HOST'];
 	$_uri  = rtrim(dirname($_SERVER['PHP_SELF']),'/\\');
+
+
+	$_SESSION['deploy_folder'] = $_uri;
+
 	$_page = "";
 
 
@@ -129,19 +133,26 @@
 					if($_SESSION['pw-type'] == 'admin')
 					{		
 						$_page = 'administrator/index.php';
+						$_SESSION['page'] = $_page;
 						header("Location: http://$_host$_uri/$_page");
 						exit(0);
 					}
 					if($_SESSION['pw-type'] == 'teacher')
 					{
-						$_SESSION['teacher_id'] = $data->TeacCode;
 						$_page = 'teacher/index.php';
+
+						$_SESSION['page'] = $_page;
+						$_SESSION['teacher_id'] = $data->TeacCode;
+						
 						header("Location: http://$_host$_uri/$_page");
 						exit(0);
 					}
 					if($_SESSION['pw-type'] == 'student')
 					{
+						
 						$_page = 'student/index.php';
+						$_SESSION['page'] = $_page;
+
 						header("Location: http://$_host$_uri/$_page");
 						exit(0);
 					}
