@@ -64,7 +64,7 @@ if($_roomID != "all")
     <tr> 
       <th colspan="21" align="center">
 	  		<img src="../images/school_logo.png" width="120px"><br/>
-			รายงานความคืบหน้า การอัพโหลดรูปภาพนักเรียน<br/>ประจำปีการศึกษา <?=$acadyear?><br/>
+			รายงานความคืบหน้า การอัพโหลดรูปภาพที่อยู่อาศัย บิดา มารดาและผู้ปกครองของนักเรียน<br/>ประจำปีการศึกษา <?=$acadyear?><br/>
 			ชั้นมัธยมศึกษาปีที่ 
 			<?
 			   if($_POST['roomID'] != "all") echo $xlevel==3?$xyearth:($xyearth+3);
