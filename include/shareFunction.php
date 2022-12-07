@@ -787,5 +787,19 @@
 		curl_close( $chOne );   
 	}
 
+
+	function displayDayofWeek($_text){
+		
+		switch($_text){
+			case "0" : return "อาทิตย์"; break;
+			case "1" : return "จันทร์"; break;
+			case "2" : return "อังคาร"; break;
+			case "3" : return "พุธ"; break;
+			case "4" : return "พฤหัสบดี"; break;
+			case "5" : return "ศุกร์"; break;
+			case "6" : return "เสาร์"; break;
+			default : return "n/a";
+		}
+	}
 	
 ?>

@@ -103,6 +103,7 @@
 						`acadslevel`,
 						`level`,
 						`room`,
+						`room_id`,
 						`created_datetime`,
 						`created_user`
 					)
@@ -117,6 +118,7 @@
 						'" . $xlevel . "',
 						'" . substr($_POST['roomID'],0,1) . "',
 						'" . $room . "',
+						'" . $_POST['roomID'] . "',
 						CURRENT_TIMESTAMP,
 						'" . $_SESSION['user_account_id'] . "'
 					) ";
@@ -205,7 +207,7 @@
 							u.user_account_firstname,
 							u.user_account_lastname,
 							u.user_account_id,
-							count(t.SubjectCode) as c
+							count(t.teacher_id) as c
 						from 
 							users_account u 
 							left join teaching_schedule t 
@@ -442,17 +444,5 @@
 		}
 	}
 
-
-	function displayDayofWeek($_text){
-		
-		switch($_text){
-			case "1" : return "จันทร์"; break;
-			case "2" : return "อังคาร"; break;
-			case "3" : return "พุธ"; break;
-			case "4" : return "พฤหัสบดี"; break;
-			case "5" : return "ศุกร์"; break;
-			default : return "n/a";
-		}
-	}
 ?>
 
