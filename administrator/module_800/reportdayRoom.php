@@ -82,7 +82,7 @@
 			if(isset($_POST['studstatus'])) {
 				$sqlStudent .= "and studstatus in (1,2)";
 			}
-			$sqlStudent .= " order by a.sex,a.ordinal ";
+			$sqlStudent .= " order by a.sex,convert(firstname using tis620),convert(lastname using tis620) ";
 			$resStudent = mysqli_query($_connection,$sqlStudent);
 			$ordinal = 1;
 			$totalRows = mysqli_num_rows($resStudent);
