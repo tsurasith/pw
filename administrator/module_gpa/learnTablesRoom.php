@@ -133,12 +133,13 @@
 			$_initSubject = $_dat['SubjectCode'];
 
 			for($_i=1;$_i<=5;$_i++){
-				echo "<tr height='55px'>";
+				echo "<tr height='75px'>";
 				echo "<td align='center' class='key'>" . displayDayofWeek($_i) . "</td>";
 				for($_j=1;$_j<=8;$_j++){
 					if($_initWeekday==$_i && $_initPeriod==$_j){
 						echo "<td align='center'>";
 						echo $_dat['SubjectCode'] . "<br/>" . "ครู". $_dat['user_account_firstname']."";
+						//echo $_dat['location'];
 						$_initSubject = $_dat['SubjectCode'];
 
 						if($_counter < $totalRows){

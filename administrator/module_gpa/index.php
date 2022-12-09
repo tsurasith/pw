@@ -50,7 +50,7 @@
         </tr>    
 		<tr>
         	<td>&nbsp;</td>
-			<td><a href="index.php?option=module_gpa/learnTables">3.2 เพิ่มข้อมูลตารางสอน</a></td>
+			<td><a href="index.php?option=module_gpa/learnTables">3.2 จัดการรายวิชาที่สอน</a></td>
         </tr>
 	</table>
 				  

@@ -77,7 +77,8 @@
 								and weekday 	= '" . $_POST['weekday'] . "'
 								and period 		= '" . $_POST['period'] . "'
 								and acadyear 	= '" . $acadyear . "'
-								and acadsemester = '" . $acadsemester ."' ;
+								and acadsemester = '" . $acadsemester ."' 
+								and teacher_id  =  '" . $_POST['teacher_id'] . "'
 							";
 				$_resExisting = mysqli_query($_connection,$_sqlExisting);
 				$_existing = mysqli_num_rows($_resExisting);
@@ -275,63 +276,94 @@
     </tr>
 	<?php
 
-
+		$_totalRows = 0;
 		$_sqlTable = "
-					select * 
-					from teaching_schedule_display 
-					where 
-						teacher_id = '" . $_POST['teacher_id'] . "' and
-						acadyear = '" . $acadyear . "' and 
-						acadsemester = '" . $acadsemester . "'
-						order by weekday";
+					SELECT *
+					FROM
+						teaching_schedule t
+					WHERE
+						t.teacher_id = '" . $_POST['teacher_id'] . "'
+						and t.acadyear = '" . $acadyear . "'
+						and t.acadsemester = '" . $acadsemester . "'
+					order BY
+						weekday,period  ";
 		$_resTable = mysqli_query($_connection,$_sqlTable);
+		$_totalRows = mysqli_num_rows($_resTable);
+
+		if($_totalRows>0){
+
+			$_counter = 0;
+			$_dat = mysqli_fetch_assoc($_resTable);
+			$_counter++;
+
+			$_initWeekday = $_dat['weekday'];
+			$_initPeriod  = $_dat['period'];
+			$_initSubject = $_dat['SubjectCode'];
+
+			for($_i=1;$_i<=5;$_i++){
+				echo "<tr height='75px'>";
+				echo "<td align='center' class='key'>" . displayDayofWeek($_i) . "</td>";
+				for($_j=1;$_j<=8;$_j++){
+					if($_initWeekday==$_i && $_initPeriod==$_j){
+						echo "<td align='center'>";
+						echo "<a href='index.php?option=module_gpa/deleteSchedule&teacher_id=" . $_dat['teacher_id'] .
+								"&period=" . $_dat['period'] . "&weekday=" . $_dat['weekday'] . 
+								"&acadyear=" . $_dat['acadyear'] . "&acadsemester=" . $_dat['acadsemester'] . 
+								"&subject=" . $_dat['SubjectCode'] . "'>";
+						echo "<b>" . $_dat['SubjectCode'] . "</b><br/>";
+						echo "</a>";
+						echo $_dat['level'] . "/". $_dat['room']."<br/>";
+						echo $_dat['location'];
+
+						$_initSubject = $_dat['SubjectCode'];
+
+						if($_counter < $_totalRows){
+							$_dat = mysqli_fetch_assoc($_resTable);
+							$_counter++;
+							if($_dat['period'] == $_j){
+								if($_initSubject == $_dat['SubjectCode']){
+									echo $_dat['level'] . "/". $_dat['room']."<br/>";
+									echo $_dat['location'];
+								}else{
+									echo "<br/>";
+									echo "<a href='index.php?option=module_gpa/deleteSchedule&teacher_id=" . $_dat['teacher_id'] .
+											"&period=" . $_dat['period'] . "&weekday=" . $_dat['weekday'] . 
+											"&acadyear=" . $_dat['acadyear'] . "&acadsemester=" . $_dat['acadsemester'] . 
+											"&subject=" . $_dat['SubjectCode'] . "'>";
+									echo "<b>" . $_dat['SubjectCode'] . "</b><br/>";
+									echo "</a>";
+									echo $_dat['level'] . "/". $_dat['room']."<br/>";
+									echo $_dat['location'];
+								}
+								if($_counter < $_totalRows){
+									$_dat = mysqli_fetch_assoc($_resTable);
+									$_initPeriod = $_dat['period'];
+									$_initWeekday = $_dat['weekday'];
+									$_initSubject = $_dat['SubjectCode'];
+									$_counter++;
+								}
+							}
+							else{
+								$_initPeriod = $_dat['period'];
+								$_initWeekday = $_dat['weekday'];
+							}
+						}
+						echo "</td>";
+					}else {
+						echo "<td align='center'> -";
+						echo "</td>";
+					}
+					if($_j==4){
+						echo "<td align='center'>-</td>";
+					}
+				}
+				echo "</tr>";
+			} // end for
+
+		}else{
+			echo "<tr><td colspan='10' align='center'> ไม่พบการบันทึกข้อมูลตามเงื่อนไขที่สืบค้น </td></tr>";
+		}
 	?>
-	<? while($_dat = mysqli_fetch_assoc($_resTable)) { ?>
-	<tr>
-		<td align="center" class="key"><?=displayDayName($_dat['day_name'])?></td>
-		<td align="center">
-			<a href="index.php?option=module_gpa/deleteSchedule&teacher_id=<?=$_dat['teacher_id']?>&period=1&weekday=<?=$_dat['weekday']?>&acadyear=<?=$_dat['acadyear']?>&acadsemester=<?=$_dat['acadsemester']?>&subject=<?=$_dat['period1']?>">
-				<?=displayTeachingSchedule($_dat['period1'])?>
-			</a>
-		</td>
-		<td align="center">
-			<a href="index.php?option=module_gpa/deleteSchedule&teacher_id=<?=$_dat['teacher_id']?>&period=2&weekday=<?=$_dat['weekday']?>&acadyear=<?=$_dat['acadyear']?>&acadsemester=<?=$_dat['acadsemester']?>&subject=<?=$_dat['period2']?>">
-				<?=displayTeachingSchedule($_dat['period2'])?>
-			</a>
-		</td>
-		<td align="center">
-			<a href="index.php?option=module_gpa/deleteSchedule&teacher_id=<?=$_dat['teacher_id']?>&period=3&weekday=<?=$_dat['weekday']?>&acadyear=<?=$_dat['acadyear']?>&acadsemester=<?=$_dat['acadsemester']?>&subject=<?=$_dat['period3']?>">
-				<?=displayTeachingSchedule($_dat['period3'])?>
-			</a>
-		</td>
-		<td align="center">
-			<a href="index.php?option=module_gpa/deleteSchedule&teacher_id=<?=$_dat['teacher_id']?>&period=4&weekday=<?=$_dat['weekday']?>&acadyear=<?=$_dat['acadyear']?>&acadsemester=<?=$_dat['acadsemester']?>&subject=<?=$_dat['period4']?>">
-				<?=displayTeachingSchedule($_dat['period4'])?>
-			</a>
-		</td>
-		<td> </td>
-		<td align="center">
-			<a href="index.php?option=module_gpa/deleteSchedule&teacher_id=<?=$_dat['teacher_id']?>&period=5&weekday=<?=$_dat['weekday']?>&acadyear=<?=$_dat['acadyear']?>&acadsemester=<?=$_dat['acadsemester']?>&subject=<?=$_dat['period5']?>">
-				<?=displayTeachingSchedule($_dat['period5'])?>
-			</a>
-		</td>
-		<td align="center">
-			<a href="index.php?option=module_gpa/deleteSchedule&teacher_id=<?=$_dat['teacher_id']?>&period=6&weekday=<?=$_dat['weekday']?>&acadyear=<?=$_dat['acadyear']?>&acadsemester=<?=$_dat['acadsemester']?>&subject=<?=$_dat['period6']?>">
-				<?=displayTeachingSchedule($_dat['period6'])?>
-			</a>
-		</td>
-		<td align="center">
-			<a href="index.php?option=module_gpa/deleteSchedule&teacher_id=<?=$_dat['teacher_id']?>&period=7&weekday=<?=$_dat['weekday']?>&acadyear=<?=$_dat['acadyear']?>&acadsemester=<?=$_dat['acadsemester']?>&subject=<?=$_dat['period7']?>">
-				<?=displayTeachingSchedule($_dat['period7'])?>
-			</a>
-		</td>
-		<td align="center">
-			<a href="index.php?option=module_gpa/deleteSchedule&teacher_id=<?=$_dat['teacher_id']?>&period=8&weekday=<?=$_dat['weekday']?>&acadyear=<?=$_dat['acadyear']?>&acadsemester=<?=$_dat['acadsemester']?>&subject=<?=$_dat['period8']?>">
-				<?=displayTeachingSchedule($_dat['period8'])?>
-			</a>
-		</td>
-	</tr>
-	<? } ?>
 </table>
 </div>
   <? } //end else-if ?>
