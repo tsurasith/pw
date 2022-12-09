@@ -4,8 +4,23 @@
 	if(!isset($_SESSION['pw-logined']) || $_SESSION['pw-type'] != 'admin') {
 
         $_host  = $_SERVER['HTTP_HOST'];
-        header("Location: http://" . $_host . "/" . $_SESSION['deploy_folder'] . "");
-        exit;
+        $_uri  = rtrim(dirname($_SERVER['PHP_SELF']),'/\\');
+
+        $_endpoint = "";
+        $_uris = explode("/",$_uri);
+        for($_i=0;$_i<count($_uris)-1;$_i++){
+            $_endpoint .= $_uris[$_i] . "/";
+
+        }
+
+        if(isset($_SESSION['deploy_folder'])){
+            header("Location: http://" . $_host . "/" . $_SESSION['deploy_folder'] . "");
+            exit;
+        }else{
+            header("Location: http://" . $_host . $_endpoint);
+            exit;
+        }
+
 	}
     
     
