@@ -15,6 +15,7 @@ CREATE TABLE IF NOT EXISTS `teaching_schedule` (
   `acadslevel` varchar(1) NULL COMMENT 'อนุบาล,ประถมต้น,ประถมปลาย,ม.ต้น,ม.ปลาย',
   `level` varchar(1) NULL COMMENT 'ม.1,2,3,4,...',
   `room` INT(1) NULL,
+  `room_id` varchar(3) NULL COMMENT '101,610',
   `created_datetime` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `created_user` varchar(36) NULL,
   `updated_datetime` DATETIME NULL,

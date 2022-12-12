@@ -32,6 +32,13 @@ function check(name,value)
 	  </td>
   </tr>
 </table>
+<?php
+	$_student_id = "";
+	$_student_id = isset($_POST['studentid'])?$_POST['studentid']:"";
+
+	$_date = "";
+	$_date = isset($_POST['date'])?$_POST['date']:"";
+?>
 
   <table width="100%" align="center" cellspacing="1" class="admintable">
     <tr> 
@@ -39,12 +46,12 @@ function check(name,value)
     </tr>
     <tr> 
       <td width="130px" align="right">เลขประจำตัวนักเรียน :</td>
-      <td><input type="text" name="studentid" maxlength="5" size="5"  class="inputboxUpdate" onKeyPress="return isNumberKey(event)"/>
+      <td><input type="text" name="studentid" maxlength="5" size="5" value=<?=$_student_id?>  class="inputboxUpdate" onKeyPress="return isNumberKey(event)"/>
 	  </td>
     </tr>
 	    <tr> 
       <td align="right">วันที่แก้ไข :</td>
-        <td><input type="text" id="date" name="date" size="20" onClick="showCalendar(this.id)" class="inputboxUpdate"/> 
+        <td><input type="text" id="date" name="date" size="20" value=<?=$_date?> onClick="showCalendar(this.id)" class="inputboxUpdate"/> 
           &nbsp; 
           <input type="submit" name="action" value="เรียกดูข้อมูล" />
         </td>
@@ -102,30 +109,35 @@ function check(name,value)
 							echo "<tr><td></td><td><table>";
 							while($dat = mysqli_fetch_assoc($result))
 							{	echo "<tr  >";
-								echo "<td align=\"right\">คาบที่ $periodRows</td>";
+								echo "<td align='right'>คาบที่ " . $dat['period'] . "</td>";
 								echo "<td id=\"check[$periodRows]\">";
 								$p0Check = "";
 								$p1Check = "";
 								$p2Check = "";
 								$p3Check = "";
 								$p4Check = "";
+								$p5Check = "";
 								switch($dat['timecheck_id'])
 								{	case '00' : $p0Check = "checked"; break;
 									case '01' : $p1Check = "checked"; break;
 									case '02' : $p2Check = "checked"; break;
 									case '03' : $p3Check = "checked"; break;
 									case '04' : $p4Check = "checked"; break;
+									case '05' : $p5Check = "checked"; break;
 									default : echo "xx";
 								}
+								echo "<input type='hidden' name=\"period[$periodRows]\" value='" . $dat['period'] . "'>";
 								echo "<input type='radio' name=\"check[$periodRows]\" value='white'  $p0Check  onclick=\"check(this.name,this.value)\" /> มา | ";
 								echo "<input type='radio' name=\"check[$periodRows]\" value='lightgreen'  $p1Check onclick=\"check(this.name,this.value)\" /> กิจกรรม | ";
 								echo "<input type='radio' name=\"check[$periodRows]\" value='yellow'  $p2Check  onclick=\"check(this.name,this.value)\" > สาย | ";
-								echo "<input type='radio' name=\"check[$periodRows]\" value='blue'  $p3Check  onclick=\"check(this.name,this.value)\" > ลา | ";
-								echo "<input type='radio' name=\"check[$periodRows]\" value='red'  $p4Check onclick=\"check(this.name,this.value)\" > ขาด";
+								echo "<input type='radio' name=\"check[$periodRows]\" value='lightblue'  $p3Check  onclick=\"check(this.name,this.value)\" > ลา | ";
+								echo "<input type='radio' name=\"check[$periodRows]\" value='orange'  $p4Check onclick=\"check(this.name,this.value)\" > ขาด | ";
+								echo "<input type='radio' name=\"check[$periodRows]\" value='red'  $p5Check onclick=\"check(this.name,this.value)\" > หนีเรียน";
 								echo "</td></tr>";
 								$periodRows++;
 							}//end while
 							echo "</td></tr></table></td></tr>";
+							echo "<input type='hidden' name='count' value='" . $periodRows . "'";
 						}
 						else
 						{
@@ -143,15 +155,18 @@ function check(name,value)
 				{
 					echo "<tr><td>&nbsp;</td>";
 					echo "<td>";
-					for($cc = 1; $cc <=8 ; $cc ++)
+					for($cc = 1; $cc <=$_POST['count']-1 ; $cc ++)
 					{
-						$sqlEdit = 'update student_learn set ';
-						$sqlEdit = $sqlEdit . " timecheck_id = '" . timecheck_id($_POST['check'][$cc]) . "'";
-						$sqlEdit = $sqlEdit . " where student_id = '" . $_POST['studentid'] . "'" ;
-						$sqlEdit = $sqlEdit . " and check_date = '" . $_POST['date']  . "'" ;
-						$sqlEdit = $sqlEdit . " and period = '" . $cc . "'" ;
-						$update = mysqli_query($_connection,$sqlEdit) or die ('Error - ' . mysqli_error($_connection));
-						if($update and $cc == 8)
+						if($_POST['period'][$cc]!="") {
+							$sqlEdit = 'update student_learn set ';
+							$sqlEdit = $sqlEdit . " timecheck_id = '" . timecheck_id($_POST['check'][$cc]) . "'";
+							$sqlEdit = $sqlEdit . " where student_id = '" . $_POST['studentid'] . "'" ;
+							$sqlEdit = $sqlEdit . " and check_date = '" . $_POST['date']  . "'" ;
+							$sqlEdit = $sqlEdit . " and period = '" .$_POST['period'][$cc] . "'" ;
+							$update = mysqli_query($_connection,$sqlEdit) or die ('Error - ' . mysqli_error($_connection));
+						}
+
+						if($update and $cc == $_POST['count']-1)
 						{
 							echo "<font color='green' >บันทึกการแก้ไขข้อมูลเรียบร้อยแล้ว</font>";
 						}
@@ -183,13 +198,15 @@ function check(name,value)
 
 
 <?php
-function timecheck_id($value)
-{
+function timecheck_id($value){
+
 	if($value == 'white') return '00';
 	if($value == 'lightgreen') return '01';
 	if($value == 'yellow') return '02';
-	if($value == 'blue') return '03';
-	if($value == 'red') return '04';
+	if($value == 'lightblue') return '03';
+	if($value == 'orange') return '04';
+	if($value == 'red') return '05';
 	else return 9;
+
 }
 ?>

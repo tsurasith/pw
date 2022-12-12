@@ -20,7 +20,20 @@
 	<tr>
 		<td>&nbsp;</td>
 		<td>
-		   	<a href="index.php?option=module_learn/dateTaskCreated">1.2 ตรวจสอบวันที่สร้างงานบันทึกแล้ว</a>
+		   	<a href="index.php?option=module_learn/dateTaskCreated">1.2 ตรวจสอบวันที่สร้างงานบันทึกการเข้าเรียนแล้ว</a>
+		</td>
+	</tr>
+	<tr>
+		<td>&nbsp;</td>
+		<td>
+		   	<a href="index.php?option=module_learn/teachingSubstitueCreate">1.3 บันทึกการจัดสอนแทน</a>
+		</td>
+	</tr>
+	<tr>
+		<td>&nbsp;</td>
+		<td>
+		   	<!-- <a href="index.php?option=module_learn/teachingSubstitueConfirm">1.4 ยืนยัน/ติดตามการสอนแทน</a> -->
+			1.4 ยืนยัน/ติดตามการสอนแทน
 		</td>
 	</tr>
 	<tr>
@@ -29,19 +42,27 @@
 	<tr>
 		<td>&nbsp;</td>
 		<td>
-          	<a href="index.php?option=module_learn/dateTaskList">2.1 เลือกวันที่บันทึกข้อมูล (แบบเก่า)</a>
-		</td>
-	</tr>
-    <tr>
-		<td>&nbsp;</td>
-		<td>
-          	<a href="index.php?option=module_learn/dateTaskList2">2.2 เลือกวันที่บันทึกข้อมูล (แบบใหม่)</a>
+          	<a href="index.php?option=module_learn/dateTaskListTeacher">2.1 บันทึกการเข้าเรียนของนักเรียน (เฉพาะรายวิขาที่สอนและสอนแทน)</a>
 		</td>
 	</tr>
 	<tr>
 		<td>&nbsp;</td>
 		<td>
-			<a href="index.php?option=module_learn/editStudentRoomCheck">2.3 แก้ไขการบันทึกข้อมูล(รายบุคคล)</a>
+          	<!--<a href="index.php?option=module_learn/dateTaskList">-->
+			2.2 เลือกวันที่บันทึกข้อมูล (แบบเก่า)
+		</td>
+	</tr>
+    <tr>
+		<td>&nbsp;</td>
+		<td>
+          	<!--<a href="index.php?option=module_learn/dateTaskList2">-->
+			2.3 เลือกวันที่บันทึกข้อมูล (แบบใหม่)
+		</td>
+	</tr>
+	<tr>
+		<td>&nbsp;</td>
+		<td>
+			<a href="index.php?option=module_learn/editStudentRoomCheck">2.4 แก้ไขการบันทึกข้อมูล(รายบุคคล)</a>
 		</td>
 	</tr>
 	<tr>
@@ -80,6 +101,7 @@
 			<a href="index.php?option=module_learn/reportUnsignSemesterRoom">3.4 รายงานการไม่ลงชื่อเข้าสอนของครูสรุปตามห้องเรียนตลอดปีการศึกษา</a>
 		</td>
 	</tr>
+	<!--
 	<tr>
 		<td colspan="2" class="key">
 			4. แผนภูมิ
@@ -124,5 +146,6 @@
 	<tr>
 		<td>&nbsp;</td><td><a href="index.php?option=module_learn/xChartMonthLate">4.7 แสดงสถิติการเข้าห้องเรียนสายของนักเรียนรายเดือนในแต่ละปีการศึกษา</a></td>
 	</tr>
+-->
 </table>
 </div>

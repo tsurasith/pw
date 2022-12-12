@@ -71,6 +71,7 @@
 			case "02" :  return "<font color='#FFCC00'><b>สาย</b></font>"; break;
 			case "03" :  return "<font color='blue'><b>ลา</b></font>"; break;
 			case "04" :  return "<font color='red'><b>ขาด</b></font>"; break;
+			case "05" :  return "<font color='red'><b>หนีเรียน</font>"; break;
 			default : return "-";
 		}	
 	}
@@ -801,5 +802,33 @@
 			default : return "n/a";
 		}
 	}
+
+	function getUserAccountName($_connection,$_user_account_id){
+		$_sql = "
+					select user_account_prefix,user_account_firstname,user_account_lastname 
+					from users_account 
+					where user_account_id = '" . $_user_account_id . "'";
+
+		$_res = mysqli_query($_connection,$_sql);
+		
+		if(mysqli_num_rows($_res) > 0){
+			$_dat = mysqli_fetch_assoc($_res);
+			mysqli_free_result($_res);
+			
+			return $_dat['user_account_firstname'] . " " . $_dat['user_account_lastname'] ;
+		} 
+		else return "";
+	}
 	
+	function displayTeachingSubstituteStatus($id) {
+		switch ($id) {
+			case "0" :  return "<font color='#641E16'>แจ้งครูผู้สอนและฝ่ายวิชาการทราบแล้ว</font>";; break;
+			case "1" :  return "<font color='#1F618D'>ฝ่ายวิชาการเห็นชอบแล้ว</font>"; break;
+			case "2" :  return "<font color='#7D3C98'>ครูผู้สอนแทนยืนยันรับทราบแล้ว</font>"; break;
+			case "3" :  return "<font color='#229954'>เสร็จสิ้น</font>"; break;
+			default : return "-";
+		}	
+	}
+
+
 ?>
