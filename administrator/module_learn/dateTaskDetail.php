@@ -6,7 +6,26 @@
 		$resDel = mysqli_query($_connection,$delSql);
 		if($resDel)
 		{
-			echo "<meta http-equiv=\"refresh\" content=\"0;url=index.php?option=module_learn/dateTaskCreated\">";
+			$_text = "";
+			$_text .= "งานบันทีกการเข้าเรียนของนักเรียน วันที่ " . displayFullDate($_POST['delete']) . " ";
+			$_text .= "ถูกลบแล้ว\n" . "โดย - " . $_SESSION['shortname'];
+
+			$message = $_text;
+			SendLineMessage($message,$_line_token);
+
+			$_event_details = "";
+			$_event_details .= "งานบันทีกการเข้าเรียนของนักเรียน วันที่ " . displayFullDate($_POST['delete']);
+
+			$_event_key = hash("sha256",$_event_details.date("H:i:s"));
+
+			$_event_user_id = $_SESSION['user_account_id'];
+			if(checkDuplicateEventLog($_connection,$_event_key)){
+				event_log($_connection,3,2,4,
+				$_event_key,
+				$_event_details,
+				$_event_user_id,$acadyear,$acadsemester);
+			}
+			header("Location: index.php?option=module_learn/dateTaskCreated");
 		}
 	}
 ?>
