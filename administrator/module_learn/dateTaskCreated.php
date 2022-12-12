@@ -15,6 +15,23 @@
 			{
 				$acadsemester = $_REQUEST['acadsemester'];
 			}
+
+			/*
+			select 
+				task_date,weekday,
+				sum(if(task_status=1,1,0)) as checked, 
+				sum(if(task_status=0,1,0)) as unchecked,
+				count(task_status)
+			from student_learn_task
+			-- where period != 8
+			group by task_date,weekday
+			order by task_date
+			
+			*/
+
+
+
+
 		?>
 		ปีการศึกษา<?php  
 					echo "<a href=\"index.php?option=module_learn/dateTaskCreated&acadyear=" . ($acadyear - 1) . "\"><img src=\"../images/pull_left.gif\" border=\"0\" /></a> " ;
@@ -55,7 +72,7 @@
     <td align="right">วันที่บันทึกแล้วเสร็จ</td>
     <td width="80px" align="right">
 		<?php
-			$sql1 = "select distinct task_date from student_learn_task where task_status = '1' and acadyear='" .$acadyear . "' and acadsemester='" . $acadsemester . "' order by task_date";
+			$sql1 = "select distinct task_date,weekday from student_learn_task where task_status = '1' and acadyear='" .$acadyear . "' and acadsemester='" . $acadsemester . "' order by task_date";
 			$res1 = mysqli_query($_connection,$sql1);
 			echo mysqli_num_rows($res1);
 		?>
@@ -66,7 +83,7 @@
     <td align="right">วันที่บันทึกไม่เรียบร้อย</td>
     <td align="right">
 		<?php
-			$sql2 = "select distinct task_date from student_learn_task where task_status = '0' and acadyear='" .$acadyear . "' and acadsemester='" . $acadsemester . "' order by task_date";
+			$sql2 = "select distinct task_date,weekday from student_learn_task where task_status = '0' and acadyear='" .$acadyear . "' and acadsemester='" . $acadsemester . "' order by task_date";
 			$res2 = mysqli_query($_connection,$sql2);
 			echo mysqli_num_rows($res2);
 		?>
@@ -114,6 +131,7 @@
 			while($dat = mysqli_fetch_assoc($result))
 			{
 				$text .= "<tr bgcolor=\"white\"><td align=\"center\">" . $_count++ . "</td>";
+				$text .= "<td>" . displayDayOfWeek($dat['weekday']) . "</td>";
 				$text .= "<td>" . displayFullDate($dat['task_date']) . "</td>";
 				$text .= "<td>" . "<a href=\"index.php?option=module_learn/dateTaskDetail&date=". $dat['task_date'] . "\" >
 							รายละเอียด</a></td></tr>";

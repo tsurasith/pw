@@ -49,21 +49,66 @@ if($_date != "")
 		{
 			for($p = 1; $p <= 8 ; $p++)
 			{
-				$sql_insert = "insert into student_learn_task values ( null,'". $_POST['date'] ."','" . $data['room_id'] . "','0','" . $p . "','" .$acadyear."','".$acadsemester."') ";
+				$sql_insert = "
+						INSERT INTO `student_learn_task`(
+							`task_id`,
+							`task_date`,
+							`task_roomid`,
+							`task_status`,
+							`period`,
+							`acadyear`,
+							`acadsemester`,
+							`weekday`,
+							`created_datetime`,
+							`created_user`
+						)
+						VALUES 
+							( 
+								null,
+								'". $_POST['date'] ."',
+								'" . $data['room_id'] . "',
+								'0',
+								'" . $p . "',
+								'" .$acadyear."',
+								'".$acadsemester."',
+								'". date('w', strtotime($_POST['date'])) . "' ,
+								CURRENT_TIMESTAMP,
+								'" . $_SESSION['user_account_id'] . "'
+						) ";
 				mysqli_query($_connection,$sql_insert) or die ('Error - ' . mysqli_error($_connection));
 				//echo $sql_insert . "<br/>";
 			}
 		}
-		echo "<td><font color=\"#009900\" size=\"2\" face=\"Tahoma\"><strong>บันทึกข้อมูลเรียบร้อยแล้ว</strong></font></td>";
+		echo "<td><font color='#009900' size='2' face='Tahoma'><strong>บันทึกข้อมูลเรียบร้อยแล้ว</strong></font></td>";
+		$_text = "";
+		$_text .= "งานบันทีกการเข้าเรียนของนักเรียน วันที่ " . displayFullDate($_POST['date']) . " ";
+		$_text .= "ได้สร้างขึ้นแล้ว\n" . "โดย - " . $_SESSION['shortname'];
+
+		$message = $_text;
+		SendLineMessage($message,$_line_token);
+
+		$_event_details = "";
+		$_event_details .= "งานบันทีกการเข้าเรียนของนักเรียน วันที่ " . displayFullDate($_POST['date']);
+
+		$_event_key = hash("sha256",$_event_details.date("H:i:s"));
+
+		$_event_user_id = $_SESSION['user_account_id'];
+		if(checkDuplicateEventLog($_connection,$_event_key)){
+			event_log($_connection,1,2,4,
+			$_event_key,
+			$_event_details,
+			$_event_user_id,$acadyear,$acadsemester);
+		}
+
 	}
 	else
 	{
-		echo "<td><font color=\"red\" size=\"2\" face=\"Tahoma\"><strong>คุณไม่สามารถบันทึกข้อมูลวันที่ทำการเช็คการเข้าแถวซ้ำได้</strong></font></td>";
+		echo "<td><font color='red' size='2' face='Tahoma'><strong>คุณไม่สามารถบันทึกข้อมูลวันที่ทำการเช็คการเข้าแถวซ้ำได้</strong></font></td>";
 	}
 }
 else
 {
-	echo "<td><font color=\"red\" size=\"2\" face=\"Tahoma\"><strong>ผิดพลาดเนื่องจากคุณยังไม่ได้เลือกวันที่จะบันทึกข้อมูล !</strong></font></td>";
+	echo "<td><font color='red' size='2' face='Tahoma'><strong>ผิดพลาดเนื่องจากคุณยังไม่ได้เลือกวันที่จะบันทึกข้อมูล !</strong></font></td>";
 }
 		//mysqli_close($nn);
 ?>
@@ -80,7 +125,7 @@ else
   	else
 	{
   ?>
-  <form method="post" action=""/>
+  <form method="post" action="" autocomplete="off"/>
   <table  class="admintable" width="100%" align="center">
 				  	<tr>
 						<th height="30px" bgcolor="#FFCCFF" align="center" >สร้างงานบันทึก</th>
@@ -118,5 +163,17 @@ else
 				  </form>
 	<?php
 		} // end - else
+
+		/* 
+			day of week in PHP
+			0 = Sunday
+			1 = Monday
+			2 = Tuesday
+			3 = Wednesday
+			4 = Thursday
+			5 = Friday
+			6 = Saturday
+
+		*/
 	?>  
 </div>
