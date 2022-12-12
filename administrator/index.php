@@ -238,10 +238,7 @@
         </div>
     <div id="footer">
             สงวนลิขสิทธิ์ &copy; ระบบจัดการสารสนเทศกิจการนักเรียน<br />
-			Copy Right &copy; Toby , All rights reserved. <br/>
-			<a>System Develop by: Mr.Surasith Taokok,
-			   E-mail:taokok@gmail.com,Tel:087 370 8079</a>
-            <!-- ปรับปรุงล่าสุด 30 มีนาคม 2551 เวลา 4:06:15 น. -->
+			System developed by: Mr.Surasith Taokok, email:taokok@gmail.com, Tel:087 370 8079
     </div>
     </div>
 </body>

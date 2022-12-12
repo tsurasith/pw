@@ -115,6 +115,7 @@
 			while($dat = mysqli_fetch_assoc($result))
 			{
 				$text .= "<tr bgcolor=\"white\"><td align=\"center\">" . $_count++ . "</td>";
+				$text .= "<td>" . displayDayOfWeek(date('w',strtotime($dat['task_date']))) . "</td>";
 				$text .= "<td>" . displayDate($dat['task_date']) . "</td>";
 				$text .= "<td>" . "<a href=\"index.php?option=module_800/dateTaskDetail&date=". $dat['task_date'] . "\" >
 							รายละเอียด</a></td></tr>";
@@ -122,4 +123,17 @@
 			$text = $text . "</table>";
 			return $text;
 		}
+
+		/* 
+			day of week in PHP
+			0 = Sunday
+			1 = Monday
+			2 = Tuesday
+			3 = Wednesday
+			4 = Thursday
+			5 = Friday
+			6 = Saturday
+
+		*/
+
 	?>
