@@ -58,7 +58,7 @@ if(isset($_POST['save']) && $_POST['date'] != ""){
 						'" . date('Y-m-d') . "',
 						'" . $_SESSION['name'] . "' 
 				);"; 
-		// บันทึกข้อมูลการเช็คz
+		// บันทึกข้อมูลการเช็ค
 		$a = mysqli_query($_connection,$sql_insert_student) or die ('ผิดพลาดเนื่องจาก table: student_learn - ' . mysqli_error($_connection));
 		$_student_learn_proccesing = $a;
 
@@ -224,14 +224,18 @@ if(isset($_POST['save']) && $_POST['date'] != ""){
 
 
 						$_sum = 0;
-						$_sum = ($dat['a']+$dat['b']+$dat['c']+$dat['d']+$dat['e']);
+						$_sum = ($dat['a']+$dat['b']+$dat['c']+$dat['d']+$dat['e']+$dat['f']);
 
 						$_text .= "\n" . "รวมทั้งหมด " . $_sum . " คน ";
 						$_text .= "\n" . "บันทึกข้อมูลโดย - " . $_SESSION['shortname'];
 
 						$message = $_text;
 						SendLineMessage($message,$_line_token);
-						SendLineMessage($_student_disappear,$_line_token);
+
+						if($dat['f']!=0){
+							SendLineMessage($_student_disappear,$_line_token);
+						}
+						
 
 						/* บันทึก อีเว็นต์ล็อก */
 
