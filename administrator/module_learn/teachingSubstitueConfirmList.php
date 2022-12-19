@@ -143,8 +143,8 @@
 						</tr>
 						<? while($_dat = mysqli_fetch_assoc($_res_display)){ ?>
 						<tr>
-							<td align="center"><?=$_no++;?></td>
-							<td>
+							<td align="center" valign="top"><?=$_no++;?></td>
+							<td valign="top">
 								<?
 									if($_previous_name != $_dat['owner_firstname'] . ' ' . $_dat['owner_lastname']){
 										echo "ครู" . $_dat['owner_firstname'] . ' ' . $_dat['owner_lastname'];
@@ -153,7 +153,7 @@
 									}
 								?>
 							</td>
-							<td><?='ครู' . $_dat['user_account_firstname'] . ' ' . $_dat['user_account_lastname']?></td>
+							<td valign="top"><?='ครู' . $_dat['user_account_firstname'] . ' ' . $_dat['user_account_lastname']?></td>
 							<td align="center" valign="top"><?=$_dat['period']?></td>
 							<td align="center" valign="top"><?=$_dat['SubjectCode']?></td>
 							<td align="center" valign="top"><?=getFullRoomFormat($_dat['room_id'])?></td>

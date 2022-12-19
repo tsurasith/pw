@@ -181,3 +181,11 @@ ALTER TABLE `teaching_substitute` CHANGE `confirmed_datetime` `confirmed_datetim
 
 ALTER TABLE `teaching_substitute` CHANGE `approved_datetime` `approved_datetime` DATETIME NULL DEFAULT NULL;
 
+
+
+ALTER TABLE `teachers_learn` CHANGE `SubjectCode` `SubjectCode` VARCHAR(6) CHARACTER SET utf8 COLLATE utf8_general_ci NULL COMMENT 'รหัสวิชา';
+
+ALTER TABLE
+    `teachers_learn` CHANGE `teacher_id` `teacher_id` VARCHAR(36) CHARACTER SET utf8 COLLATE utf8_general_ci NULL,
+    CHANGE `is_teaching_substitute` `is_teaching_substitute` VARCHAR(1) CHARACTER SET utf8 COLLATE utf8_general_ci NULL COMMENT '1=สอนแทน,0=ครูผู้สอนสอนเอง';
+

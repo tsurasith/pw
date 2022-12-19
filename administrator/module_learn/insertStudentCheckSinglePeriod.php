@@ -140,6 +140,15 @@ if(isset($_POST['save']) && $_POST['date'] != ""){
 
 	$sql_insert_teacher = "
 			REPLACE INTO  teachers_learn 
+			(
+				row_id,
+				room_id,
+				period,
+				`stutus`,
+				check_date,
+				acadyear,
+				acadsemester
+			)
 			VALUES (
 					'" . $_POST['date'] . '-' . $_POST['room_id'] . '-' . $_POST['period'] ."',
 					'" . $_POST['room_id'] . "',

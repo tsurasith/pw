@@ -46,10 +46,11 @@
 						echo " <a href=\"index.php?option=module_learn/dateTaskListTeacher&acadyear=" . ($acadyear) . "&acadsemester=2 \"> 2</a> " ;
 					}
 				?>
-				<br/>
-			
+				
+		
            <font color="#000000" size="2">
            		<form name="sSelect" method="post" action="index.php?option=module_learn/dateTaskListTeacher">
+				   <? if($_SESSION['username'] == "admin" || $_SESSION['username'] == "tc100") { ?>
 				   <font  size="2" color="#000000">เลือกครูผู้สอน
 					<?php 
 							$sql_teacher = " 
@@ -73,6 +74,7 @@
 							$resTeacher = mysqli_query($_connection,$sql_teacher);	
 							$_submit_teacher_name = "";		
 					?>
+				
 					<select name="teacher_id" class="inputboxUpdate" onChange="setTeacherName(this)">
 						<option value=""></option>
 						<?php
@@ -86,8 +88,11 @@
 							}
 							
 						?>
-					</select>
-					<input type="hidden" value="" name="teacher_name" /> <br/>
+					</select><br/>
+					<? } else { ?> 
+						<input type="hidden" name="teacher_id" value=<?=$_SESSION['user_account_id']?> />
+					<? } ?>
+					<input type="hidden" value="" name="teacher_name" />
 					เลือกวันที่ 
 						<select name="date" class="inputboxUpdate" >
 						<option value=""></option>
