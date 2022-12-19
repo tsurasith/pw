@@ -16,21 +16,20 @@
 				$acadsemester = $_REQUEST['acadsemester'];
 			}
 
-			/*
+			$_sql_progress = "
 			select 
 				task_date,weekday,
-				sum(if(task_status=1,1,0)) as checked, 
-				sum(if(task_status=0,1,0)) as unchecked,
-				count(task_status)
+				sum(if(task_status=0,1,0)) as 'unsuccess',
+				sum(if(task_status=1,1,0)) as 'success' 
 			from student_learn_task
-			-- where period != 8
+			where
+				acadyear = '" . $acadyear . "' and
+				acadsemester = '". $acadsemester . "' 
 			group by task_date,weekday
-			order by task_date
-			
-			*/
+			order by task_date ";
 
-
-
+			$_res_progress = mysqli_query($_connection,$_sql_progress);
+			$_counter = 1;
 
 		?>
 		ปีการศึกษา<?php  
@@ -60,84 +59,40 @@
 	  </td>
     </tr>
   </table>
-	<form method="post" action="index.php?option=module_learn/dateTaskDetail">
-		<table width="100%" align="center" class="admintable">
-			<tr>
-				<td colspan="2" class="key">รายละเอียดสรุปการสร้างงานบันทึกข้อมูลการเข้าห้องเรียน</td>
-			</tr>
-			<tr>
-				<td colspan="2">
-					<table width="400px" border="0" cellspacing="1" cellpadding="1">
-  <tr>
-    <td align="right">วันที่บันทึกแล้วเสร็จ</td>
-    <td width="80px" align="right">
-		<?php
-			$sql1 = "select distinct task_date,weekday from student_learn_task where task_status = '1' and acadyear='" .$acadyear . "' and acadsemester='" . $acadsemester . "' order by task_date";
-			$res1 = mysqli_query($_connection,$sql1);
-			echo mysqli_num_rows($res1);
-		?>
-	</td>
-    <td width="80px" align="center">วัน</td>
-  </tr>
-  <tr>
-    <td align="right">วันที่บันทึกไม่เรียบร้อย</td>
-    <td align="right">
-		<?php
-			$sql2 = "select distinct task_date,weekday from student_learn_task where task_status = '0' and acadyear='" .$acadyear . "' and acadsemester='" . $acadsemester . "' order by task_date";
-			$res2 = mysqli_query($_connection,$sql2);
-			echo mysqli_num_rows($res2);
-		?>
-	</td>
-    <td align="center">วัน</td>
-  </tr>
-  <tr>
-    <td align="right">รวม</td>
-    <td align="right">
-		<?php
-			$x = mysqli_num_rows($res1) + mysqli_num_rows($res2);
-			echo $x ;
-		?>
-	</td>
-    <td align="center">วัน</td>
-  </tr>
-</table>
 
-				</td>
+<? if($_res_progress){ ?>
+	<div align="center">
+		<table align="center" class="admintable">
+			<tr>
+				<td colspan="6" class="key">รายละเอียดวันที่สร้างงานบันทึกข้อมูลการเข้าเรียนและจำนวนคาบที่บันทึกและยังไม่บันทึกข้อมูลการเข้าเรียน</td>
 			</tr>
 			<tr>
-				<td class="key" colspan="2">รายการแสดงงานบันทึกข้อมูลในแต่ละวัน</td>
+				<td class="key" align="center">ลำดับที่</td>
+				<td class="key" align="center">วัน</td>
+				<td class="key" align="center" width="120px">วันที่</td>
+				<td class="key" align="center">บันทึกแล้ว</td>
+				<td class="key" align="center">ยังไม่บันทึก</td>
+				<td class="key" align="center">-</td>
 			</tr>
+			<? while($_dat = mysqli_fetch_assoc($_res_progress)){  ?>
 			<tr>
-				<td width="50%" class="key">รายการวันที่บันทึกข้อมูลแล้วเสร็จ</td>
-				<td class="key">รายการบันทึกข้อมูลไม่เรียบร้อย</td>
-			</tr>
-			<tr>
-				<td valign="top">
-					<?php echo gentDateDetail($res1,"1"); ?>
+				<td align="center"><?=$_counter++?></td>
+				<td><?=displayDayOfWeek($_dat['weekday'])?></td>
+				<td align="center"><?=displayDateShortMonth($_dat['task_date'])?></td>
+				<td align="right"><?=$_dat['success']?> &nbsp; </td>
+				<td align="right"><?=$_dat['unsuccess']?> &nbsp; </td>
+				<td align="center">
+					<a href="index.php?option=module_learn/dateTaskDetail&date=<?=$_dat['task_date']?>" >
+						รายละเอียด
+					</a>
 				</td>
-				<td valign="top">
-					<?php echo gentDateDetail($res2,"0"); ?>
-				</td>
 			</tr>
+			<? } ?>
 		</table>
- 	</form>
+	</div>
+<? } ?>
+
+
 </div>
 	
-	<?php
-		function gentDateDetail($result,$status)
-		{
-			$text = "<table bgcolor=\"lightpink\" cellspacing=\"1\" >";
-			$_count = 1;
-			while($dat = mysqli_fetch_assoc($result))
-			{
-				$text .= "<tr bgcolor=\"white\"><td align=\"center\">" . $_count++ . "</td>";
-				$text .= "<td>" . displayDayOfWeek($dat['weekday']) . "</td>";
-				$text .= "<td>" . displayFullDate($dat['task_date']) . "</td>";
-				$text .= "<td>" . "<a href=\"index.php?option=module_learn/dateTaskDetail&date=". $dat['task_date'] . "\" >
-							รายละเอียด</a></td></tr>";
-			}
-			$text = $text . "</table>";
-			return $text;
-		}
-	?>
-				
+	

@@ -247,7 +247,7 @@
 							{
 								$_select = (isset($_POST['teacher_id'])&&$_POST['teacher_id'] == $dat['teacher_id']?"selected":"");
 								echo "<option value=" . $dat['teacher_id'] . " $_select>";
-								echo $dat['user_account_prefix'].$dat['user_account_firstname']. ' ' . $dat['user_account_lastname'] . ' (' . $dat['c'] . ')';
+								echo $dat['user_account_firstname']. ' ' . $dat['user_account_lastname'] . ' (' . $dat['c'] . ')';
 								echo "</option>";
 							}
 						?>
@@ -373,7 +373,7 @@
 							{
 								$_select = (isset($_POST['teacher_id2'])&&$_POST['teacher_id2'] == $dat['teacher_id']?"selected":"");
 								echo "<option value=" . $dat['teacher_id'] . " $_select>";
-								echo $dat['user_account_prefix'].$dat['user_account_firstname']. ' ' . $dat['user_account_lastname'] . ' (' . $dat['c'] . ')';
+								echo $dat['user_account_firstname']. ' ' . $dat['user_account_lastname'] . ' (' . $dat['c'] . ')';
 								echo "</option>";
 							}
 						?>

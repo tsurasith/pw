@@ -44,7 +44,10 @@
 		<table width="100%" align="center" class="admintable">
 			<tr>
 				
-        <td colspan="2" class="key" align="center">รายละเอียดการบันทึกข้อมูลวันที่  <?=displayFullDate($_REQUEST['date']) . ' - [' . $_REQUEST['date'] . ']'; ?></td>
+        <td colspan="2" class="key" align="center">
+			รายละเอียดการบันทึกข้อมูลวันที่  <?=displayFullDate($_REQUEST['date']) . ' - [' . $_REQUEST['date'] . ']'; ?> 
+			<input type="button" value="ย้อนกลับ" onclick="location.href='index.php?option=module_learn/dateTaskCreated'" />
+		</td>
 			</tr>
 			<tr>
 				<td colspan="2" align="center">

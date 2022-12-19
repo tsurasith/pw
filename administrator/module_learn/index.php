@@ -26,14 +26,13 @@
 	<tr>
 		<td>&nbsp;</td>
 		<td>
-		   	<a href="index.php?option=module_learn/teachingSubstitueCreate">1.3 บันทึกการจัดสอนแทน</a>
+		   	<a href="index.php?option=module_learn/teachingSubstitueCreate">1.3 จัดสอนแทน (บันทึก/แก้ไข ครูสอนแทน)</a>
 		</td>
 	</tr>
 	<tr>
 		<td>&nbsp;</td>
 		<td>
-		   	<!-- <a href="index.php?option=module_learn/teachingSubstitueConfirm">1.4 ยืนยัน/ติดตามการสอนแทน</a> -->
-			1.4 ยืนยัน/ติดตามการสอนแทน
+		   	<a href="index.php?option=module_learn/teachingSubstitueConfirmList">1.4 ยืนยัน/ติดตามการสอนแทน</a> 
 		</td>
 	</tr>
 	<tr>

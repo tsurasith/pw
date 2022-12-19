@@ -139,7 +139,7 @@ if(isset($_POST['save']) && $_POST['date'] != ""){
 
 
 	$sql_insert_teacher = "
-			INSERT INTO  teachers_learn 
+			REPLACE INTO  teachers_learn 
 			VALUES (
 					'" . $_POST['date'] . '-' . $_POST['room_id'] . '-' . $_POST['period'] ."',
 					'" . $_POST['room_id'] . "',

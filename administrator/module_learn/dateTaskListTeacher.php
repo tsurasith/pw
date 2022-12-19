@@ -81,7 +81,7 @@
 							{
 								$_select = (isset($_POST['teacher_id'])&&$_POST['teacher_id'] == $dat['user_account_id']?"selected":"");
 								echo "<option value=\"" . $dat['user_account_id'] . "\" $_select>";
-								echo $dat['user_account_prefix'].$dat['user_account_firstname']. ' ' . $dat['user_account_lastname'] . ' (' . $dat['c'] . ')';
+								echo $dat['user_account_firstname']. ' ' . $dat['user_account_lastname'] . ' (' . $dat['c'] . ')';
 								echo "</option>";
 							}
 							
@@ -220,7 +220,7 @@
 						echo "<b>" . $_dat['SubjectCode'] . "</b><br/>";
 						echo "</a>";
 					}else{
-						echo "<td align='center' valign='top' bgcolor='#D0FFBA'>";
+						echo "<td align='center' valign='top'>";
 						echo "<b>" . $_dat['SubjectCode'] . "</b><br/>";
 					}
 					
@@ -228,6 +228,17 @@
 					echo $_dat['location'];
 					if($_dat['class_type']=="substitute"){
 						echo "(สอนแทน)";
+						echo "<br/><br/>";
+						echo "<a href='index.php?option=module_learn/substituteTeachingRecord&room=" .$_dat['task_roomid'] . "&date=" .$_dat['task_date'] . "&teacher_id=" . $_dat['teacher_id'] .
+								"&period=" . $_dat['period'] . 
+								"&acadyear=" . $_dat['acadyear'] . "&acadsemester=" . $_dat['acadsemester'] . 
+								"&class_type=" . $_dat['class_type'] . 
+								"&subject=" . $_dat['SubjectCode'] . "'>";
+						echo "บันทึก<br/>การสอน";
+						echo "</a>";
+					}else{
+						echo "<br/><br/>" . "บันทึก<br/>การสอน";
+
 					}
 
 					$_initSubject = $_dat['SubjectCode'];
@@ -241,19 +252,10 @@
 								echo $_dat['location'];
 								if($_dat['class_type']=="substitute"){
 									echo "(สอนแทน)";
-								}
-							}else{
-								echo "<br/>";
-								echo "<a href='index.php?option=module_gpa/deleteSchedule&teacher_id=" . $_dat['teacher_id'] .
-										"&period=" . $_dat['period'] . 
-										"&acadyear=" . $_dat['acadyear'] . "&acadsemester=" . $_dat['acadsemester'] . 
-										"&subject=" . $_dat['SubjectCode'] . "'>";
-								echo "<b>" . $_dat['SubjectCode'] . "</b><br/>";
-								echo "</a>";
-								echo getFullRoomFormat($_dat['task_roomid'])."<br/>";
-								echo $_dat['location'];
-								if($_dat['class_type']=="substitute"){
-									echo "(สอนแทน)";
+									echo "<br/><br/>" . "บันทึก<br/>การสอน";
+								}else{
+									echo "<br/><br/>" . "บันทึก<br/>การสอน";
+			
 								}
 							}
 							if($_counter < $_totalRows){
@@ -279,7 +281,16 @@
 			}
 		}//end if
 	?>
+	<tr>
+		<td colspan="10">
+			<br/>
+			<b><u>คำแนะนำ</b></u><br/>
+			1. หากต้องการบันทึกการเข้าเรียนของนักเรียน (เช็คชื่อนักเรียน) ให้คลิกที่ <b>รหัสวิขา</b><br/>
+			2. หากต้องการบันทึกการสอน/บันทึกการสอนแทน ให้คลิกที่ <b>บันทึกการสอน</b>
+		</td>
+	</tr>
 		 </table>
+
 	</div>
 	<? } ?>
 </div>

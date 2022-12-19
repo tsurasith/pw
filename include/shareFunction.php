@@ -179,6 +179,28 @@
 		return $txt ;
 	}
 
+	function displayDateShortMonth($date)  // input dd-mm-yyyy output = 22 มิ.ย. 2565
+	{
+		$txt = "" ;
+		$_x = explode('-',$date,3);
+		switch ($_x[1]) {
+			case "01" : $txt = $txt . str_pad($_x[2],2,'0',STR_PAD_LEFT) . "  ม.ค.   " . ($_x[0] + 543) ;break;
+			case "02" : $txt = $txt . str_pad($_x[2],2,'0',STR_PAD_LEFT) . "  ก.พ.   " . ($_x[0] + 543) ;break;
+			case "03" : $txt = $txt . str_pad($_x[2],2,'0',STR_PAD_LEFT) . "  มี.ค.   " . ($_x[0] + 543) ;break;
+			case "04" : $txt = $txt . str_pad($_x[2],2,'0',STR_PAD_LEFT) . "  เม.ย.   " . ($_x[0] + 543) ;break;
+			case "05" : $txt = $txt . str_pad($_x[2],2,'0',STR_PAD_LEFT) . "  พ.ค.   " . ($_x[0] + 543) ;break;
+			case "06" : $txt = $txt . str_pad($_x[2],2,'0',STR_PAD_LEFT) . "  มิ.ย.   " . ($_x[0] + 543) ;break;
+			case "07" : $txt = $txt . str_pad($_x[2],2,'0',STR_PAD_LEFT) . "  ก.ค.   " . ($_x[0] + 543) ;break;
+			case "08" : $txt = $txt . str_pad($_x[2],2,'0',STR_PAD_LEFT) . "  ส.ค.   " . ($_x[0] + 543) ;break;
+			case "09" : $txt = $txt . str_pad($_x[2],2,'0',STR_PAD_LEFT) . "  ก.ย.   " . ($_x[0] + 543) ;break;
+			case "10" : $txt = $txt . str_pad($_x[2],2,'0',STR_PAD_LEFT) . "  ต.ค.   " . ($_x[0] + 543) ;break;
+			case "11" : $txt = $txt . str_pad($_x[2],2,'0',STR_PAD_LEFT) . "  พ.ย.   " . ($_x[0] + 543) ;break;
+			case "12" : $txt = $txt . str_pad($_x[2],2,'0',STR_PAD_LEFT) . "  ธ.ค.   " . ($_x[0] + 543) ;break;
+			default : $txt = $txt . "ผิดพลาด";
+		}
+		return $txt ;
+	}
+
 	function displayFullDate($date)
 	{
 		$txt = "" ;
@@ -823,8 +845,8 @@
 	function displayTeachingSubstituteStatus($id) {
 		switch ($id) {
 			case "0" :  return "<font color='#641E16'>แจ้งครูผู้สอนและฝ่ายวิชาการทราบแล้ว</font>";; break;
-			case "1" :  return "<font color='#1F618D'>ฝ่ายวิชาการเห็นชอบแล้ว</font>"; break;
-			case "2" :  return "<font color='#7D3C98'>ครูผู้สอนแทนยืนยันรับทราบแล้ว</font>"; break;
+			case "1" :  return "<font color='#1F618D'>ครูผู้สอนยืนยันรับทราบ</font>"; break;
+			case "2" :  return "<font color='#7D3C98'>บันทึกการเข้าสอนแล้ว</font>"; break;
 			case "3" :  return "<font color='#229954'>เสร็จสิ้น</font>"; break;
 			default : return "-";
 		}	
