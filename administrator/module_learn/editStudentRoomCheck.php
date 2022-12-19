@@ -2,6 +2,7 @@
 <link rel="stylesheet" type="text/css" href="module_learn/css/calendar-mos2.css"/>
 <script language="JavaScript" type="text/javascript" src="module_learn/js/calendar.js"></script>
 <script type="text/javascript">
+
 function check(name,value)
 {
 	document.getElementById(name).bgColor=value;
@@ -21,7 +22,7 @@ function check(name,value)
    </SCRIPT>
 
 <div id="content">
-<form action="" method="post">
+<form action="" method="post" autocomplete="off">
 <table width="100%"  align="center" border="0" cellspacing="10" cellpadding="0"  class="header">
   <tr>
     <td width="6%" align="center"><a href="index.php?option=module_learn/index"><img src="../images/modules/classroom.png" alt="" width="48" height="48" border="0" /></a></td>
@@ -46,12 +47,12 @@ function check(name,value)
     </tr>
     <tr> 
       <td width="130px" align="right">เลขประจำตัวนักเรียน :</td>
-      <td><input type="text" name="studentid" maxlength="5" size="5" value=<?=$_student_id?>  class="inputboxUpdate" onKeyPress="return isNumberKey(event)"/>
+      <td><input type="text" name="studentid" maxlength="5" size="5" value="<?=$_student_id?>"  class="inputboxUpdate" onKeyPress="return isNumberKey(event)"/>
 	  </td>
     </tr>
 	    <tr> 
       <td align="right">วันที่แก้ไข :</td>
-        <td><input type="text" id="date" name="date" size="20" value=<?=$_date?> onClick="showCalendar(this.id)" class="inputboxUpdate"/> 
+        <td><input type="text" id="date" name="date" size="20" value="<?=$_date?>" onClick="showCalendar(this.id)" class="inputboxUpdate"/> 
           &nbsp; 
           <input type="submit" name="action" value="เรียกดูข้อมูล" />
         </td>
