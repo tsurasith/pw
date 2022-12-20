@@ -30,7 +30,7 @@
 					{
 						$_select = (isset($_POST['period'])&&$_POST['period'] == $dat['period']?"selected":"");
 						echo "<option value=\"" . $dat['period'] . "\" $_select>";
-						echo $dat['y']. ' ' . $dat['m'] ;
+						echo ((int) $dat['y']+543). ' ' . displayMonth($dat['m']) ;
 						echo "</option>";
 					}
 					
@@ -54,7 +54,8 @@
     <tr> 
       <th colspan="21" align="center">
 	  		<!--<img src="../images/school_logo.png" width="120px"><br/> -->
-			ประวัติการเข้าใช้งานระบบ<br/>ของผู้ใช้งาน ช่วงเวลา <?=$_POST['period']?>
+			ประวัติการเข้าใช้งานระบบ<br/>
+			ของผู้ใช้งาน เดือน<?=displayMonth(substr($_POST['period'],5,2))?> <?=(int)substr($_POST['period'],0,4)+543?>
 			<br/>
 	  </th>
     </tr>
@@ -62,25 +63,31 @@
       	<td class="key" width="40px" align="center">ที่</td>
 		<td class="key" width="200px" align="center">ชื่อ-สกุล</td>
 		<td class="key" width="70px" align="center">จำนวนครั้ง<br/>ที่ล็อกอิน</td>
+		<td class="key" align="center">-</td>
     </tr>
 	<?php
 
 		$_period = explode("-",$_POST['period']);
+		// $_period[0] = 2022;
+		// $_period[1] = 12 -- December
 
 		$_sqlTable = "
-			select u.user_account_prefix,u.user_account_firstname,u.user_account_lastname,count(user_logon_result) as 'c'
+			select u.user_account_id,u.user_account_prefix,u.user_account_firstname,u.user_account_lastname,count(user_logon_result) as 'c'
 			from 
 				users_account u left join users_logon_history h
 				on (u.user_account_id = h.user_account_id and h.user_logon_result = 'success' and 
 					year(h.user_logon_datetime) = '" . $_period[0] . "' and 	
 					month(h.user_logon_datetime) = '" . $_period[1] . "') 
+			where
+				u.user_account_logon != 'admin' 
 			group by
+				u.user_account_id,
 				u.user_account_prefix,
 				u.user_account_firstname,
 				u.user_account_lastname ";
 
 		if(isset($_POST['order_by'])){
-			$_sqlTable .= " order by 4 desc";
+			$_sqlTable .= " order by 5 desc";
 		}
 		else{
 			$_sqlTable .= "	order by
@@ -97,7 +104,18 @@
 		<td >
 				<?=$_dat['user_account_prefix'].$_dat['user_account_firstname'].' '.$_dat['user_account_lastname']?>
 		</td>
-		<td align="right"><?=$_dat['c']?> &nbsp; </td>
+		<td align="right"><?=$_dat['c']?> &nbsp; &nbsp;  </td>
+		<td align="right">
+			<? if($_dat['c']>0){ ?>
+			<form method="post" action="index.php?option=module_eis/userLoginHistoryDetails">
+				<input type="hidden" name="user_id" value="<?=$_dat['user_account_id']?>" />
+				<input type="hidden" name="month" value="<?=$_period[1]?>" />
+				<input type="hidden" name="year" value="<?=$_period[0]?>" />
+				<input type="hidden" name="order_by" value="<?=$_POST['order_by']?>" />
+				<input type="submit" name="details" value="เพิ่มเติม" />
+			</form>
+			<? } else { echo "";} ?>
+		</td>
 	</tr>
 	<? } ?>
 </table>

@@ -8969,7 +8969,7 @@ CREATE TABLE IF NOT EXISTS `teachers_800` (
 
 DROP TABLE IF EXISTS `teachers_learn`;
 CREATE TABLE IF NOT EXISTS `teachers_learn` (
-  `roow_id` varchar(20) NOT NULL,
+  `row_id` varchar(20) NOT NULL,
   `room_id` varchar(3) NOT NULL,
   `period` varchar(2) NOT NULL,
   `stutus` varchar(20) NOT NULL,

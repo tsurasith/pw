@@ -13,7 +13,7 @@ ALTER TABLE `ref_studjudge` ADD PRIMARY KEY(`judge_id`);
 DELETE FROM `teachers_800` WHERE roow_id = '2022-11-29-203';
 
 INSERT INTO `teachers_800`(
-    `roow_id`,
+    `row_id`,
     `room_id`,
     `stutus`,
     `check_date`,
@@ -30,7 +30,7 @@ VALUES(
 );
 
 
-ALTER TABLE `teachers_800` ADD PRIMARY KEY(`roow_id`); 
+ALTER TABLE `teachers_800` ADD PRIMARY KEY(`row_id`); 
 
-ALTER TABLE `teachers_learn` ADD PRIMARY KEY(`roow_id`); 
+ALTER TABLE `teachers_learn` ADD PRIMARY KEY(`row_id`); 
 
