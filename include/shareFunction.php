@@ -67,11 +67,11 @@
 	function displayTimecheckColor($id) {
 		switch ($id) {
 			case "00" :  return "มา"; break;
-			case "01" :  return "<font color='#66CC33'><b>กิจกรรม</b></font>"; break;
+			case "01" :  return "<font color='#66CC33'><b>กิจฯ</b></font>"; break;
 			case "02" :  return "<font color='#FFCC00'><b>สาย</b></font>"; break;
 			case "03" :  return "<font color='blue'><b>ลา</b></font>"; break;
 			case "04" :  return "<font color='red'><b>ขาด</b></font>"; break;
-			case "05" :  return "<font color='red'><b>หนีเรียน</font>"; break;
+			case "05" :  return "<font color='#B21904'><b>หนี</font>"; break;
 			default : return "-";
 		}	
 	}

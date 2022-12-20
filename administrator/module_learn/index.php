@@ -66,6 +66,24 @@
 	</tr>
 	<tr>
 		<td colspan="2" class="key">
+			3. รายงานผล 
+		</td>
+	</tr>
+	<tr>
+		<td></td>
+		<td>
+			<a href="index.php?option=module_learn/reportSubjectDay">3.1 แสดงรายผลการเข้าเรียนตามห้องเรียน</a>
+		</td>
+	</tr>
+	<tr>
+		<td></td>
+		<td>
+			<a href="index.php?option=module_learn/reportSubjectDayDisappear">3.2 แสดงรายผลนักเรียนที่<b>หนีเรียน</b>ตามระดับชั้น</a>
+		</td>
+	</tr>
+<!--
+	<tr>
+		<td colspan="2" class="key">
 			3. รายงานผล [<a href="index.php?option=module_learn/reportSubjectDay">ตรวจสอบการเข้าห้องเรียนรายวัน</a>]
 		</td>
 	</tr>
@@ -100,6 +118,7 @@
 			<a href="index.php?option=module_learn/reportUnsignSemesterRoom">3.4 รายงานการไม่ลงชื่อเข้าสอนของครูสรุปตามห้องเรียนตลอดปีการศึกษา</a>
 		</td>
 	</tr>
+-->
 	<!--
 	<tr>
 		<td colspan="2" class="key">
