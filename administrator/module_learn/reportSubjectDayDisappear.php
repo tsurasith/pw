@@ -73,7 +73,7 @@
 			FROM
 				students s 
 				inner join 
-							(select student_id from student_learn where timecheck_id = '05' and check_date = '" . $_POST['date'] . "') as tmp on (s.id = student_id)
+							(select student_id from student_learn where timecheck_id IN ('04','05') and check_date = '" . $_POST['date'] . "') as tmp on (s.id = student_id)
 				left join 
 							student_800 x on (s.id = x.student_id and acadyear = '". $acadyear . "' and acadsemester = '" . $acadsemester . "' and check_date = '" . $_POST['date'] . "')
 				left join 
@@ -116,9 +116,9 @@
 			<th colspan="13" align="center">
 				<img src="../images/school_logo.png" width="120px">
 				<br/>
-				สรุปรายชื่อนักเรียนที่หนีเรียน<br/>
+				สรุปรายชื่อนักเรียนที่ขาดเรียนและหนีเรียน<br/>
 				ของนักเรียนชั้นมัธยมศึกษาปีที่ <?=displayXyear($_POST['roomID'])?><br/>
-				ประจำวันที่ <?=displayFullDate($_POST['date'])?><br/>
+				ประจำวัน <?=displayDayofWeek(date('w',strtotime($_POST['date'])))?> ที่ <?=displayFullDate($_POST['date'])?><br/>
 			  </th>
 			</tr>
 			<tr> 

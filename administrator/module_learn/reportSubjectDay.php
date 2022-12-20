@@ -133,7 +133,7 @@
 				<img src="../images/school_logo.png" width="120px">
 				<br/>
 				รายงานการเข้าชั้นเรียนของนักเรียนชั้นมัธยมศึกษาปีที่ <?=getFullRoomFormat($_POST['roomID'])?><br/>
-				ประจำวันที่ <?=displayFullDate($_POST['date'])?><br/>
+				ประจำวัน <?=displayDayofWeek(date('w',strtotime($_POST['date'])))?> ที่ <?=displayFullDate($_POST['date'])?><br/>
 			  </th>
 			</tr>
 			<tr> 
