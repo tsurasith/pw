@@ -50,7 +50,7 @@
 		
            <font color="#000000" size="2">
            		<form name="sSelect" method="post" action="index.php?option=module_learn/dateTaskListTeacher">
-				   <? if($_SESSION['username'] == "admin" || $_SESSION['username'] == "tc100") { ?>
+				   <? if($_SESSION['username'] == "admin" || $_SESSION['username'] == "tc100" || $_SESSION['username'] == "tc101") { ?>
 				   <font  size="2" color="#000000">เลือกครูผู้สอน
 					<?php 
 							$sql_teacher = " 
@@ -242,7 +242,14 @@
 						echo "บันทึก<br/>การสอน";
 						echo "</a>";
 					}else{
-						echo "<br/><br/>" . "บันทึก<br/>การสอน";
+						echo "<br/><br/>" ;
+						echo "<a href='index.php?option=module_learn/masterTeachingRecord&room=" .$_dat['task_roomid'] . "&date=" .$_dat['task_date'] . "&teacher_id=" . $_dat['teacher_id'] .
+								"&period=" . $_dat['period'] . 
+								"&acadyear=" . $_dat['acadyear'] . "&acadsemester=" . $_dat['acadsemester'] . 
+								"&class_type=" . $_dat['class_type'] . 
+								"&subject=" . $_dat['SubjectCode'] . "'>";
+						echo "บันทึก<br/>การสอน";
+						echo "</a>";
 
 					}
 
@@ -259,7 +266,14 @@
 									echo "(สอนแทน)";
 									echo "<br/><br/>" . "บันทึก<br/>การสอน";
 								}else{
-									echo "<br/><br/>" . "บันทึก<br/>การสอน";
+									echo "<br/><br/>" ;
+									echo "<a href='index.php?option=module_learn/masterTeachingRecord&room=" .$_dat['task_roomid'] . "&date=" .$_dat['task_date'] . "&teacher_id=" . $_dat['teacher_id'] .
+											"&period=" . $_dat['period'] . 
+											"&acadyear=" . $_dat['acadyear'] . "&acadsemester=" . $_dat['acadsemester'] . 
+											"&class_type=" . $_dat['class_type'] . 
+											"&subject=" . $_dat['SubjectCode'] . "'>";
+									echo "บันทึก<br/>การสอน";
+									echo "</a>";
 			
 								}
 							}
