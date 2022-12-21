@@ -42,7 +42,8 @@
         }
 
         /*
-        event_log($_connection,
+        event_log(
+        $_connection,
         $_event_action_type_code,
         $_event_module_code,
         $_event_task_code,

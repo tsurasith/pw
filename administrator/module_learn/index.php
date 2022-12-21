@@ -36,6 +36,12 @@
 		</td>
 	</tr>
 	<tr>
+		<td>&nbsp;</td>
+		<td>
+		   	<a href="index.php?option=module_learn/teachingRecord">1.5 ตรวจสอบ/ติดตามบันทึกการสอน</a> 
+		</td>
+	</tr>
+	<tr>
 		<td colspan="2" class="key">2. บันทึกการเข้าห้องเรียนของนักเรียน</td>
 	</tr>
 	<tr>

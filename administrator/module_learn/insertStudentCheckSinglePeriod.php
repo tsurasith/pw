@@ -249,7 +249,7 @@ if(isset($_POST['save']) && $_POST['date'] != ""){
 						/* บันทึก อีเว็นต์ล็อก */
 
 						$_event_details = "";
-						$_event_details .= "บันทึกการเข้าเรียน ารบันทึกการเข้าเรียน ม. " . getFullRoomFormat($_POST['room_id']) ." รหัสวิชา " . $_POST['subject_code'] . " คาบเรียนที่ " . $_POST['period'];
+						$_event_details .= "บันทึกการเข้าเรียน ม. " . getFullRoomFormat($_POST['room_id']) ." รหัสวิชา " . $_POST['subject_code'] . " คาบเรียนที่ " . $_POST['period'];
 
 						$_event_key = hash("sha256",$_event_details);
 
