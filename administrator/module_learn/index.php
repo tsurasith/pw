@@ -47,7 +47,7 @@
 	<tr>
 		<td>&nbsp;</td>
 		<td>
-          	<a href="index.php?option=module_learn/dateTaskListTeacher">2.1 บันทึกการเข้าเรียนของนักเรียน (เฉพาะรายวิขาที่สอนและสอนแทน)</a>
+          	<a href="index.php?option=module_learn/dateTaskListTeacher">2.1 บันทึกการเข้าเรียนของนักเรียน (เฉพาะรายวิชาที่สอนและสอนแทน)</a>
 		</td>
 	</tr>
 	<tr>
