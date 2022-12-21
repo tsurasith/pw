@@ -25,7 +25,7 @@
 			$_date = isset($_POST['date'])?$_POST['date']:"";
 	
 			$_teacher_id = "";
-			if($_SESSION['username'] == "admin" || $_SESSION['username'] == "tc100" || $_SESSION['username'] == "tc101") {
+			if($_SESSION['username'] == "admin" || $_SESSION['username'] == "tc100" || $_SESSION['username'] == "tc101" || $_SESSION['username'] == "tc102" || $_SESSION['username'] == "tc103") {
 				$_teacher_id = isset($_POST['teacher_id'])?$_POST['teacher_id']:"";
 			} else{
 				$_teacher_id = $_SESSION['user_account_id'];
@@ -56,7 +56,7 @@
 		
            <font color="#000000" size="2">
            		<form name="sSelect" method="post" action="index.php?option=module_learn/teachingRecord">
-				   <? if($_SESSION['username'] == "admin" || $_SESSION['username'] == "tc100" || $_SESSION['username'] == "tc101") { ?>
+				   <? if($_SESSION['username'] == "admin" || $_SESSION['username'] == "tc100" || $_SESSION['username'] == "tc101" || $_SESSION['username'] == "tc102" || $_SESSION['username'] == "tc103") { ?>
 				   <font  size="2" color="#000000">เลือกครูผู้สอน
 					<?php 
 							$sql_teacher = " 
