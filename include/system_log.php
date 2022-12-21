@@ -65,4 +65,48 @@
             }
         }
 
+
+    function checkExistingTeachingRecord($_connection,$_subject_code,$_teaching_date,$_teacher_id,$_period,$_room_id){
+        $_sql = "
+        select * 
+        from
+            teaching_record
+         where
+            teaching_date = '" . $_teaching_date . "' and
+            teacher_id = '" . $_teacher_id . "' and
+            SubjectCode = '" . $_subject_code . "' and
+            weekday = '" . date('w',strtotime($_teaching_date)) . "' and
+            period = '" . $_period . "' and
+            room_id = '" . $_room_id . "'       
+        ";
+        $_res = mysqli_query($_connection,$_sql);
+        $_rows = mysqli_num_rows($_res);
+        if($_rows>0){
+            return "class='green' ";
+        }else{
+            return "";
+        }
+    }
+
+    function checkExistingSubstituteTeachingRecord($_connection,$_subject_code,$_teaching_date,$_teacher_id,$_period,$_room_id){
+        $_sql = "
+        select * 
+        from
+            teaching_substitute
+         where
+            teaching_date = '" . $_teaching_date . "' and
+            teacher_id = '" . $_teacher_id . "' and
+            SubjectCode = '" . $_subject_code . "' and
+            weekday = '" . date('w',strtotime($_teaching_date)) . "' and
+            period = '" . $_period . "' and
+            room_id = '" . $_room_id . "'       
+        ";
+        $_res = mysqli_query($_connection,$_sql);
+        $_rows = mysqli_num_rows($_res);
+        if($_rows>0){
+            return "class='green' ";
+        }else{
+            return "";
+        }
+    }
 ?>

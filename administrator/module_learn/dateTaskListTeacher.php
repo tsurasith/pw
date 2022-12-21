@@ -233,8 +233,9 @@
 					echo $_dat['location'];
 					if($_dat['class_type']=="substitute"){
 						echo "(สอนแทน)";
+						$_link = checkExistingSubstituteTeachingRecord($_connection,$_dat['SubjectCode'],$_dat['task_date'],$_dat['teacher_id'],$_dat['period'],$_dat['task_roomid']);
 						echo "<br/><br/>";
-						echo "<a href='index.php?option=module_learn/substituteTeachingRecord&room=" .$_dat['task_roomid'] . "&date=" .$_dat['task_date'] . "&teacher_id=" . $_dat['teacher_id'] .
+						echo "<a $_link href='index.php?option=module_learn/substituteTeachingRecord&room=" .$_dat['task_roomid'] . "&date=" .$_dat['task_date'] . "&teacher_id=" . $_dat['teacher_id'] .
 								"&period=" . $_dat['period'] . 
 								"&acadyear=" . $_dat['acadyear'] . "&acadsemester=" . $_dat['acadsemester'] . 
 								"&class_type=" . $_dat['class_type'] . 
@@ -242,8 +243,9 @@
 						echo "บันทึก<br/>การสอน";
 						echo "</a>";
 					}else{
+						$_link = checkExistingTeachingRecord($_connection,$_dat['SubjectCode'],$_dat['task_date'],$_dat['teacher_id'],$_dat['period'],$_dat['task_roomid']);
 						echo "<br/><br/>" ;
-						echo "<a href='index.php?option=module_learn/masterTeachingRecord&room=" .$_dat['task_roomid'] . "&date=" .$_dat['task_date'] . "&teacher_id=" . $_dat['teacher_id'] .
+						echo "<a $_link href='index.php?option=module_learn/masterTeachingRecord&room=" .$_dat['task_roomid'] . "&date=" .$_dat['task_date'] . "&teacher_id=" . $_dat['teacher_id'] .
 								"&period=" . $_dat['period'] . 
 								"&acadyear=" . $_dat['acadyear'] . "&acadsemester=" . $_dat['acadsemester'] . 
 								"&class_type=" . $_dat['class_type'] . 
@@ -266,8 +268,9 @@
 									echo "(สอนแทน)";
 									echo "<br/><br/>" . "บันทึก<br/>การสอน";
 								}else{
+									$_link = checkExistingTeachingRecord($_connection,$_dat['SubjectCode'],$_dat['task_date'],$_dat['teacher_id'],$_dat['period'],$_dat['task_roomid']);
 									echo "<br/><br/>" ;
-									echo "<a href='index.php?option=module_learn/masterTeachingRecord&room=" .$_dat['task_roomid'] . "&date=" .$_dat['task_date'] . "&teacher_id=" . $_dat['teacher_id'] .
+									echo "<a $_link href='index.php?option=module_learn/masterTeachingRecord&room=" .$_dat['task_roomid'] . "&date=" .$_dat['task_date'] . "&teacher_id=" . $_dat['teacher_id'] .
 											"&period=" . $_dat['period'] . 
 											"&acadyear=" . $_dat['acadyear'] . "&acadsemester=" . $_dat['acadsemester'] . 
 											"&class_type=" . $_dat['class_type'] . 
