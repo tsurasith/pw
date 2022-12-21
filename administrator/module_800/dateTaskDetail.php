@@ -27,21 +27,41 @@
 			</tr>
 			<tr>
 				<td colspan="2" align="center">
-                	<div style="max-height:300px;overflow:auto;">
-					<table width="400px" border="0" cellspacing="1" cellpadding="1" bgcolor="lightpink">
+                	<div>
+					<table border="0" cellspacing="1" cellpadding="1" bgcolor="lightpink">
 						<tr bgcolor="#CCCCCC">
 							<td align="center" width="50px">ห้อง</td>
 							<td align="center" width="150px">สถานะ</td>
-							<td align="center">หมายเหตุ</td>
+							<td align="center">ครูที่ปรึกษาคนที่ 1</td>
+							<td align="center">ครูที่ปรึกษาคนที่ 2</td>
 						</tr>
 						<?php
 							$sign = 0;
-							$sql = "select * from student_800_task where task_date ='" . $_REQUEST['date'] . "' order by task_roomid" ;
+							$sql = "
+							select 
+								t.* ,
+								r.teacher_id,
+								r.teacher_id2,
+								r.student_id,
+								t1.FIRSTNAME as t1f,
+								t1.LASTNAME as t1l,
+								t2.FIRSTNAME as t2f,
+								t2.LASTNAME as t2l
+							from
+							student_800_task t 
+							inner join rooms r on (t.task_roomid = r.room_id and t.acadyear = r.acadyear and t.acadsemester = r.acadsemester)
+							left join teachers t1 on (r.teacher_id  = t1.teaccode)
+							left join teachers t2 on (r.teacher_id2 = t2.teaccode)
+							where
+								t.task_date = '" . $_REQUEST['date'] ."'
+							order by t.task_roomid
+						" ;
 							$res = mysqli_query($_connection,$sql);
 							while($dat = mysqli_fetch_assoc($res))
 							{
 								echo "<tr bgcolor=\"white\">";
 								echo "<td align=\"center\">" . getFullRoomFormat($dat['task_roomid']) . "</td>";
+								
 								if($dat['task_status'] == "1")
 								{
 									echo "<td align=\"center\">บันทึกแล้ว</td>";
@@ -51,7 +71,8 @@
 								{
 									echo "<td align=\"center\"><font color=\"red\">ยังไม่บันทึก</font></td>";
 								}
-								echo "<td>&nbsp;</td>";
+								echo "<td >" . $dat['t1f'] . ' ' . $dat['t1l'] . "</td>";
+								echo "<td >" . $dat['t2f'] . ' ' . $dat['t2l'] . "</td>";
 								echo "</tr>";
 							} mysqli_free_result($res);
 						?>
