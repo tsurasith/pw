@@ -81,6 +81,7 @@
         ";
         $_res = mysqli_query($_connection,$_sql);
         $_rows = mysqli_num_rows($_res);
+        
         if($_rows>0){
             return "class='green' ";
         }else{
@@ -103,7 +104,9 @@
         ";
         $_res = mysqli_query($_connection,$_sql);
         $_rows = mysqli_num_rows($_res);
-        if($_rows>0){
+        $_dat = mysqli_fetch_assoc($_res);
+        
+        if($_rows>0 && trim($_dat['teaching_details']!="")){
             return "class='green' ";
         }else{
             return "";

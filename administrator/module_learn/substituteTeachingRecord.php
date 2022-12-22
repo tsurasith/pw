@@ -33,6 +33,43 @@
 
 
 	if(isset($_POST['save']) && trim($_POST['teaching_details']) != ""){
+
+		$_sql_check = "
+			SELECT 
+				confirmed_datetime
+			FROM 
+				teaching_substitute
+			WHERE
+				teacher_id 			= '" . $_teacher_id . "' and
+				acadyear 			= '" . $_acadyear . "' and
+				acadsemester 		= '" . $_acadsemester . "' and
+				SubjectCode			= '" . $_subject_code . "' and
+				teaching_date		= '" . $_date . "' and
+				period				= '" . $_period . "' 
+		";
+		$_resCheck = mysqli_query($_connection,$_sql_check);
+		$_datCheck = mysqli_fetch_assoc($_resCheck);
+
+		if(@$_datCheck['confirmed_datetime']==""){
+			$_sql_confirm = " 
+				UPDATE teaching_substitute 
+				SET
+					confirmed_datetime  = current_timestamp(),
+					updated_datetime    = current_timestamp(),
+					updated_user_id     = '" . $_SESSION['user_account_id'] . "',
+					teaching_substitute_status = '1' 
+				WHERE
+					teacher_id 			= '" . $_teacher_id . "' and
+					acadyear 			= '" . $_acadyear . "' and
+					acadsemester 		= '" . $_acadsemester . "' and
+					SubjectCode			= '" . $_subject_code . "' and
+					teaching_date		= '" . $_date . "' and
+					period				= '" . $_period . "' 
+				";
+				
+			$_resConfirm = mysqli_query($_connection,$_sql_confirm);
+		}
+
 		$_sql = "
 			UPDATE teaching_substitute 
 				SET
@@ -50,8 +87,12 @@
 					period				= '" . $_POST['period'] . "' and
 					room_id				= '" . $_POST['room_id'] . "'  
 			";
+		
+		
 		$_resUpdate = mysqli_query($_connection,$_sql);
 		if($_resUpdate){
+
+
 			$_processing_text = "บันทึกการสอนแทนเรียบร้อยแล้ว";
 			$_processing_result = true;
 
@@ -241,14 +282,14 @@
 				<tr>
 					<td colspan="2" align="center">
 						
-							<input type="hidden" name="room_id" value="<?php echo $_REQUEST['room']; ?>"/>
-							<input type="hidden" name="date" value="<?php echo $_REQUEST['date']; ?>"/>
-							<input type="hidden" name="period" value="<?php echo $_REQUEST['period'] ; ?>"/>
-							<input type="hidden" name="acadyear" value="<?=$_REQUEST['acadyear']?>"/>
-							<input type="hidden" name="acadsemester" value="<?=$_REQUEST['acadsemester']?>"/>		
-							<input type="hidden" name="teacher_id" value="<?=$_REQUEST['teacher_id']?>" />
-							<input type="hidden" name="subject_code" value="<?=$_REQUEST['subject']?>" />
-							<input type="hidden" name="class_type" value="<?=$_REQUEST['class_type']?>" /> 
+							<input type="hidden" name="room_id" value="<?=$_roomID; ?>"/>
+							<input type="hidden" name="date" value="<?=$_date?>"/>
+							<input type="hidden" name="period" value="<?=$_period?>"/>
+							<input type="hidden" name="acadyear" value="<?=$_acadyear?>"/>
+							<input type="hidden" name="acadsemester" value="<?=$_acadsemester?>"/>		
+							<input type="hidden" name="teacher_id" value="<?=$_teacher_id?>" />
+							<input type="hidden" name="subject_code" value="<?=$_subject_code?>" />
+							<input type="hidden" name="class_type" value="<?=$_class_type?>" /> 
 							<input type="submit" name="save" value="บันทึก"/>
 							<input type="button" name="cancel" value="ยกเลิก" id="cancel-btn" 
 									onclick="location.href='index.php?option=module_learn/dateTaskListTeacher'"/>
