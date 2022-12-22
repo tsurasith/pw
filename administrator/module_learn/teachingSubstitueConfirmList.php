@@ -130,15 +130,15 @@
 						</tr>
 						<tr>
 							<td class="key" align="center" width="25px">ที่</td>
-							<td class="key" align="center" width="130px">ครูเจ้าของวิชา</td>
-							<td class="key" align="center" width="130px">ครูสอนแทน</td>
+							<td class="key" align="center" width="140px">ครูเจ้าของวิชา</td>
+							<td class="key" align="center" width="140px">ครูสอนแทน</td>
 							<td class="key" align="center">คาบ</td>
 							<td class="key" align="center" width="70px">รหัสวิชา</td>
 							<td class="key" align="center">ห้อง</td>
-							<td class="key" align="center">ยืนยัน/รับทราบ<br/>สอนแทน</td>
+							<td class="key" align="center">ยืนยัน/รับทราบ</td>
 							<td class="key" align="center">ใบงาน</td>
 							<td class="key" align="center" width="240px">บันทึกการสอนแทน</td>
-							<td class="key" align="center" width="110px">สถานะ</td>
+							<td class="key" align="center" width="140px">สถานะ</td>
 							<td class="key" align="center">-</td>
 						</tr>
 						<? while($_dat = mysqli_fetch_assoc($_res_display)){ ?>
@@ -177,7 +177,7 @@
 										}
 										
 									}else{
-										echo $_dat['confirmed_datetime'];
+										echo "Confirmed";
 									}
 								?>
 							</td>
@@ -206,7 +206,6 @@
 							</td>
 							<td align="left" valign="top"><?=displayTeachingSubstituteStatus($_dat['teaching_substitute_status'])?></td>
 							<td align="center" valign="top">
-								<? if($_dat['teaching_substitute_status']=="0"){ ?>
 								<form method="post" action="index.php?option=module_learn/teachingSubstitueDetails">
 									<input type="hidden" name="period" value="<?=$_dat['period']?>" />
 									<input type="hidden" name="room_id" value="<?=$_dat['room_id']?>" />
@@ -216,12 +215,8 @@
 									<input type="hidden" name="teaching_date" value="<?=$_dat['teaching_date']?>" />
 									<input type="hidden" name="owner_teacher_id" value="<?=$_dat['owner_teacher_id']?>" />
 									<input type="hidden" name="teacher_id" value="<?=$_dat['teacher_id']?>" />
-									<input type="submit" name="details" value="รายละเอียด" disabled />
+									<input type="submit" name="details" value="..." disabled />
 								</form>
-								<? } else {
-									echo "-" ;
-								}
-								?>
 							</td>
 							<?php
 								$_previous_name = $_dat['owner_firstname'] . ' ' . $_dat['owner_lastname'];
