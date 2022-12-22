@@ -241,8 +241,12 @@ if(isset($_POST['save']) && $_POST['date'] != ""){
 						$message = $_text;
 						SendLineMessage($message,$_line_token);
 
+						// student group message
+						SendLineMessage($message,$_token[substr($_POST['room_id'],0,1)]);
+
 						if($dat['f']!=0){
 							SendLineMessage($_student_disappear,$_line_token);
+							SendLineMessage($_student_disappear,$_token[substr($_POST['room_id'],0,1)]);
 						}
 						
 

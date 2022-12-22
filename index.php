@@ -118,6 +118,15 @@
 					$_SESSION['name'] = $data->PREFIX . $data->FIRSTNAME ." ".  $data->LASTNAME;
 					$_SESSION['shortname'] =  $data->FIRSTNAME ." ".  $data->LASTNAME;
 					$_SESSION['pw-type'] = $_REQUEST['type'] ;
+					if($_REQUEST['type']=='student'){
+						$_level = 0;
+						if($data->xLevel==3){
+							$_level = $data->xYearth;
+						}else{
+							$_level = $data->xYearth+3;
+						}
+						$_SESSION['line_level'] = $_level;
+					}
 					if($data->TeacCode == "999" || $data->superuser == "1"){ $_SESSION['superAdmin'] = true; }
 				
 					mysqli_free_result($result);
@@ -126,8 +135,10 @@
 					$_login_notification_message  = $_SESSION['shortname'];
 					$_login_notification_message .= " ได้ทำการล็อกอินเข้าใช้งานระบบ";
 
-					if($_SESSION['username']!="admin"){
+					if($_SESSION['username']!="admin" && ($_REQUEST['type']=="admin" || $_REQUEST['type']=="teacher")){
 						SendLineMessage($_login_notification_message,$_line_token);
+					}else{
+						SendLineMessage($_login_notification_message,$_token[$_level]);
 					}
 
 					if($_SESSION['pw-type'] == 'admin')

@@ -70,6 +70,9 @@ echo $_POST['date'] . "<br/>"; */
 			$message = $_text;
 			SendLineMessage($message,$_line_token);
 
+			// sending to specific level group
+			SendLineMessage($message,$_token[substr($_POST['room_id'],0,1)]);
+
 			$_event_details = "";
 			$_event_details .= "บันทึกการมาเข้าร่วมกิจกรรมหน้าเสาธงห้อง " . getFullRoomFormat($_POST['room_id']). ' '. reportHeader($_POST['date']);
 
