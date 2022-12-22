@@ -87,6 +87,18 @@
 			<a href="index.php?option=module_learn/reportSubjectDayDisappear">3.2 แสดงรายผลนักเรียนที่<b>หนีเรียน</b>ตามระดับชั้น</a>
 		</td>
 	</tr>
+	<tr>
+		<td></td>
+		<td>
+			<a href="index.php?option=module_learn/reportTeachingReocrdDay">3.3 แสดงรายการบันทึกหลังการสอน (เลือกวันที่)</a>
+		</td>
+	</tr>
+	<tr>
+		<td></td>
+		<td>
+			<a href="index.php?option=module_learn/reportTeachingReocrdMonthTeacher">3.4 แสดงรายการบันทึกหลังการสอนของครูผู้สอน (เลือกเดือน)</a>
+		</td>
+	</tr>
 <!--
 	<tr>
 		<td colspan="2" class="key">
