@@ -224,18 +224,6 @@
                  } 
             ?>
         </div>
-        <div id="right">
-			<h1>เมนูจัดการระบบ</h1>
-                <ul>
-                    <li><a href="index.php?option=module_800/index">กิจกรรมหน้าเสาธง</a></li>
-                    <li><a href="index.php?option=module_learn/index">บันทึกการเข้าเรียน</a></li>
-                    <li><a href="index.php?option=module_history/index">สืบค้นประวัติ</a></li>
-                    <li><a href="index.php?option=module_discipline/index">งานวินัยนักเรียน</a></li>
-                    <li><a href="index.php?option=module_maps/index">แผนที่ติดตามที่อยู่</a></li>
-                    <li><a href="index.php?option=module_tcss/index">TCSS</a></li>
-                    <li><a href="index.php?option=module_reports/index">สถิติ/รายงาน</a></li>
-                </ul>
-        </div>
     <div id="footer">
             สงวนลิขสิทธิ์ &copy; ระบบจัดการสารสนเทศกิจการนักเรียน<br />
 			System developed by: Mr.Surasith Taokok, email:taokok@gmail.com, Tel:087 370 8079

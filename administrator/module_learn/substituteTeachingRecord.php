@@ -187,6 +187,7 @@
 						(
 							l.acadyear = s.acadyear AND 
 							l.acadsemester = s.acadsemester AND 
+							l.task_date = s.teaching_date AND 
 							l.weekday = s.weekday AND 
 							l.period = s.period AND 
 							l.task_roomid = s.room_id AND 
@@ -227,6 +228,7 @@
 						(
 							l.acadyear = s.acadyear AND 
 							l.acadsemester = s.acadsemester AND 
+							l.task_date = s.teaching_date AND
 							l.weekday = s.weekday AND 
 							l.period = s.period AND 
 							l.task_roomid = s.room_id AND 
