@@ -34,7 +34,7 @@
 		</tr>
 		<tr>
 			<td>&nbsp;</td>
-			<td>2.2 แสดงรายวิชาที่ยังไม่บรรจุในแผนการเรียน</td> 
+			<td><a href="index.php?option=module_curriculum/ShowCurriculumSubjectMapping">2.2 แสดงรายวิชาตามโครงสร้างแผนการเรียน</a></td> 
 		</tr>
 		<tr>
 			<td>&nbsp;</td>

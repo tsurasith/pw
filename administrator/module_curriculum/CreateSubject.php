@@ -58,7 +58,7 @@
 			$_text .= "\n" . "โดย - " . $_SESSION['shortname'];
 
 			$message = $_text;
-			SendLineMessage($message,$_line_token);
+			//SendLineMessage($message,$_line_token);
 
 			$_event_details = "";
 			$_event_details .= $_text;
