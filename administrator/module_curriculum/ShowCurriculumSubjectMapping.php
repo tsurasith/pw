@@ -8,7 +8,7 @@
 				</a>
 				</td>
 				<td width="64%"><strong><font color="#990000" size="4">การจัดการหลักสูตรและการสอน</font></strong><br />
-					<span class="normal"><font color="#0066FF"><strong>2.1 สืบค้นรายวิชา</strong></font></span>
+					<span class="normal"><font color="#0066FF"><strong>2.2 แสดงรายวิชาตามโครงสร้างแผนการเรียน</strong></font></span>
 				</td>
 				<td >
 					ปีการศึกษา <?=$acadyear?>

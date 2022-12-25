@@ -302,7 +302,13 @@
 						</table>
 					</form>
 				</div>
-			<? } //end-if check existing subject ?>
+			<? } else {
+				echo "<div align='center'><br/><br/>";
+				echo "<font color='red'>";
+				echo "ไม่พบข้อมูลรหัสวิชา:" . $_POST['subject_search'] ." ในระบบ";
+				echo "</font>";
+				echo "</div>";
+			} ?>
 	<?	} ?>
 
 </div>

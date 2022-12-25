@@ -38,7 +38,7 @@
 		</tr>
 		<tr>
 			<td>&nbsp;</td>
-			<td>2.3 แสดงรายวิชาตามโครงสร้างแผนการเรียน</td> 
+			<td><a href="index.php?option=module_curriculum/ShowCurriculumSubjectMappingWithCredit">2.3 แสดงรายวิชาตามโครงสร้างแผนการเรียนและสรุปหน่วยการเรียน</td> 
 		</tr>
        <tr>
 			<td class="key" colspan="2">3. การจัดการหลักสูตรรายวิชา และ โครงสร้างการหลักสูตร </td>

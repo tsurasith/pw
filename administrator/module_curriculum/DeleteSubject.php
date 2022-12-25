@@ -10,8 +10,13 @@
 				WHERE `SubjectCode` = '" . $_POST['subject_code'] . "'
 			";
 
+		$_sqlDel_mapping = "
+			DELETE FROM `curriculum_subject_mappings`
+				WHERE `SubjectCode` = '" . $_POST['subject_code'] . "'
+			";
+		$_res2 = mysqli_query($_connection,$_sqlDel_mapping);
 		$_res = mysqli_query($_connection,$_sql_insert);
-		if($_res){
+		if($_res && $_res2){
 			$_processing_text = "ระบบได้ลบวิชา: <b>" . $_POST['subject_code'] . " " . $_POST['subject_name'] . "</b> ออกจากระบบเรียบร้อยแล้ว";
 			$_processing_result = true;
 
