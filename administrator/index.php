@@ -166,6 +166,25 @@
                         </a>
                     </div>
                 </div>
+
+                <? if(
+                        $_SESSION['username'] == "admin" || 
+                        $_SESSION['username'] == "tc100" || 
+                        $_SESSION['username'] == "tc101" || 
+                        $_SESSION['username'] == "tc102" || 
+                        $_SESSION['username'] == "tc103" ||
+                        $_SESSION['username'] == "tc137" || $_SESSION['username'] == "tc111"
+                    ) { ?>
+                <div style="float:left;">
+                    <div class="icon">
+                        <a href="index.php?option=module_curriculum/index">
+                        <img src="../images/graduation.png" width="49px" alt="Curriculum and Instruction" align="middle" border="0" />
+                        <span>บริหารหลักสูตร</span>
+                        </a>
+                    </div>
+                </div>
+                <? } ?>
+
                 <? if($_SESSION['username'] == "admin" || $_SESSION['username'] == "tc100" || $_SESSION['username'] == "tc101" || $_SESSION['username'] == "tc102" || $_SESSION['username'] == "tc103") { ?>
                 <div style="float:left;">
                     <div class="icon">

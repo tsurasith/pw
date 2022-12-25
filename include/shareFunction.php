@@ -851,6 +851,50 @@
 			default : return "-";
 		}	
 	}
+	function displayEducationLevel($id)
+	{
+		switch ($id) {
+			case 0 :  return "อนุบาล"; break;
+			case 1 :  return "ประถมต้น"; break;
+			case 2 :  return "ประถมปลาย"; break;
+			case 3 :  return "มัธยมต้น"; break;
+			case 4 :  return "มัธยมปลาย"; break;
+			default : return " - ไม่ทราบ - ";
+		}	
+	}
 
+
+	function displayIsSplitClass($id)
+	{
+		/*
+			คำอธิบายเพิ่มเติม
+			0 หมายถึง วิชาปกติ ที่ แบ่งเรียนตามห้องเรียน หรือวิชาทั่วๆ ไปที่ นักเรียนทุกคนในห้องเรียนเดียวกันต้องลงทะเบียนเรียน
+			1 หมายถึง วิชาเลือก ที่แบ่งนักเรียนให้เลือกเรียนในระดับชั้นเดียวกัน เช่น ม.1 สามารถเลือกเรียนวิชาระดับม.1 ร่วมกับห้องอื่นได้
+			2 หมายถึง วิชาประเภท ชุมนุม หรือ กิจกรรมพิเศษ ที่สามารถให้นักเรียนเรียนร่วมกับนักเรียนระดับชั้นอื่นได้
+		*/
+		switch ($id) {
+			case 0 :  return "แบ่งกลุ่มเรียนตามห้องเรียน"; break;
+			case 1 :  return "แบ่งกลุ่มอิสระในระดับชั้น"; break;
+			case 2 :  return "แบ่งกลุ่มอิสระในระดับการศึกษา"; break;
+			default : return " - ไม่ทราบ - ";
+		}	
+	}
+
+	function displaySubjectGroupShort($_value) {
+		switch ($_value){
+			case "0": return "ไม่ระบุ"; break;
+			case "1": return "ภาษาไทย"; break;
+			case "2": return "คณิตศาสตร์"; break;
+			case "3": return "วิทยาศาสตร์ฯ"; break;
+			case "4": return "สังคมศึกษา ฯ"; break;
+			case "5": return "สุขศึกษาและพลฯ"; break;
+			case "6": return "ศิลปะ"; break;
+			case "7": return "การงานอาชีพ"; break;
+			case "8": return "ภาษาต่างประเทศ"; break;
+			case "9": return "กก.พัฒนาผู้เรียน"; break;
+			case "all": return "ทุกกลุ่มสาระการเรียนรู้"; break;
+			default : return $_value;
+		}
+	}
 
 ?>
