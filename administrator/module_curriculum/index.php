@@ -40,6 +40,10 @@
 			<td>&nbsp;</td>
 			<td><a href="index.php?option=module_curriculum/ShowCurriculumSubjectMappingWithCredit">2.3 แสดงรายวิชาตามโครงสร้างแผนการเรียนและสรุปหน่วยการเรียน</td> 
 		</tr>
+		<tr>
+			<td>&nbsp;</td>
+			<td><a href="index.php?option=module_curriculum/ShowCurriculumSubjectMappingWithCredit2">2.4 แสดงรายวิชาตามโครงสร้างแผนการเรียนและสรุปหน่วยการเรียน (รูปแบบ 2)</td> 
+		</tr>
        <tr>
 			<td class="key" colspan="2">3. การจัดการหลักสูตรรายวิชา และ โครงสร้างการหลักสูตร </td>
 	   </tr>
