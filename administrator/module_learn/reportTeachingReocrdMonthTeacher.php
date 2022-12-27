@@ -8,7 +8,7 @@
     <tr> 
       <td width="6%" align="center"><a href="index.php?option=module_learn/index"><img src="../images/modules/classroom.png" alt="" width="48" height="48" border="0" /></a></td>
       <td><strong><font color="#990000" size="4">Room Tracking</font></strong><br />
-        <span class="normal"><font color="#0066FF"><strong>3.4 แสดงรายการบันทึกหลังการสอนของครูผู้สอน (เลือกวันที่)</strong></font></span></td>
+        <span class="normal"><font color="#0066FF"><strong>3.4 แสดงรายการบันทึกหลังการสอนของครูผู้สอน (เลือกเดือน)</strong></font></span></td>
       <td align="right">
 	  <? if(isset($_REQUEST['acadyear'])) { $acadyear = $_REQUEST['acadyear']; }
 			if(isset($_REQUEST['acadsemester'])) { $acadsemester = $_REQUEST['acadsemester']; }
@@ -99,7 +99,7 @@
 			
 				เดือน 
 				<select name="month" class="inputboxUpdate">
-			 	<option value=""></option>
+			 	<option value="">ทั้งหมด</option>
 				<?php
 					$_sqlMonth = "select distinct month(teaching_date)as m,year(teaching_date)+543 as y
 									from teaching_record where acadyear = '" . $acadyear . "' and acadsemester = '" . $acadsemester . "'
@@ -122,7 +122,7 @@
   </table>
 	  
     <br/>
-<? if((isset($_POST['search']) && $_POST['month'] != "")) { ?>
+<? if((isset($_POST['search']))) { ?>
 
 		<?php
 			$_sql_display = "
@@ -142,7 +142,11 @@
 				from 
 					teaching_record s 
 				where
-					month(s.teaching_date) = '". $_POST['month'] ."' and
+					1=1 and ";
+			if($_POST['month']!=""){
+				$_sql_display .= " month(s.teaching_date) = '". $_POST['month'] ."' and ";
+			}
+			$_sql_display .= " 
 					s.teacher_id = '" . $_POST['teacher_id'] . "' and
 					s.acadyear = '" . $acadyear . "' and
 					s.acadsemester = '" . $acadsemester . "' 
@@ -167,7 +171,11 @@
 							<th align="center" colspan="11">
 							<img src="../images/school_logo.png" width="120px"><br/>
 							แสดงรายการบันทึกการสอน<br/>
-							เดือน<?=displayMonth($_POST['month'])?>
+							<?php
+								if(trim($_POST['month'])!=""){
+									echo displayMonth($_POST['month']);
+								}
+							?>
 							ภาคเรียนที่ <?=$acadsemester?> ปีการศึกษา <?=$acadyear?>
 							<br/><br/>
 							</th>

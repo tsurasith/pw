@@ -99,6 +99,18 @@
 			<a href="index.php?option=module_learn/reportTeachingReocrdMonthTeacher">3.4 แสดงรายการบันทึกหลังการสอนของครูผู้สอน (เลือกเดือน)</a>
 		</td>
 	</tr>
+	<tr>
+		<td>&nbsp;</td>
+		<td>
+		   	<a href="index.php?option=module_learn/reportTeachingSubstituteSummary">3.5 สรุปรายงานการสอนแทน (ครูเจ้าของวิชาเป็นหลัก)</a> 
+		</td>
+	</tr>
+	<tr>
+		<td>&nbsp;</td>
+		<td>
+		   	<a href="index.php?option=module_learn/reportTeachingSubstituteClass">3.6 สรุปรายงานการสอนแทน (ครูผู้สอนแทนเป็นหลัก)</a> 
+		</td>
+	</tr>
 <!--
 	<tr>
 		<td colspan="2" class="key">

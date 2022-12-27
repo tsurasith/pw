@@ -77,6 +77,7 @@
 					teaching_details    = '" . trim($_POST['teaching_details']) . "',  
 					updated_datetime    = current_timestamp(),
 					updated_user_id     = '" . $_SESSION['user_account_id'] . "',
+					approved_datetime   = NULL,
 					teaching_substitute_status = '2' 
 				WHERE
 					teacher_id 			= '" . $_POST['teacher_id'] . "' and

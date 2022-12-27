@@ -10,7 +10,6 @@
 					UPDATE teaching_substitute 
 					SET
 						confirmed_datetime  = current_timestamp(),
-						updated_datetime    = current_timestamp(),
 						updated_user_id     = '" . $_SESSION['user_account_id'] . "',
 						teaching_substitute_status = '1' 
 					WHERE

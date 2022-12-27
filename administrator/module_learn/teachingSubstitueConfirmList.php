@@ -215,7 +215,8 @@
 									<input type="hidden" name="teaching_date" value="<?=$_dat['teaching_date']?>" />
 									<input type="hidden" name="owner_teacher_id" value="<?=$_dat['owner_teacher_id']?>" />
 									<input type="hidden" name="teacher_id" value="<?=$_dat['teacher_id']?>" />
-									<input type="submit" name="details" value="..." disabled />
+									<input type="hidden" name="to_approve" value="to_approve" />
+									<input type="submit" name="details" value="..." />
 								</form>
 							</td>
 							<?php
