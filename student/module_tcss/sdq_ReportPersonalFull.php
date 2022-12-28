@@ -34,6 +34,7 @@
 			if(isset($_REQUEST['acadsemester'])) { $acadsemester = $_REQUEST['acadsemester']; }
 		?>
 <br/>
+<div align="center">
 <? $_resS = mysqli_query($_connection,"select id,prefix,firstname,lastname,xlevel,xyearth,room,studstatus,a_name from students where id = '" . $_SESSION['username'] . "' and xedbe = '" . $acadyear . "'"); ?>
 <? if(mysqli_num_rows($_resS)>0) { ?>
 <? $_dat = mysqli_fetch_assoc($_resS); ?>
@@ -46,20 +47,20 @@
 			  sum(if(questioner='teacher',a.all,0)) as t from sdq_result a
 			where student_id = '" . $_SESSION['username'] . "'
 			and acadyear = '" . $acadyear . "' and acadsemester = '" . $acadsemester . "' group by a.student_id"));?>
-  <table class="admintable" width="100%"  cellpadding="1" cellspacing="1" border="0" align="center">
+  <table class="admintable"  cellpadding="1" cellspacing="1" border="0" align="center">
     <tr>
 		<td colspan="3" class="key">สรุปผลการประเมิน SDQ ทั้งหมดของนักเรียน</td>
 	</tr>
 	<tr>
 		<td rowspan="7" width="150px" align="center">
-			<img src="../images/studPhoto/id<?=$_SESSION['username']?>.jpg" alt="รูปของนักเรียน" width="150px" style="border:#000000 groove 4px" />
+			<img src="../images<?=$_img_student_folder?>/id<?=$_SESSION['username']?>.jpg" alt="รูปของนักเรียน" width="150px" style="border:#000000 groove 4px" />
 		</td>
 		<td align="right" width="200px">ภาคเรียน/ปีการศึกษา :</td>
 		<td><?=display($acadsemester.'/'.$acadyear)?></td>
 	</tr>
 	<tr>
 		<td align="right" >เลขประจำตัว :</td>
-		<td><?=display($_dat['id'])?></td>
+		<td><?=displayText($_dat['id'])?></td>
 	</tr>
 	<tr>
 		<td align="right" >ชื่อ-สกุล :</td>
@@ -144,6 +145,7 @@
 		<td align="center" class="key"><?=displayAll($_all['t'],"teacher")?></td>
 	</tr>
 </table>
+</div>
 <? } else { ?> <br/><center><font color="#FF0000">ยังไม่มีข้อมูลในภาคเรียนนี้</font></center><? } ?>
 <br/><br/>
 </div>
