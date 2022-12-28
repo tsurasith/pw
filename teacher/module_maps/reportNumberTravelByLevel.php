@@ -27,7 +27,7 @@
 				<? mysqli_free_result($_resTravel); ?>
 			</select>
 	  		<input type="submit" value="เรียกดู" class="button" name="search"/> <br/>
-			<input type="checkbox" name="studstatus" value="1,2" <?=$_POST['studstatus']=="1,2"?"checked='checked'":""?> />
+			<input type="checkbox" name="studstatus" value="1,2" <?=isset($_POST['studstatus'])=="1,2"?"checked='checked'":""?> />
 			 เฉพาะนักเรียนสถานะปกติหรือสำเร็จการศึกษา
 			 </font>
 	   </td>
@@ -44,7 +44,7 @@
   if($_POST['roomID']=="all")
   {
   	$_sql = "select xlevel,xyearth,sum(if(sex=1,1,0)) as 'm',sum(if(sex=2,1,0)) as 'f',count(*)as c from students where xedbe = '" . $acadyear . "'  ";
-	if($_POST['studstatus']=="1,2") $_sql .= "and studstatus in (1,2) ";
+	if(isset($_POST['studstatus']) && $_POST['studstatus']=="1,2") $_sql .= "and studstatus in (1,2) ";
 	$_sql .= " group by xlevel,xyearth order by xlevel,xyearth ";
 	$_totalStudent = mysqli_fetch_assoc(mysqli_query($_connection,"select count(*) as total from students where xedbe = '" . $acadyear . "'" . ($_POST['studstatus']=="1,2"?"and studstatus in (1,2)":"")));
   }
@@ -52,7 +52,7 @@
   {
   	$_sql = "select xlevel,xyearth,sum(if(sex=1,1,0)) as 'm',sum(if(sex=2,1,0)) as 'f',count(*)as c from students 
 				where xedbe = '" . $acadyear . "' and travelby = '" . $_POST['travelby'] . "'  ";
-	if($_POST['studstatus']=="1,2") $_sql .= "and studstatus in (1,2) ";
+	if(isset($_POST['studstatus']) && $_POST['studstatus']=="1,2") $_sql .= "and studstatus in (1,2) ";
 	$_sql .= " group by xlevel,xyearth order by xlevel,xyearth ";
 	$_totalStudent = mysqli_fetch_assoc(mysqli_query($_connection,"select count(*) as total from students where xedbe = '" . $acadyear . "' and travelby = '" . $_POST['travelby'] . "' " . ($_POST['studstatus']=="1,2"?"and studstatus in (1,2)":"")));
   }

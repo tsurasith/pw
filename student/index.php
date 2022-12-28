@@ -4,8 +4,23 @@
 	if(!isset($_SESSION['pw-logined']) || $_SESSION['pw-type'] != 'student') {
 
         $_host  = $_SERVER['HTTP_HOST'];
-        header("Location: http://" . $_host . "/" . $_SESSION['deploy_folder'] . "");
-        exit;
+        $_uri  = rtrim(dirname($_SERVER['PHP_SELF']),'/\\');
+
+        $_endpoint = "";
+        $_uris = explode("/",$_uri);
+        for($_i=0;$_i<count($_uris)-1;$_i++){
+            $_endpoint .= $_uris[$_i] . "/";
+
+        }
+
+        if(isset($_SESSION['deploy_folder'])){
+            header("Location: http://" . $_host . "/" . $_SESSION['deploy_folder'] . "");
+            exit;
+        }else{
+            header("Location: http://" . $_host . $_endpoint);
+            exit;
+        }
+
 	}
     
     
@@ -173,24 +188,9 @@
                  } 
             ?>
         </div>
-        <div id="right">
-			<h1>เมนูจัดการระบบ</h1>
-                <ul>
-                    <li><a href="index.php?option=module_800/index">กิจกรรมหน้าเสาธง</a></li>
-                    <li><a href="index.php?option=module_learn/index">บันทึกการเข้าเรียน</a></li>
-                    <li><a href="index.php?option=module_history/index">สืบค้นประวัติ</a></li>
-                    <li><a href="index.php?option=module_discipline/index">งานวินัยนักเรียน</a></li>
-                    <li><a href="index.php?option=module_maps/index">แผนที่ติดตามที่อยู่</a></li>
-                    <li><a href="index.php?option=module_tcss/index">TCSS</a></li>
-                    <li><a href="index.php?option=module_reports/index">สถิติ/รายงาน</a></li>
-                </ul>
-        </div>
-    <div id="footer">
+        <div id="footer">
             สงวนลิขสิทธิ์ &copy; ระบบจัดการสารสนเทศกิจการนักเรียน<br />
-			Copy Right &copy; Toby , All rights reserved. <br/>
-			<a>System Develop by: Mr.Surasith Taokok,
-			   E-mail:taokok@gmail.com,Tel:087 370 8079</a>
-            <!-- ปรับปรุงล่าสุด 30 มีนาคม 2551 เวลา 4:06:15 น. -->
+			System developed by: Mr.Surasith Taokok, email:taokok@gmail.com, Tel:087 370 8079
     </div>
     </div>
 </body>

@@ -49,7 +49,7 @@
 				?>
 			</select>
 	  		<input type="submit" value="เรียกดู" class="button" name="search"/><br/>
-			<input type="checkbox" name="studstatus" value="1,2"  <?=$_POST['studstatus']=="1,2"?"checked='checked'":""?> />
+			<input type="checkbox" name="studstatus" value="1,2"  <?=isset($_POST['studstatus'])=="1,2"?"checked='checked'":""?> />
 			 เฉพาะนักเรียนสถานะปกติหรือสำเร็จการศึกษา </font>
 	   </td>
     </tr>
@@ -93,8 +93,8 @@ if(isset($_POST['search']) && $_POST['roomID'] != "")
 										and a.xedbe = '" .$acadyear ."'
 										and b.acadyear = '" .$acadyear ."'
 										and b.acadsemester = '" .$acadsemester ."' ";
-		if($_POST['studstatus']=="1,2") $sqlStudent .= " and studstatus in (1,2) ";
-		$sqlStudent .= "group by a.id order by sex,id,ordinal";
+		if(isset($_POST['studstatus']) && $_POST['studstatus']=="1,2") $sqlStudent .= " and studstatus in (1,2) ";
+		$sqlStudent .= "group by a.id order by sex,convert(firstname using tis620),convert(lastname using tis620),ordinal";
 		$resStudent = mysqli_query($_connection,$sqlStudent);
 		$ordinal = 1;
 		$totalRows = mysqli_num_rows($resStudent);

@@ -54,7 +54,7 @@
 				<option value="all" <?=isset($_POST['roomID'])&&$_POST['roomID']=="all"?"selected":""?>> ทั้งโรงเรียน </option>
 			</select> 
 			 <input type="submit" value="เรียกดู" class="button" name="search"/> <br/>
-			 <input type="checkbox" name="studstatus" value="1,2" <?=$_POST['studstatus']=="1,2"?"checked='checked'":""?> />
+			 <input type="checkbox" name="studstatus" value="1,2" <?=isset($_POST['studstatus'])=="1,2"?"checked='checked'":""?> />
 			 เฉพาะนักเรียนสถานะปกติหรือสำเร็จการศึกษา
 		  </font>
 		  </form>
@@ -65,7 +65,7 @@
   <?php
   $xlevel;
   $xyearth;
-  if($_POST['roomID'] != "all")
+  if(isset($_POST['roomID']) && $_POST['roomID'] != "all")
   {
   	$xlevel = substr($_POST['roomID'],0,1);;
 	$xyearth = substr($_POST['roomID'],2,1);
@@ -82,7 +82,7 @@
 		else if(isset($_POST['search']) && $_POST['roomID'] != "")
 		{
 			$sqlStudent = "";
-			if($_POST['roomID'] != "all")
+			if(isset($_POST['roomID']) && $_POST['roomID'] != "all")
 			{
 				$sqlStudent = "select students.id,students.prefix,students.firstname,students.lastname ,students.xyearth,students.xlevel,students.room,students.studstatus ,
 								  sum(if(timecheck_id = '00',timecheck_id,null)+1) as a,
@@ -94,7 +94,7 @@
 								from students  left outer join student_800 on students.id = student_800.student_id
 								where xyearth = '" . $xyearth . "' and xlevel = '" . $xlevel ."' and xedbe = '" .$acadyear . "'
 									  and acadyear = '" . $acadyear . "' and acadsemester = '" . $acadsemester . "' ";
-				if($_POST['studstatus']=="1,2") $sqlStudent .= " and studstatus in (1,2)";
+				if(isset($_POST['studstatus']) && $_POST['studstatus']=="1,2") $sqlStudent .= " and studstatus in (1,2)";
 				$sqlStudent .= " group by id order by a,e desc,room,sex,id";
 			}
 			else
@@ -108,7 +108,7 @@
 								  count(class_id) as sum
 								from students  left outer join student_800 on students.id = student_800.student_id
 								where acadyear = '" . $acadyear . "' and acadsemester = '" . $acadsemester . "' and xedbe = '" .$acadyear . "' ";
-				if($_POST['studstatus']=="1,2") $sqlStudent .= " and studstatus in (1,2) ";
+				if(isset($_POST['studstatus']) && $_POST['studstatus']=="1,2") $sqlStudent .= " and studstatus in (1,2) ";
 				$sqlStudent .= "group by id order by a,e desc,xlevel,xyearth,room,sex,id";			
 			}
 			$resStudent = mysqli_query($_connection,$sqlStudent);

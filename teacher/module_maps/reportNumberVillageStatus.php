@@ -26,7 +26,7 @@
 				<option value="all" <?=isset($_POST['xlevel'])&&$_POST['xlevel']=="all"?"selected":""?>> ทั้งโรงเรียน </option>
 			</select>  
 	  		<input type="submit" value="เรียกดู" class="button" name="search"/> <br/>
-			<input type="checkbox" name="studstatus" value="1,2" <?=$_POST['studstatus']=="1,2"?"checked='checked'":""?> />
+			<input type="checkbox" name="studstatus" value="1,2" <?=isset($_POST['studstatus'])=="1,2"?"checked='checked'":""?> />
 			 เฉพาะนักเรียนสถานะปกติหรือสำเร็จการศึกษา
 			 </font>
 	   </td>
@@ -50,7 +50,7 @@
 			from students
 				where xedbe = '" . $acadyear . "' ";
 	if($_POST['xlevel']!="all"){ $_sql .= " and xlevel = '" . $_POST['xlevel'] . "' "; }
-	if($_POST['studstatus']=="1,2"){ $_sql .= " and studstatus in (1,2) ";}
+	if(isset($_POST['studstatus']) && $_POST['studstatus']=="1,2"){ $_sql .= " and studstatus in (1,2) ";}
 	$_sql .= " group by p_village order by 1 ";
  	$_result = mysqli_query($_connection,$_sql);
 	if(mysqli_num_rows($_result)>0) {

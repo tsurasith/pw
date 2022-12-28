@@ -40,7 +40,7 @@
   <?php
   $xlevel;
   $xyearth;
-  if($_POST['roomID'] != "all")
+  if(isset($_POST['roomID']) && $_POST['roomID'] != "all")
   {
   	$xlevel = substr($_POST['roomID'],0,1);;
 	$xyearth = substr($_POST['roomID'],2,1);

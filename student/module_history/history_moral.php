@@ -42,7 +42,7 @@
 							</tr>
 							<tr bgcolor="#FFFFFF">
 								<td align="right">สถานภาพปัจจุบัน :</td>
-								<td><?=displayText(displayStudentStatusColor($datStudent['studstatus']))?></td>
+								<td><?=displayText(displayStudentStatusColorStudent($datStudent['studstatus']))?></td>
 							</tr>
 							<tr bgcolor="#FFFFFF">
 								<td align="right">ผลการเรียนเฉลี่ยสะสม :</td>

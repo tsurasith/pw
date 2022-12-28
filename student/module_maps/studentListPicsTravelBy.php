@@ -48,7 +48,7 @@
 				<option value="all" <?=isset($_POST['sex']) && $_POST['sex']=="all"?"selected":""?>>ทั้งหมด</option>
 			</select>
 	  		 <br/>
-			<input type="checkbox" name="studstatus" value="1,2" <?=$_POST['studstatus']=="1,2"?"checked='checked'":""?> />
+			<input type="checkbox" name="studstatus" value="1,2" <?=isset($_POST['studstatus'])=="1,2"?"checked='checked'":""?> />
 			 เฉพาะนักเรียนสถานะปกติหรือสำเร็จการศึกษา 
 			 
 			</font>
@@ -66,9 +66,9 @@
 						from students 
 						where travelby = '" . $_POST['travelby'] . "'
 								and xedbe = '" . $acadyear . "' ";
-		if($_POST['studstatus']=="1,2") $sqlStudent .= " and studstatus in (1,2) ";
+		if(isset($_POST['studstatus']) && $_POST['studstatus']=="1,2") $sqlStudent .= " and studstatus in (1,2) ";
 		if($_POST['sex'] != "all") $sqlStudent .= " and sex = '" . $_POST['sex'] . "' ";
-		if($_POST['roomID'] != "all") $sqlStudent .= " and xlevel = '" . substr($_POST['roomID'],0,1) . "' and xyearth = '" . substr($_POST['roomID'],-1) . "' ";
+		if(isset($_POST['roomID']) && $_POST['roomID'] != "all") $sqlStudent .= " and xlevel = '" . substr($_POST['roomID'],0,1) . "' and xyearth = '" . substr($_POST['roomID'],-1) . "' ";
 		$sqlStudent .= " order by xlevel,xyearth,room,sex,id";
 		$resStudent = mysqli_query($_connection,$sqlStudent);
 		$ordinal = 1; ?>

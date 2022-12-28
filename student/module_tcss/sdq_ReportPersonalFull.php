@@ -71,7 +71,7 @@
 	</tr>
 	<tr>
 		<td align="right" >สถานภาพ :</td>
-		<td><?=displayStudentStatusColor($_dat['studstatus'])?></td>
+		<td><?=displayStudentStatusColorStudent($_dat['studstatus'])?></td>
 	</tr>
 	<tr>
 		<td align="right" >ชื่อ-สกุลผู้ปกครอง :</td>

@@ -40,7 +40,7 @@
 				<? if(mysqli_num_rows($_resMonth)>0){ ?><option value="all" <?=isset($_POST['month'])&&$_POST['month']=="all"?"selected":""?>>ทั้งหมด</option><? } ?>
 			 </select>
 			 <input type="submit" value="เรียกดู" class="button" name="search"/> <br/>
-			 <input type="checkbox" name="studstatus" value="1,2" <?=$_POST['studstatus']=="1,2"?"checked='checked'":""?> />
+			 <input type="checkbox" name="studstatus" value="1,2" <?=isset($_POST['studstatus'])=="1,2"?"checked='checked'":""?> />
 			 เฉพาะนักเรียนสถานะปกติหรือสำเร็จการศึกษา
 		  </font>
 		  </form>
@@ -59,7 +59,7 @@
 					from student_800 left outer join students on student_id = id
 					where acadyear = '" . $acadyear . "' and acadsemester = '" . $acadsemester . "'
 						and xEDBE = '" . $acadyear . "' ";
-			if($_POST['studstatus']=="1,2"){$_sql .= " and studstatus in (" . $_POST['studstatus'] . ") ";}
+			if(isset($_POST['studstatus']) && $_POST['studstatus']=="1,2"){$_sql .= " and studstatus in (" . $_POST['studstatus'] . ") ";}
 			$_sql .= "group by check_date order by check_date";
 		}
 		else {
@@ -72,7 +72,7 @@
 					from student_800 left outer join students on student_id = id
 					where acadyear = '" . $acadyear . "' and acadsemester = '" . $acadsemester . "'
 						and month(check_date) = '" . $_POST['month'] . "' and xEDBE = '" . $acadyear . "' ";
-			if($_POST['studstatus']=="1,2"){$_sql .= " and studstatus in (" . $_POST['studstatus'] . ") ";}
+			if(isset($_POST['studstatus']) && $_POST['studstatus']=="1,2"){$_sql .= " and studstatus in (" . $_POST['studstatus'] . ") ";}
 			$_sql .= "group by check_date order by check_date";
 		}
 	?>	 

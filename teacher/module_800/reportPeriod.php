@@ -52,7 +52,7 @@
 					} mysqli_free_result($resRoom);
 				?>
 			</select>
-			<input type="checkbox" name="studstatus" value="1,2" <?=$_POST['studstatus']=="1,2"?"checked='checked'":""?> />
+			<input type="checkbox" name="studstatus" value="1,2" <?=isset($_POST['studstatus'])=="1,2"?"checked='checked'":""?> />
 			เฉพาะนักเรียนสถานะปกติหรือสำเร็จการศึกษา </font>
 			<input type="submit" value="เรียกดู" name="search" class="button"/> 
 		</form>
@@ -83,8 +83,8 @@
 							where check_date between '" . $_POST['date'] . "' and '" . $_POST['date2'] . "'
 								  and xyearth = '" . $xyearth . "' and xlevel = '" . $xlevel ."' and xedbe = '" . $acadyear . "'
 								  and room = '" . $room . "' and acadyear = '" . $acadyear . "' and acadsemester = '" . $acadsemester . "' ";
-					if($_POST['studstatus']=="1,2") $sqlStudent .= " and studstatus in (1,2) ";
-					$sqlStudent .= " group by id order by sex,id";
+					if(isset($_POST['studstatus']) && $_POST['studstatus']=="1,2") $sqlStudent .= " and studstatus in (1,2) ";
+					$sqlStudent .= " group by id order by sex,convert(firstname using tis620),convert(lastname using tis620)";
 					
 					$resStudent = mysqli_query($_connection,$sqlStudent);
 					$ordinal = 1;

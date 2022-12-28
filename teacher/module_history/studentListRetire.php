@@ -36,7 +36,7 @@
  <?php
   $xlevel;
   $xyearth;
-  if($_POST['roomID'] != "all")
+  if(isset($_POST['roomID']) && $_POST['roomID'] != "all")
   {
   	$xlevel = substr($_POST['roomID'],0,1);;
 	$xyearth = substr($_POST['roomID'],2,1);
@@ -50,7 +50,7 @@
 		else if(isset($_POST['search']) && $_POST['roomID'] != "")
 		{
 			$sqlStudent = "";
-			if($_POST['roomID'] != "all")
+			if(isset($_POST['roomID']) && $_POST['roomID'] != "all")
 			{
 				$sqlStudent = "select id,prefix,firstname,lastname,nickname,xlevel,xyearth,room,studstatus,points,
 									ent_date,sch_name,gpa,students.leave,students.cause

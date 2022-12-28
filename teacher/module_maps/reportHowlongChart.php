@@ -31,7 +31,7 @@
 				<option value="all" <?=isset($_POST['roomID'])&&$_POST['roomID']=="all"?"selected":""?>> ทั้งโรงเรียน </option>
 			</select>  
 	  		<input type="submit" value="เรียกดู" class="button" name="search"/> <br/>
-			<input type="checkbox" name="studstatus" value="1,2" <?=$_POST['studstatus']=="1,2"?"checked='checked'":""?> />
+			<input type="checkbox" name="studstatus" value="1,2" <?=isset($_POST['studstatus'])=="1,2"?"checked='checked'":""?> />
 			 เฉพาะนักเรียนสถานะปกติหรือสำเร็จการศึกษา<br/>
 			<input name="chartType" type="radio" value="column" <?=$_POST['chartType']!="pie"?"checked":""?>> กราฟแท่ง 
 			<input type="radio" value="pie" name="chartType" <?=$_POST['chartType']=="pie"?"checked":""?>> กราฟวงกลม
@@ -48,14 +48,14 @@
   $_totalStudent = 0;
   if($_POST['roomID']=="all") {
   	$_sql = "select howlong,count(*)as c from students where xedbe = '" . $acadyear . "'  ";
-	if($_POST['studstatus']=="1,2") $_sql .= "and studstatus in (1,2) ";
+	if(isset($_POST['studstatus']) && $_POST['studstatus']=="1,2") $_sql .= "and studstatus in (1,2) ";
 	$_sql .= " group by howlong <=0 , howlong <=5, howlong <=7,howlong <=8, howlong <=10, howlong <=15,howlong <=20 ,
 					howlong <= 25, howlong <=30 , howlong <=35 , howlong <=40 , howlong > 40 order by 1 desc";
   } else {
   	$_sql = "select howlong,count(*)as c from students 
 				where xedbe = '" . $acadyear . "' and xlevel = '" . substr($_POST['roomID'],0,1) . "' 
 					and xyearth = '" . substr($_POST['roomID'],2,1) . "' ";
-	if($_POST['studstatus']=="1,2") $_sql .= "and studstatus in (1,2) ";
+	if(isset($_POST['studstatus']) && $_POST['studstatus']=="1,2") $_sql .= "and studstatus in (1,2) ";
 	$_sql .= " group by howlong <=0 , howlong <=5,howlong <=7,howlong <=8, howlong <=10, howlong <=15,howlong <=20 ,
 					howlong <= 25, howlong <=30 , howlong <=35 , howlong <=40 , howlong > 40 order by 1 desc";
   }

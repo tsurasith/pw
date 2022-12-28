@@ -46,7 +46,7 @@
 		ระดับชั้น 	 
 			 <input type="radio" name="level" value="3" <?=$_POST['level']!=4?"checked":""?> /> ม.ต้น |
 			 <input type="radio" name="level" value="4" <?=$_POST['level']==4?"checked":""?> /> ม.ปลาย<br/>
-			<input type="checkbox" name="studstatus" value="1,2"  <?=$_POST['studstatus']=="1,2"?"checked='checked'":""?> />
+			<input type="checkbox" name="studstatus" value="1,2"  <?=isset($_POST['studstatus'])=="1,2"?"checked='checked'":""?> />
 				เฉพาะนักเรียนสถานะปกติหรือสำเร็จการศึกษา
 			 </font>
 	  </form>
@@ -63,8 +63,8 @@
 		$sqlStudent = "select id,prefix,firstname,lastname,sex,nickname,xlevel,xyearth,room
 						from students 
 						where xedbe = '" . $acadyear . "' and color = '" . $_POST['color'] . "' ";
-		if($_POST['roomID'] != "all") $sqlStudent .= "and xlevel = '". $_POST['level'] . "' ";
-		if($_POST['studstatus']=="1,2") $sqlStudent .= " and studstatus in (1,2) ";
+		if(isset($_POST['roomID']) && $_POST['roomID'] != "all") $sqlStudent .= "and xlevel = '". $_POST['level'] . "' ";
+		if(isset($_POST['studstatus']) && $_POST['studstatus']=="1,2") $sqlStudent .= " and studstatus in (1,2) ";
 		if($_POST['sex']!="3") $sqlStudent .= " and sex = '" . $_POST['sex'] . "' ";
 		$sqlStudent .= " order by sex,xlevel,xyearth,room,id ";
 		$resStudent = mysqli_query($_connection,$sqlStudent);

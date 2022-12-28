@@ -35,7 +35,7 @@
 				<? } ?>
 			</select>
 			<input type="submit" value="เรียกดู" class="button" /><br/>
-			<input type="checkbox" name="studstatus" value="1,2"  <?=$_POST['studstatus']=="1,2"?"checked='checked'":""?> />
+			<input type="checkbox" name="studstatus" value="1,2"  <?=isset($_POST['studstatus'])=="1,2"?"checked='checked'":""?> />
 			 <font color="#000000" size="2" >เฉพาะนักเรียนสถานะปกติหรือสำเร็จการศึกษา</font>
 		  </form>
 	  </td>
@@ -44,7 +44,7 @@
 
   <table cellpadding="1" cellspacing="1" border="0" align="center" width="100%">
 	<?php
-			if($_POST['studstatus']=="1,2")
+			if(isset($_POST['studstatus']) && $_POST['studstatus']=="1,2")
 			{
 				$sqlStudent = "select class_id,
 							  sum(if(timecheck_id = '02',timecheck_id,null))/2 as c,
@@ -63,7 +63,7 @@
 							  sum(if(timecheck_id = '03',timecheck_id,null))/3 as d,
 							  sum(if(timecheck_id = '04',timecheck_id,null))/4 as e 
 							from student_800 where acadyear = '" . $acadyear . "' and acadsemester = '" . $acadsemester . "'
-							     and class_id like '" . $_POST['class'] . "%' and timecheck_id not in ('00','01')
+							     and class_id like '" . (isset($_POST['class'])?$_POST['class']:"") . "%' and timecheck_id not in ('00','01')
 							group by class_id order by class_id";
 			}
 			$resStudent = mysqli_query($_connection,$sqlStudent);

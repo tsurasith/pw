@@ -25,7 +25,7 @@
 				<?	} mysqli_free_result($_resultVillage) ?>
 			</select>
 	  		<input type="submit" value="เรียกดู" class="button" name="search"/><br/>
-			<input type="checkbox" name="studstatus" value="1,2"  <?=$_POST['studstatus']=="1,2"?"checked='checked'":""?> /> เฉพาะนักเรียนสถานะปกติหรือสำเร็จการศึกษา </font>
+			<input type="checkbox" name="studstatus" value="1,2"  <?=isset($_POST['studstatus'])=="1,2"?"checked='checked'":""?> /> เฉพาะนักเรียนสถานะปกติหรือสำเร็จการศึกษา </font>
 	   </td>
     </tr>
   </table>
@@ -54,7 +54,7 @@
 								howlong,travelby,utm_coordinate_x,utm_coordinate_y,studstatus,p_village
 						 from students 
 						 where xedbe = '" . $acadyear . "' and trim(p_village) = '" . $_POST['p_village'] . "'";
-		if($_POST['studstatus']=="1,2") $sqlStudent .= " and studstatus in (1,2) ";
+		if(isset($_POST['studstatus']) && $_POST['studstatus']=="1,2") $sqlStudent .= " and studstatus in (1,2) ";
 		$sqlStudent .= " order by xlevel,xyearth,room,sex ";
 		$resStudent = mysqli_query($_connection,$sqlStudent);
 		$ordinal = 1;

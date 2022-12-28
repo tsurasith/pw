@@ -54,7 +54,7 @@
 				<option value="ส้ม"   <?=isset($_POST['color'])&&$_POST['color']=="ส้ม"?"selected":""?>>ส้ม</option>
 			 </select>
 			 <input type="submit" name="search" value="เรียกดู" class="button" /><br/>
-			<input type="checkbox" name="studstatus" value="1,2"  <?=$_POST['studstatus']=="1,2"?"checked='checked'":""?> />
+			<input type="checkbox" name="studstatus" value="1,2"  <?=isset($_POST['studstatus'])=="1,2"?"checked='checked'":""?> />
 				เฉพาะนักเรียนสถานะปกติหรือสำเร็จการศึกษา
 			 </font>
 	  </form>
@@ -73,8 +73,8 @@
 		$sqlStudent = "select id,prefix,firstname,lastname,sex,nickname,p_village,studstatus,xlevel,xyearth,room
 						from students 
 						where xedbe = '" . $acadyear . "' and color = '" . $_POST['color'] . "' ";
-		if($_POST['roomID'] != "all") $sqlStudent .= "and xlevel = '". $xlevel . "' and xyearth = '" . $xyearth . "' ";
-		if($_POST['studstatus']=="1,2") $sqlStudent .= " and studstatus in (1,2) ";
+		if(isset($_POST['roomID']) && $_POST['roomID'] != "all") $sqlStudent .= "and xlevel = '". $xlevel . "' and xyearth = '" . $xyearth . "' ";
+		if(isset($_POST['studstatus']) && $_POST['studstatus']=="1,2") $sqlStudent .= " and studstatus in (1,2) ";
 		if($_POST['sex']!="3") $sqlStudent .= " and sex = '" . $_POST['sex'] . "' ";
 		$sqlStudent .= " order by sex,xlevel,xyearth,room,id ";
 		$resStudent = mysqli_query($_connection,$sqlStudent);

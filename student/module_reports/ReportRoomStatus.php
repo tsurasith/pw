@@ -81,7 +81,7 @@
 						   $_m4=0; $_f4=0; $_m5=0; $_f5=0; $_m6=0; $_f6=0; $_count=0; ?>
 						<? while($_dat = mysqli_fetch_assoc($_result)){ ?>
 						<tr>
-							<td align="left"><?=displayStudentStatusColor($_dat['studstatus'])?></td>
+							<td align="left"><?=displayStudentStatusColorStudent($_dat['studstatus'])?></td>
 							<td align="right" style="padding-right:5px"><?=$_dat['m1']>0?$_dat['m1']:"-"?></td>
 							<td align="right" style="padding-right:5px"><?=$_dat['f1']>0?$_dat['f1']:"-"?></td>
 							<td align="right" style="padding-right:5px"><?=$_dat['m2']>0?$_dat['m2']:"-"?></td>

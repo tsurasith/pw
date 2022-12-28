@@ -64,7 +64,7 @@
 					</tr>
 					<tr>
 						<td align="right">สถานภาพปัจจุบัน :</td>
-						<td><b><?=displayStudentStatusColor($_dat['studstatus'])?></b></td>
+						<td><b><?=displayStudentStatusColorStudent($_dat['studstatus'])?></b></td>
 					</tr>
 					<tr>
 						<td align="right">หมู่บ้านที่อาศัย :</td>

@@ -25,7 +25,7 @@
 				<?	} mysqli_free_result($_resultVillage) ?>
 			</select>
 	  		<input type="submit" value="เรียกดู" class="button" name="search"/><br/>
-			<input type="checkbox" name="studstatus" value="1,2"  <?=$_POST['studstatus']=="1,2"?"checked='checked'":""?> /> เฉพาะนักเรียนสถานะปกติหรือสำเร็จการศึกษา </font>
+			<input type="checkbox" name="studstatus" value="1,2"  <?=isset($_POST['studstatus'])=="1,2"?"checked='checked'":""?> /> เฉพาะนักเรียนสถานะปกติหรือสำเร็จการศึกษา </font>
 	   </td>
     </tr>
   </table>
@@ -54,7 +54,7 @@
 								howlong,travelby,utm_coordinate_x,utm_coordinate_y,studstatus,p_village
 						 from students 
 						 where xedbe = '" . $acadyear . "' and trim(p_village) = '" . $_POST['p_village'] . "'";
-		if($_POST['studstatus']=="1,2") $sqlStudent .= " and studstatus in (1,2) ";
+		if(isset($_POST['studstatus']) && $_POST['studstatus']=="1,2") $sqlStudent .= " and studstatus in (1,2) ";
 		$sqlStudent .= " order by xlevel,xyearth,room,sex ";
 		$resStudent = mysqli_query($_connection,$sqlStudent);
 		$ordinal = 1;
@@ -65,11 +65,11 @@
 			else{echo "<tr>";}
 			$dat = mysqli_fetch_array($resStudent);
 			echo "<td align=\"center\">$ordinal</td>";
-			if($_SESSION['superAdmin']) { echo "<td align=\"center\"><a href='index.php?option=module_maps/updatemaps&report=studentListVillage&acadyear=" . $acadyear . "&student_id=" . $dat['id'] ."&p_village=" . $dat['p_village'] . "'>" . $dat['id'] . "</a></td>";}
+			if(isset($_SESSION['superAdmin'])) { echo "<td align=\"center\"><a href='index.php?option=module_maps/updatemaps&report=studentListVillage&acadyear=" . $acadyear . "&student_id=" . $dat['id'] ."&p_village=" . $dat['p_village'] . "'>" . $dat['id'] . "</a></td>";}
 			else {echo "<td align='center'>" . $dat['id'] . "</td>" ;}
 			echo "<td>" . $dat['prefix'] . $dat['firstname'] . " " . $dat['lastname'] . "</td>";
 			echo "<td align='center'>" . ($dat['xlevel']==3?$dat['xyearth']:$dat['xyearth']+3) . '/' . $dat['room'] . "</td>";
-			echo "<td align=\"center\">" . displayStudentStatusColor($dat['studstatus']) . "</td>";
+			echo "<td align=\"center\">" . displayStudentStatusColorStudent($dat['studstatus']) . "</td>";
 			echo "<td>" . displayTravel($dat['travelby']) . "</td>";
 			echo "<td align=\"center\">" . $dat['howlong'] . "</td>";
 			if(trim($dat['utm_coordinate_x']) != "" && trim($dat['utm_coordinate_y']) != ""){

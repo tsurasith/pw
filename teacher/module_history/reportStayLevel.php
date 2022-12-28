@@ -39,7 +39,7 @@
 				<option value="all" <?=isset($_POST['search'])&&$_POST['inservice']=="all"?"selected":""?>>ทั้งหมด</option>
 			</select>
 	  		<input type="submit" value="เรียกดู" class="button" name="search"/> <br/>
-			<input type="checkbox" name="studstatus" value="1,2"  <?=$_POST['studstatus']=="1,2"?"checked='checked'":""?> />
+			<input type="checkbox" name="studstatus" value="1,2"  <?=isset($_POST['studstatus'])=="1,2"?"checked='checked'":""?> />
 			 เฉพาะนักเรียนสถานะปกติหรือสำเร็จการศึกษา
 			</font>
 	   </td>
@@ -72,7 +72,7 @@
 		if($_POST['roomID']!="all"){$sqlStudent .=  " where xlevel = '". substr($_POST['roomID'],0,1) . "' and xyearth = '" . substr($_POST['roomID'],2,1) . "' and xedbe = '" . $acadyear . "' ";}
 		else {$sqlStudent .= " where xedbe = '" . $acadyear . "' " ;}
 		if($_POST['inservice']!="all"){$sqlStudent .= " and inservice = '" . $_POST['inservice'] . "' ";}
-		if($_POST['studstatus']=="1,2") $sqlStudent .= " and studstatus in (1,2) ";
+		if(isset($_POST['studstatus']) && $_POST['studstatus']=="1,2") $sqlStudent .= " and studstatus in (1,2) ";
 		$sqlStudent .= "order by xlevel,xyearth,room,sex,id";
 		
 		$resStudent = mysqli_query($_connection,$sqlStudent);

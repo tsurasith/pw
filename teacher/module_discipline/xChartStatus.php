@@ -38,7 +38,7 @@
 			</select><br/> 
 			<input name="chartType" type="radio" value="column" <?=$_POST['chartType']!="pie"?"checked":""?>> กราฟแท่ง 
 			<input type="radio" value="pie" name="chartType" <?=isset($_POST['chartType'])&&$_POST['chartType']=="pie"?"checked":""?>> กราฟวงกลม <br/>
-		    <input type="checkbox" name="studstatus" value="1,2" <?=$_POST['studstatus']=="1,2"?"checked='checked'":""?> />
+		    <input type="checkbox" name="studstatus" value="1,2" <?=isset($_POST['studstatus'])=="1,2"?"checked='checked'":""?> />
 			 เฉพาะนักเรียนสถานะปกติหรือสำเร็จการศึกษา<br/>
 			 <input type="checkbox" name="split" value="split" <?=$_POST['split']=="split"?"checked='checked'":""?> />
 			 ไม่นับรวมการขาด สาย ลา กิจกรรมหน้าเสาธง<br/>
@@ -63,7 +63,7 @@
 						   on student_id = id
 						 where acadyear = '". $acadyear ."' and acadsemester = '". $acadsemester . "' 
 						 	   and xedbe = '" .$acadyear . "' ";
-			if($_POST['studstatus']=="1,2"){ $_sql .= " and studstatus in (1,2) "; }
+			if(isset($_POST['studstatus']) && $_POST['studstatus']=="1,2"){ $_sql .= " and studstatus in (1,2) "; }
 			if($_POST['split']=="split"){$_sql.= " and dis_id in (select dis_id from student_discipline where dis_detail not like '%การเข้าร่วมกิจกรรมหน้าเสาธง%')";}
 			$_sql .= " group by xlevel,xyearth order by xlevel,xyearth";
 		}else {
@@ -73,7 +73,7 @@
 						   on student_id = id
 						 where acadyear = '". $acadyear ."' and acadsemester = '". $acadsemester . "' 
 						 	   and xedbe = '" .$acadyear . "' and dis_status = '" . $_POST['level'] . "' ";
-			if($_POST['studstatus']=="1,2"){ $_sql .= " and studstatus in (1,2) "; }
+			if(isset($_POST['studstatus']) && $_POST['studstatus']=="1,2"){ $_sql .= " and studstatus in (1,2) "; }
 			if($_POST['split']=="split"){$_sql.= " and dis_id in (select dis_id from student_discipline where dis_detail not like '%การเข้าร่วมกิจกรรมหน้าเสาธง%')";}
 			$_sql .= " group by xlevel,xyearth order by xlevel,xyearth";
 		}

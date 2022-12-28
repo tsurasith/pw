@@ -24,7 +24,7 @@
 					<option value="03" <?=isset($_POST['check'])&&$_POST['check']=='03'?"selected":""?>> ลา </option>
 					<option value="04" <?=isset($_POST['check'])&&$_POST['check']=='04'?"selected":""?>> ขาด </option>
 				</select>  <input type="submit" name="search" value="เรียกดู" class="button" /><br/>
-				<input type="checkbox" name="studstatus" value="1,2" <?=$_POST['studstatus']=="1,2"?"checked='checked'":""?> />
+				<input type="checkbox" name="studstatus" value="1,2" <?=isset($_POST['studstatus'])=="1,2"?"checked='checked'":""?> />
 				เฉพาะนักเรียนสถานะปกติหรือสำเร็จการศึกษา</font>
 		</form>
 	  </td>

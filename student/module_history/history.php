@@ -34,7 +34,7 @@
 			<table class="admintable"  cellpadding="0" cellspacing="0" border="0" align="center">
 				<tr height="35px"> 
 					<td class="key" colspan="4" align="center">
-						ข้อมูลนักเรียน :: คะแนนความประพฤติ <?=getPoint($dat['Points'])?> คะแนน || 	สถานภาพปัจจุบัน :: <?=displayStudentStatusColor($dat['studstatus'])?>					</td>
+						ข้อมูลนักเรียน :: คะแนนความประพฤติ <?=getPoint($dat['Points'])?> คะแนน || 	สถานภาพปัจจุบัน :: <?=displayStudentStatusColorStudent($dat['studstatus'])?>					</td>
 					<td rowspan="7" align="center" width="130px"><img src="../images/studPhoto/id<?=$dat['ID']?>.jpg" alt="รูปของนักเรียน" width="120px" style="border:#000000 1px solid"/></td>
 				</tr>
 				<tr>

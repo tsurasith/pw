@@ -50,7 +50,7 @@
 				<option value="parent" <?=isset($_POST['questioner'])&&$_POST['questioner']=="parent"?"selected":""?>>ผู้ปกครองประเมิน</option>
 				<option value="teacher" <?=isset($_POST['questioner'])&&$_POST['questioner']=="teacher"?"selected":""?>>ครูที่ปรึกษาประเมิน</option>
 			</select><br/>
-			<input type="checkbox" name="studstatus" value="1,2" <?=$_POST['studstatus']=="1,2"?"checked='checked'":""?> />
+			<input type="checkbox" name="studstatus" value="1,2" <?=isset($_POST['studstatus'])=="1,2"?"checked='checked'":""?> />
 			 เฉพาะนักเรียนสถานะปกติหรือสำเร็จการศึกษา 
 			 <input type="submit" value="เรียกดู" name="search" class="button" />
 		</form>

@@ -21,7 +21,7 @@
 			<form action="" method="post">
 				เลือกวันที่ : 
 				<input type="text" id="date" name="date" onClick="showCalendar(this.id)" size="12" maxlength="10" value="<?=(isset($_POST['date'])&&$_POST['date']!=""?$_POST['date']:"")?>" class="inputboxUpdate" /><br/>
-				<input type="checkbox" name="studstatus" value="1,2"  <?=$_POST['studstatus']=="1,2"?"checked='checked'":""?> />
+				<input type="checkbox" name="studstatus" value="1,2"  <?=isset($_POST['studstatus'])=="1,2"?"checked='checked'":""?> />
 				เฉพาะนักเรียนสถานะปกติหรือสำเร็จการศึกษา <br/>
 				<input type="submit" value="เรียกดู" name="search" class="button"/>
 			</form>

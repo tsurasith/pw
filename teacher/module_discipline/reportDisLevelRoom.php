@@ -27,7 +27,7 @@
 				?>
 		<form name="myform" method="post">
 		<font color="#000000" size="2">
-			 <input type="checkbox" name="studstatus" value="1,2" <?=$_POST['studstatus']=="1,2"?"checked='checked'":""?> onclick="document.myform.submit();" />
+			 <input type="checkbox" name="studstatus" value="1,2" <?=isset($_POST['studstatus'])=="1,2"?"checked='checked'":""?> onclick="document.myform.submit();" />
 			 เฉพาะนักเรียนสถานะปกติหรือสำเร็จการศึกษา<br/>
 			 <input type="checkbox" name="split" value="split" <?=$_POST['split']=="split"?"checked='checked'":""?> onclick="document.myform.submit();" />
 			 ไม่นับรวมการขาด สาย ลา กิจกรรมหน้าเสาธง
@@ -55,7 +55,7 @@
 			on (b.dis_id = c.dis_id)
 			where xedbe = '" . $acadyear . "' and b.acadyear = '" . $acadyear . "' and c.dis_level != '00' 
 			and b.acadsemester = '" . $acadsemester . "' "; ?>
-<? if($_POST['studstatus']=="1,2"){ $_sql .= " and studstatus in (1,2) "; } ?>
+<? if(isset($_POST['studstatus']) && $_POST['studstatus']=="1,2"){ $_sql .= " and studstatus in (1,2) "; } ?>
 <? if($_POST['split']=="split"){$_sql.= " and b.dis_id in (select dis_id from student_discipline where dis_detail not like '%การเข้าร่วมกิจกรรมหน้าเสาธง%')";}?>
 <? $_sql .= " group by xlevel,xyearth,room";?>
 <? $_res = @mysqli_query($_connection,$_sql); ?>

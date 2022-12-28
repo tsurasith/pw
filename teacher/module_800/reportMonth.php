@@ -51,7 +51,7 @@
 					} mysqli_free_result($_resMonth);
 				?>
 			 </select> <input type="submit" value="เรียกดู" class="button" name="search"/> <br/>
-			 <input type="checkbox" name="studstatus" value="1,2"  <?=$_POST['studstatus']=="1,2"?"checked='checked'":""?> />
+			 <input type="checkbox" name="studstatus" value="1,2"  <?=isset($_POST['studstatus'])=="1,2"?"checked='checked'":""?> />
 			 เฉพาะนักเรียนสถานะปกติหรือสำเร็จการศึกษา
 			 
 		  </font>
@@ -71,7 +71,7 @@
 		else if(isset($_POST['search']) && $_POST['month'] != "")
 		{
 			$sqlStudent = "";
-			if($_POST['studstatus']=="1,2")
+			if(isset($_POST['studstatus']) && $_POST['studstatus']=="1,2")
 			{
 				$sqlStudent = "(select class_id,
 								  sum(if(timecheck_id = '00',timecheck_id,null)+1) as a,

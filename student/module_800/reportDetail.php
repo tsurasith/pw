@@ -1,102 +1,104 @@
 ﻿
 <div id="content">
 
-  <table width="100%"  align="center" border="0" cellspacing="10" cellpadding="0"  class="header">
-    <tr>
-      <td width="6%" align="center"><a href="index.php?option=module_800/index"><img src="../images/modules/800_clock2.png" alt="" width="48" height="48" border="0"/></a></td>
-      <td width="350px"><strong><font color="#990000" size="4">8.00 O' Clock</font></strong><br />
-          <span class="normal"><font color="#0066FF"><strong>1.1 รายงานแสดงรายละเอียดในแต่ละวัน</strong></font></span></td>
-      <td ><?php
-			$_error = 1;
-			if(isset($_REQUEST['acadyear'])) { $acadyear = $_REQUEST['acadyear']; }
-			if(isset($_REQUEST['acadsemester'])) { $acadsemester = $_REQUEST['acadsemester']; }
-		?>
-        ปีการศึกษา
-        <?php  
-					echo "<a href=\"index.php?option=module_800/reportDetail&acadyear=" . ($acadyear - 1) . "\"><img src=\"../images/pull_left.gif\" border=\"0\" /></a> " ;
-					echo ' <font color=\'blue\'>' .$acadyear . '</font>';
-					echo " <a href=\"index.php?option=module_800/reportDetail&acadyear=" . ($acadyear + 1) . "\"><img src=\"../images/pull_right.gif\" border=\"0\" /></a> " ;
-				?>
-        ภาคเรียนที่
-        <?php 
-					if($acadsemester == 1)
-					{
-						echo "<font color='blue'>1</font> , ";
-					}
-					else
-					{
-						echo " <a href=\"index.php?option=module_800/reportDetail&acadyear=" . ($acadyear) . "&acadsemester=1 \"> 1</a> , " ;
-					}
-					if($acadsemester == 2)
-					{
-						echo "<font color='blue'>2</font>";
-					}
-					else
-					{
-						echo " <a href=\"index.php?option=module_800/reportDetail&acadyear=" . ($acadyear) . "&acadsemester=2 \"> 2</a> " ;
-					}
-				?>
-      </td>
-    </tr>
-  </table>
+	<div align="center">
 
-  <?php
-		$sql = "select a.student_id,a.check_date,b.check_id
-				from student_800 AS a right join ref_timecheck as b
-				on a.timecheck_id = b.check_id
-				where a.student_id =  '" . $_SESSION['username'] . "' and acadyear = '" . $acadyear . "' 
-					and acadsemester = '" . $acadsemester . "' order by a.check_date";
-		$result = mysqli_query($_connection,$sql);
-		showData($result,$_SESSION['username']);
-  ?>
+	<table width="100%"  align="center" border="0" cellspacing="10" cellpadding="0"  class="header">
+		<tr>
+		<td width="6%" align="center"><a href="index.php?option=module_800/index"><img src="../images/modules/800_clock2.png" alt="" width="48" height="48" border="0"/></a></td>
+		<td width="350px"><strong><font color="#990000" size="4">8.00 O' Clock</font></strong><br />
+			<span class="normal"><font color="#0066FF"><strong>1.1 รายงานแสดงรายละเอียดในแต่ละวัน</strong></font></span></td>
+		<td ><?php
+				$_error = 1;
+				if(isset($_REQUEST['acadyear'])) { $acadyear = $_REQUEST['acadyear']; }
+				if(isset($_REQUEST['acadsemester'])) { $acadsemester = $_REQUEST['acadsemester']; }
+			?>
+			ปีการศึกษา
+			<?php  
+						echo "<a href=\"index.php?option=module_800/reportDetail&acadyear=" . ($acadyear - 1) . "\"><img src=\"../images/pull_left.gif\" border=\"0\" /></a> " ;
+						echo ' <font color=\'blue\'>' .$acadyear . '</font>';
+						echo " <a href=\"index.php?option=module_800/reportDetail&acadyear=" . ($acadyear + 1) . "\"><img src=\"../images/pull_right.gif\" border=\"0\" /></a> " ;
+					?>
+			ภาคเรียนที่
+			<?php 
+						if($acadsemester == 1)
+						{
+							echo "<font color='blue'>1</font> , ";
+						}
+						else
+						{
+							echo " <a href=\"index.php?option=module_800/reportDetail&acadyear=" . ($acadyear) . "&acadsemester=1 \"> 1</a> , " ;
+						}
+						if($acadsemester == 2)
+						{
+							echo "<font color='blue'>2</font>";
+						}
+						else
+						{
+							echo " <a href=\"index.php?option=module_800/reportDetail&acadyear=" . ($acadyear) . "&acadsemester=2 \"> 2</a> " ;
+						}
+					?>
+		</td>
+		</tr>
+	</table>
 
-  <?php
-  	function showData($result,$s_id){
-	$sqlStudent = "select id,prefix,firstname,lastname,xlevel,xyearth,room from students where id = '" . $s_id . "'";
-	$resStudent = mysqli_query($_connection,$sqlStudent);
-	$datStudent = mysqli_fetch_assoc($resStudent);	
-  ?>
-  <table class="admintable"  cellpadding="1" cellspacing="1" border="0" align="center" width="100%">
-	<tr>
-		<td align="center" width="55px" class="key">ลำดับที่</td>
-		<td align="center" width="155px" class="key">วันที่เช็ค</td>
-		<td align="center" width="80px" class="key">สถานะ</td>
-		<td align="center" class="key" >ข้อมูลสรุป</td>
-	</tr>
-	<tr>
-	 <?php
-		if(mysqli_num_rows($result) > 0)
-		{
-			$i = 1;
-			while($dat = mysqli_fetch_assoc($result))
+	<?php
+			$sql = "select a.student_id,a.check_date,b.check_id
+					from student_800 AS a right join ref_timecheck as b
+					on a.timecheck_id = b.check_id
+					where a.student_id =  '" . $_SESSION['username'] . "' and acadyear = '" . $acadyear . "' 
+						and acadsemester = '" . $acadsemester . "' order by a.check_date";
+			$result = mysqli_query($_connection,$sql);
+			showData($_connection,$result,$_SESSION['username']);
+	?>
+
+	<?php
+		function showData($_connection,$result,$s_id){
+		$sqlStudent = "select id,prefix,firstname,lastname,xlevel,xyearth,room from students where id = '" . $s_id . "'";
+		$resStudent = mysqli_query($_connection,$sqlStudent);
+		$datStudent = mysqli_fetch_assoc($resStudent);	
+	?>
+	<table class="admintable"  cellpadding="1" cellspacing="1" border="0" align="center">
+		<tr>
+			<td align="center" width="55px" class="key">ลำดับที่</td>
+			<td align="center" width="155px" class="key">วันที่เช็ค</td>
+			<td align="center" width="80px" class="key">สถานะ</td>
+			<td align="center" class="key" >ข้อมูลสรุป</td>
+		</tr>
+		<tr>
+		<?php
+			if(mysqli_num_rows($result) > 0)
 			{
-				echo "<tr>";
-				echo "<td align=\"center\">" . $i++ . "</td>";
-				echo "<td align=\"center\">" . displayDate($dat['check_date']) . "</td>";
-				echo "<td >" . displayTimecheckColor($dat['check_id']) . "</td>";	
-				if($i == 2)
+				$i = 1;
+				while($dat = mysqli_fetch_assoc($result))
 				{
-					echo "<td valign=\"top\" rowspan=\"" . mysqli_num_rows($result) . "\">" . resultData($s_id,$datStudent) ."</td>";
+					echo "<tr>";
+					echo "<td align=\"center\">" . $i++ . "</td>";
+					echo "<td align=\"center\">" . displayDate($dat['check_date']) . "</td>";
+					echo "<td align=\"center\">" . displayTimecheckColor($dat['check_id']) . "</td>";	
+					if($i == 2)
+					{
+						echo "<td valign=\"top\" rowspan=\"" . mysqli_num_rows($result) . "\">" . resultData($_connection,$s_id,$datStudent) ."</td>";
+					}
+					echo "</tr>";
 				}
-				echo "</tr>";
+			}else
+			{
+				echo "<tr><td colspan=\"3\" align='center'>";
+				echo "<font color='red'>ไม่มีรายการบันทึกข้อมูลรายวัน<br/>ในภาคเรียนและปีการศึกษานี้</font>";
+				echo "</td>";
+				echo "<td valign=\"top\" >" . resultData($_connection,$s_id,$datStudent) ."</td></tr>";
 			}
-		}else
-		{
-			echo "<tr><td colspan=\"3\" align='center'>";
-			echo "<font color='red'>ไม่มีรายการบันทึกข้อมูลรายวัน<br/>ในภาคเรียนและปีการศึกษานี้</font>";
-			echo "</td>";
-			echo "<td valign=\"top\" >" . resultData($s_id,$datStudent) ."</td></tr>";
-		}
-	 ?>
-	</tr>
-  </table>
-  <?php
-  } // end function showData($result)
-  ?>
-
+		?>
+		</tr>
+	</table>
+	<?php
+	} // end function showData($result)
+	?>
+	</div>
 </div>
 <?php
-	function resultData($studentID,$datStudent)
+	function resultData($_connection,$studentID,$datStudent)
 	{
 		$_sql = "select acadyear,acadsemester,
 					  sum(if(timecheck_id = '00',timecheck_id,null)+1) as a,

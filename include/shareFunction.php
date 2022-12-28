@@ -253,6 +253,16 @@
 			default : return " - ไม่ทราบ - ";
 		}	
 	}
+
+	function displayStudentStatusColorStudent($id)
+	{
+		switch ($id) {
+			case 1 :  return "ปกติ"; break;
+			case 2 :  return "<b>สำเร็จการศึกษา</b>"; break;
+			case 5 :  return "<font color='blue'><b>ย้ายสถานศึกษา</b></font>"; break;
+			default : return " -ไม่ทราบ- ";
+		}	
+	}
 	
 	function displayPoint($_value)  // ใช้สำหรับแสดงคะแนนพฤติกรรมนักเรียน
 	{

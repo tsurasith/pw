@@ -71,7 +71,7 @@
 				?>
 			 </select>
 			 <input type="submit" value="เรียกดู" class="button" name="search"/> <br/>
-			 <input type="checkbox" name="studstatus" value="1,2" <?=$_POST['studstatus']=="1,2"?"checked='checked'":""?> />
+			 <input type="checkbox" name="studstatus" value="1,2" <?=isset($_POST['studstatus'])=="1,2"?"checked='checked'":""?> />
 			 เฉพาะนักเรียนสถานะปกติหรือสำเร็จการศึกษา
 		  </font>
 		  </form>
@@ -105,8 +105,8 @@
 							where month(check_date) = '" . $_POST['month'] . "'
 								  and xyearth = '" . $xyearth . "' and xlevel = '" . $xlevel ."' and xedbe = '" . $acadyear . "'
 								  and room = '" . $room . "' and acadyear = '" . $acadyear . "' and acadsemester = '" . $acadsemester . "' ";
-			if($_POST['studstatus']=="1,2") $sqlStudent .= " and studstatus in (1,2) "; 
-			$sqlStudent .= " group by id order by sex,id";
+			if(isset($_POST['studstatus']) && $_POST['studstatus']=="1,2") $sqlStudent .= " and studstatus in (1,2) "; 
+			$sqlStudent .= " group by id order by sex,convert(firstname using tis620),convert(lastname using tis620)";
 			
 			//echo $sqlStudent;
 			

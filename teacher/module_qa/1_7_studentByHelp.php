@@ -23,7 +23,7 @@
 			<option value="absent"  <?=isset($_POST['type'])&&$_POST['type']=="absent"?"selected":""?> >ความขาดแคลน</option>
 			<option value="cripple" <?=isset($_POST['type'])&&$_POST['type']=="cripple"?"selected":""?> >ความพิการ</option>
 		</select><br/>
-		<input type="checkbox" name="studstatus" value="1,2" <?=$_POST['studstatus']=="1,2"?"checked='checked'":""?> onclick="document.myform.submit();" />
+		<input type="checkbox" name="studstatus" value="1,2" <?=isset($_POST['studstatus'])=="1,2"?"checked='checked'":""?> onclick="document.myform.submit();" />
 			 เฉพาะนักเรียนสถานะปกติหรือสำเร็จการศึกษา
 			 </font>
 	   </td>

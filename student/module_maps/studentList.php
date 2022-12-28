@@ -45,7 +45,7 @@
 					} ?>
 			</select>
 	  		<input type="submit" value="เรียกดู" class="button" name="search"/> <br/>
-			<input type="checkbox" name="studstatus" value="1,2"  <?=$_POST['studstatus']=="1,2"?"checked='checked'":""?> />
+			<input type="checkbox" name="studstatus" value="1,2"  <?=isset($_POST['studstatus'])=="1,2"?"checked='checked'":""?> />
 			 เฉพาะนักเรียนสถานะปกติหรือสำเร็จการศึกษา
 		 </font>
 	   </td>
@@ -53,10 +53,18 @@
   </table>
   </form>
   <?php
-  	  $xlevel = getXlevel($_POST['roomID']);
-	  $xyearth= getXyearth($_POST['roomID']);
-	  $room = getRoom($_POST['roomID']);
-  ?>
+
+		$xlevel   = "";
+		$xyearth  = "";
+		$room     = "";
+
+		if(isset($_POST['roomID'])){
+			$xlevel = getXlevel($_POST['roomID']);
+			$xyearth= getXyearth($_POST['roomID']);
+			$room = getRoom($_POST['roomID']);
+		}
+
+	?>
 
 <? if(isset($_POST['search']) && $_POST['roomID']==""){ ?>
 		<center><font color="#FF0000"><br/>กรุณาเลือกห้องที่ต้องการเรียกดูข้อมูลก่อน</font></center>
@@ -84,19 +92,19 @@
 		<?	$sqlStudent = "select id,prefix,firstname,lastname,nickname,howlong,p_village,utm_coordinate_x,utm_coordinate_y,studstatus
 						 from students   where xlevel = '". $xlevel . "' and xyearth = '" . $xyearth . "' 
 						 		and room = '" . $room . "' and xedbe = '" . $acadyear . "' ";
-			if($_POST['studstatus']=="1,2") $sqlStudent .= " and studstatus in (1,2) ";
+			if(isset($_POST['studstatus']) && $_POST['studstatus']=="1,2") $sqlStudent .= " and studstatus in (1,2) ";
 			$sqlStudent .= "order by sex,convert(firstname using tis620), convert(lastname using tis620) ";
 			$resStudent = mysqli_query($_connection,$sqlStudent); ?>
 		<? 	$ordinal = 1; ?>
 		<? while($_dat = mysqli_fetch_assoc($resStudent)) { ?>
 			<tr>
 				<td align="center"><?=$ordinal++?></td>
-				<? if($_SESSION['superAdmin']) { ?>
+				<? if(isset($_SESSION['superAdmin'])) { ?>
 				<td align="center"><a href='index.php?option=module_maps/updatemaps&report=studentList&room=<?=$_POST['roomID']?>&acadsemester=<?=$acadsemester?>&acadyear=<?=$acadyear?>&student_id=<?=$_dat['id']?>'><?=$_dat['id']?></a></td><? }
 				else { echo "<td align='center'>" . $_dat['id'] . "</td>"; } ?>
 				<td><?=$_dat['prefix'] . $_dat['firstname'] . " " . $_dat['lastname']?></td>
 				<td align="center"><?=$_dat['nickname']==""?"-":$_dat['nickname']?></td>
-				<td align="center"><?=displayStudentStatusColor($_dat['studstatus'])?></td>
+				<td align="center"><?=displayStudentStatusColorStudent($_dat['studstatus'])?></td>
 				<td><?=$_dat['p_village']!=""?$_dat['p_village']:"-"?></td>
 				<td align="center"><?=$_dat['howlong']>0?$_dat['howlong']:"-"?></td>
 				<td align="center">

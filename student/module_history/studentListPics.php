@@ -59,17 +59,25 @@
 						?>
 			</select>
 	  		<input type="submit" value="สืบค้น" class="button" name="search"/> <br/>
-			<input type="checkbox" name="studstatus" value="1,2" <?=$_POST['studstatus']=="1,2"?"checked='checked'":""?> />
+			<input type="checkbox" name="studstatus" value="1,2" <?=isset($_POST['studstatus'])=="1,2"?"checked='checked'":""?> />
 			เฉพาะนักเรียนสถานะปกติหรือสำเร็จการศึกษา</font>
 	   </td>
     </tr>
   </table>
   </form>
   <?php
-	  $xlevel = getXlevel($_POST['roomID']);
-	  $xyearth= getXyearth($_POST['roomID']);
-	  $room = getRoom($_POST['roomID']);
-  ?>
+
+		$xlevel   = "";
+		$xyearth  = "";
+		$room     = "";
+
+		if(isset($_POST['roomID'])){
+			$xlevel = getXlevel($_POST['roomID']);
+			$xyearth= getXyearth($_POST['roomID']);
+			$room = getRoom($_POST['roomID']);
+		}
+
+	?>
   <? if(isset($_POST['search']) && $_POST['roomID'] == "") { ?>
   		<br/><center><font color="#FF0000">กรุณาเลือกห้องเรียนก่อน !</font></center>
   <? } else if (isset($_POST['search']) && $_POST['roomID'] != "") { ?>
@@ -85,8 +93,8 @@
 						from students 
 						where xlevel = '". $xlevel . "' and xyearth = '" . $xyearth . "' and room = '" . $room . "' 
 								and xedbe = '" . $acadyear . "' ";
-		if($_POST['studstatus']=="1,2") $sqlStudent .= " and studstatus in (1,2) ";
-		$sqlStudent .= " order by sex,id,ordinal ";
+		if(isset($_POST['studstatus']) && $_POST['studstatus']=="1,2") $sqlStudent .= " and studstatus in (1,2) ";
+		$sqlStudent .= " order by sex,convert(firstname using tis620),convert(lastname using tis620),ordinal ";
 		$resStudent = mysqli_query($_connection,$sqlStudent);
 		$ordinal = 1;
 		$totalRows = mysqli_num_rows($resStudent);

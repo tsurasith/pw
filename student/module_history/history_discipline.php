@@ -19,7 +19,7 @@
 					echo " <a href=\"index.php?option=module_history/history_discipline&studentID=" . $s_id . "&acadyear=" . ($acadyear + 1) . "\"><img src=\"../images/pull_right.gif\" border=\"0\" /></a> " ;
 				?>
 		</font><br/>
-		<input type="checkbox" name="split" value="split"  <?=$_POST['split']=="split"?"checked='checked'":""?> onclick="document.myform.submit();" />
+		<input type="checkbox" name="split" value="split"  <?=isset($_POST['split'])=="split"?"checked='checked'":""?> onclick="document.myform.submit();" />
 		<font color="#000000" size="2"> ไม่รวมการขาด สาย ลากิจกรรมหน้าเสาธง</font>
 		</td>
     </tr>
@@ -54,7 +54,7 @@
 			</tr>
 			<tr>
 				<td align="right">สถานภาพ :</td>
-				<td><?=displayText(displayStudentStatusColor($datStudent['studstatus']))?></td>
+				<td><?=displayText(displayStudentStatusColorStudent($datStudent['studstatus']))?></td>
 			</tr>
 			<tr>
 				<td align="right">คะแนนความประพฤติ :</td>
@@ -67,7 +67,7 @@
 		<?	$_sql = "select a.dis_id,a.dis_date,a.dis_detail,b.dis_status
 						from student_discipline a right outer join student_disciplinestatus b on (a.dis_id = b.dis_id)
 						where a.dis_studentid = '" . $s_id . "' and b.acadyear = '".$acadyear."' ";
-			if($_POST['split']=="split") $_sql .= " and dis_detail not like '%การเข้าร่วมกิจกรรมหน้าเสาธง%' ";
+			if(isset($_POST['split']) && $_POST['split']=="split") $_sql .= " and dis_detail not like '%การเข้าร่วมกิจกรรมหน้าเสาธง%' ";
 			$_sql .= " order by dis_date";?>
 		<?	$_resDis = mysqli_query($_connection,$_sql);?>
 		<?	if(mysqli_num_rows($_resDis) > 0){ ?>

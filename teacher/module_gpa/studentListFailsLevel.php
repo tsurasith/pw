@@ -50,7 +50,7 @@
 	  		<input type="submit" value="สืบค้น" class="button" name="search"/> <br/>
             <input type="checkbox" name="failstatus" value="1" <?=$_POST['failstatus']=="1"?"checked":""?> />
              เฉพาะรายวิชาที่ยังไม่ดำเนินการแก้ไขผลการเรียน <br/>
-			<input type="checkbox" name="studstatus" value="1,2"  <?=$_POST['studstatus']=="1,2"?"checked='checked'":""?> />
+			<input type="checkbox" name="studstatus" value="1,2"  <?=isset($_POST['studstatus'])=="1,2"?"checked='checked'":""?> />
 			 เฉพาะนักเรียนสถานะปกติหรือสำเร็จการศึกษา
 			</font>
 	   </td>
@@ -60,7 +60,7 @@
   <?php
    $xlevel;
    $xyearth;
-   if($_POST['roomID'] != "all")
+   if(isset($_POST['roomID']) && $_POST['roomID'] != "all")
    {
    	 $xlevel = substr($_POST['roomID'],0,1);;
 	 $xyearth = substr($_POST['roomID'],2,1);
@@ -77,7 +77,7 @@
 	  		<img src="../images/school_logo.png" width="120px"><br/>
 			รายชื่อนักเรียนชั้นมัธยมศึกษาปีที่ 
 			<?
-			   if($_POST['roomID'] != "all") echo $xlevel==3?$xyearth:($xyearth+3);
+			   if(isset($_POST['roomID']) && $_POST['roomID'] != "all") echo $xlevel==3?$xyearth:($xyearth+3);
 			   else echo "ทั้งโรงเรียน";
 			 ?><br/>
 			ภาคเรียนที่ <?php echo $acadsemester; ?> ปีการศึกษา <?php echo $acadyear; ?>
@@ -108,12 +108,12 @@
 							count(grade) as total
 					   from students left outer join grades on (id = student_id)
 					   where 1=1 and xedbe = '" . $acadyear . "' and ";
-		if($_POST['roomID'] != "all"){		
+		if(isset($_POST['roomID']) && $_POST['roomID'] != "all"){		
 			$sqlStudent .= " students.xlevel = '". $xlevel . "' and 
 							 xyearth = '" . $xyearth . "' and  ";
 		}
 			$sqlStudent .= " grade in ('0','ร','มส') ";
-		if($_POST['studstatus']=="1,2") $sqlStudent .= " and studstatus in (1,2) ";
+		if(isset($_POST['studstatus']) && $_POST['studstatus']=="1,2") $sqlStudent .= " and studstatus in (1,2) ";
 		if($_POST['failstatus']=="1") $sqlStudent .= " and regrade is null or regrade in ('','0','ร','มส') ";
 		$sqlStudent .= "group by student_id ";
 		$sqlStudent .= "order by count(grade) desc,sex,id ";

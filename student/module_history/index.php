@@ -33,9 +33,16 @@
 			<td>&nbsp;</td>
 			<td>
 				<b>1.6 รายการแสดงทำเนียบรูปภาพ</b><br/>
-				&nbsp; &nbsp; <a href="index.php?option=module_history/studentListPics">1.6.1 ทำเนียบนักเรียนตามห้องเรียน</a><br/>
+				&nbsp; &nbsp; 1.6.1 ทำเนียบนักเรียนตามห้องเรียน<br/>
+				&nbsp; &nbsp; 1.6.2 ทำเนียบนักเรียนตามระดับชั้น<br/>
+				&nbsp; &nbsp; 1.6.3 ทำเนียบนักเรียนตามชั้นมัธยมศึกษาตอนต้นและมัธยมศึกษาตอนปลาย<br/>
+
+				<!--
+					&nbsp; &nbsp; <a href="index.php?option=module_history/studentListPics">1.6.1 ทำเนียบนักเรียนตามห้องเรียน</a><br/>
 				&nbsp; &nbsp; <a href="index.php?option=module_history/studentListPicsLevel">1.6.2 ทำเนียบนักเรียนตามระดับชั้น</a><br/>
 				&nbsp; &nbsp; <a href="index.php?option=module_history/studentListPicsSchool">1.6.3 ทำเนียบนักเรียนตามชั้นมัธยมศึกษาตอนต้นและมัธยมศึกษาตอนปลาย</a><br/>
+
+-->
 			</td>
 		</tr>
 	</table>

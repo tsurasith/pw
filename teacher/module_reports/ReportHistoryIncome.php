@@ -31,7 +31,7 @@
 				<option value="a_earn" <?=isset($_POST['income'])&&$_POST['income']=="a_earn"?"selected":""?>>ผู้ปกครอง</option>
 			</select>
 			<input type="submit" value="เรียกดู" name="search" class="button" /><br/>
-			<input type="checkbox" name="studstatus" value="1,2" <?=$_POST['studstatus']=="1,2"?"checked='checked'":""?> />
+			<input type="checkbox" name="studstatus" value="1,2" <?=isset($_POST['studstatus'])=="1,2"?"checked='checked'":""?> />
 			 เฉพาะนักเรียนสถานะปกติหรือสำเร็จการศึกษา
 		</form>
 		</font>

@@ -55,7 +55,7 @@
 			<? $_i = 1;?>
 			<?  while($_dat = mysqli_fetch_assoc($_result)) { ?>
 				<tr>
-				<? $_student = displayStudent($_dat['student_id'],$acadyear); ?>
+				<? $_student = displayStudent($_connection,$_dat['student_id'],$acadyear); ?>
 				<td align="center"><?=$_i++?></td>
 				<td align="center"><?=getFullRoomFormat($_dat['room_id']) ?></td>
 				<td align="left"><?=$_student['prefix']==""?"-":$_student['prefix'] . $_student['firstname'] . ' ' . $_student['lastname']?></td>
@@ -68,23 +68,3 @@
 	else { echo "<font color='red'><center><br/>ไม่มีข้อมูลในภาคเรียนที่ " .$acadsemester." ปีการศึกษา " .$acadyear."</center></font>"; }?>
 	
 </div>
-<?
-	function displayStudent($_value,$_year){
-		$_sql = "select id,prefix,firstname,lastname,nickname,studstatus,sex,p_village from students where id = '" . $_value . "' and xedbe = '" . $_year . "' ";
-		$_dat = mysqli_fetch_assoc(mysqli_query($_connection,$_sql));
-		return $_dat;
-	}
-	function displayStatus($id)
-	{
-		switch ($id) {
-			case 0 :  return "<font color='red'><b>ออก</b></font>"; break;
-			case 1 :  return "ปกติ"; break;
-			case 2 :  return "<b>สำเร็จการศึกษา</b>"; break;
-			case 3 :  return "<font color='red'><b>แขวนลอย</b></font>"; break;
-			case 4 :  return "<font color='darkorange'><b>พักการเรียน</b></font>"; break;
-			case 5 :  return "<font color='blue'><b>ย้ายสถานศึกษา</b></font>"; break;
-			case 9 :  return "<font color='red'><b>เสียชีวิต</b></font>"; break;
-			default : return " - ไม่ทราบ - ";
-		}	
-	}
-?>

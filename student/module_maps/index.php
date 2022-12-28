@@ -25,9 +25,17 @@
 		<td>&nbsp;</td>
 		<td>
 			<b>1.2 รายการแสดงทำเนียบรูปภาพ</b><br/>
+			&nbsp; &nbsp; 1.2.1 ทำเนียบรูปภาพนักเรียนตามหมู่บ้าน<br/>
+			&nbsp; &nbsp; 1.2.2 ทำเนียบรูปภาพนักเรียนตามตำบล<br/>
+			&nbsp; &nbsp; 1.2.3 ทำเนียบรูปภาพนักเรียนตามวิธีการเดินทางมาโรงเรียน<br/>
+
+			<!--
+			
 			&nbsp; &nbsp; <a href="index.php?option=module_maps/studentListPics" >1.2.1 ทำเนียบรูปภาพนักเรียนตามหมู่บ้าน</a><br/>
 			&nbsp; &nbsp; <a href="index.php?option=module_maps/studentListPicsTumbol" >1.2.2 ทำเนียบรูปภาพนักเรียนตามตำบล</a><br/>
 			&nbsp; &nbsp; <a href="index.php?option=module_maps/studentListPicsTravelBy" >1.2.3 ทำเนียบรูปภาพนักเรียนตามวิธีการเดินทางมาโรงเรียน</a><br/>
+
+-->
 		</td>
 	</tr>
 </table>

@@ -41,7 +41,7 @@
 				<option value="04" <?=isset($_POST['timecheck']) && $_POST['timecheck'] == "04" ? "selected" :""?>>ขาด</option>
 			</select>
 			<input type="submit" value="เรียกดู" name="search" class="button" /><br/>
-			<input type="checkbox" name="studstatus" value="1,2" <?=$_POST['studstatus']=="1,2"?"checked='checked'":""?> />
+			<input type="checkbox" name="studstatus" value="1,2" <?=isset($_POST['studstatus'])=="1,2"?"checked='checked'":""?> />
 			 เฉพาะนักเรียนสถานะปกติหรือสำเร็จการศึกษา
 		</form>
 		</font>

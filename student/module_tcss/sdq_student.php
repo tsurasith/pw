@@ -320,7 +320,7 @@
 					</tr>
 					<tr>
 						<td align="right" width="120px" class="key">สถานภาพปัจจุบัน :</td>
-						<td><?=displayStudentStatusColor($_dat['studstatus'])?></td>
+						<td><?=displayStudentStatusColorStudent($_dat['studstatus'])?></td>
 					</tr>
 					<tr>
 						<td align="right" width="120px" class="key">การประเมิน SDQ :</td>

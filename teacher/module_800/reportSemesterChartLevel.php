@@ -35,7 +35,7 @@
 				<? } ?>
 			</select>
 			<input type="submit" value="เรียกดู" class="button" /><br/>
-			<input type="checkbox" name="studstatus" value="1,2"  <?=$_POST['studstatus']=="1,2"?"checked='checked'":""?> />
+			<input type="checkbox" name="studstatus" value="1,2"  <?=isset($_POST['studstatus'])=="1,2"?"checked='checked'":""?> />
 			 <font color="#000000" size="2" >เฉพาะนักเรียนสถานะปกติหรือสำเร็จการศึกษา</font>
 		  </form>
 	  </td>
@@ -44,7 +44,7 @@
 
   <table cellpadding="1" cellspacing="1" border="0" align="center" width="100%">
 	<?php
-			if($_POST['studstatus']=="1,2")
+			if(isset($_POST['studstatus']) && $_POST['studstatus']=="1,2")
 			{
 				$sqlStudent = "select class_id,
 							  sum(if(timecheck_id = '02',timecheck_id,null))/2 as c,

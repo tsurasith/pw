@@ -100,7 +100,7 @@
 					<td align="left"><?=$_datx['nickname']?></td>
 					<td align="center"><?=displayRoom($_datx['xlevel'] . '/' . $_datx['xyearth']) . '/' . $_datx['room']?></td>
 					<td align="center"><?=displayStatus($_datx['studstatus'])?></td>
-					<td ><?=$_datx['p_village']!=""?$_datX['p_village']:"-"?></td>
+					<td ><?=$_datx['p_village']!=""?$_datx['p_village']:"-"?></td>
 				</tr>
 				<? } //end while?>
 			</table>

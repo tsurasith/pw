@@ -1,4 +1,12 @@
-﻿
+﻿<?php
+	$_xmlColumn = "";
+	$_catXML = "";
+	$_setA = "";
+	$_setB = "";
+	$_m = 0;
+	$_f = 0;
+	$_room = 0;
+?>
 
 <div id="content">
 <table width="100%"  align="center" border="0" cellspacing="10" cellpadding="0"  class="header">
@@ -24,7 +32,7 @@
 		<font size="2" color="#000000">
 		<form method="post" name="myform">
 			<input type="checkbox" name="studstatus" value="1,2"
-				onclick="document.myform.submit()" <?=$_POST['studstatus']=="1,2"?"checked='checked'":""?> />
+				onclick="document.myform.submit()" <?=isset($_POST['studstatus'])=="1,2"?"checked='checked'":""?> />
 			เฉพาะนักเรียนสถานะปกติหรือสำเร็จการศึกษา 
 		</form>
 		</font>
@@ -38,7 +46,7 @@
 				  count(id) as total
 				from students
 				where xedbe = '" . $acadyear . "' ";
-	if($_POST['studstatus']=="1,2") { $_sql .= " and studstatus in (1,2) ";}
+	if(isset($_POST['studstatus']) && $_POST['studstatus']=="1,2") { $_sql .= " and studstatus in (1,2) ";}
 	$_sql .= " group by xlevel,xyearth,room ";
 	$_result = mysqli_query($_connection,$_sql);
 	if(mysqli_num_rows($_result)>0)
@@ -90,7 +98,16 @@
 					</table>
 				</td>
 			</tr>
-			<?	$_catXML .= "</categories>";
+			<?	
+				$_xmlColumn = "";
+				$_catXML = "";
+				$_setA = "";
+				$_setB = "";
+				$_m = 0;
+				$_f = 0;
+				$_room = 0;
+
+				$_catXML .= "</categories>";
 				$_setA .= "</dataset>";
 				$_setB .= "</dataset>";
 				$_xmlColumn .= $_catXML . $_setA . $_setB  . "</graph>";

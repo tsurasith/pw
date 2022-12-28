@@ -21,7 +21,7 @@
 			<br/>
 		<form method="post" name="myform">
 		<font color="#000000"   size="2">
-			<input type="checkbox" name="studstatus" value="1,2"  <?=$_POST['studstatus']=="1,2"?"checked='checked'":""?> onclick="document.myform.submit();" />
+			<input type="checkbox" name="studstatus" value="1,2"  <?=isset($_POST['studstatus'])=="1,2"?"checked='checked'":""?> onclick="document.myform.submit();" />
 			เฉพาะนักเรียนสถานะปกติหรือสำเร็จการศึกษา
 		</font>
 	  	</form>
