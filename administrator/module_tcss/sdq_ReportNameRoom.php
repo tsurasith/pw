@@ -121,7 +121,7 @@ if(isset($_POST['search']) && $_POST['roomID'] != "")
 				<td align="center"><?=displayType5($dat['type5'],$_POST['questioner'])?></td>
 				<td align="center"><?=displayMoreDetail($dat['more_detail'])?></td>
 				<td align="center">
-					<a href="index.php?option=module_tcss/sdq_ReportPersonalFull&acadyear=<?=$acadyear?>&acadsemester=<?=$acadsemester?>&student_id=<?=$dat['id']?>">
+					<a href="index.php?option=module_tcss/sdq_ReportPersonalFull&acadyear=<?=$acadyear?>&acadsemester=<?=$acadsemester?>&student_id=<?=$dat['id']?>&class_id=<?=$_POST['roomID']?>&page=sdq_ReportNameRoom&questioner=<?=$_POST['questioner']?>">
 					<?=displayAll($dat['all'],$_POST['questioner'])?>
 					</a>
 				</td>

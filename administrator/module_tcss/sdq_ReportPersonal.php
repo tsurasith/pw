@@ -110,7 +110,7 @@ if(isset($_POST['search']) && $_POST['roomID'] != "")
 				<td align="center"><?=displayAll($dat['parent'],"parent")?></td>
 				<td align="center"><?=displayAll($dat['teacher'],"teacher")?></td>
 				<td align="center">
-					<a href="index.php?option=module_tcss/sdq_ReportPersonalFull&acadyear=<?=$acadyear?>&acadsemester=<?=$acadsemester?>&student_id=<?=$dat['id']?>">
+					<a href="index.php?option=module_tcss/sdq_ReportPersonalFull&acadyear=<?=$acadyear?>&acadsemester=<?=$acadsemester?>&student_id=<?=$dat['id']?>&class_id=<?=$_POST['roomID']?>&page=sdq_ReportPersonal">
 					รายละเอียดทั้งหมด
 					</a>
 				</td>
