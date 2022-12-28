@@ -223,6 +223,7 @@
 						   ) as c
 				on (s.id = c.student_id and s.xEDBE = '" . $acadyear . "')
 			order by 
+				sex,
 				convert(firstname using tis620),
 				convert(lastname  using tis620)
 				" ;
@@ -266,9 +267,10 @@
 					<?
 					  $_count_disappear = 0; 
 					  for($_i=0;$_i<count($_date_array);$_i++){ ?>
-						<td align="center"><?=displayTimecheckShortColor($_dat[$_column_array[$_i]])?></td>
+						<td align="center"><?=$_dat[$_column_array[$_i]]=="0"?"/":displayTimecheckShortColor($_dat[$_column_array[$_i]])?></td>
 						<?php
-							if($_dat[$_column_array[$_i]] ==4 || $_dat[$_column_array[$_i]] == 5){
+							if($_dat[$_column_array[$_i]] == 3 || $_dat[$_column_array[$_i]] == 4 || $_dat[$_column_array[$_i]] == 5){
+								// ลา, ขาด, หนีเรียน ถือว่าไม่เข้าเรียน
 								$_count_disappear++;
 							}
 						?>

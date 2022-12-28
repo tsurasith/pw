@@ -110,7 +110,7 @@
 								  and xyearth = '" . $xyearth . "' and xlevel = '" . $xlevel ."' and xedbe = '" . $acadyear . "'
 								  and room = '" . $room . "' and acadyear = '" . $acadyear . "' and acadsemester = '" . $acadsemester . "' ";
 			if(isset($_POST['studstatus'])) $sqlStudent .= " and studstatus in (1,2) "; 
-			$sqlStudent .= " group by id order by sex,id";
+			$sqlStudent .= " group by id order by sex,convert(firstname using tis620),convert(lastname using tis620)";
 			
 			//echo $sqlStudent;
 			

@@ -132,7 +132,7 @@ if(isset($_POST['search']) && $_POST['roomID'] != "")
 										and d.semester = '" .$acadsemester ."'
 										and e.acadyear = '" .$acadyear ."'
 										and e.semester = '" .$acadsemester ."'
-						order by sex,id,ordinal";
+						order by sex,convert(firstname using tis620),convert(lastname using tis620),ordinal";
 		$resStudent = mysqli_query($_connection,$sqlStudent); ?>
 	<?  $ordinal = 1; ?>
 	<?  while($dat = mysqli_fetch_array($resStudent)) { ?>

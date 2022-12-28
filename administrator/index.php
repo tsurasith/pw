@@ -173,7 +173,8 @@
                         $_SESSION['username'] == "tc101" || 
                         $_SESSION['username'] == "tc102" || 
                         $_SESSION['username'] == "tc103" ||
-                        $_SESSION['username'] == "tc137" || $_SESSION['username'] == "tc111"
+                        $_SESSION['username'] == "tc137" || $_SESSION['username'] == "tc111" ||
+                        $_SESSION['username'] == "tc144" || $_SESSION['username'] == "tc113" ||
                     ) { ?>
                 <div style="float:left;">
                     <div class="icon">

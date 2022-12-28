@@ -94,7 +94,7 @@ if(isset($_POST['search']) && $_POST['roomID'] != "")
 										and b.acadyear = '" .$acadyear ."'
 										and b.acadsemester = '" .$acadsemester ."' ";
 		if(isset($_POST['studstatus'])=="1,2") $sqlStudent .= " and studstatus in (1,2) ";
-		$sqlStudent .= "group by a.id order by sex,id,ordinal";
+		$sqlStudent .= "group by a.id order by sex,convert(firstname using tis620),convert(lastname using tis620),ordinal";
 		$resStudent = mysqli_query($_connection,$sqlStudent);
 		$ordinal = 1;
 		$totalRows = mysqli_num_rows($resStudent);

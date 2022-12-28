@@ -102,7 +102,7 @@
 					 	and check_date = '" . $_POST['month'] . "' and xEDBE = '" . $acadyear . "' 
 						and xlevel = '" . $xlevel . "' and xyearth = '" . $xyearth ."' and room = '" . $room . "'
 					group by id
-					order by sex,id";
+					order by sex,convert(firstname using tis620),convert(lastname using tis620)";
 			@$_res = mysqli_query($_connection,$_sql);
 			if(@mysqli_num_rows($_res)<=0){ echo "<td align='center'><br/><font color='red'>ยังไม่มีการบันทึกข้อมูลในรายการที่เลือก</font></td></tr>"; }
 			else{
