@@ -60,6 +60,7 @@
 			case "02" :  return "มาสาย"; break;
 			case "03" :  return "ลา"; break;
 			case "04" :  return "ขาด"; break;
+			case "05" :  return "หนีเรียน"; break;
 			default :  return "ไม่ระบุ";
 		}	
 	}
@@ -71,7 +72,19 @@
 			case "02" :  return "<font color='#FFCC00'><b>สาย</b></font>"; break;
 			case "03" :  return "<font color='blue'><b>ลา</b></font>"; break;
 			case "04" :  return "<font color='red'><b>ขาด</b></font>"; break;
-			case "05" :  return "<font color='#B21904'><b>หนี</font>"; break;
+			case "05" :  return "<font color='#B21904'><b>หนี</b></font>"; break;
+			default : return "-";
+		}	
+	}
+
+	function displayTimecheckShortColor($id) {
+		switch ($id) {
+			case "00" :  return "ม"; break;
+			case "01" :  return "<font color='#66CC33'>ก</font>"; break;
+			case "02" :  return "<font color='#FFCC00'>ส</font>"; break;
+			case "03" :  return "<font color='blue'>ล</font>"; break;
+			case "04" :  return "<font color='red'>ข</font>"; break;
+			case "05" :  return "<font color='#B21904'>หนี</font>"; break;
 			default : return "-";
 		}	
 	}

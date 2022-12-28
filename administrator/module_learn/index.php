@@ -111,6 +111,12 @@
 		   	<a href="index.php?option=module_learn/reportTeachingSubstituteClass">3.6 สรุปรายงานการสอนแทน (ครูผู้สอนแทนเป็นหลัก)</a> 
 		</td>
 	</tr>
+	<tr>
+		<td>&nbsp;</td>
+		<td>
+		   	<a href="index.php?option=module_learn/reportSubjectSemesterName">3.7 สรุปรายงานการเข้าเรียนตามรายวิชา</a> 
+		</td>
+	</tr>
 <!--
 	<tr>
 		<td colspan="2" class="key">

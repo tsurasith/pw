@@ -192,7 +192,7 @@
 						<tr>
 							<th align="center" colspan="8">
 							<img src="../images/school_logo.png" width="120px"><br/>
-							สรุปข้อมูลการถูกสอนแทน<br/>
+							สรุปข้อมูลการเข้าสอนแทน<br/>
 							<?php
 								if(trim($_POST['month'])!=""){
 									echo "เดือน" . displayMonth($_POST['month']);
@@ -204,11 +204,11 @@
 						</tr>
 						<tr>
 							<td class="key" align="center" width="25px">ที่</td>
-							<td class="key" align="center" width="150px">ครูเจ้าของวิชา</td>
+							<td class="key" align="center" width="150px">ครูผู้สอนแทน</td>
 							<td class="key" align="center" width="65px">จำนวนคาบ<br/>(ทั้งหมด)</td>
 							<td class="key" align="center" width="105px">วันที่ถูกสอนแทน</td>
 							<td class="key" align="center" width="65px">จำนวนคาบ<br/>(แต่ละวัน)</td>
-							<td class="key" align="center" width="150px">ครูผู้สอนแทน</td>
+							<td class="key" align="center" width="150px">ครูเจ้าของวิชา</td>
 							<td class="key" align="center" width="45px">จำนวน<br/>คาบ</td>
 							<td class="key" align="center" width="65px">รหัสวิชา</td>
 							<td class="key" align="center" width="65px">ห้อง</td>

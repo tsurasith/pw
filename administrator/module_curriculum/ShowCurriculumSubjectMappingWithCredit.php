@@ -84,7 +84,8 @@
 
 				$_xx =	"order by 
 						FIELD(s.SubjectType,'พื้นฐาน','เพิ่มเติม','กิจกรรมพัฒนาผู้เรียน'),
-						SubjectGroup
+						s.SubjectGroup,
+						s.SubjectCode
 					";
 				$_loop++;
 			} // end for loop
