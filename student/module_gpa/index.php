@@ -16,7 +16,7 @@
 		</tr>
         <tr>
             <td width="20px">&nbsp;</td>
-            <td><a href="index.php?option=module_gpa/gradeAllTerms">1.2 ผลสัมฤทธิ์นักเรียนทุกภาคเรียน</a></td>
+            <td><a href="index.php?option=module_gpa/gradeDetailsAll">1.2 ผลสัมฤทธิ์นักเรียนทุกภาคเรียน</a></td>
 		</tr>
 		<tr>
 			<td>&nbsp;</td>
