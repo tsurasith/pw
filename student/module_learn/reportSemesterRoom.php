@@ -3,7 +3,7 @@
     <tr> 
       <td width="6%" align="center"><a href="index.php?option=module_learn/index"><img src="../images/modules/classroom.png" alt="" width="48" height="48" border="0" /></a></td>
       <td ><strong><font color="#990000" size="4">Room Tracking</font></strong><br />
-        <span class="normal"><font color="#0066FF"><strong>1.4 รายงานการเข้าเรียนสายของนักเรียน <br/>ตามห้องเรียนตัวเลขสถิติ [รายภาคเรียน]</strong></font></span></td>
+        <span class="normal"><font color="#0066FF"><strong>1.5 รายงานการเข้าเรียนสายของนักเรียน <br/>ตามห้องเรียนตัวเลขสถิติ (รายภาคเรียน)</strong></font></span></td>
        <td >
 		<?php
 			$_error = 1;

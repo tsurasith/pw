@@ -84,7 +84,7 @@
 			case "02" :  return "<font color='#FFCC00'>ส</font>"; break;
 			case "03" :  return "<font color='blue'>ล</font>"; break;
 			case "04" :  return "<font color='red'>ข</font>"; break;
-			case "05" :  return "<font color='#B21904'>หนี</font>"; break;
+			case "05" :  return "<font color='#B21904'>น</font>"; break;
 			default : return "-";
 		}	
 	}

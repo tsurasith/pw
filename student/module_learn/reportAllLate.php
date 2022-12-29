@@ -4,7 +4,7 @@
     <tr> 
       <td width="6%" align="center"><a href="index.php?option=module_learn/index"><img src="../images/modules/classroom.png" alt="" width="48" height="48" border="0" /></a></td>
       <td ><strong><font color="#990000" size="4">Room Tracking</font></strong><br />
-        <span class="normal"><font color="#0066FF"><strong>1.3 รายงานสรุปการเข้าห้องเรียนสาย</strong></font></span></td>
+        <span class="normal"><font color="#0066FF"><strong>1.4 รายงานสรุปการเข้าห้องเรียนสาย</strong></font></span></td>
       <td >
 	  	
 	  </td>
@@ -16,7 +16,7 @@
 	<?php
 		$_sql = "select acadyear,acadsemester,count(*) as late
 				  from student_learn
-				  where student_id = '" . $_SESSION['username'] . "' and timecheck_id = 02
+				  where student_id = '" . $_SESSION['username'] . "' and timecheck_id = '02'
 				group by student_id,acadyear,acadsemester
 				order by acadyear,acadsemester";
 				$_res = mysqli_query($_connection,$_sql);
