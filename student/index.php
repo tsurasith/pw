@@ -119,6 +119,7 @@
                         </a>
                     </div>
                 </div>
+                <!--
                 <div style="float:left;">
                     <div class="icon">
                         <a href="index.php?option=module_qa/index">
@@ -127,6 +128,7 @@
                         </a>
                     </div>
                 </div>
+                -->
                 <div style="float:left;">
                     <div class="icon">
                         <a href="index.php?option=module_reports/index">
@@ -135,6 +137,7 @@
                         </a>
                     </div>
                 </div>
+                <!--
                 <div style="float:left;">
                     <div class="icon">
                         <a href="index.php?option=module_projects/index">
@@ -143,6 +146,7 @@
                         </a>
                     </div>
                 </div>
+                -->
                 <div style="float:left;">
                     <div class="icon">
                         <a href="index.php?option=module_tcss/index">
