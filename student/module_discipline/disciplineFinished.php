@@ -4,7 +4,11 @@
 
 
 <div id="content">
-	<? $_disID = isset($_POST['dis_id'])?$_POST['dis_id']:$_REQUEST['dis_id']; ?>
+	<? 
+		$_disID = "";
+		$_disID = isset($_POST['dis_id'])?$_POST['dis_id']:"";
+		$_disID = isset($_REQUEST['dis_id'])?$_disID:""; 
+	?>
 	<table width="100%"  align="center" border="0" cellspacing="10" cellpadding="0"  class="header">
 		<tr> 
 			<td width="6%" align="center"><a href="index.php?option=module_discipline/index"><img src="../images/discipline.png" alt="" width="48" height="48" border="0"/></a></td>
@@ -80,7 +84,7 @@
 				</tr>
 				<tr>
 					<td align="right" valign="top"><b>ข้อมูลนักเรียน</b></td>
-					<td ><?=studentData($_dat['dis_studentid'],$acadyear)?></td>
+					<td ><?=studentData($_connection,$_dat['dis_studentid'],$acadyear)?></td>
 				</tr>
 				<tr>
 					<td align="right" valign="top"><b>พฤติกรรมที่ไม่พึงประสงค์</b></td>
@@ -171,7 +175,7 @@
 </div>
 
 <?
-	function studentData($_id,$acadyear)
+	function studentData($_connection,$_id,$acadyear)
 	{
 		$_sql = "select id,prefix,firstname,lastname,xlevel,xyearth,room,p_village from students where xedbe = '" . $acadyear  ."' and id = '". $_id . "'";
 		$_result = mysqli_query($_connection,$_sql);
