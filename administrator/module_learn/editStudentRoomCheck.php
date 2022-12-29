@@ -84,6 +84,9 @@ function check(name,value)
 			<?php
 				$sql = '';
 
+				$_permission = "";
+				$_created_by_name = "";
+
 				if(isset($_POST['action']))
 				{
 					$sql = "select * from student_learn where student_id = '" . $_POST['studentid'] . "' and check_date = '" . $_POST['date'] . "' order by period " ;
@@ -110,14 +113,20 @@ function check(name,value)
 							echo "<tr><td></td><td><table>";
 							while($dat = mysqli_fetch_assoc($result))
 							{	echo "<tr  >";
-								echo "<td align='right'>คาบที่ " . $dat['period'] . "</td>";
-								echo "<td id=\"check[$periodRows]\">";
+								echo "<td align='right'>คาบที่ " . $dat['period'] . ": ". $dat['SubjectCode'] . "</td>";
+								echo "<td id=\"check[$periodRows]\"> | ";
 								$p0Check = "";
 								$p1Check = "";
 								$p2Check = "";
 								$p3Check = "";
 								$p4Check = "";
 								$p5Check = "";
+								$_permission = "";
+								if($dat['created_user']!=$_SESSION['user_account_id'] && ($_SESSION['username'] != 'admin' && $_SESSION['username'] != 'tc100' && $_SESSION['username'] != 'tc111')){
+									$_permission = "disabled";
+								}
+								$_created_by_name = $dat['created_user'];
+
 								switch($dat['timecheck_id'])
 								{	case '00' : $p0Check = "checked"; break;
 									case '01' : $p1Check = "checked"; break;
@@ -127,14 +136,23 @@ function check(name,value)
 									case '05' : $p5Check = "checked"; break;
 									default : echo "xx";
 								}
-								echo "<input type='hidden' name=\"period[$periodRows]\" value='" . $dat['period'] . "'>";
-								echo "<input type='radio' name=\"check[$periodRows]\" value='white'  $p0Check  onclick=\"check(this.name,this.value)\" /> มา | ";
-								echo "<input type='radio' name=\"check[$periodRows]\" value='lightgreen'  $p1Check onclick=\"check(this.name,this.value)\" /> กิจกรรม | ";
-								echo "<input type='radio' name=\"check[$periodRows]\" value='yellow'  $p2Check  onclick=\"check(this.name,this.value)\" > สาย | ";
-								echo "<input type='radio' name=\"check[$periodRows]\" value='lightblue'  $p3Check  onclick=\"check(this.name,this.value)\" > ลา | ";
-								echo "<input type='radio' name=\"check[$periodRows]\" value='orange'  $p4Check onclick=\"check(this.name,this.value)\" > ขาด | ";
-								echo "<input type='radio' name=\"check[$periodRows]\" value='red'  $p5Check onclick=\"check(this.name,this.value)\" > หนีเรียน";
-								echo "</td></tr>";
+
+								if($_permission == ""){
+									echo "<input type='hidden' name=\"period[$periodRows]\" value='" . $dat['period'] . "'>";
+									echo "<input $_permission type='radio' name=\"check[$periodRows]\" value='white'  $p0Check  onclick=\"check(this.name,this.value)\" /> มา | ";
+									echo "<input $_permission type='radio' name=\"check[$periodRows]\" value='lightgreen'  $p1Check onclick=\"check(this.name,this.value)\" /> กิจกรรม | ";
+									echo "<input $_permission type='radio' name=\"check[$periodRows]\" value='yellow'  $p2Check  onclick=\"check(this.name,this.value)\" > สาย | ";
+									echo "<input $_permission type='radio' name=\"check[$periodRows]\" value='lightblue'  $p3Check  onclick=\"check(this.name,this.value)\" > ลา | ";
+									echo "<input $_permission type='radio' name=\"check[$periodRows]\" value='orange'  $p4Check onclick=\"check(this.name,this.value)\" > ขาด | ";
+									echo "<input $_permission type='radio' name=\"check[$periodRows]\" value='red'  $p5Check onclick=\"check(this.name,this.value)\" > หนีเรียน";
+									echo "  (ครูผู้สอน " . getUserAccountName($_connection,$_created_by_name) . ")";
+									echo "</td></tr>";
+								}else{
+									echo "<input type='hidden' name=\"period[$periodRows]\" value='" . $dat['period'] . "'>";
+									echo "<input type='hidden' name=\"check[$periodRows]\" value='" . revertValue($dat['timecheck_id']) . "' />";
+									echo displayTimecheck($dat['timecheck_id']);
+									echo "  (ครูผู้สอน " . getUserAccountName($_connection,$_created_by_name) . ")";
+								}
 								$periodRows++;
 							}//end while
 							echo "</td></tr></table></td></tr>";
@@ -189,8 +207,8 @@ function check(name,value)
 
     <tr> 
         <td colspan="2" class="key">
-			<input type="submit" value="บันทึก"  name="saveedit" class="button"/>
-			<input type="button" value="ยกเลิก" class="button" onClick="location.href='../administrator/index.php?option=module_learn/index'"/>
+				<input type="submit" value="บันทึก"  name="saveedit" class="button"/>
+				<input type="button" value="ยกเลิก" class="button" onClick="location.href='../administrator/index.php?option=module_learn/index'"/>
 		</td>
     </tr>
   </table>
@@ -209,5 +227,15 @@ function timecheck_id($value){
 	if($value == 'red') return '05';
 	else return 9;
 
+}
+
+function revertValue($_value){
+	if($_value == '00') return 'white';
+	if($_value == '01') return 'lightgreen';
+	if($_value == '02') return 'yellow';
+	if($_value == '03') return 'lightblue';
+	if($_value == '04') return 'orange';
+	if($_value == '05') return 'red';
+	else return 9;
 }
 ?>
