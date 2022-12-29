@@ -246,7 +246,7 @@
 			<td class="key" width="180px" align="center" rowspan="2">ชื่อ - นามสกุล</td>
 			<td class="key" width="80px"  align="center" rowspan="2" >สถานภาพ<br/>ปัจจุบัน</td>
 			<td class="key" align="center" colspan="<?=count($_date_array)?>">วันที่/คาบ</td>
-			<td class="key" withd="100px" align="center" rowspan="2">รวม</td>
+			<td class="key" withd="100px" align="center" rowspan="2">รวม<br/>(<?=count($_date_array)?>)</td>
 			<td class="key" withd="100px" align="center" rowspan="2">%</td>
 		</tr>
 		<tr height="110px">
@@ -275,7 +275,7 @@
 							}
 						?>
 					<? } ?>
-					<td align="center"><?=$_dat['total']?></td>
+					<td align="center"><?=($_dat['total']-$_count_disappear)?></td>
 					<td align="right">
 						<?php
 							$_percent = ((($_dat['total']-$_count_disappear)*100)/$_dat['total']);
