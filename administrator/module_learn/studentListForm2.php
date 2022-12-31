@@ -139,7 +139,7 @@
                                               <td colspan="11" align="center"> 
                                                 <input type="hidden" name="count" value="<?=$j?>>"/>
                                                 <input type="submit" value="บันทึก"/> 
-                                                <input type="button" value="ยกเลิก" onClick="history.go(-1)"/> 
+                                                <input type="button" value="ยกเลิก" onClick="location.href='index.php?option=module_learn/dateTaskList2&date=<?=$_REQUEST['date']?>'"/> 
                                               </td>
                                             </tr>
                                           </table>

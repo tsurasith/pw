@@ -17,6 +17,10 @@
             $_date = "";
             $_date = isset($_POST['date'])?$_POST['date']:"";
 
+            if($_date==""){
+                $_date = isset($_REQUEST['date'])?$_REQUEST['date']:"";
+            }
+
 		?>
         ปีการศึกษา
         <?php  
@@ -84,7 +88,7 @@
                                 
                                 
                                 <?php
-                                    $sql_checkstatus = "select task_date,task_roomid,task_status,period from student_learn_task where task_date  = '" .  $_POST['date']  ."' and task_roomid = '" .$dat['task_roomid'] . "'" ;
+                                    $sql_checkstatus = "select task_date,task_roomid,task_status,period from student_learn_task where task_date  = '" .  $_date  ."' and task_roomid = '" .$dat['task_roomid'] . "'" ;
                                     $res_checkstatus = mysqli_query($_connection,$sql_checkstatus);
                                     $res_dat = mysqli_query($_connection,$sql_checkstatus);
                                     $dat = mysqli_fetch_assoc($res_dat);

@@ -17,6 +17,10 @@
 			$_date = "";
 			$_date = isset($_POST['date'])?$_POST['date']:"";
 
+			if($_date == ""){
+				$_date = isset($_REQUEST['date'])?$_REQUEST['date']:"";
+			}
+
 		?>
         ปีการศึกษา
         <?php  
@@ -61,7 +65,7 @@
     <br/>
     
     <?
-		$sql_room = "select distinct task_date,task_roomid from student_learn_task where task_date  = '" .  (isset($_POST['date'])?$_POST['date']:"")  ."' order by task_roomid" ;
+		$sql_room = "select distinct task_date,task_roomid from student_learn_task where task_date  = '" .  $_date  ."' order by task_roomid" ;
 		$res = mysqli_query($_connection,$sql_room) or die (' ' . mysqli_error($_connection));
 		$row_room  =  mysqli_num_rows($res);
 		$i  = 1;
@@ -80,7 +84,22 @@
 						<td align="center"><?=$i?></td>
 						<td align="center"><?=getFullRoomFormat(trim($dat['task_roomid']))?></td>
 						<?
-							$p_sql = "select task_date , task_roomid, task_status , period from student_learn_task where task_date = '" . $dat['task_date'] . "' and task_roomid = '" . trim($dat['task_roomid']) . "' order by period" ;
+							$p_sql = "
+									select 
+										task_date,task_roomid,task_status,s.period,
+										t.SubjectCode,t.teacher_id
+									from
+										student_learn_task s 
+										left join teaching_schedule t 
+										on (
+												s.period = t.period and s.weekday = t.weekday and 
+												s.acadyear = t.acadyear and s.acadsemester = t.acadsemester and
+												s.task_roomid = concat(t.level,'0',t.room)
+											)
+									where 
+										s.task_date = '" . $dat['task_date'] . "' and 
+										s.task_roomid = '" . trim($dat['task_roomid']) . "' 
+									order by s.period" ;
 							$p_res = mysqli_query($_connection,$p_sql) or die ( ' ' . mysqli_error($_connection));
 							$x = 1;
 							while($p_dat = mysqli_fetch_assoc($p_res)) {	
@@ -90,7 +109,8 @@
 									// index.php?option=module_learn/createTaskForm
 									
 									echo "<a href=\"index.php?option=module_learn/studentListForm&room=" .$dat['task_roomid'] . "&date=" .$dat['task_date'] . "&period=" . $x . "&acadyear=" . $acadyear . "&acadsemester=".$acadsemester . "\">";
-									echo "<b>คาบ $x</b>";
+									echo "<b>คาบ $x</b><br>";
+									echo $p_dat['SubjectCode'];
 									echo "</a>";
 								} else { echo "<font color=\"blue\" >คาบ $x </font>"; }
 								echo "</td>";
