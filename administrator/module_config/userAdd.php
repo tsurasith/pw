@@ -107,7 +107,47 @@
 		}
 		else
 		{
+			$_user_account_id = gen_uuid();
+
+			$_sql_user_account = "
+			INSERT INTO `users_account`(
+				`user_account_id`,
+				`user_account_prefix`,
+				`user_account_firstname`,
+				`user_account_lastname`,
+				`user_account_email`,
+				`user_account_line_id`,
+				`user_account_status`,
+				`user_account_type`,
+				`user_account_logon`,
+				`user_account_password`,
+				`created_datetime`,
+				`created_user`,
+				`updated_datetime`,
+				`updated_user`,
+				`last_password_chaged`
+			)
+			VALUES(
+				'" . $_user_account_id . "',
+				'" . $_POST['prefix'] . "',
+				'" . $_POST['firstname'] . "',
+				'" . $_POST['lastname'] . "',
+				'" . $_POST['t_email'] . "',
+				'line_id', 
+				'active',
+				'" . $_POST['type'] . "',
+				'" . $_POST['username'] . "',
+				'" . $_POST['password'] . "',
+				CURRENT_TIMESTAMP,
+				'" . $_SESSION['user_account_id'] . "',
+				CURRENT_TIMESTAMP,
+				'" . $_SESSION['user_account_id'] . "',
+				CURRENT_TIMESTAMP
+			)
+
+					";
 			$_sql = "insert teachers values (
+						'" . $_user_account_id . "',
 						'" . $_POST['teaccode'] . "',
 						'" . $_POST['prefix'] . "',
 						'" . $_POST['firstname'] . "',
@@ -123,10 +163,15 @@
 						'" . (isset($_POST['superuser'])==1?"1":"0") . "')";
 				if(mysqli_query($_connection,$_sql))
 				{
-					echo "<center><br/><font color='green'><b>บันทึกแก้ไขข้อมูลเรียบร้อยแล้ว</b></font><br/></center>";
+					if(mysqli_query($_connection,$_sql_user_account)){
+						echo "<center><br/><font color='green'><b>บันทึกแก้ไขข้อมูลเรียบร้อยแล้ว</b></font><br/></center>";
+					}else{
+						echo "<center><br/><font color='red'>บันทึกข้อมูลผิดพลาด เนื่องจาก - " . mysqli_error($_connection) . "</font><br/><br/></center>";
+					}
+					
 				}else 
 				{
-					echo "<center><br/><font color='red'>บันทึกข้อมูลผิดพลาด เนื่องจาก - " . mysqli_error() . "</font><br/><br/></center>";
+					echo "<center><br/><font color='red'>บันทึกข้อมูลผิดพลาด เนื่องจาก - " . mysqli_error($_connection) . "</font><br/><br/></center>";
 				}
 		}
 	}//end บันทึกแก้ไขข้อมูล

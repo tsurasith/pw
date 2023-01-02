@@ -54,10 +54,35 @@
 							where TeacCode = '" . $_POST['teaccode'] . "'";
 		if(mysqli_query($_connection,$_sqlUpdate))
 		{
-			echo "<center><br/><font color='green'><b>บันทึกแก้ไขข้อมูลเรียบร้อยแล้ว</b></font><br/></center><br/>";
+			$_sql_inactive_user = "
+						UPDATE users_account
+						SET
+							user_account_status = 'INACTIVE'
+						where
+							user_account_id = '" . $_POST['user_account_id'] . "' 
+					";
+			
+
+			if($_POST['type']=="xcancel"){
+				$_resInactive = mysqli_query($_connection,$_sql_inactive_user);
+			}else{
+				$_sql_inactive_user = "
+						UPDATE users_account
+						SET
+							user_account_status = 'ACTIVE'
+						where
+							user_account_id = '" . $_POST['user_account_id'] . "' 
+					";
+					$_resInactive = mysqli_query($_connection,$_sql_inactive_user);
+			}
+			if($_resInactive){
+				echo "<center><br/><font color='green'><b>บันทึกแก้ไขข้อมูลเรียบร้อยแล้ว</b></font><br/></center><br/>";
+			}else{
+				echo "<center><br/><font color='red'>บันทึกข้อมูลผิดพลาด เนื่องจาก - Table users_account " . mysqli_error($_connection) . "</font><br/></center>";
+			}
 		}else 
 		{
-			echo "<center><br/><font color='red'>บันทึกข้อมูลผิดพลาด เนื่องจาก - " . mysqli_error() . "</font><br/></center>";
+			echo "<center><br/><font color='red'>บันทึกข้อมูลผิดพลาด เนื่องจาก - Table teachers " . mysqli_error($_connection) . "</font><br/></center>";
 		}
 	}//end บันทึกแก้ไขข้อมูล
 ?>
@@ -154,6 +179,7 @@
 				<tr>
 					<td></td>
 					<td>
+						<input type="hidden" value="<?=$_dat['teacher_id']?>" name="user_account_id" />
 						<input type="submit" value="บันทึก" name="save" class="button" />
 						<input type="button" value="ยกเลิก" class="button" onclick="location.href='index.php?option=module_config/index'" />
 					</td>

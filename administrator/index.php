@@ -215,7 +215,7 @@
                     </div>
                 </div>
                 
-				<? if($_SESSION['superAdmin']) { ?>
+				<? if(isset($_SESSION['superAdmin'])) { ?>
 				<div style="float:left;">
                     <div class="icon">
                         <a href="index.php?option=module_config/index">
