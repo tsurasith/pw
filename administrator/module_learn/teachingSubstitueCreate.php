@@ -64,7 +64,8 @@
 				$_text .= "ในวัน " . displayDayofWeek(date('w',strtotime($_POST['date']))) . " ";
 				$_text .= "ที่ " . displayFullDate($_POST['date']) . " รหัสวิชา " . $_var[0] . " ";
 				$_text .= "ห้อง " . getFullRoomFormat($_var[2]) . " ";
-				$_text .= "คาบเรียนที่ " . $_var[1] . " (รอการอนุมัติจากฝ่ายวิชาการ) ";
+				$_text .= "คาบเรียนที่ " . $_var[1] . " ";
+				$_text .= "สถานที่สอน " . $_POST['location'];
 
 				$_processing_message = $_text;
 

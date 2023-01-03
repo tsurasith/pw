@@ -59,8 +59,8 @@ ALTER TABLE `teachers` ADD PRIMARY KEY(`teacher_id`);
 
 
 -- 7. Adding unique value on 2 data columns
-TABLE `teachers` ADD UNIQUE(`TeacCode`);
-TABLE `teachers` ADD UNIQUE(`t_email`);
+ALTER TABLE `teachers` ADD UNIQUE(`TeacCode`);
+ALTER TABLE `teachers` ADD UNIQUE(`t_email`);
 
 
 

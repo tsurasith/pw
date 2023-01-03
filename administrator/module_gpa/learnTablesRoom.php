@@ -125,55 +125,44 @@
 			//echo "this has data.";
 
 			$_counter = 0;
-			$_dat = mysqli_fetch_assoc($resStudent);
-			$_counter++;
+			$_data = array();
 
-			$_initWeekday = $_dat['weekday'];
-			$_initPeriod  = $_dat['period'];
-			$_initSubject = $_dat['SubjectCode'];
+			while($_dat = mysqli_fetch_assoc($resStudent)){
+				@$_data[$_dat['weekday']][$_dat['period']] .= "" . $_dat['user_account_firstname']. "|" . $_dat['SubjectCode']. "|" . $_dat['location'] . "#";
+			}
 
+			//print_r($_data);
+
+			
 			for($_i=1;$_i<=5;$_i++){
 				echo "<tr height='75px'>";
 				echo "<td align='center' class='key'>" . displayDayofWeek($_i) . "</td>";
 				for($_j=1;$_j<=8;$_j++){
-					if($_initWeekday==$_i && $_initPeriod==$_j){
-						echo "<td align='center'>";
-						echo $_dat['SubjectCode'] . "<br/>" . "ครู". $_dat['user_account_firstname']."";
-						//echo $_dat['location'];
-						$_initSubject = $_dat['SubjectCode'];
-
-						if($_counter < $totalRows){
-							$_dat = mysqli_fetch_assoc($resStudent);
-							$_counter++;
-							if($_dat['period'] == $_j){
-								if($_initSubject == $_dat['SubjectCode']){
-									echo "<br/>" . "ครู". $_dat['user_account_firstname'];
-								}else{
-									echo "<br/>" . $_dat['SubjectCode'] . "<br/>" . "ครู". $_dat['user_account_firstname'];
-								}
-								if($_counter < $totalRows){
-									$_dat = mysqli_fetch_assoc($resStudent);
-									$_initPeriod = $_dat['period'];
-									$_initWeekday = $_dat['weekday'];
-									$_counter++;
-								}
-							}
-							else{
-								$_initPeriod = $_dat['period'];
-								$_initWeekday = $_dat['weekday'];
-							}
-						}
-						echo "</td>";
-					}else {
-						echo "<td align='center'> -";
-						echo "</td>";
+					
+					$_subject = array();
+					$_detail  = array();
+					if(isset($_data[$_i][$_j])){
+						$_subject = explode("#",$_data[$_i][$_j]);
 					}
+					echo "<td align='center'>";
+					for($_k=0;$_k<count($_subject)-1;$_k++){
+						$_detail = explode("|",$_subject[$_k]);
+						echo @$_detail[1] . "<br/>"; // subjectcode
+						echo "ครู" . $_detail[0] . "<br/>";
+						echo @$_detail[2] . "<br/>"; // location
+					}
+					if(count($_subject)<=0){
+						echo "-";
+					}
+					echo "</td>";
+					
 					if($_j==4){
 						echo "<td align='center'>-</td>";
 					}
 				}
 				echo "</tr>";
 			}
+			
 
 		}else { ?>
 			<tr><td colspan="10" align="center"> ไม่พบการบันทึกข้อมูลตามเงื่อนไขที่สืบค้น </td></tr>
