@@ -29,6 +29,7 @@
 					`SubjectCode`,
 					`weekday`,
 					`period`,
+					`location`,
 					`acadyear`,
 					`acadsemester`,
 					`room_id`,
@@ -43,6 +44,7 @@
 					'" . $_var[0] . "',
 					'" . date('w',strtotime($_POST['date'])) . "',
 					'" . $_var[1] . "',
+					'" . $_POST['location'] . "', 
 					'" . $acadyear . "',
 					'" . $acadsemester . "',
 					'" . $_var[2] . "',
@@ -283,7 +285,9 @@
 																		from teaching_substitute
 																		where 
 																				teaching_date = '" . $_POST['date'] . "' and 
-																				owner_teacher_id = '" . $_POST['teacher_id'] . "' 
+																				owner_teacher_id = '" . $_POST['teacher_id'] . "' and
+																				acadyear = '" . $acadyear . "' and
+																				acadsemester = '" . $acadsemester . "' 
 																		)
 							ORDER BY
 								t.period
@@ -354,7 +358,9 @@
 														WHERE
 															period = '" . $_var[1] . "' and
 															weekday = '" . date('w',strtotime($_POST['date'])) . "' and
-															teaching_date = '" . $_POST['date'] . "'
+															teaching_date = '" . $_POST['date'] . "' and
+															acadyear = '" . $acadyear . "' and
+															acadsemester = '" . $acadsemester . "' 
 													)
 							GROUP BY
 								t.teacher_id,u.user_account_prefix,u.user_account_firstname,u.user_account_lastname
@@ -378,6 +384,7 @@
 							}
 						?>
 					</select>
+					
 					<input type="hidden" name="submit4" />
 					<input type="submit" name="verify" value="ตรวจสอบ" />
 
@@ -390,6 +397,21 @@
 					<?php
 						$_subject_info = explode("/",$_POST['subject_info']);
 
+						$_sql_location = "
+								SELECT 
+									location
+								FROM
+									teaching_schedule
+								WHERE
+									SubjectCode 	= '" . $_subject_info[0] . "' AND
+									weekday 		= '" . date('w',strtotime($_POST['date'])) . "' AND
+									teacher_id 		= '" . $_POST['teacher_id'] . "' AND
+									period 			= '" . $_subject_info[1] . "' AND 
+									acadyear 		= '" . $acadyear . "' AND
+									acadsemester	= '" . $acadsemester . "' 
+							";
+						$_resLocation = mysqli_query($_connection,$_sql_location);
+						$_datLo = mysqli_fetch_assoc($_resLocation);
 					?>
 					<br/><br/>
 					หากต้องการบันทึกให้ <font color='green'><b>ครู<?=getUserAccountName($_connection,$_POST['teacher_id2'])?></b></font> 
@@ -398,10 +420,12 @@
 					ที่ <font color='green'><b><?=displayFullDate($_POST['date'])?></b></font>
 					รหัสวิชา <font color='green'><b><?=$_subject_info[0]?></b></font> 
 					ห้อง <font color='green'><b><?=getFullRoomFormat($_subject_info[2])?></b></font>
-					คาบเรียนที่ <font color='green'><b><?=$_subject_info[1]?></b></font> <br/>
+					คาบเรียนที่ <font color='green'><b><?=$_subject_info[1]?></b></font> 
+					สถานที่ <font color='green'><b><?=$_datLo['location']?></b></font>  <br/>
 					ให้ทำการกดปุ่ม "บันทึก" ด้านล่างเพื่อบันทึกข้อมูลและแจ้งเตือนไปยังข้อความทางไลน์
 					<br/><br/>
 					<center>
+						<input type="hidden" name="location" value="<?=$_datLo['location']?>" />
 						<input type="submit" name="save" value="บันทึก" id="save"/> 
 						<input type="button" name="reset" value="ยกเลิก" onClick="document.teachList.submit();" /> 
 				    </center>
@@ -441,6 +465,7 @@
 						s.SubjectCode,
 						s.period,
 						s.room_id,
+						s.location,
 						o.user_account_prefix as owner_prefix, 
 						o.user_account_firstname as owner_firstname,
 						o.user_account_lastname as owner_lastname,
@@ -481,6 +506,7 @@
 							<td class="key" align="center">คาบที่</td>
 							<td class="key" align="center" width="70px">รหัสวิชา</td>
 							<td class="key" align="center">ห้องเรียน</td>
+							<td class="key" align="center">สถานที่</td>
 							<td class="key" align="center">สถานะ</td>
 							<td class="key" align="center">-</td>
 						</tr>
@@ -500,6 +526,7 @@
 							<td align="center"><?=$_dat['period']?></td>
 							<td align="center"><?=$_dat['SubjectCode']?></td>
 							<td align="center"><?=getFullRoomFormat($_dat['room_id'])?></td>
+							<td align="center"><?=$_dat['location']?></td>
 							<td align="left"><?=displayTeachingSubstituteStatus($_dat['teaching_substitute_status'])?></td>
 							<td align="center">
 								<? if($_dat['teaching_substitute_status']=="0"){ ?>

@@ -92,6 +92,7 @@
 						s.SubjectCode,
 						s.period,
 						s.room_id,
+						s.location,
 						convert_tz(s.confirmed_datetime,'+00:00','+07:00') as confirmed_datetime,
 						s.has_assignment,
 						trim(s.teaching_details) as teaching_details,
@@ -135,6 +136,7 @@
 							<td class="key" align="center">คาบ</td>
 							<td class="key" align="center" width="70px">รหัสวิชา</td>
 							<td class="key" align="center">ห้อง</td>
+							<td class="key" align="center">สถานที่</td>
 							<td class="key" align="center">ยืนยัน/รับทราบ</td>
 							<td class="key" align="center">ใบงาน</td>
 							<td class="key" align="center" width="240px">บันทึกการสอนแทน</td>
@@ -157,6 +159,7 @@
 							<td align="center" valign="top"><?=$_dat['period']?></td>
 							<td align="center" valign="top"><?=$_dat['SubjectCode']?></td>
 							<td align="center" valign="top"><?=getFullRoomFormat($_dat['room_id'])?></td>
+							<td align="center" valign="top"><?=$_dat['location']?></td>
 							<td align="center" valign="top">
 								<?php
 									if($_dat['confirmed_datetime']==""){
