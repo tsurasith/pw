@@ -37,7 +37,7 @@
 			$_processing_message = $_text;
 
 			$message = $_text;
-			SendLineMessage($message,$_line_token);
+			SendLineMessage($message,$_line_token_teaching_substitute);
 			$_processing_result = true;
 
 			/*

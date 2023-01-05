@@ -30,7 +30,7 @@
 				$_processing_text .= "โดย " . $_SESSION['shortname'] . " ";
 
 				$message = $_processing_text;
-				SendLineMessage($message,$_line_token);
+				SendLineMessage($message,$_line_token_teaching_substitute);
 
 			}else{
 				$_processing_text  = "ไม่สามารถบันทึก การอนุมัติ ได้เนื่องจากเกิดข้อผิดพลาด <br/>";
