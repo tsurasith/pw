@@ -73,14 +73,14 @@
 						s.SubjectUnit,
 						s.SubjectHour,
 						s.SubjectType,
-						s.SubjectLevel,
+						m.curriculum_mapping_level as SubjectLevel,
 						s.SubjectSemester,
 						s.SubjectGroup
 					from
 						curriculum_subject_mappings m inner join curriculum_subjects s 
 						on (s.SubjectCode = m.subjectcode) inner join curriculums c on (m.curriculum_id = c.curriculum_id)
 					where
-						c.curriculum_id = '" . $_curriculum_id . "' and s.SubjectLevel = '" . $_year[$_i] . "' ";
+						c.curriculum_id = '" . $_curriculum_id . "' and m.curriculum_mapping_level = '" . $_year[$_i] . "' ";
 
 				$_xx =	"order by 
 						FIELD(s.SubjectType,'พื้นฐาน','เพิ่มเติม','กิจกรรมพัฒนาผู้เรียน'),
