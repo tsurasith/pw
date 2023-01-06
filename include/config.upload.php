@@ -32,6 +32,8 @@
     $_student_certificate_path = $_target . $_img_root_folder . $_img_student_certificate . "/";
     
 
-    /* test */
+    /* import fingerprint raw data */
+    $_hr_raw_folder      = "/pwnew/pw/hr_files";
+
     
 ?>

@@ -186,6 +186,15 @@
                 </div>
                 <? } ?>
 
+                <div style="float:left;">
+                    <div class="icon">
+                        <a href="index.php?option=module_hr/index">
+                        <img src="../images/fingerprint.png" width="49px" alt="HR" align="middle" border="0" />
+                        <span>HRM</span>
+                        </a>
+                    </div>
+                </div>
+
                 <? if($_SESSION['username'] == "admin" || $_SESSION['username'] == "tc100" || $_SESSION['username'] == "tc101" || $_SESSION['username'] == "tc102" || $_SESSION['username'] == "tc103") { ?>
                 <div style="float:left;">
                     <div class="icon">
