@@ -127,7 +127,7 @@
 	$_res = mysqli_query($_connection,$_sql); ?>
 	<? if(@mysqli_num_rows($_res)>0) { ?>
 		<div align="center">
-			<table class="admintable"  cellpadding="1" cellspacing="1" border="0" align="center"  >
+			<table class="admintable"   align="center"  >
 			<tr>
 			<th colspan="12" align="center">
 				<img src="../images/school_logo.png" width="120px">
@@ -136,23 +136,76 @@
 				ประจำวัน <?=displayDayofWeek(date('w',strtotime($_POST['date'])))?> ที่ <?=displayFullDate($_POST['date'])?><br/>
 			  </th>
 			</tr>
+			<?php
+				$_sql_period = "
+					select 
+						t.teacher_id,
+						c.firstname,
+						t.SubjectCode,
+						l.task_roomid,
+						l.task_status,
+						l.period
+					from
+						student_learn_task l left join teaching_schedule t 
+						on 
+						(
+							l.weekday = t.weekday and
+							l.acadyear = t.acadyear and
+							l.acadsemester = t.acadsemester and
+							l.period = t.period and 
+							l.task_roomid = t.room_id and
+							l.task_date = '" . $_POST['date'] . "'
+						)
+						left join teachers c on (t.teacher_id = c.teacher_id)
+					where
+						1=1
+						and l.task_date		= '" . $_POST['date'] . "' 
+						and l.task_roomid 	= '" . $_POST['roomID'] . "' 
+					order by
+						l.task_roomid,l.period";
+
+				$_period = array();
+				$_res_period = mysqli_query($_connection,$_sql_period);
+				$_i = 0;
+				if(mysqli_num_rows($_res_period)>0){
+					while($_dat = mysqli_fetch_assoc($_res_period)){
+						$_period[$_i] = $_dat;
+						$_i++;
+					}
+				}
+
+				
+				
+			?>
 			<tr> 
 				<td class="key" width="35px" align="center" rowspan="2">เลขที่</td>
-				<td class="key" width="75px" align="center" rowspan="2">เลขประจำตัว</td>
-				<td class="key" width="200px" align="center" rowspan="2">ชื่อ - นามสกุล</td>
-				<td class="key" width="100px"  align="center" rowspan="2">สถานภาพ<br/>ปัจจุบัน</td>
+				<td class="key" width="65px" align="center" rowspan="2">เลขประจำตัว</td>
+				<td class="key" width="190px" align="center" rowspan="2">ชื่อ - นามสกุล</td>
+				<td class="key" width="90px"  align="center" rowspan="2">สถานภาพ<br/>ปัจจุบัน</td>
 				<td class="key" width="65px"  align="center" rowspan="2">หน้าเสาธง</td>
 				<td class="key" align="center" colspan="8">คาบเรียนที่</td>
 			</tr>
 			<tr align="center">
-				<td class="key" width="47px">1</td>
-				<td class="key" width="47px">2</td>
-				<td class="key" width="47px">3</td>
-				<td class="key" width="47px">4</td>
-				<td class="key" width="47px">5</td>
-				<td class="key" width="47px">6</td>
-				<td class="key" width="47px">7</td>
-				<td class="key" width="47px">8</td>
+				<?php
+				for($_i=0;$_i<count($_period);$_i++){
+					if(@$_period[$_i-1]['period']!=$_period[$_i]['period']) { 
+						echo "<td align='center' valign='top' class='key' width='60px'>";
+						$_period_initial = $_period[$_i];
+
+						echo $_period[$_i]['period'] . "<br/>";
+						echo $_period[$_i]['SubjectCode'] . "<br/>";
+						echo $_period[$_i]['firstname']   . "<br/>";
+					}else{
+						echo "<br/>";
+						echo $_period[$_i]['SubjectCode'] . "<br/>";
+						echo $_period[$_i]['firstname']   . "<br/>";
+					}
+					
+					if(@$_period[$_i+1]['period']!=$_period[$_i]['period']){
+						echo "</td>";
+					}
+				}
+				?>
 			</tr>
 			<? $_i = 1; ?>
 			<? while($_dat = mysqli_fetch_assoc($_res)){ ?>
