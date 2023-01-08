@@ -41,7 +41,7 @@
 			$_text .= "" . "โดย - " . $_SESSION['shortname'];
 
 			$message = $_text;
-			//SendLineMessage($message,$_line_token);
+			SendLineMessage($message,$_line_token);
 
 			$_event_details = "";
 			$_event_details .= $_text;
@@ -114,12 +114,15 @@
 						c.curriculum_name,
 						c.curriculum_status,
 						c.curriculum_level,
-						m.SubjectCode
+						m.SubjectCode,
+						m.curriculum_mapping_level,
+						m.curriculum_mapping_semester
 					FROM
 						curriculums c inner join curriculum_subject_mappings m 
 						on (c.curriculum_id = m.curriculum_id and m.SubjectCode = '". trim($_POST['subject_search']) . "')
 					order by
-						c.curriculum_level,c.curriculum_code
+						c.curriculum_level,c.curriculum_code,m.curriculum_mapping_level,
+						m.curriculum_mapping_semester
 					";
 
 					$_resC = mysqli_query($_connection,$_sqlCurr);
@@ -131,13 +134,15 @@
 						<? if($_rowC >0){ ?> 
 							<table class="admintable">
 								<tr height="35px">
-									<td class="key" colspan="6"> &nbsp; หลักสูตรที่รายวิชานี้บรรจุอยู่ในแผนการเรียน</td>
+									<td class="key" colspan="8"> &nbsp; หลักสูตรที่รายวิชานี้บรรจุอยู่ในแผนการเรียน</td>
 								</tr>
 								<tr height="35px"> 
 									<td class="key" width="30px" align="center">ที่</td>
 									<td class="key" width="85px" align="center">รหัสหลักสูตร</td>
 									<td class="key" width="210px" align="center">ชื่อหลักสูตร (แผนการเรียน)</td>
 									<td class="key" width="95px" align="center">ระดับการศึกษา</td>
+									<td class="key" width="50px" align="center">ชั้น</td>
+									<td class="key" width="50px" align="center">ภาคเรียน</td>
 									<td class="key" width="60px" align="center">ปีที่เริ่มใช้</td>
 									<td class="key" width="80px" align="center">สถานะ<br/>หลักสูตร</td>
 								</tr>
@@ -147,6 +152,8 @@
 										<td align="center"><?=$_datC['curriculum_code']?></td>
 										<td> &nbsp; <?=$_datC['curriculum_name']?></td>
 										<td align="center"><?=displayEducationLevel($_datC['curriculum_level'])?></td>
+										<td align="center"><?=$_datC['curriculum_mapping_level']!=""?"ม." . $_datC['curriculum_mapping_level']:""?></td>
+										<td align="center"><?=$_datC['curriculum_mapping_semester']!=""?$_datC['curriculum_mapping_semester']:""?></td>
 										<td align="center"><?=$_datC['curriculum_start_year']?></td>
 										<td align="center"><?=$_datC['curriculum_status']?></td>
 									</tr>

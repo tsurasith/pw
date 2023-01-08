@@ -11,9 +11,10 @@
 		$_sql_Operation = "
 			UPDATE `curriculum_subject_mappings`
 			SET
-				`curriculum_mapping_level`	= '" . $_POST['curriculum_mapping_level'] . "',
-				`updated_datetime`			= CURRENT_TIMESTAMP,
-				`updated_user`				= '". $_SESSION['user_account_id'] . "'
+				`curriculum_mapping_level`		= '" . $_POST['curriculum_mapping_level'] . "',
+				`curriculum_mapping_semester`	= '" . $_POST['curriculum_mapping_semester'] . "',
+				`updated_datetime`				= CURRENT_TIMESTAMP,
+				`updated_user`					= '". $_SESSION['user_account_id'] . "'
 			WHERE
 				`curriculum_id`		= '" . $_POST['curriculum_id'] . "' AND
 				`curriculum_code`	=	'" . $_POST['curriculum_code'] . "' AND
@@ -36,7 +37,7 @@
 			$_text .= "" . "โดย - " . $_SESSION['shortname'];
 
 			$message = $_text;
-			//SendLineMessage($message,$_line_token);
+			SendLineMessage($message,$_line_token);
 
 			$_event_details = "";
 			$_event_details .= $_text;
@@ -116,7 +117,8 @@
 						c.curriculum_status,
 						c.curriculum_level,
 						m.SubjectCode,
-						m.curriculum_mapping_level
+						m.curriculum_mapping_level,
+						m.curriculum_mapping_semester
 					FROM
 						curriculums c left join curriculum_subject_mappings m 
 						on (c.curriculum_id = m.curriculum_id and m.SubjectCode = '". $_dat['SubjectCode']. "')
@@ -154,7 +156,7 @@
 										<td align="center"><?=$_datC['curriculum_code']?></td>
 										<td><?=$_datC['curriculum_name']?></td>
 										<td align="center"><?=displayEducationLevel($_datC['curriculum_level'])?></td>
-										<td align="center">
+										<td align="left">
 										<? $_i=0; ?>
 											<? $_select = ($_datC['SubjectCode']==$_dat['SubjectCode']?"checked":""); ?>
 											<form method="post" action="">
@@ -174,6 +176,11 @@
 													<option value="4" <?=($_datC['curriculum_mapping_level']=="4"?"selected":"")?> >ชั้นมัธยมศึกษาปีที่ 4</option>
 													<option value="5" <?=($_datC['curriculum_mapping_level']=="5"?"selected":"")?> >ชั้นมัธยมศึกษาปีที่ 5</option>
 													<option value="6" <?=($_datC['curriculum_mapping_level']=="6"?"selected":"")?> >ชั้นมัธยมศึกษาปีที่ 6</option>
+												</select>
+												<select name="curriculum_mapping_semester" class="inputboxUpdate" onChange="this.form.submit();";>
+													<option value="0" <?=($_datC['curriculum_mapping_semester']=="0"?"selected":"")?> >ภาคเรียนที่ 0</option>
+													<option value="1" <?=($_datC['curriculum_mapping_semester']=="1"?"selected":"")?> >ภาคเรียนที่ 1</option>
+													<option value="2" <?=($_datC['curriculum_mapping_semester']=="2"?"selected":"")?> >ภาคเรียนที่ 2</option>
 												</select>
 											<form>
 										</td>
