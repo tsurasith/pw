@@ -74,7 +74,7 @@
 						s.SubjectHour,
 						s.SubjectType,
 						m.curriculum_mapping_level as SubjectLevel,
-						s.SubjectSemester,
+						m.curriculum_mapping_semester as SubjectSemester,
 						s.SubjectGroup
 					from
 						curriculum_subject_mappings m inner join curriculum_subjects s 
@@ -164,7 +164,7 @@
 					<tr>
 						<td valign="top" colspan="4" >
 							<table>
-								<? $_sql_semester_1 = $_sql[$_i] . " and s.SubjectSemester = '1' and s.SubjectType = 'พื้นฐาน' " . $_xx; ?>
+								<? $_sql_semester_1 = $_sql[$_i] . " and curriculum_mapping_semester = '1' and s.SubjectType = 'พื้นฐาน' " . $_xx; ?>
 								<? $_res = mysqli_query($_connection,$_sql_semester_1); ?>
 								<? while($_dat = mysqli_fetch_assoc($_res)){ ?> 
 										<?php
@@ -192,7 +192,7 @@
 						</td>
 						<td valign="top" colspan="4">
 							<table>
-								<? $_sql_semester_2 = $_sql[$_i] . " and s.SubjectSemester = '2' and s.SubjectType = 'พื้นฐาน' " . $_xx; ?>
+								<? $_sql_semester_2 = $_sql[$_i] . " and curriculum_mapping_semester = '2' and s.SubjectType = 'พื้นฐาน' " . $_xx; ?>
 								<? $_res = mysqli_query($_connection,$_sql_semester_2); ?>
 								<? while($_dat = mysqli_fetch_assoc($_res)){ ?> 
 										<?php
@@ -228,7 +228,7 @@
 					<tr>
 						<td valign="top" colspan="4" >
 							<table>
-								<? $_sql_semester_1 = $_sql[$_i] . " and s.SubjectSemester = '1' and s.SubjectType = 'เพิ่มเติม' " . $_xx; ?>
+								<? $_sql_semester_1 = $_sql[$_i] . " and curriculum_mapping_semester = '1' and s.SubjectType = 'เพิ่มเติม' " . $_xx; ?>
 								<? $_res = mysqli_query($_connection,$_sql_semester_1); ?>
 								<? while($_dat = mysqli_fetch_assoc($_res)){ ?> 
 										<?php
@@ -256,7 +256,7 @@
 						</td>
 						<td valign="top" colspan="4">
 							<table>
-								<? $_sql_semester_2 = $_sql[$_i] . " and s.SubjectSemester = '2' and s.SubjectType = 'เพิ่มเติม' " . $_xx; ?>
+								<? $_sql_semester_2 = $_sql[$_i] . " and curriculum_mapping_semester = '2' and s.SubjectType = 'เพิ่มเติม' " . $_xx; ?>
 								<? $_res = mysqli_query($_connection,$_sql_semester_2); ?>
 								<? while($_dat = mysqli_fetch_assoc($_res)){ ?> 
 										<?php
@@ -292,7 +292,7 @@
 					<tr>
 						<td valign="top" colspan="4" >
 							<table>
-								<? $_sql_semester_1 = $_sql[$_i] . " and s.SubjectSemester = '1' and s.SubjectType = 'กิจกรรมพัฒนาผู้เรียน' " . $_xx; ?>
+								<? $_sql_semester_1 = $_sql[$_i] . " and curriculum_mapping_semester = '1' and s.SubjectType = 'กิจกรรมพัฒนาผู้เรียน' " . $_xx; ?>
 								<? $_res = mysqli_query($_connection,$_sql_semester_1); ?>
 								<? while($_dat = mysqli_fetch_assoc($_res)){ ?> 
 										<?php
@@ -320,7 +320,7 @@
 						</td>
 						<td valign="top" colspan="4">
 							<table>
-								<? $_sql_semester_2 = $_sql[$_i] . " and s.SubjectSemester = '2' and s.SubjectType = 'กิจกรรมพัฒนาผู้เรียน' " . $_xx; ?>
+								<? $_sql_semester_2 = $_sql[$_i] . " and curriculum_mapping_semester = '2' and s.SubjectType = 'กิจกรรมพัฒนาผู้เรียน' " . $_xx; ?>
 								<? $_res = mysqli_query($_connection,$_sql_semester_2); ?>
 								<? while($_dat = mysqli_fetch_assoc($_res)){ ?> 
 										<?php
