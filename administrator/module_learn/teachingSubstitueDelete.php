@@ -35,7 +35,7 @@
 			$_text .=  "\nโดย - " . $_SESSION['shortname'];
 
 			$message = $_text;
-			SendLineMessage($message,$_line_token);
+			SendLineMessage($message,$_line_token_teaching_substitute);
 			$_processing_result = true;
 
 			/*
