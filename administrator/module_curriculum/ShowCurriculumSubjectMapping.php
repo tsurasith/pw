@@ -85,7 +85,7 @@
 							m.curriculum_mapping_semester = '" . ($_j+1) . "'
 						order by 
 							FIELD(s.SubjectType,'พื้นฐาน','เพิ่มเติม','กิจกรรมพัฒนาผู้เรียน'),
-							SubjectGroup
+							SubjectGroup,m.SubjectCode
 						";
 					$_loop++;
 				} // end for loop
@@ -145,7 +145,7 @@
 								?>
 
 								<tr <?=$_bg_color?>>
-									<td align="center"><?=$_dat['SubjectCode']?></td>
+									<td align="center"><?=$_dat['SubjectHour']!="0"?" ".$_dat['SubjectCode']:"<font color='red'>*</font>".$_dat['SubjectCode']?></td>
 									<td><?=$_dat['SubjectName']?></td>
 									<td align="center"><?=$_dat['SubjectUnit']?></td>
 									<td align="center"><?=$_dat['SubjectHour']?></td>
@@ -161,6 +161,8 @@
 				</tr>
 				<? } ?>
 			</table>
+			<br/>
+			<div align="center"><font color='red'>*</font> หมายถึง รายวิชาที่เรียนกนอกตารางเรียน</div>
 		</div>
 	<? } else { ?>
 

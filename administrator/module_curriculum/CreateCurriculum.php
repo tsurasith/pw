@@ -34,11 +34,11 @@
 
 		$_res = mysqli_query($_connection,$_sql_insert);
 		if($_res){
-			$_processing_text = "บันทึกข้อมูลหลักสูตรการสอน (แผนการเรียน) เรียบร้อยแล้ว";
+			$_processing_text = "บันทึกข้อมูล แผนการเรียน เรียบร้อยแล้ว";
 			$_processing_result = true;
 
 			// line message here
-			$_text .= "หลักสูตรการสอน (แผนการเรียน): ";
+			$_text .= "แผนการเรียน: ";
 			$_text .= trim($_POST['curriculum_name']) . " ถูกเพิ่มเข้าในระบบแล้ว";
 			$_text .= "\n" . "โดย - " . $_SESSION['shortname'];
 
@@ -59,12 +59,12 @@
 			}
 
 		}else{
-			$_processing_text  = "เกิดข้อผิดพลาด ไม่สามารถบันทึกข้อมูลหลักสูตรการสอน (แผนการเรียน) ได้" . "<br/>";
+			$_processing_text  = "เกิดข้อผิดพลาด ไม่สามารถบันทึกข้อมูลแผนการเรียนได้" . "<br/>";
 			$_processing_text .= "อาจจะเกิดจากการต้องการบันทึกข้อมูลซ้ำ หรือ แจ้งข้อความนี้ต่อผู้ดูแลระบบ -" . mysqli_error($_connection);
 		}
 
 	}else{
-		$_processing_text = "การป้อนข้อมูลบันทึกไม่ถูกต้อง ท่านอาจจะไม่ได้ระบุ รหัสหลักสูตร หรือ ชื่อหลักสูตร กรุณาตรวจสอบอีกครั้ง";
+		$_processing_text = "การป้อนข้อมูลบันทึกไม่ถูกต้อง ท่านอาจจะไม่ได้ระบุ รหัสแผนการเรียน หรือ ชื่อแผนการเรียน กรุณาตรวจสอบอีกครั้ง";
 	}
 
 ?>
@@ -92,7 +92,25 @@
   
 	<div align="center">
 		<?php
-			$_sql_cur = "select * from curriculums order by curriculum_level,curriculum_code ";
+			$_sql_cur = "
+					select
+						c.curriculum_id
+						,c.curriculum_code
+						,c.curriculum_level
+						,c.curriculum_name
+						,c.curriculum_start_year
+						,c.curriculum_status
+						,c.curriculum_description
+						,c.updated_datetime
+						,count(m.SubjectCode) as 'c'
+					from
+						curriculums c left join curriculum_subject_mappings m
+						on (c.curriculum_id = m.curriculum_id and c.curriculum_code = m.curriculum_code)
+					group by
+						c.curriculum_id
+					order by
+						c.curriculum_level,curriculum_code		
+				";
 			$_res_curr = mysqli_query($_connection,$_sql_cur);
 			$_rows = mysqli_num_rows($_res_curr);
 			$_no = 1;
@@ -107,10 +125,10 @@
 				</tr>
 				<tr height="35px"> 
 					<td class="key" width="25px" align="center">ที่</td>
-					<td class="key" width="80px" align="center">รหัสหลักสูตร</td>
-					<td class="key" width="130px" align="center">ระดับการศึกษา</td>
+					<td class="key" width="80px" align="center">รหัสแผน<br/>การเรียน</td>
+					<td class="key" width="115px" align="center">ระดับการศึกษา</td>
 					<td class="key" width="60px" align="center">ปีที่เริ่มใช้</td>
-					<td class="key" width="280px" align="center">ชื่อหลักสูตร (แผนการเรียน)</td>
+					<td class="key" width="300px" align="center">ชื่อแผนการเรียน</td>
 					<td class="key" width="90px" align="center">สถานะ</td>
 					<td class="key" width="80px" align="center">จำนวนวิชาที่เปิดสอน</td>
 					<td class="key" width="160px" align="center">แก้ไขล่าสุด</td>
@@ -123,18 +141,32 @@
 						<td align="center"><?=displayEducationLevel($_dat['curriculum_level'])?></td>
 						<td align="center"><?=$_dat['curriculum_start_year']?></td>
 						<td><?=$_dat['curriculum_name']?></td>
-						<td align="center"><?=$_dat['curriculum_status']?></td>
-						<td align="center">-</td>
+						<td align="center"><?=$_dat['curriculum_status']=="ACTIVE"?"ยังใช้งานอยู่":"หยุดทำการสอน"?></td>
+						<td align="center"><?=$_dat['c']?></td>
 						<td align="center"><?=$_dat['updated_datetime']?></td>
 						<td align="center">
-							แก้ไข
+							<form action="index.php?option=module_curriculum/ModifyCurriculum" method="post">
+								<input type="hidden" name="curriculum_id" value="<?=$_dat['curriculum_id']?>"/>
+								<input type="hidden" name="curriculum_name" value="<?=$_dat['curriculum_name']?>"/>
+								<input type="hidden" name="curriculum_level" value="<?=$_dat['curriculum_level']?>"/>
+								<input type="hidden" name="subject_count" value="<?=$_dat['c']?>"/>
+								<input type="submit" name="edit" value="แก้ไข"/>
+							</form>
 						</td>
 						<td align="center">
+							<?
+								$_disable_text = "";
+								if($_dat['c']!="0"){
+									$_disable_text = "";
+									//$_disable_text = "disabled";
+								}
+							?>
 							<form action="index.php?option=module_curriculum/DeleteCurriculum" method="post">
 								<input type="hidden" name="curriculum_id" value="<?=$_dat['curriculum_id']?>"/>
 								<input type="hidden" name="curriculum_name" value="<?=$_dat['curriculum_name']?>"/>
 								<input type="hidden" name="curriculum_level" value="<?=$_dat['curriculum_level']?>"/>
-								<input type="submit" name="delete" value="ลบ"/>
+								<input type="hidden" name="subject_count" value="<?=$_dat['c']?>"/>
+								<input type="submit" name="delete" value="ลบ" <?=$_disable_text?> />
 							</form>	
 						</td>
 					</tr>
@@ -150,10 +182,10 @@
 		<form action="" method="post" autocomplete="off">
 			<table class="admintable">
 				<tr height="35px">
-					<td class="key" colspan="2"> &nbsp; ส่วนเพิ่มหลักสูตรการสอน (แผนการเรียน)</td>
+					<td class="key" colspan="2"> &nbsp; ส่วนเพิ่มแผนการเรียน</td>
 				</tr>
 				<tr>
-					<td align="right" width="200px"> รหัสหลักสูตร </td>
+					<td align="right" width="200px"> รหัสแผนการเรียน </td>
 					<td> <input type="text" name="curriculum_code" size="15" class="inputboxUpdate" maxlength="20" /> </td>
 				</tr>
 				<tr>
@@ -169,11 +201,11 @@
 					</td>
 				</tr>
 				<tr>
-					<td  align="right"> ชื่อหลักสูตร (แผนการเรียน) </td>
+					<td  align="right"> ชื่อแผนการเรียน </td>
 					<td> <input type="text" name="curriculum_name" size="50" class="inputboxUpdate" maxlength="150" /> </td>
 				</tr>
 				<tr>
-					<td align="right"> ปีที่เริ่มใช้หลักสูตร </td>
+					<td align="right"> ปีที่เริ่มใช้แผนการเรียน </td>
 					<td> 
 						<select name="curriculum_start_year" class="inputboxUpdate">
 							<? for($_i=0;$_i<15;$_i++){
@@ -186,7 +218,7 @@
 					</td>
 				</tr>
 				<tr>
-					<td align="right"> สถานะหลักสูตร </td>
+					<td align="right"> สถานะแผนการเรียน </td>
 					<td> 
 						<select name="curriculum_status" class="inputboxUpdate">
 							<option value="ACTIVE">ยังใช้งานอยู่</option>
@@ -195,7 +227,7 @@
 					</td>
 				</tr>
 				<tr>
-					<td align="right" valign="top"> คำอธิบายหลักสูตร (แผนการเรียน) </td>
+					<td align="right" valign="top"> คำอธิบายแผนการเรียน </td>
 					<td><textarea name="curriculum_description" rows="4" cols="75"></textarea></td>
 				</tr>
 				<tr>

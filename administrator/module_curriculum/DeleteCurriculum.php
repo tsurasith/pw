@@ -9,15 +9,21 @@
 			DELETE FROM `curriculums`
 			WHERE
 				`curriculum_id` = '" . trim($_POST['curriculum_id']) . "'
-		";
+			";
 
+		$_sql_delete_mapping = "
+			DELETE FROM `curriculum_subject_mappings`
+			WHERE
+				`curriculum_id` = '" . trim($_POST['curriculum_id']) . "'; 
+				";
+		$_res_mapping = mysqli_query($_connection,$_sql_delete_mapping);
 		$_res = mysqli_query($_connection,$_sql_delete);
-		if($_res){
-			$_processing_text = "ลบข้อมูลหลักสูตรการสอน (แผนการเรียน) เรียบร้อยแล้ว";
+		if($_res && $_res_mapping){
+			$_processing_text = "ลบข้อมูลแผนการเรียนเรียบร้อยแล้ว";
 			$_processing_result = true;
 
 			// line message here
-			$_text .= "หลักสูตรการสอน (แผนการเรียน): ";
+			$_text .= "แผนการเรียน: ";
 			$_text .= trim($_POST['curriculum_name']) . " ถูกลบออกจากระบบแล้ว ";
 			$_text .= "\n" . "โดย - " . $_SESSION['shortname'];
 
@@ -38,12 +44,12 @@
 			}
 			header("Location: index.php?option=module_curriculum/CreateCurriculum");
 		}else{
-			$_processing_text  = "เกิดข้อผิดพลาด ไม่สามารถลบข้อมูลหลักสูตรการสอน (แผนการเรียน) ได้" . "<br/>";
+			$_processing_text  = "เกิดข้อผิดพลาด ไม่สามารถลบข้อมูลแผนการเรียนได้" . "<br/>";
 			$_processing_text .= "แจ้งข้อความนี้ต่อผู้ดูแลระบบ -" . mysqli_error($_connection);
 		}
 
 	}else{
-		$_processing_text = "ไม่พบหลักสูตรที่ต้องการ กรุณาตรวจสอบอีกครั้ง";
+		$_processing_text = "ไม่พบแผนการเรียนที่ต้องการ กรุณาตรวจสอบอีกครั้ง";
 	}
 
 ?>
@@ -58,7 +64,7 @@
 				</a>
 				</td>
 				<td width="64%"><strong><font color="#990000" size="4">การจัดการหลักสูตรและการสอน</font></strong><br />
-					<span class="normal"><font color="#0066FF"><strong>3.3 เพิ่ม/แก้ไข หลักสูตรการเรียนการสอน (แผนการเรียน) - ยืนยันการลบหลักสูตร</strong></font></span>
+					<span class="normal"><font color="#0066FF"><strong>3.3 เพิ่ม/แก้ไข หลักสูตรการเรียนการสอน (แผนการเรียน) - ยืนยันการลบแผนการเรียน</strong></font></span>
 				</td>
 				<td >
 					ปีการศึกษา <?=$acadyear?>
@@ -81,14 +87,14 @@
 					<font color='red'>	
 					ข้อมูล หลักสูตร และ แผนการสอน ที่ต้องการลบ
 					 <br/>
-					หากต้องการลบหลักสูตรการสอน (แผนการเรียน) นี้ให้คลิกที่ปุ่ม ยืนยันลบ ด้านล่าง<br/><br/>
+					หากต้องการลบแผนการเรียนนี้ ให้คลิกที่ปุ่ม ยืนยันลบ ด้านล่าง<br/><br/>
 				</th>
 				</tr>
 				<tr height="35px"> 
-					<td class="key" width="80px" align="center">รหัสหลักสูตร</td>
+					<td class="key" width="80px" align="center">รหัสแผน<br/>การเรียน</td>
 					<td class="key" width="130px" align="center">ระดับการศึกษา</td>
 					<td class="key" width="60px" align="center">ปีที่เริ่มใช้</td>
-					<td class="key" width="280px" align="center">ชื่อหลักสูตร (แผนการเรียน)</td>
+					<td class="key" width="280px" align="center">ชื่อแผนการเรียน</td>
 					<td class="key" width="90px" align="center">สถานะ</td>
 					<td class="key" width="80px" align="center">จำนวนวิชาที่เปิดสอน</td>
 					<td class="key" width="160px" align="center">แก้ไขล่าสุด</td>
@@ -99,8 +105,8 @@
 						<td><?=displayEducationLevel($_dat['curriculum_level'])?></td>
 						<td align="center"><?=$_dat['curriculum_start_year']?></td>
 						<td><?=$_dat['curriculum_name']?></td>
-						<td align="center"><?=$_dat['curriculum_status']?></td>
-						<td align="center">-</td>
+						<td align="center"><?=$_dat['curriculum_status']=="ACTIVE"?"ยังใช้งานอยู่":"หยุดทำการสอน"?></td>
+						<td align="center"><?=$_POST['subject_count']?></td>
 						<td align="center"><?=$_dat['updated_datetime']?></td>
 				</tr>
 				<tr>

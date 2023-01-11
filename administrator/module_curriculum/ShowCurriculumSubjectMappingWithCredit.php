@@ -168,7 +168,7 @@
 										?>
 
 										<tr <?=$_bg_color?>>
-											<td valign="top" width="70px" align="center"><?=$_dat['SubjectCode']?></td>
+											<td valign="top" width="70px" align="center"><?=$_dat['SubjectHour']!="0"?" ".$_dat['SubjectCode']:"<font color='red'>*</font>".$_dat['SubjectCode']?></td>
 											<td valign="top" width="160px" ><?=$_dat['SubjectName']?></td>
 											<td valign="top" width="50px" align="center"><?=$_dat['SubjectUnit']?></td>
 											<td valign="top" width="50px" align="center"><?=$_dat['SubjectHour']?></td>
@@ -196,7 +196,7 @@
 										?>
 
 										<tr <?=$_bg_color?>>
-											<td valign="top" width="70px" align="center"><?=$_dat['SubjectCode']?></td>
+											<td valign="top" width="70px" align="center"><?=$_dat['SubjectHour']!="0"?" ".$_dat['SubjectCode']:"<font color='red'>*</font>".$_dat['SubjectCode']?></td>
 											<td valign="top" width="160px" ><?=$_dat['SubjectName']?></td>
 											<td valign="top" width="50px" align="center"><?=$_dat['SubjectUnit']?></td>
 											<td valign="top" width="50px" align="center"><?=$_dat['SubjectHour']?></td>
@@ -240,7 +240,7 @@
 										?>
 
 										<tr <?=$_bg_color?>>
-											<td valign="top" width="70px" align="center"><?=$_dat['SubjectCode']?></td>
+											<td valign="top" width="70px" align="center"><?=$_dat['SubjectHour']!="0"?" ".$_dat['SubjectCode']:"<font color='red'>*</font>".$_dat['SubjectCode']?></td>
 											<td valign="top" width="160px" ><?=$_dat['SubjectName']?></td>
 											<td valign="top" width="50px" align="center"><?=$_dat['SubjectUnit']?></td>
 											<td valign="top" width="50px" align="center"><?=$_dat['SubjectHour']?></td>
@@ -268,7 +268,7 @@
 										?>
 
 										<tr <?=$_bg_color?>>
-											<td valign="top" width="70px" align="center"><?=$_dat['SubjectCode']?></td>
+											<td valign="top" width="70px" align="center"><?=$_dat['SubjectHour']!="0"?" ".$_dat['SubjectCode']:"<font color='red'>*</font>".$_dat['SubjectCode']?></td>
 											<td valign="top" width="160px" ><?=$_dat['SubjectName']?></td>
 											<td valign="top" width="50px" align="center"><?=$_dat['SubjectUnit']?></td>
 											<td valign="top" width="50px" align="center"><?=$_dat['SubjectHour']?></td>
@@ -312,7 +312,7 @@
 										?>
 
 											<tr <?=$_bg_color?>>
-											<td valign="top" width="70px" align="center"><?=$_dat['SubjectCode']?></td>
+											<td valign="top" width="70px" align="center"><?=$_dat['SubjectHour']!="0"?" ".$_dat['SubjectCode']:"<font color='red'>*</font>".$_dat['SubjectCode']?></td>
 											<td valign="top" width="160px" ><?=$_dat['SubjectName']?></td>
 											<td valign="top" width="50px" align="center"><?=$_dat['SubjectUnit']?></td>
 											<td valign="top" width="50px" align="center"><?=$_dat['SubjectHour']?></td>
@@ -340,7 +340,7 @@
 										?>
 
 										<tr <?=$_bg_color?>>
-											<td valign="top" width="70px" align="center"><?=$_dat['SubjectCode']?></td>
+											<td valign="top" width="70px" align="center"><?=$_dat['SubjectHour']!="0"?" ".$_dat['SubjectCode']:"<font color='red'>*</font>".$_dat['SubjectCode']?></td>
 											<td valign="top" width="160px" ><?=$_dat['SubjectName']?></td>
 											<td valign="top" width="50px" align="center"><?=$_dat['SubjectUnit']?></td>
 											<td valign="top" width="50px" align="center"><?=$_dat['SubjectHour']?></td>
@@ -396,6 +396,8 @@
 					<tr></tr>
 				<? } ?>
 			</table>
+			<br/>
+			<div align="center"><font color='red'>*</font> หมายถึง รายวิชาที่เรียนกนอกตารางเรียน</div>
 		</div>
 	<? } else { ?>
 
