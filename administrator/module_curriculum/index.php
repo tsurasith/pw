@@ -44,6 +44,15 @@
 			<td>&nbsp;</td>
 			<td><a href="index.php?option=module_curriculum/ShowCurriculumSubjectMappingWithCredit2">2.4 แสดงรายวิชาตามโครงสร้างแผนการเรียนและสรุปหน่วยการเรียน (รูปแบบ 2)</td> 
 		</tr>
+		<? if(
+                        $_SESSION['username'] == "admin" || 
+                        $_SESSION['username'] == "tc100" || 
+                        $_SESSION['username'] == "tc101" || 
+                        $_SESSION['username'] == "tc102" || 
+                        $_SESSION['username'] == "tc103" ||
+                        $_SESSION['username'] == "tc137" || $_SESSION['username'] == "tc111" ||
+                        $_SESSION['username'] == "tc144" || $_SESSION['username'] == "tc113" 
+                    ) { ?>
        <tr>
 			<td class="key" colspan="2">3. การจัดการหลักสูตรรายวิชา และ โครงสร้างการหลักสูตร </td>
 	   </tr>
@@ -68,6 +77,7 @@
 			<td><a href="index.php?option=module_curriculum/CreateCurriculum">3.5 เพิ่ม/แก้ไข หลักสูตรการเรียนการสอน (แผนการเรียน)</a></td>
 			<!-- <td><a href="index.php?option=module_curriculum/gradeEdit">3.1 แก้ไขผลการเรียนนักเรียน</a></td> -->
         </tr>    
+		<? } ?>
 	</table>
 				  
 </div>

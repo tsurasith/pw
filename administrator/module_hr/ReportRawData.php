@@ -16,7 +16,11 @@
 									trim(check_date) as check_date
 								from 
 									hr_fingerprint_tmp
-								order by right(check_date,4) desc " ;
+								order by 
+									right(trim(check_date),4) desc,
+									substr(trim(check_date),4,2) desc,
+									left(trim(check_date),2) desc
+								" ;
 							//echo $sql_Room ;
 							$resPeriod = mysqli_query($_connection,$sql_period);		
 					?>
@@ -59,9 +63,9 @@
     <tr height="35px"> 
       	<td class="key" width="40px" align="center">ที่</td>
 		<td class="key" width="200px" align="center">ชื่อ-สกุล</td>
-		<td class="key" width="70px" align="center">เวลาลงชื่อเข้า</td>
+		<td class="key" width="80px" align="center">เวลาสแกน 1</td>
 		<!--<td class="key" width="70px" align="center">แปรผล</td>-->
-		<td class="key" width="70px" align="center">เวลาลงชื่อออก</td>
+		<td class="key" width="80px" align="center">เวลาสแกน 2</td>
 		<!--<td class="key" width="70px" align="center">แปรผล</td>-->
 		<td class="key" align="center">-</td>
     </tr>
