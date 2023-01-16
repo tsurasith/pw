@@ -196,6 +196,15 @@
                 </div>
                 <? } ?>
 
+                <div style="float:left;">
+                    <div class="icon">
+                        <a href="index.php?option=module_reg/index">
+                        <img src="../images/color.png" alt="ทะเบียนนักเรียน" align="middle" border="0" />
+                        <span>งานทะเบียนนักเรียน</span>
+                        </a>
+                    </div> 
+                </div>
+                
                 <div style="float:left;display:none;">
                     <div class="icon">
                         <a href="index.php?option=module_color/index">

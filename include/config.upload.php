@@ -35,5 +35,10 @@
     /* import fingerprint raw data */
     $_hr_raw_folder      = "/pwnew/pw/hr_files";
 
+    /* absents attachments path */
+    $_hr_absent_folder   = "/pwnew/pw/hr_absent_files";
     
+
+    /* student LEC path files */
+    $_student_lec_folder = "/pwnew/pw/student_lec_files";
 ?>
