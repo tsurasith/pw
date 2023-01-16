@@ -21,88 +21,55 @@
 		<form action="" method="post" autocomplete="off">
 			<table class="admintable">
 				<tr height="35px">
-					<td class="key" colspan="3"> &nbsp; ตัวเลือกในการสืบค้นข้อมูลนักเรียน</td>
+					<td class="key" colspan="2"> &nbsp; ตัวเลือกในการสืบค้นข้อมูลนักเรียนฐานข้อมูลระบบ LEC</td>
 				</tr>
 				<tr>
-					<td align="right" > เลขประจำตัว </td>
+					<td align="right" valign="top"> เลขประจำตัว :</td>
 					<td>
 						<input type="text" name="student_id" value="<?=(isset($_POST['student_id'])?trim($_POST['student_id']):"")?>" class="inputboxUpdate" size="5" maxlength="5" /> 
-					</td>
-					<td>
-						<table cellpadding="0" cellspacing="0">
-							<tr>
-								<td align="right"  width="85px"> เพศ </td>
-								<td> 
-									<?php
-										$_sql = "select distinct student_gender from students_lec_system order by 1";
-										$_resstudent_gender = mysqli_query($_connection,$_sql);
-									?> 
-									<select name="student_gender" class="inputboxUpdate">
-										<option value="" <?=(isset($_POST['student_gender']) && $_POST['student_gender']==""?"selected":"")?>>ทั้งหมด</option>
-										<? while($_dat = mysqli_fetch_assoc($_resstudent_gender)){ ?> 
-												<option value="<?=$_dat['student_gender']?>" <?=(isset($_POST['student_gender']) && $_POST['student_gender']==$_dat['student_gender']?"selected":"")?>>
-													<?=$_dat['student_gender']?>
-												</option>
-										<? } ?>
-									</select>
-								</td>
-							</tr>
-						</table>
+						<br/>ถ้าต้องการสืบค้นนักเรียนที่มีเลขประจำตัวขึ้นต้นด้วย 07 ทั้งหมดสามารถป้อน 07% เพื่อสืบค้นได้
+						<br/>ถ้าหากต้องการค้นหานักเรียนที่มีเลขประจำตัวลงด้วยด้วย 123 สามารถป้อน %123 เพื่อสืบค้นได้
 					</td>
 				</tr>
 				<tr>
-					<td align="right" > ชื่อ </td>
+					<td align="right" > ชื่อ :</td>
 					<td>
 						<input type="text" name="student_firstname" value="<?=(isset($_POST['student_firstname'])?trim($_POST['student_firstname']):"")?>" class="inputboxUpdate" size="15" maxlength="30" /> 
-					</td>
-					<td>
-						<table cellpadding="0" cellspacing="0">
-							<tr>
-								<td align="right" width="85px"> ระดับชั้น </td>
-								<td> 
-									<?php
-										$_sql = "select distinct student_class_level from students_lec_system order by 1";
-										$_resLevel = mysqli_query($_connection,$_sql);
-									?> 
-									<select name="student_class_level" class="inputboxUpdate">
-										<option value=""    <?=(isset($_POST['student_class_level']) && $_POST['student_class_level']==""?"selected":"")?> >ทั้งหมด</option>
-										<? while($_dat = mysqli_fetch_assoc($_resLevel)) { ?> 
-											<option value="<?=$_dat['student_class_level']?>" <?=(isset($_POST['student_class_level']) && $_POST['student_class_level']==$_dat['student_class_level']?"selected":"")?> >
-												ชั้นมัธยมศึกษาปีที่ <?=$_dat['student_class_level']?>
-											</option>
-										<? } ?>
-									</select>
-								</td>
-							</tr>
-						</table>
+						 &nbsp; &nbsp; 
+						 นามสกุล :
+						 <input type="text" name="student_lastname" value="<?=(isset($_POST['student_lastname'])?trim($_POST['student_lastname']):"")?>" size="15" class="inputboxUpdate" maxlength="30" /> 
 					</td>
 				</tr>
 				<tr>
-					<td align="right"  width="85px"> นามสกุล </td>
-					<td >
-						<input type="text" name="student_lastname" value="<?=(isset($_POST['student_lastname'])?trim($_POST['student_lastname']):"")?>" size="15" class="inputboxUpdate" maxlength="30" /> 
-					</td>
+					<td align="right" width="85px"> ระดับชั้น :</td>
 					<td>
-						<table cellpadding="0" cellspacing="0">
-							<tr>
-								<td align="right"  width="85px"> ห้อง</td>
-								<td> 
-									<?php
-										$_sqlGroup = "select distinct student_room from students_lec_system order by 1";
-										$_resGroup = mysqli_query($_connection,$_sqlGroup);
+						<?php
+							$_sql = "select distinct student_class_level from students_lec_system order by 1";
+							$_resLevel = mysqli_query($_connection,$_sql);
+						?> 
+						<select name="student_class_level" class="inputboxUpdate">
+							<option value=""    <?=(isset($_POST['student_class_level']) && $_POST['student_class_level']==""?"selected":"")?> >ทั้งหมด</option>
+							<? while($_dat = mysqli_fetch_assoc($_resLevel)) { ?> 
+								<option value="<?=$_dat['student_class_level']?>" <?=(isset($_POST['student_class_level']) && $_POST['student_class_level']==$_dat['student_class_level']?"selected":"")?> >
+									<?=$_dat['student_class_level']?>
+								</option>
+							<? } ?>
+						</select>
+						 &nbsp; &nbsp; 
+						 ห้อง : 
+						 <?php
+								$_sqlGroup = "select distinct student_room from students_lec_system order by 1";
+								$_resGroup = mysqli_query($_connection,$_sqlGroup);
 
-									?>
-									<select name="student_room" class="inputboxUpdate">
-										<option value="" <?=(isset($_POST['student_room']) && $_POST['student_room']==""?"selected":"")?>>ทั้งหมด</option>	
-										<? while($_datG = mysqli_fetch_assoc($_resGroup)){ ?>
-											<option value="<?=$_datG['student_room']?>" <?=(isset($_POST['student_room']) && $_POST['student_room']==$_datG['student_room']?"selected":"")?>>
-												<?=$_datG['student_room']?>
-											</option>
-										<? } // end while ?>
-									</select>
-								</td>
-							</tr>
-						</table>
+							?>
+							<select name="student_room" class="inputboxUpdate">
+								<option value="" <?=(isset($_POST['student_room']) && $_POST['student_room']==""?"selected":"")?>>ทั้งหมด</option>	
+								<? while($_datG = mysqli_fetch_assoc($_resGroup)){ ?>
+									<option value="<?=$_datG['student_room']?>" <?=(isset($_POST['student_room']) && $_POST['student_room']==$_datG['student_room']?"selected":"")?>>
+										<?=$_datG['student_room']?>
+									</option>
+								<? } // end while ?>
+							</select>
 					</td>
 				</tr>
 				<tr>
@@ -120,7 +87,32 @@
 								</option>
 							<? } ?>
 						</select>
+						 &nbsp; &nbsp; 
+						 เพศ : 
+						 	<?php
+								$_sql = "select distinct student_gender from students_lec_system order by 1";
+								$_resstudent_gender = mysqli_query($_connection,$_sql);
+							?> 
+							<select name="student_gender" class="inputboxUpdate">
+								<option value="" <?=(isset($_POST['student_gender']) && $_POST['student_gender']==""?"selected":"")?>>ทั้งหมด</option>
+								<? while($_dat = mysqli_fetch_assoc($_resstudent_gender)){ ?> 
+										<option value="<?=$_dat['student_gender']?>" <?=(isset($_POST['student_gender']) && $_POST['student_gender']==$_dat['student_gender']?"selected":"")?>>
+											<?=$_dat['student_gender']?>
+										</option>
+								<? } ?>
+							</select>
 					</td>
+				</tr>
+				<tr>
+					<td></td>
+					<td>
+						<input type="radio" name="order_by" value="id"   <?=isset($_POST['order_by'])&&$_POST['order_by']=="id"?"checked":""?>> เรียงตามเลขประจำตัว  &nbsp; 
+						<input type="radio" name="order_by" value="name" <?=isset($_POST['order_by'])&&$_POST['order_by']=="name"?"checked":""?>> เรียงตามใบรายชื่อ (เพศ, ชื่อ, เลขประจำตัว)
+						<br/><br/>
+					</td>
+				</tr>
+				<tr>
+					<td></td>
 					<td colspan="2">
 						<input type="submit" name="search"  value="สืบค้น" /> 
 						<input type="reset" name="reset" value="ล้างข้อมูล" /> 
@@ -174,7 +166,15 @@
 				$_sql_search .= " AND acadyear = '" . $_POST['acadyear'] . "' ";
 			}
 
-			$_sql_search .= "order by student_class_level, student_room, student_gender, convert(student_firstname using tis620) ";
+			if(!isset($_POST['order_by'])){
+				$_sql_search .= " order by student_id,acadyear,student_firstname";
+			}
+			else if($_POST['order_by']=="id"){
+				$_sql_search .= " order by student_id,acadyear,student_firstname";
+			}else{
+				$_sql_search .= " order by acadyear, student_class_level, student_room, student_gender, convert(student_firstname using tis620),convert(student_lastname using tis620),student_id ";
+			}
+
 			$_resSearch = mysqli_query($_connection,$_sql_search);
 			$_rows_result = mysqli_num_rows($_resSearch);
 			$_ii = 1;
@@ -189,7 +189,7 @@
 					</td>
 				</tr>
 				<tr>
-					<td class="key" align="center" width="25px" >ที่</td>
+					<td class="key" align="center" width="35px" >ที่</td>
 					<td class="key" align="center" width="85px">เลขประจำตัว</td>
 					<td class="key" align="center" width="190px">ชื่อ - สกุล</td>
 					<td class="key" align="center" width="60px">เพศ</td>
