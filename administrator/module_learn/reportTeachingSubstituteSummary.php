@@ -189,7 +189,7 @@
 					<br/>
 					<table class="admintable">
 						<tr>
-							<th align="center" colspan="8">
+							<th align="center" colspan="10">
 							<img src="../images/school_logo.png" width="120px"><br/>
 							สรุปข้อมูลการถูกสอนแทน<br/>
 							<?php

@@ -234,7 +234,7 @@
 	<? if($_totalRows >0){  ?>
 	<table class="admintable" align="center">
 		<tr>
-			<th colspan="10" align="center">
+			<th colspan="<?=count($_date_array)+6?>" align="center">
 				<img src="../images/school_logo.png" width="120px"> <br/>
 				บันทึกการเข้าเรียน รหัสวิชา <?=$_sub[1]?> ห้อง <?=getFullRoomFormat($_sub[0])?><br/>
 				ของคุณครู <?=getUserAccountName($_connection,$_POST['teacher_id'])?> <br/>

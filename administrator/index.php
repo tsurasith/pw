@@ -196,6 +196,14 @@
                 </div>
                 <? } ?>
 
+                <? if(
+                        $_SESSION['username'] == "admin" || 
+                        $_SESSION['username'] == "tc100" || 
+                        $_SESSION['username'] == "tc101" || 
+                        $_SESSION['username'] == "tc102" || 
+                        $_SESSION['username'] == "tc103" ||
+                        $_SESSION['username'] == "tc110"
+                    ) { ?>
                 <div style="float:left;">
                     <div class="icon">
                         <a href="index.php?option=module_reg/index">
@@ -204,6 +212,7 @@
                         </a>
                     </div> 
                 </div>
+                <? } ?>
                 
                 <div style="float:left;display:none;">
                     <div class="icon">
@@ -214,6 +223,7 @@
                     </div> 
                 </div>
                 
+
                 <div style="float:left;">
                     <div class="icon">
                         <a href="index.php?option=module_profile/index">
