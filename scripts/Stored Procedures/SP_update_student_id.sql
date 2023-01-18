@@ -75,7 +75,7 @@ BEGIN
         -- 2. Table: grades
         UPDATE learn_grades
         SET
-			student_id = new_id
+			StudentCode = new_id
 		WHERE
 			StudentCode = original_id ;
 
