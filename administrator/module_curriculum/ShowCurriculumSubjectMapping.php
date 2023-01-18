@@ -162,7 +162,7 @@
 				<? } ?>
 			</table>
 			<br/>
-			<div align="center"><font color='red'>*</font> หมายถึง รายวิชาที่เรียนกนอกตารางเรียน</div>
+			<div align="center"><font color='red'>*</font> หมายถึง รายวิชาที่เรียนนอกตารางเรียน</div>
 		</div>
 	<? } else { ?>
 

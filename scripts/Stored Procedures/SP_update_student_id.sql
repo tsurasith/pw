@@ -73,11 +73,11 @@ BEGIN
 			ID = original_id and xedbe = original_xedbe and xlevel = original_xlevel and xyearth = original_yearth;
 		
         -- 2. Table: grades
-        UPDATE grades
+        UPDATE learn_grades
         SET
 			student_id = new_id
 		WHERE
-			student_id = original_id and acadyear = original_xedbe;
+			StudentCode = original_id ;
 
 		-- 3. Table: rooms
         UPDATE rooms
