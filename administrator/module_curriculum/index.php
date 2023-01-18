@@ -12,7 +12,7 @@
 		<td class="key" colspan="2">1. รายงานผล สารสนเทศ หลักสูตรและโครงสร้าง</td></tr>
 		<tr>
             <td width="20px">&nbsp;</td>
-            <td>1.1 To be announced</td>
+            <td><a href="index.php?option=module_curriculum/ReportGroupBySubjectGroup">1.1 รายงานสรุปหน่วยการเรียน แยกตามกลุ่มสาระการเรียนรู้</a></td>
 		</tr>
         <tr>
             <td width="20px">&nbsp;</td>
