@@ -9,3 +9,4 @@ images/studhome/*
 include/config.inc.php
 hr_files/*
 student_lec_files/*
+hr_absent_files/*
