@@ -37,6 +37,7 @@
 
     /* absents attachments path */
     $_hr_absent_folder   = "/pwnew/pw/hr_absent_files";
+    $_hr_img_folder      = "/hr_absent_files";
     
 
     /* student LEC path files */

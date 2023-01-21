@@ -8,30 +8,30 @@
 			{ alert('กรุณาเลือก การขออนุญาต ก่อน'); document.getElementById('absent_type').focus(); return;}
 
 		if(document.getElementById('start_absent_date').value == "")
-			{ alert('กรุณาป้อนข้อมูล วันที่เริ่มลา ก่อน'); document.getElementById('start_absent_date').focus(); return;}
+			{ alert('กรุณาป้อนข้อมูล วันที่เริ่มขออนุญาตไปราชการ ก่อน'); document.getElementById('start_absent_date').focus(); return;}
 
 		if(document.getElementById('end_absent_date').value == "")
-			{ alert('กรุณาป้อนข้อมูล วันที่สิ้นสุดการลา ก่อน'); document.getElementById('end_absent_date').focus(); return;}
+			{ alert('กรุณาป้อนข้อมูล วันที่สิ้นสุดการไปราชการ ก่อน'); document.getElementById('end_absent_date').focus(); return;}
 
 		if(Number(document.getElementById('total_absent').value) <= 0.0)
-			{ alert('กรุณาป้อนข้อมูล จำนวนระยะเวลาที่ลา ก่อน'); document.getElementById('total_absent').focus(); return; }
+			{ alert('กรุณาป้อนข้อมูล จำนวนระยะเวลาที่ไปราชการ ก่อน'); document.getElementById('total_absent').focus(); return; }
 		
 
 		if(document.getElementById('absent_details').value == "")
-			{ alert('กรุณาป้อนข้อมูล รายละเอียดประกอบการลา ก่อน'); document.getElementById('absent_details').focus(); return; }
+			{ alert('กรุณาป้อนข้อมูล รายละเอียดประกอบการไปราชการ ก่อน'); document.getElementById('absent_details').focus(); return; }
 		
 		const start_date = new Date(document.getElementById('start_absent_date').value);
 		const end_date   = new Date(document.getElementById('end_absent_date').value);
 
 		if(start_date > end_date)
 		{
-			alert('คุณป้อนข้อมูลไม่ถูกต้อง วันที่เริ่มลา มากกว่า วันสิ้นสุดการลา กรุณาตรวจสอบอีกครั้ง'); 
+			alert('คุณป้อนข้อมูลไม่ถูกต้อง วันที่ไปราชการ มากกว่า วันสิ้นสุดการไปราชการ กรุณาตรวจสอบอีกครั้ง'); 
 			document.getElementById('start_absent_date').focus(); return;
 		}
 		
 		if(document.getElementById('contact_information').value == "")
 		{ 
-			alert('กรุณาป้อนข้อมูล ผู้ติดต่อและเบอร์โทรก่อน ก่อน'); 
+			alert('กรุณาป้อนข้อมูล เลขที่บันทึกข้อความ หรือข้อความแจ้งเจ้าหน้าที่บุคลากร ก่อน'); 
 			document.getElementById('contact_information').focus(); return;  
 		}
 		else 
@@ -200,7 +200,7 @@
 					'" . $_POST['end_absent_date'] ."',
 					'" . $_POST['end_absent_time'] ."',
 					'" . $_POST['total_absent'] ."',
-					'" . $_POST['absent_type'] ."',
+					'ไปราชการ',
 					'" . $_POST['absent_type'] ."',
 					'" . trim($_POST['absent_details']) ."',
 					'" . trim($_POST['contact_information']) ."',
@@ -220,11 +220,11 @@
 			$_resInsert = mysqli_query($_connection,$_sql_absent);
 			if($_resInsert){
 
-				$_processing_text = "ท่านได้ทำการบันทึกข้อมูลการขออนุญาต <b>" . $_POST['absent_type'] . "</b> เรียบร้อยแล้ว";
+				$_processing_text = "ท่านได้ทำการบันทึกข้อมูลการขออนุญาต <b>ไป" . $_POST['absent_type'] . "</b> เรียบร้อยแล้ว";
 				$_processing_result = true;
 
 				// line message here
-				$_text .= "มีการยื่นคำขอ: " . $_POST['absent_type'] . " เข้ามาใหม่";
+				$_text .= "มีการยื่นคำขอไปราชการ: " . $_POST['absent_type'] . " เข้ามาใหม่";
 				$_text .= "\n" . "โดย - " . $_SESSION['shortname'];
 
 				$message = $_text;
@@ -261,7 +261,7 @@
 				<td width="6%" align="center"><a href="index.php?option=module_hr/index"><img src="../images/fingerprint.png" alt="" width="48px" border="0" /></a></td>
 				<td >
 					<strong><font color="#990000" size="4">งานบริหารบุคลากร</font></strong><br />
-					<span class="normal"><font color="#0066FF"><strong>1.1 บันทึกการขออนุญาตลา</strong></font></span></td>
+					<span class="normal"><font color="#0066FF"><strong>1.2 บันทึกขออนุญาตไปราชการ</strong></font></span></td>
 				<td>
 					<font  size="2" color="#000000">
 						<form name="sSelect" method="post" action="">
@@ -374,18 +374,19 @@
 					<td><input class="noborder2" type="text" size="40" readonly="true" name="position" value="<?=$_dat['position']?>"/></td>
 				</tr>
 				<tr>
-					<td align="right">ขออนุญาตลา :</td>
+					<td align="right">ขออนุญาตไปราชการ :</td>
 					<td>
 						<select name="absent_type" class="inputboxUpdate" id="absent_type">
 							<option value=""></option>
-							<option value="ลาป่วย">ลาป่วย</option>
-							<option value="ลากิจ">ลากิจ</option>
-							<option value="ลาคลอด">ลาคลอด</option>
+							<option value="ประชุม">ประชุม</option>
+							<option value="อบรม">อบรม</option>
+							<option value="ควบคุมนักเรียน">ควบคุมนักเรียน</option>
+							<option value="ศึกษาดูงาน">ศึกษาดูงาน</option>
 						</select> <font color="red">*</font>
 					</td>
 				</tr>
 				<tr>
-					<td align="right">วันที่เริ่มลา :</td>
+					<td align="right">วันที่เริ่มขออนุญาต :</td>
 					<td>
 						<input class="noborder2" type="text" id="start_absent_date" name="start_absent_date" size="10" onClick="showCalendar(this.id)"/>
 						<select name="start_absent_time" class="inputboxUpdate">
@@ -396,7 +397,7 @@
 					</td>
 				</tr>
 				<tr>
-					<td align="right">วันที่สิ้นสุดการลา :</td>
+					<td align="right">วันที่สิ้นสุดการขออนุญาต :</td>
 					<td>
 						<input class="noborder2" type="text" id="end_absent_date" name="end_absent_date" size="10" onClick="showCalendar(this.id)"/>
 						<select name="end_absent_time" class="inputboxUpdate">
@@ -407,15 +408,15 @@
 					</td>
 				</tr>
 				<tr>
-					<td align="right">รวมระยะการลา :</td>
+					<td align="right">รวมระยะการไปปฏิบัติราชการ :</td>
 					<td><input type="text" name="total_absent" id="total_absent" class="noborder2" value="0" size="3" maxlength="4" onKeyPress="return isDecimalKey(this,event)"/> วัน <font color="red">*</font></td>
 				</tr>
 				<tr>
-					<td align="right" valign="top">รายละเอียดประกอบการลา :</td>
+					<td align="right" valign="top">รายละเอียดเพิ่มเติมสำหรับการขออนุญาต :</td>
 					<td><textarea class="inputboxUpdate" name="absent_details" id="absent_details" rows="4" cols="60"></textarea><font color="red">*</font></td>
 				</tr>
 				<tr>
-					<td align="right">ชื่อผู้ติดต่อระหว่างลา:</td>
+					<td align="right">เลขที่บันทึกข้อความ :</td>
 					<td><input class="noborder2" type="text" name="contact_information" id="contact_information" size="50"/><font color="red">*</font></td>
 				</tr>
 				<tr>
