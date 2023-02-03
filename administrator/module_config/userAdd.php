@@ -107,7 +107,7 @@
 		}
 		else
 		{
-			$_user_account_id = gen_uuid();
+			$_user_account_id = strtoupper(gen_uuid());
 
 			$_sql_user_account = "
 			INSERT INTO `users_account`(
@@ -152,7 +152,7 @@
 						'" . $_POST['prefix'] . "',
 						'" . $_POST['firstname'] . "',
 						'" . $_POST['lastname'] . "',
-						'" .$_POST['nickname'] . "',
+						'" . $_POST['nickname'] . "',
 						'" . $_POST['position'] . "',
 						'" . $_POST['t_phone'] . "',
 						'" . $_POST['t_mobile'] . "',
@@ -165,6 +165,44 @@
 				{
 					if(mysqli_query($_connection,$_sql_user_account)){
 						echo "<center><br/><font color='green'><b>บันทึกแก้ไขข้อมูลเรียบร้อยแล้ว</b></font><br/></center>";
+						$_sql_insert_staff = "
+								INSERT INTO `hr_staff`(
+									`staff_id`,
+									`TeacCode`,
+									`prefix`,
+									`firstname`,
+									`lastname`,
+									`nickname`,
+									`position`,
+									`staff_status`,
+									`phone_number`,
+									`mobile_number`,
+									`email`,
+									`created_datetime`,
+									`created_user`,
+									`updated_datetime`,
+									`updated_user`
+								)
+								VALUES(
+									'" . $_user_account_id . "',
+									'" . trim($_POST['teaccode']) . "',
+									'" . trim($_POST['prefix']) . "',
+									'" . trim($_POST['firstname']) . "',
+									'" . trim($_POST['lastname']) . "',
+									'" . trim($_POST['nickname']) . "',
+									'" . trim($_POST['position']) . "',
+									'ACTIVE',
+									'" . trim($_POST['t_phone']) . "',
+									'" . trim($_POST['t_mobile']) . "',
+									'" . trim($_POST['t_email']) . "',
+									CURRENT_TIMESTAMP,
+									'" . $_SESSION['user_account_id'] . "',
+									CURRENT_TIMESTAMP,
+									'" . $_SESSION['user_account_id'] . "'
+								)
+							";
+						$_res_staff = mysqli_query($_connection,$_sql_insert_staff);
+
 					}else{
 						echo "<center><br/><font color='red'>บันทึกข้อมูลผิดพลาด เนื่องจาก - " . mysqli_error($_connection) . "</font><br/><br/></center>";
 					}

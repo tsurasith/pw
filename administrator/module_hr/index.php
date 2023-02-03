@@ -36,7 +36,7 @@
 	<tr>
 		<td width="20px">&nbsp;</td>
 		<td>
-			1.4 ตรวจสอบคำร้องขอและส่งคำร้องเพื่อขออนุมัติ
+			<a href="index.php?option=module_hr/ReviewsRequestAbsent">1.4 ตรวจสอบคำร้องขอและส่งคำร้องเพื่อขออนุมัติ</a>
 		</td>
 	</tr>
 	<tr>
@@ -59,7 +59,7 @@
 	<tr>
 		<td width="20px">&nbsp;</td>
 		<td>
-			2.2 TBA
+			2.2 รายงานสรุปจำนวนบุคลากร
 		</td>
 	</tr>
 	<tr>
