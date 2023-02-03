@@ -62,6 +62,25 @@
 			&nbsp; &nbsp; <a href="index.php?option=module_projects/xReportStandardYearName">2.2.7 รายงานสรุปกิจกรรมโครงการตามมาตรฐานและตัวชี้วัด(เรียงตามกิจกรรมโครงการ)</a><br/>
 		</td>
 	</tr>
+	<tr>
+			<td class="key" colspan="2">3. การจัดการข้อมูลอ้างอิงที่เกี่ยวข้อง </td>
+	   </tr>
+	   <tr>
+        	<td>&nbsp;</td>
+			<td><a href="index.php?option=module_projects/ModifyIncomeType">3.1 เพิ่ม/แก้ไข ประเภทของเงินรายได้</a></td>
+        </tr> 
+		<tr>
+        	<td>&nbsp;</td>
+			<td><a href="index.php?option=module_projects/ModifyIncomeType">3.2 เพิ่ม/แก้ไข ประเภทของเงินรายได้(ลำดับรอง)</a></td>
+        </tr> 
+		<tr>
+        	<td>&nbsp;</td>
+			<td><a href="index.php?option=module_projects/DeleteSubject">3.3 ลบ รายวิชาที่เปิดสอน</a></td>
+        </tr>  
+		<tr>
+        	<td>&nbsp;</td>
+			<td><a href="index.php?option=module_projects/CurriculumMapping">3.4 จัดการรายวิชาที่บรรจุในแผนการเรียน</a></td>
+        </tr>
 </table>
 
 </div>

@@ -1,40 +1,22 @@
-﻿<?php
-	if(!isset($_SESSION['pw-logined']) && $_SESSION['pw-type'] != 'admin') {
-		?><meta http-equiv="refresh" content="0;url=../../index.php"><?
-	} else
-	{
-?>
-<SCRIPT language="javascript" type="text/javascript">
-      <!--
-      function isNumberKey(evt)
-      {
-         var charCode = (evt.which) ? evt.which : event.keyCode
-         if (charCode > 31 && (charCode < 48 || charCode > 57))
-            return false;
-
-         return true;
-      }
-      //-->
-   </SCRIPT>
+﻿
 <style type="text/css">
-<!--
-.style1 {color: #FF0000}
--->
+  .style1 {color: #FF0000}
 </style>
+
 <div id="content">
-<table width="100%" border="0" align="center" cellpadding="0" cellspacing="10" class="header">
-  <tr>
-    <td width="6%" align="center">
-		<a href="index.php?option=module_profile/index">
-			<img src="../images/profile.png" alt="" height="48" />
-		</a>
-	</td>
-    <td >Profile - ข้อมูลส่วนตัว<br />
-		<span class="normal">แก้ไขข้อมูลส่วนตัว</span>
-	</td>
-    <td width="100px">&nbsp;</td>
-  </tr>
-</table>
+  <table width="100%" border="0" align="center" cellpadding="0" cellspacing="10" class="header">
+    <tr>
+      <td width="6%" align="center">
+        <a href="index.php?option=module_profile/index">
+          <img src="../images/profile.png" alt="" height="48" />
+        </a>
+      </td>
+      <td >
+        Profile - ข้อมูลส่วนตัว<br /> <span class="normal">แก้ไขข้อมูลส่วนตัว</span>
+      </td>
+      <td width="100px">&nbsp;</td>
+    </tr>
+  </table>
 
 <?php
 	
@@ -79,6 +61,25 @@
 			if(mysqli_query($_connection,$_sqlUpdate))
 			{
 				$_messageStatus = "<font color='green'>แก้ไขข้อมูลส่วนตัวเรียบร้อยแล้ว</font>";
+        $_sql_update_staff = "
+                  UPDATE
+                    `hr_staff`
+                  SET
+                    `prefix` 		= '" . trim($_POST['prefix']) ."',
+                    `firstname`		= '" . trim($_POST['firstname']) ."',
+                    `lastname`		= '" . trim($_POST['lastname']) ."',
+                    `nickname`		= '" . trim($_POST['nickname']) ."',
+                    `position`		= '" . trim($_POST['position']) ."',
+                    `phone_number`	= '" . trim($_POST['t_phone']) ."',
+                    `mobile_number` = '" . trim($_POST['t_mobile']) ."',
+                    `email` 		= '" . trim($_POST['t_email']) ."',
+                    `updated_datetime` = CURRENT_TIMESTAMP,
+                    `updated_user` = '". $_SESSION['user_account_id'] ."'
+                  WHERE
+                    `staff_id` = '" . $_SESSION['user_account_id'] ."'
+             ";
+          $_res_update_staff = mysqli_query($_connection,$_sql_update_staff);
+
 			}
 			else
 			{
@@ -90,69 +91,65 @@
 	$_dat = mysqli_fetch_assoc($_res);
 ?>
 
-<form id="form1" method="post" action="">
-<table width="100%" align="center" cellspacing="1" class="admintable">
-  <tr>
-    <td colspan="2" class="key">&nbsp;</td>
-  </tr>
-  <tr>
-    <td width="36%" align="right">คำนำหน้า :</td>
-    <td width="64%"><input type="text" name="prefix" class="inputbox" value="<?=$_dat['PREFIX']?>"/> 
-      <span class="style1">*</span> </td>
-  </tr>
-  <tr>
-    <td width="36%" align="right">ชื่อ :</td>
-    <td width="64%">
-      <p>
-        <input name="firstname" type="text" class="inputbox" value="<?=$_dat['FIRSTNAME']?>" />
-        <span class="style1">*</span></p>    </td>
-  </tr>
-  <tr>
-    <td align="right">นามสกุล :</td>
-    <td><input name="lastname" type="text" class="inputbox" value="<?=$_dat['LASTNAME']?>" />
-      <span class="style1">*</span></td>
-  </tr>
-  <tr>
-    <td align="right">ชื่อเ่ล่น :</td>
-    <td><input name="nickname" type="text" class="inputbox" value="<?=$_dat['NICKNAME']?>" />
-      <span class="style1">*</span></td>
-  </tr>
-  <tr>
-    <td align="right">ตำแหน่งปัจจุบัน :</td>
-    <td><input name="position" type="text" class="inputbox" value="<?=$_dat['POSITION']?>" /></td>
-  </tr>
-  <tr>
-    <td align="right">หมายเลขโทรศัพท์ :</td>
-    <td><input name="t_phone" type="text" class="inputbox" value="<?=$_dat['T_PHONE']?>" maxlength="9" onkeypress="return isNumberKey(event)" />
-		ตัวอย่าง 044846117</td>
-  </tr>
-  <tr>
-    <td align="right">หมายเลขมือถือ :</td>
-    <td><input name="t_mobile" type="text" class="inputbox" value="<?=$_dat['t_mobile']?>" maxlength="10" onkeypress="return isNumberKey(event)"/>
-      ตัวอย่าง 0813567531 <span class="style1">*</span></td>
-  </tr>
-  <tr>
-    <td align="right">อีเมล :</td>
-    <td><input name="t_email" type="text" class="inputbox" value="<?=$_dat['t_email']?>" />
-      <span class="style1">*</span></td>
-  </tr>
-  <tr>
-    <td>&nbsp;</td>
-    <td><?=$_messageStatus?></td>
-  </tr>
-  <tr>
-    <td>&nbsp;</td>
-    <td><input name="submit" type="submit" class="button" id="submit" value="บันทึก" /></td>
-  </tr>
-  <tr>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-  </tr>
-</table>
+  <form id="form1" method="post" action="">
+    <table width="100%" align="center" cellspacing="1" class="admintable">
+      <tr>
+        <td colspan="2" class="key">&nbsp;</td>
+      </tr>
+      <tr>
+        <td width="36%" align="right">คำนำหน้า :</td>
+        <td width="64%"><input type="text" name="prefix" class="inputbox" value="<?=$_dat['PREFIX']?>"/> 
+          <span class="style1">*</span> </td>
+      </tr>
+      <tr>
+        <td width="36%" align="right">ชื่อ :</td>
+        <td width="64%">
+          <p>
+            <input name="firstname" type="text" class="inputbox" value="<?=$_dat['FIRSTNAME']?>" />
+            <span class="style1">*</span></p>    </td>
+      </tr>
+      <tr>
+        <td align="right">นามสกุล :</td>
+        <td><input name="lastname" type="text" class="inputbox" value="<?=$_dat['LASTNAME']?>" />
+          <span class="style1">*</span></td>
+      </tr>
+      <tr>
+        <td align="right">ชื่อเ่ล่น :</td>
+        <td><input name="nickname" type="text" class="inputbox" value="<?=$_dat['NICKNAME']?>" />
+          <span class="style1">*</span></td>
+      </tr>
+      <tr>
+        <td align="right">ตำแหน่งปัจจุบัน :</td>
+        <td><input name="position" type="text" class="inputbox" value="<?=$_dat['POSITION']?>" /></td>
+      </tr>
+      <tr>
+        <td align="right">หมายเลขโทรศัพท์ :</td>
+        <td><input name="t_phone" type="text" class="inputbox" value="<?=$_dat['T_PHONE']?>" maxlength="9" onkeypress="return isNumberKey(event)" />
+        ตัวอย่าง 044846117</td>
+      </tr>
+      <tr>
+        <td align="right">หมายเลขมือถือ :</td>
+        <td><input name="t_mobile" type="text" class="inputbox" value="<?=$_dat['t_mobile']?>" maxlength="10" onkeypress="return isNumberKey(event)"/>
+          ตัวอย่าง 0813567531 <span class="style1">*</span></td>
+      </tr>
+      <tr>
+        <td align="right">อีเมล :</td>
+        <td><input name="t_email" type="text" class="inputbox" value="<?=$_dat['t_email']?>" />
+          <span class="style1">*</span></td>
+      </tr>
+      <tr>
+        <td>&nbsp;</td>
+        <td><?=$_messageStatus?></td>
+      </tr>
+      <tr>
+        <td>&nbsp;</td>
+        <td><input name="submit" type="submit" class="button" id="submit" value="บันทึก" /></td>
+      </tr>
+      <tr>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+      </tr>
+    </table>
   </form>
 
 </div>
-
-<?php
-	} // end-else
-?>

@@ -41,16 +41,19 @@
 
 <?
 	if(isset($_POST['save'])){ 
-		$_sqlUpdate = "update teachers set PREFIX = '" . $_POST['prefix'] . "',
-								   FIRSTNAME = '" . $_POST['firstname'] . "',
-								   LASTNAME = '" . $_POST['lastname'] . "',
-								   NICKNAME = '" .$_POST['nickname'] . "',
-								   POSITION = '" . $_POST['position'] . "',
-								   T_PHONE = '" . $_POST['t_phone'] . "',
-								   t_mobile = '" . $_POST['t_mobile'] . "',
-								   t_email = '" . $_POST['t_email'] . "',
-								   type = '" . $_POST['type'] . "',
-								   superuser = '" . (isset($_POST['superuser'])==1?"1":"0") . "'
+		$_sqlUpdate = "
+				update teachers 
+				set 
+					PREFIX 		= '" . $_POST['prefix'] . "',
+					FIRSTNAME	= '" . $_POST['firstname'] . "',
+					LASTNAME	= '" . $_POST['lastname'] . "',
+					NICKNAME	= '" . $_POST['nickname'] . "',
+					POSITION	= '" . $_POST['position'] . "',
+					T_PHONE		= '" . $_POST['t_phone'] . "',
+					t_mobile	= '" . $_POST['t_mobile'] . "',
+					t_email		= '" . $_POST['t_email'] . "',
+					type		= '" . $_POST['type'] . "',
+					superuser	= '" . (isset($_POST['superuser'])==1?"1":"0") . "'
 							where TeacCode = '" . $_POST['teaccode'] . "'";
 		if(mysqli_query($_connection,$_sqlUpdate))
 		{
@@ -80,6 +83,27 @@
 			}else{
 				echo "<center><br/><font color='red'>บันทึกข้อมูลผิดพลาด เนื่องจาก - Table users_account " . mysqli_error($_connection) . "</font><br/></center>";
 			}
+
+			$_sql_update_staff = "
+						UPDATE
+							`hr_staff`
+						SET
+							`prefix` 		= '" . trim($_POST['prefix']) ."',
+							`firstname`		= '" . trim($_POST['firstname']) ."',
+							`lastname`		= '" . trim($_POST['lastname']) ."',
+							`nickname`		= '" . trim($_POST['nickname']) ."',
+							`position`		= '" . trim($_POST['position']) ."',
+							`phone_number`	= '" . trim($_POST['t_phone']) ."',
+							`mobile_number` = '" . trim($_POST['t_mobile']) ."',
+							`email` 		= '" . trim($_POST['t_email']) ."',
+							`updated_datetime` = CURRENT_TIMESTAMP,
+							`updated_user` = '". $_SESSION['user_account_id'] ."'
+						WHERE
+							`staff_id` = '" . trim($_POST['user_account_id']) ."'
+					";
+			$_res_update_staff = mysqli_query($_connection,$_sql_update_staff);
+
+
 		}else 
 		{
 			echo "<center><br/><font color='red'>บันทึกข้อมูลผิดพลาด เนื่องจาก - Table teachers " . mysqli_error($_connection) . "</font><br/></center>";
@@ -92,7 +116,7 @@
   		<? $_sql = "select * from teachers where TeacCode = '" . (isset($_REQUEST['teaccode'])?$_REQUEST['teaccode']:$_POST['teaccode']) . "'" ?>
 		<? $_res = mysqli_query($_connection,$_sql); ?>
 		<? if(mysqli_num_rows($_res)>0){ ?>
-			<form method="post">
+			<form method="post" autocomplete="off">
 			<table class="admintable" width="100%">
 				<tr>
 					<td colspan="2" class="key">

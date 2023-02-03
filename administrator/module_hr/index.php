@@ -106,13 +106,13 @@
 	<tr>
 		<td width="20px">&nbsp;</td>
 		<td>
-			3.7 เพิ่มบุคลากร
+			<a href="index.php?option=module_hr/StaffAdd">3.7 เพิ่มบุคลากร (ลูกจ้างประจำและพนักงานจ้าง, ลูกจ้างเหมาบริการ)</a>
 		</td>
 	</tr>
 	<tr>
 		<td width="20px">&nbsp;</td>
 		<td>
-			3.8 แก้ไขข้อมูลบุคลากร
+		<a href="index.php?option=module_hr/StaffEdit">3.8 แก้ไขข้อมูลบุคลากร</a>
 		</td>
 	</tr>
 </table>
