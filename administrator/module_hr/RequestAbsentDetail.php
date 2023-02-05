@@ -1,6 +1,34 @@
 ﻿
+<style>
+	#image1 {
+		display:none;
+	}
+	#image2 {
+		display:none;
+	}
+</style>
 
+<script>
+	function show1(){
+		if(document.getElementById('btn1').value == "แสดงรูปภาพ"){
+			document.getElementById('image1').style.display = "block";
+			document.getElementById('btn1').value = "ซ่อนรูปภาพ";
+		}else{
+			document.getElementById('image1').style.display = "none";
+			document.getElementById('btn1').value = "แสดงรูปภาพ";
+		}
+	}
 
+	function show2(){
+		if(document.getElementById('btn2').value == "แสดงรูปภาพ"){
+			document.getElementById('image2').style.display = "block";
+			document.getElementById('btn2').value = "ซ่อนรูปภาพ";
+		}else{
+			document.getElementById('image2').style.display = "none";
+			document.getElementById('btn2').value = "แสดงรูปภาพ";
+		}
+	}
+</script>
 
 <?php
 
@@ -43,8 +71,16 @@
 				<td >
 					<strong><font color="#990000" size="4">งานบริหารบุคลากร</font></strong><br />
 					<span class="normal"><font color="#0066FF"><strong>รายละเอียดการยื่นคำขออนุญาต</strong></font></span></td>
-				<td>
-					<input type="button" value="ย้อนกลับ" class="button" onClick="location.href='index.php?option=module_hr/index';"/> 
+				<td width="330px">
+					<form method="post" action="index.php?option=module_hr/EditAbsent">
+							<input type="submit" class="button" value="แก้ไข" />
+							<input type="hidden" name="absent_id" value="<?=$_absent_id?>" />
+					</form>
+					<form method="post" action="index.php?option=module_hr/AddApproval">
+							<input type="submit" class="button" value="ส่งต่อ" />
+							<input type="hidden" name="absent_id" value="<?=$_absent_id?>" />
+					</form>
+					<!-- <input type="button" value="ย้อนกลับ" class="button" onClick="location.href='index.php?option=module_hr/index';"/> -->
 				</td>
 			</tr>
 		</table>
@@ -94,7 +130,7 @@
 							$_res_job = mysqli_query($_connection,$_sql_job);
 							$_init_dep = "";
 							if(mysqli_num_rows($_res_job)>0){
-								echo "<table>";
+								echo "<table cellspacing='0'>";
 								while($_job = mysqli_fetch_assoc($_res_job)){
 									echo "<tr>";
 									echo "<td>" . $_job['department_subtype_name'] ."/";
@@ -163,6 +199,7 @@
 					<td align="right">แก้ไขล่าสุด:</td>
 					<td><?=$_dat['created_datetime']?></td>
 				</tr>
+
 				<?php
 					$_img_1  = ".." . $_hr_img_folder . "/" . $_dat['acadyear'] . "/" . $_dat['acadsemester'] . "/";
 					$_img_1 .= $_dat['file_attached_ext1'];
@@ -183,9 +220,12 @@
 				?>
 				<? if($_dat['file_attached_ext1']!="" && file_exists($_full_path_1)){ ?> 
 				<tr>
+					<td align="right" valign="top">ไฟล์แนบ 1</td>
+					<td><input type="button" id="btn1" name="button1" value="แสดงรูปภาพ" onClick="show1()" /></td>
+				</tr>
+				<tr>
 					<td align="center" valign="top" colspan="2">
-						ไฟล์แนบ 1<br/>
-						<img src="<?=$_img_1?>" width="85%" />
+						<img id="image1" src="<?=$_img_1?>" width="85%" />
 					</td>
 				</tr>
 				<? }else{ ?>
@@ -196,9 +236,12 @@
 				<? } ?>
 				<? if($_dat['file_attached_ext2']!="" && file_exists($_full_path_2)){ ?> 
 				<tr>
+					<td align="right" valign="top">ไฟล์แนบ 2</td>
+					<td><input type="button" id="btn2" name="button2" value="แสดงรูปภาพ" onClick="show2()" /></td>
+				</tr>
+				<tr>
 					<td align="center" valign="top" colspan="2">
-						ไฟล์แนบ 2<br/>
-						<img src="<?=$_img_2?>" width="85%" />
+						<img id="image2" src="<?=$_img_2?>" width="85%" />
 					</td>
 				</tr>
 				<? }else{ ?>

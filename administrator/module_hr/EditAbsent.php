@@ -1,4 +1,35 @@
 ﻿<link rel="stylesheet" type="text/css" href="module_moral/css/calendar-mos2.css"/>
+<style>
+	#image1 {
+		display:none;
+	}
+	#image2 {
+		display:none;
+	}
+</style>
+
+<script>
+	function show1(){
+		if(document.getElementById('btn1').value == "แสดงรูปภาพ"){
+			document.getElementById('image1').style.display = "block";
+			document.getElementById('btn1').value = "ซ่อนรูปภาพ";
+		}else{
+			document.getElementById('image1').style.display = "none";
+			document.getElementById('btn1').value = "แสดงรูปภาพ";
+		}
+	}
+
+	function show2(){
+		if(document.getElementById('btn2').value == "แสดงรูปภาพ"){
+			document.getElementById('image2').style.display = "block";
+			document.getElementById('btn2').value = "ซ่อนรูปภาพ";
+		}else{
+			document.getElementById('image2').style.display = "none";
+			document.getElementById('btn2').value = "แสดงรูปภาพ";
+		}
+	}
+</script>
+
 <script language="JavaScript" type="text/javascript" src="module_moral/js/calendar.js"></script>
 <SCRIPT language="javascript" type="text/javascript">
 
@@ -8,30 +39,30 @@
 			{ alert('กรุณาเลือก การขออนุญาต ก่อน'); document.getElementById('absent_type').focus(); return;}
 
 		if(document.getElementById('start_absent_date').value == "")
-			{ alert('กรุณาป้อนข้อมูล วันที่เริ่มขออนุญาตไปราชการ ก่อน'); document.getElementById('start_absent_date').focus(); return;}
+			{ alert('กรุณาป้อนข้อมูล วันที่เริ่มลา ก่อน'); document.getElementById('start_absent_date').focus(); return;}
 
 		if(document.getElementById('end_absent_date').value == "")
-			{ alert('กรุณาป้อนข้อมูล วันที่สิ้นสุดการไปราชการ ก่อน'); document.getElementById('end_absent_date').focus(); return;}
+			{ alert('กรุณาป้อนข้อมูล วันที่สิ้นสุดการลา ก่อน'); document.getElementById('end_absent_date').focus(); return;}
 
 		if(Number(document.getElementById('total_absent').value) <= 0.0)
-			{ alert('กรุณาป้อนข้อมูล จำนวนระยะเวลาที่ไปราชการ ก่อน'); document.getElementById('total_absent').focus(); return; }
+			{ alert('กรุณาป้อนข้อมูล จำนวนระยะเวลาที่ลา ก่อน'); document.getElementById('total_absent').focus(); return; }
 		
 
 		if(document.getElementById('absent_details').value == "")
-			{ alert('กรุณาป้อนข้อมูล รายละเอียดประกอบการไปราชการ ก่อน'); document.getElementById('absent_details').focus(); return; }
+			{ alert('กรุณาป้อนข้อมูล รายละเอียดประกอบการลา ก่อน'); document.getElementById('absent_details').focus(); return; }
 		
 		const start_date = new Date(document.getElementById('start_absent_date').value);
 		const end_date   = new Date(document.getElementById('end_absent_date').value);
 
 		if(start_date > end_date)
 		{
-			alert('คุณป้อนข้อมูลไม่ถูกต้อง วันที่ไปราชการ มากกว่า วันสิ้นสุดการไปราชการ กรุณาตรวจสอบอีกครั้ง'); 
+			alert('คุณป้อนข้อมูลไม่ถูกต้อง วันที่เริ่มลา มากกว่า วันสิ้นสุดการลา กรุณาตรวจสอบอีกครั้ง'); 
 			document.getElementById('start_absent_date').focus(); return;
 		}
 		
 		if(document.getElementById('contact_information').value == "")
 		{ 
-			alert('กรุณาป้อนข้อมูล เลขที่บันทึกข้อความ หรือข้อความแจ้งเจ้าหน้าที่บุคลากร ก่อน'); 
+			alert('กรุณาป้อนข้อมูล ผู้ติดต่อและเบอร์โทรก่อน ก่อน'); 
 			document.getElementById('contact_information').focus(); return;  
 		}
 		else 
@@ -200,7 +231,7 @@
 					'" . $_POST['end_absent_date'] ."',
 					'" . $_POST['end_absent_time'] ."',
 					'" . $_POST['total_absent'] ."',
-					'ไปราชการ',
+					'" . $_POST['absent_type'] ."',
 					'" . $_POST['absent_type'] ."',
 					'" . trim($_POST['absent_details']) ."',
 					'" . trim($_POST['contact_information']) ."',
@@ -220,11 +251,11 @@
 			$_resInsert = mysqli_query($_connection,$_sql_absent);
 			if($_resInsert){
 
-				$_processing_text = "ท่านได้ทำการบันทึกข้อมูลการขออนุญาต <b>ไป" . $_POST['absent_type'] . "</b> เรียบร้อยแล้ว";
+				$_processing_text = "ท่านได้ทำการบันทึกข้อมูลการขออนุญาต <b>" . $_POST['absent_type'] . "</b> เรียบร้อยแล้ว";
 				$_processing_result = true;
 
 				// line message here
-				$_text .= "มีการยื่นคำขอไปราชการ: " . $_POST['absent_type'] . " เข้ามาใหม่";
+				$_text .= "มีการยื่นคำขอ: " . $_POST['absent_type'] . " เข้ามาใหม่";
 				$_text .= "\n" . "โดย - " . $_SESSION['shortname'];
 
 				$message = $_text;
@@ -252,7 +283,37 @@
 		$_staff_id = $_SESSION['user_account_id'];
 	}
 
+	$_absent_id = "";
+	if(isset($_POST['absent_id'])){
+		$_absent_id = $_POST['absent_id'];
+	}
+
 ?>
+
+
+
+<?php
+		$_sql_initial = "
+				select 
+				s.prefix,
+				s.firstname,
+				s.lastname,
+				s.position,
+				h.*
+			from
+				hr_staff_absent h inner join hr_staff s
+				on (
+					h.staff_id = s.staff_id
+				) 
+			where
+				h.absent_id = '" . $_absent_id . "'
+			";
+		$_res_initial = mysqli_query($_connection,$_sql_initial);
+		$_row_data = mysqli_num_rows($_res_initial);
+		$_dat = mysqli_fetch_assoc($_res_initial);
+	?>
+
+
 
 
 <div id="content">
@@ -261,47 +322,9 @@
 				<td width="6%" align="center"><a href="index.php?option=module_hr/index"><img src="../images/fingerprint.png" alt="" width="48px" border="0" /></a></td>
 				<td >
 					<strong><font color="#990000" size="4">งานบริหารบุคลากร</font></strong><br />
-					<span class="normal"><font color="#0066FF"><strong>1.2 บันทึกขออนุญาตไปราชการ</strong></font></span></td>
+					<span class="normal"><font color="#0066FF"><strong>1.4 ตรวจสอบแก้ไขการขออนุญาตลา/ไปราชการ ก่อนส่งต่อให้ผู้บริหาร</strong></font></span></td>
 				<td>
-					<font  size="2" color="#000000">
-						<form name="sSelect" method="post" action="">
-						<? if($_SESSION['username'] == "admin" || $_SESSION['username'] == "tc100" || $_SESSION['username'] == "tc101" || $_SESSION['username'] == "tc102" || $_SESSION['username'] == "tc103") { ?>
-						เลือกบุคลากร
-							<?php 
-									$sql_teacher = " 
-											select
-												*
-											from
-												hr_staff s
-											where 
-												1=1
-												and staff_status = 'ACTIVE'
-											order by convert(s.firstname using tis620), convert(s.lastname using tis620)
-										";
-									//echo $sql_Room ;
-									$resTeacher = mysqli_query($_connection,$sql_teacher);	
-									$_submit_teacher_name = "";		
-							?>
-						
-							<select name="staff_id" class="inputboxUpdate" onChange="document.sSelect.submit();">
-								<option value=""></option>
-								<?php
-									$_select = "";
-									while($dat = mysqli_fetch_assoc($resTeacher))
-									{
-										$_select = ($_staff_id == $dat['staff_id']?"selected":"");
-										echo "<option value=\"" . $dat['staff_id'] . "\" $_select>";
-										echo $dat['firstname']. ' ' . $dat['lastname'];
-										echo "</option>";
-									}
-									
-								?>
-							</select>
-							<? } else { ?> 
-								<input type="hidden" name="staff_id" value=<?=$_SESSION['user_account_id']?> />
-							<? } ?>
-						</form>
-					</font>
+					
 				</td>
 			</tr>
 		</table>
@@ -346,21 +369,6 @@
 				</table>
 			</div>
 		<? } else { // end-if ?>
-	<?php
-		$_sql_initial = "
-				SELECT
-					s.*
-				FROM
-					hr_staff s
-				WHERE
-					s.staff_id = '" . $_staff_id . "' 
-			";
-		$_res_initial = mysqli_query($_connection,$_sql_initial);
-		$_dat = mysqli_fetch_assoc($_res_initial);
-	?>
-
-	
-
 
 	<div align="center">
 		<form method="post" name="myform" enctype="multipart/form-data" autocomplete="off">
@@ -368,57 +376,171 @@
 				<tr><td class="key" colspan="3">รายละเอียดการบันทึก </td></tr>
 				<tr>
 					<td align="right" width="200px">ชื่อบุคลากร :</td>
-					<td><input class="noborder2" type="text" size="40" readonly="true" name="staff_name" value="<?=$_dat['prefix'].$_dat['firstname'].' '.$_dat['lastname']?>"/></td>
+					<td>
+						<?=$_dat['prefix'].$_dat['firstname'].' '.$_dat['lastname']?>
+					</td>
 				<tr>
 					<td align="right">ตำแหน่ง :</td>
-					<td><input class="noborder2" type="text" size="40" readonly="true" name="position" value="<?=$_dat['position']?>"/></td>
+					<td>
+						<?=$_dat['position']?>
+					</td>
 				</tr>
+				<? if(in_array($_dat['absent_type'],array("ลาป่วย","ลากิจ","ลาคลอด"))) { ?>
+				<tr>
+					<td align="right">ขออนุญาตลา :</td>
+					<td>
+						<select name="absent_type" class="inputboxUpdate" id="absent_type">
+							<option value=""       ></option>
+							<option value="ลาป่วย"  <?=$_dat['absent_subtype']=="ลาป่วย"?"selected":""?>  >ลาป่วย</option>
+							<option value="ลากิจ"   <?=$_dat['absent_subtype']=="ลากิจ"?"selected":""?>   >ลากิจ</option>
+							<option value="ลาคลอด" <?=$_dat['absent_subtype']=="ลาคลอด"?"selected":""?> >ลาคลอด</option>
+						</select> <font color="red">*</font>
+					</td>
+				</tr>
+				<? }else { ?>
 				<tr>
 					<td align="right">ขออนุญาตไปราชการ :</td>
 					<td>
 						<select name="absent_type" class="inputboxUpdate" id="absent_type">
 							<option value=""></option>
-							<option value="ประชุม">ประชุม</option>
-							<option value="อบรม">อบรม</option>
-							<option value="ควบคุมนักเรียน">ควบคุมนักเรียน</option>
-							<option value="ศึกษาดูงาน">ศึกษาดูงาน</option>
+							<option value="ประชุม"			<?=$_dat['absent_subtype']=="ประชุม"?"selected":""?>  >ประชุม</option>
+							<option value="อบรม"		   <?=$_dat['absent_subtype']=="อบรม"?"selected":""?>  >อบรม</option>
+							<option value="ควบคุมนักเรียน"    <?=$_dat['absent_subtype']=="ควบคุมนักเรียน"?"selected":""?>  >ควบคุมนักเรียน</option>
+							<option value="ศึกษาดูงาน"       <?=$_dat['absent_subtype']=="ศึกษาดูงาน"?"selected":""?>  >ศึกษาดูงาน</option>
 						</select> <font color="red">*</font>
 					</td>
 				</tr>
+				<? } ?>
 				<tr>
-					<td align="right">วันที่เริ่มขออนุญาต :</td>
+					<td align="right">
+						<?php
+							if(in_array($_dat['absent_type'],array("ลาป่วย","ลากิจ","ลาคลอด"))) {
+								echo "วันที่เริ่มลา :";
+							}else{
+								echo "วันที่เริ่มขออนุญาต : ";
+							}
+						?>
+					</td>
 					<td>
-						<input class="noborder2" type="text" id="start_absent_date" name="start_absent_date" size="10" onClick="showCalendar(this.id)"/>
+						<input  class="noborder2" type="text" id="start_absent_date" 
+								name="start_absent_date" size="10" onClick="showCalendar(this.id)"
+								value="<?=$_dat['start_absent_date']?>" />
+
 						<select name="start_absent_time" class="inputboxUpdate">
-							<option value="08:30">08:30</option>
-							<option value="13:00">13:00</option>
+							<option value="08:30" <?=$_dat['start_absent_time']=="08:30"?"selected":""?> >08:30</option>
+							<option value="13:00" <?=$_dat['start_absent_time']=="13:00"?"selected":""?> >13:00</option>
 						</select>
 						<font color="red">*</font>
 					</td>
 				</tr>
 				<tr>
-					<td align="right">วันที่สิ้นสุดการขออนุญาต :</td>
+					<td align="right">
+						<?php
+							if(in_array($_dat['absent_type'],array("ลาป่วย","ลากิจ","ลาคลอด"))) {
+								echo "วันที่สิ้นสุดการลา :";
+							}else{
+								echo "วันที่สิ้นสุดการขออนุญาต : ";
+							}
+						?>
+					</td>
 					<td>
-						<input class="noborder2" type="text" id="end_absent_date" name="end_absent_date" size="10" onClick="showCalendar(this.id)"/>
+						<input  class="noborder2" type="text" id="end_absent_date" 
+								name="end_absent_date" size="10" onClick="showCalendar(this.id)"
+								value="<?=$_dat['end_absent_date']?>" />
+
 						<select name="end_absent_time" class="inputboxUpdate">
-							<option value="12:00">12:00</option>
-							<option selected value="16:30">16:30</option>
+							<option value="12:00" <?=$_dat['end_absent_time']=="12:00"?"selected":""?> >12:00</option>
+							<option value="16:30" <?=$_dat['end_absent_time']=="16:30"?"selected":""?> >16:30</option>
 						</select>
 						<font color="red">*</font>
 					</td>
 				</tr>
 				<tr>
-					<td align="right">รวมระยะการไปปฏิบัติราชการ :</td>
-					<td><input type="text" name="total_absent" id="total_absent" class="noborder2" value="0" size="3" maxlength="4" onKeyPress="return isDecimalKey(this,event)"/> วัน <font color="red">*</font></td>
+					<td align="right">รวมระยะการลา :</td>
+					<td>
+						<input  type="text" name="total_absent" id="total_absent" class="noborder2" 
+								value="<?=$_dat['total_absent']?>" size="3" maxlength="4" 
+								onKeyPress="return isDecimalKey(this,event)"/> วัน <font color="red">*</font></td>
 				</tr>
 				<tr>
-					<td align="right" valign="top">รายละเอียดเพิ่มเติม<br/>สำหรับการขออนุญาต :</td>
-					<td><textarea class="inputboxUpdate" name="absent_details" id="absent_details" rows="4" cols="60"></textarea><font color="red">*</font></td>
+					<td align="right" valign="top">
+						<?php
+							if(in_array($_dat['absent_type'],array("ลาป่วย","ลากิจ","ลาคลอด"))) {
+								echo "รายละเอียดประกอบการลา :";
+							}else{
+								echo "รายละเอียดเพิ่มเติม<br/>สำหรับการขออนุญาต : ";
+							}
+						?>
+					</td>
+					<td><textarea class="inputboxUpdate" name="absent_details" id="absent_details" rows="4" cols="60"><?=$_dat['absent_details']?></textarea><font color="red">*</font></td>
 				</tr>
 				<tr>
-					<td align="right">เลขที่บันทึกข้อความ :</td>
-					<td><input class="noborder2" type="text" name="contact_information" id="contact_information" size="50"/><font color="red">*</font></td>
+					<td align="right">
+						<?php
+							if(in_array($_dat['absent_type'],array("ลาป่วย","ลากิจ","ลาคลอด"))) {
+								echo "ชื่อผู้ติดต่อระหว่างลา :";
+							}else{
+								echo "เลขที่บันทึกข้อความ : ";
+							}
+						?>
+					</td>
+					<td>
+						<input  class="noborder2" type="text" name="contact_information" id="contact_information" 
+								value="<?=$_dat['contact_information']?>" size="50"/><font color="red">*</font></td>
 				</tr>
+
+				<?php
+					$_img_1  = ".." . $_hr_img_folder . "/" . $_dat['acadyear'] . "/" . $_dat['acadsemester'] . "/";
+					$_img_1 .= $_dat['file_attached_ext1'];
+
+					$_full_path_1  = $_target . $_hr_absent_folder . "/" . $_dat['acadyear'] . "/" . $_dat['acadsemester'] . "/";
+					$_full_path_1 .= $_dat['file_attached_ext1'];
+
+
+
+					$_img_2  = ".." . $_hr_img_folder . "/" . $_dat['acadyear'] . "/" . $_dat['acadsemester'] . "/";
+					$_img_2 .= $_dat['file_attached_ext2'];
+
+					$_full_path_2  = $_target . $_hr_absent_folder . "/" . $_dat['acadyear'] . "/" . $_dat['acadsemester'] . "/";
+					$_full_path_2 .= $_dat['file_attached_ext2'];
+
+
+
+				?>
+				<? if($_dat['file_attached_ext1']!="" && file_exists($_full_path_1)){ ?> 
+				<tr>
+					<td align="right" valign="top">ไฟล์แนบ 1</td>
+					<td><input type="button" id="btn1" name="button1" value="แสดงรูปภาพ" onClick="show1()" /></td>
+				</tr>
+				<tr>
+					<td align="center" valign="top" colspan="2">
+						<img id="image1" src="<?=$_img_1?>" width="85%" />
+					</td>
+				</tr>
+				<? }else{ ?>
+				<tr>
+					<td align="right" valign="top">ไฟล์แนบ 1</td>
+					<td>ไม่มี</td>
+				</tr>
+				<? } ?>
+				<? if($_dat['file_attached_ext2']!="" && file_exists($_full_path_2)){ ?> 
+				<tr>
+					<td align="right" valign="top">ไฟล์แนบ 2</td>
+					<td><input type="button" id="btn2" name="button2" value="แสดงรูปภาพ" onClick="show2()" /></td>
+				</tr>
+				<tr>
+					<td align="center" valign="top" colspan="2">
+						<img id="image2" src="<?=$_img_2?>" width="85%" />
+					</td>
+				</tr>
+				<? }else{ ?>
+				<tr>
+					<td align="right" valign="top">ไฟล์แนบ 2</td>
+					<td>ไม่มี</td>
+				</tr>
+				<? } ?>
+
+
 				<tr>
 					<td align="right" valign="top">ไฟล์แนบ 1 (ถ้ามี)</td>
 					<td>
