@@ -2,9 +2,11 @@
 <style>
 	#image1 {
 		display:none;
+		width:700px;
 	}
 	#image2 {
 		display:none;
+		width:700px;
 	}
 </style>
 

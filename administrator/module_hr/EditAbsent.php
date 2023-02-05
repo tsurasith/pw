@@ -2,9 +2,11 @@
 <style>
 	#image1 {
 		display:none;
+		width:700px;
 	}
 	#image2 {
 		display:none;
+		width:700px;
 	}
 </style>
 
@@ -36,20 +38,20 @@
 
 	  function checkValue(){
 		if(document.getElementById('absent_type').value == "")
-			{ alert('กรุณาเลือก การขออนุญาต ก่อน'); document.getElementById('absent_type').focus(); return;}
+			{ alert('กรุณาเลือก การขออนุญาต'); document.getElementById('absent_type').focus(); return;}
 
 		if(document.getElementById('start_absent_date').value == "")
-			{ alert('กรุณาป้อนข้อมูล วันที่เริ่มลา ก่อน'); document.getElementById('start_absent_date').focus(); return;}
+			{ alert('กรุณาป้อนข้อมูล วันที่เริ่มลา/ไปราชการ'); document.getElementById('start_absent_date').focus(); return;}
 
 		if(document.getElementById('end_absent_date').value == "")
-			{ alert('กรุณาป้อนข้อมูล วันที่สิ้นสุดการลา ก่อน'); document.getElementById('end_absent_date').focus(); return;}
+			{ alert('กรุณาป้อนข้อมูล วันที่สิ้นสุดการลา/ไปราชการ'); document.getElementById('end_absent_date').focus(); return;}
 
 		if(Number(document.getElementById('total_absent').value) <= 0.0)
-			{ alert('กรุณาป้อนข้อมูล จำนวนระยะเวลาที่ลา ก่อน'); document.getElementById('total_absent').focus(); return; }
+			{ alert('กรุณาป้อนข้อมูล จำนวนระยะเวลาที่ลา/ไปราชการ'); document.getElementById('total_absent').focus(); return; }
 		
 
 		if(document.getElementById('absent_details').value == "")
-			{ alert('กรุณาป้อนข้อมูล รายละเอียดประกอบการลา ก่อน'); document.getElementById('absent_details').focus(); return; }
+			{ alert('กรุณาป้อนข้อมูล รายละเอียดประกอบการลา/ไปราชการ'); document.getElementById('absent_details').focus(); return; }
 		
 		const start_date = new Date(document.getElementById('start_absent_date').value);
 		const end_date   = new Date(document.getElementById('end_absent_date').value);
@@ -62,7 +64,7 @@
 		
 		if(document.getElementById('contact_information').value == "")
 		{ 
-			alert('กรุณาป้อนข้อมูล ผู้ติดต่อและเบอร์โทรก่อน ก่อน'); 
+			alert('กรุณาป้อนข้อมูล ผู้ติดต่อและเบอร์โทร หรือ เลขที่บันทึกข้อความ'); 
 			document.getElementById('contact_information').focus(); return;  
 		}
 		else 
@@ -96,9 +98,19 @@
 	  
 </SCRIPT>
 
+<?php
+	
 
+	$_absent_id = "";
+	if(isset($_POST['absent_id'])){
+		$_absent_id = $_POST['absent_id'];
+	}
+
+?>
 
 <?php
+
+	$_target_display = $_target;
 
 	$_target_acadyear = $_target . $_hr_absent_folder . "/" . $acadyear;
 	$_target_semester = $_target_acadyear . "/" . $acadsemester;
@@ -130,17 +142,8 @@
 	//-- processing -- //
 	if(isset($_POST['ReadyforSave'])){
 		
-		$_absent_id = gen_uuid();
-
 		$_prefix_file = $_POST['start_absent_date'] . "_" . $_POST['teacher_code'] . "_" . $_absent_id;
 
-		$_reqest_date = "";
-
-		if(strtotime($_POST['start_absent_date']) < strtotime(date('Y-m-d'))){
-			$_reqest_date = "'" . $_POST['start_absent_date'] . "'";
-		}else{
-			$_reqest_date = "CURRENT_TIMESTAMP";
-		}
 		// file processing
 		$_allowFileType = ['image/jpeg','image/png'];
 
@@ -199,98 +202,61 @@
 			}
 		}
 
+		$_absent_type_update = "";
+		if(!in_array($_POST['absent_type'],array("ลาป่วย","ลากิจ","ลาคลอด"))) { 
+			$_absent_type_update = "ไปราชการ";
+		}else{
+			$_absent_type_update = $_POST['absent_type'];
+		}
+
 		$_sql_absent = "
-				INSERT INTO `hr_staff_absent`(
-					`absent_id`,
-					`staff_id`,
-					`start_absent_date`,
-					`start_absent_time`,
-					`end_absent_date`,
-					`end_absent_time`,
-					`total_absent`,
-					`absent_type`,
-					`absent_subtype`,
-					`absent_details`,
-					`contact_information`,
-					`request_datetime`,
-					`request_status`,
-					`acadyear`,
-					`acadsemester`,
-					`file_attached_ext1`,
-					`file_attached_ext2`,
-					`created_datetime`,
-					`created_user`,
-					`updated_datetime`,
-					`updated_user`
-				)
-				VALUES(
-					'" . $_absent_id ."',
-					'" . $_POST['staff_id'] ."',
-					'" . $_POST['start_absent_date'] ."',
-					'" . $_POST['start_absent_time'] ."',
-					'" . $_POST['end_absent_date'] ."',
-					'" . $_POST['end_absent_time'] ."',
-					'" . $_POST['total_absent'] ."',
-					'" . $_POST['absent_type'] ."',
-					'" . $_POST['absent_type'] ."',
-					'" . trim($_POST['absent_details']) ."',
-					'" . trim($_POST['contact_information']) ."',
-					"  . $_reqest_date . " ,
-					'ส่งคำขอแล้ว',
-					'" . $acadyear . "',
-					'" . $acadsemester . "',
-					'" . $_file_1_name . "',
-					'" . $_file_2_name . "',
-					CURRENT_TIMESTAMP,
-					'" . $_SESSION['user_account_id'] . "',
-					CURRENT_TIMESTAMP,
-					'" . $_SESSION['user_account_id'] . "'
-				)
+				
+				UPDATE
+					`hr_staff_absent`
+				SET
+					`start_absent_date`   = '" . $_POST['start_absent_date'] ."',
+					`start_absent_time`   = '" . $_POST['start_absent_time'] ."',
+					`end_absent_date`     = '" . $_POST['end_absent_date'] ."',
+					`end_absent_time`     = '" . $_POST['end_absent_time'] ."',
+					`total_absent`        = '" . $_POST['total_absent'] ."',
+					`absent_type`         = '" . $_absent_type_update ."',
+					`absent_subtype`      = '" . $_POST['absent_type'] ."',
+					`absent_details`      = '" . trim($_POST['absent_details']) ."',
+					`contact_information` = '" . trim($_POST['contact_information']) ."',
+					`updated_datetime`    = CURRENT_TIMESTAMP,
+					`updated_user`        = '" . $_SESSION['user_account_id'] . "' ";
+		if($_file_1_name != ""){
+			$_sql_absent .= ", `file_attached_ext1` = '" . $_file_1_name . "' ";
+		}
+		if($_file_2_name != ""){
+			$_sql_absent .= ", `file_attached_ext2` = '" . $_file_2_name . "' ";
+		}
+					
+		$_sql_absent .= " WHERE
+					`absent_id` = '" . $_absent_id  . "'
 			";
 			 //echo $_sql_absent;
 			$_resInsert = mysqli_query($_connection,$_sql_absent);
 			if($_resInsert){
 
-				$_processing_text = "ท่านได้ทำการบันทึกข้อมูลการขออนุญาต <b>" . $_POST['absent_type'] . "</b> เรียบร้อยแล้ว";
+				$_processing_text = "ท่านได้ทำการบันทึกแก้ไขข้อมูลการขออนุญาต <b>" . $_POST['absent_type'] . "</b> เรียบร้อยแล้ว";
 				$_processing_result = true;
 
 				// line message here
-				$_text .= "มีการยื่นคำขอ: " . $_POST['absent_type'] . " เข้ามาใหม่";
+				$_text .= "มีการแก้ไขคำขออนุญาต: " . $_POST['absent_type'] . " เข้ามาใหม่";
 				$_text .= "\n" . "โดย - " . $_SESSION['shortname'];
 
 				$message = $_text;
 				SendLineMessage($message,$_line_token);
 
 			}else{
-				$_processing_text  = "เกิดข้อผิดพลาด ไม่สามารถบันทึก คำยื่นขอลา ได้" . "<br/>";
+				$_processing_text  = "เกิดข้อผิดพลาด ไม่สามารถบันทึกแก้ไข คำยื่นขอลา ได้" . "<br/>";
 				$_processing_text .= "กรุณาลองบันทึกข้อมูลใหม่อีกครั้ง หรือ แจ้งข้อความนี้ต่อผู้ดูแลระบบ -" . mysqli_error($_connection);
 			}
 
 	}
 
 ?>
-
-
-
-
-
-<?php
-	
-	$_staff_id = "";
-	if(isset($_POST['staff_id']) && $_POST['staff_id'] != ""){
-		$_staff_id = $_POST['staff_id'];
-	}else{
-		$_staff_id = $_SESSION['user_account_id'];
-	}
-
-	$_absent_id = "";
-	if(isset($_POST['absent_id'])){
-		$_absent_id = $_POST['absent_id'];
-	}
-
-?>
-
-
 
 <?php
 		$_sql_initial = "
@@ -299,6 +265,7 @@
 				s.firstname,
 				s.lastname,
 				s.position,
+				s.TeacCode,
 				h.*
 			from
 				hr_staff_absent h inner join hr_staff s
@@ -490,10 +457,13 @@
 				</tr>
 
 				<?php
+					
+					
+					
 					$_img_1  = ".." . $_hr_img_folder . "/" . $_dat['acadyear'] . "/" . $_dat['acadsemester'] . "/";
 					$_img_1 .= $_dat['file_attached_ext1'];
 
-					$_full_path_1  = $_target . $_hr_absent_folder . "/" . $_dat['acadyear'] . "/" . $_dat['acadsemester'] . "/";
+					$_full_path_1  = $_target_display . $_hr_absent_folder . "/" . $_dat['acadyear'] . "/" . $_dat['acadsemester'] . "/";
 					$_full_path_1 .= $_dat['file_attached_ext1'];
 
 
@@ -501,7 +471,7 @@
 					$_img_2  = ".." . $_hr_img_folder . "/" . $_dat['acadyear'] . "/" . $_dat['acadsemester'] . "/";
 					$_img_2 .= $_dat['file_attached_ext2'];
 
-					$_full_path_2  = $_target . $_hr_absent_folder . "/" . $_dat['acadyear'] . "/" . $_dat['acadsemester'] . "/";
+					$_full_path_2  = $_target_display . $_hr_absent_folder . "/" . $_dat['acadyear'] . "/" . $_dat['acadsemester'] . "/";
 					$_full_path_2 .= $_dat['file_attached_ext2'];
 
 
@@ -542,22 +512,27 @@
 
 
 				<tr>
-					<td align="right" valign="top">ไฟล์แนบ 1 (ถ้ามี)</td>
+					<td align="right" valign="top">ไฟล์แนบ 1 (ถ้าต้องการแก้ไข)</td>
 					<td>
 						<input type="file" name="file_1" id="file_1" size="60px" accept=".jpg, .png" onchange="checkFile(this,event);"/>
 					</td>
 				</tr>
 				<tr>
-					<td align="right" valign="top">ไฟล์แนบ 2 (ถ้ามี)</td>
+					<td align="right" valign="top">ไฟล์แนบ 2 (ถ้าต้องการแก้ไข)</td>
 					<td>
 						<input type="file" name="file_2" id="file_2" size="60px" accept=".jpg, .png" onchange="checkFile(this,event);"/><br/>
+						<br/>
+						<br/>
+						หากต้องการแก้รูปภาพ สามารถเลือกไฟล์อัพโหลดและบันทึก ไฟล์ที่อัพโหลดใหม่จะไปแทนที่ไฟล์เดิมก่อนหน้า <br/>
 						ไฟล์ต้องมีรูปแบบไฟล์เป็น .jpg หรือ .png และขนาดไม่ควรเกิน 1 MB<br/>
+						
 					</td>
 				</tr>
 				<tr>
 					<td>&nbsp;</td>
 					<td>
-						<input type="hidden" name="staff_id" value="<?=$_staff_id?>" />
+						<input type="hidden" name="staff_id" value="<?=$_dat['staff_id']?>" />
+						<input type="hidden" name="absent_id" value="<?=$_absent_id?>" />
 						<input type="hidden" name="teacher_code" value="<?=$_dat['TeacCode']?>" />
 						<input type="hidden" name="ReadyforSave" /> 
 						<input type="button" value="บันทึก" class="button" onclick="checkValue();" />
