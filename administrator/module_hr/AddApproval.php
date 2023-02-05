@@ -36,8 +36,12 @@
 
 
 	$_absent_id = "";
+	$_row_data  = 0;
 	if(isset($_REQUEST['absent_id'])){
 		$_absent_id = $_REQUEST['absent_id'];
+	}
+	if(isset($_POST['absent_id'])){
+		$_absent_id = $_POST['absent_id'];
 	}
 
 	$_sql_job = "
@@ -65,22 +69,25 @@
 <?php
 		$_sql_initial = "
 				select 
-					s.prefix,
-					s.firstname,
-					s.lastname,
-					s.position,
-					h.*
-				from
-					hr_staff_absent h inner join hr_staff s
-					on (
-						h.staff_id = s.staff_id
-					) 
-				where
-					h.absent_id = '" . $_absent_id . "'
+				s.prefix,
+				s.firstname,
+				s.lastname,
+				s.position,
+				h.*
+			from
+				hr_staff_absent h inner join hr_staff s
+				on (
+					h.staff_id = s.staff_id
+				) 
+			where
+				h.absent_id = '" . $_absent_id . "'
 			";
-		$_res_initial = mysqli_query($_connection,$_sql_initial);
-		$_row_data = mysqli_num_rows($_res_initial);
-		$_dat = mysqli_fetch_assoc($_res_initial); 
+		if($_absent_id != ""){
+			$_res_initial = mysqli_query($_connection,$_sql_initial);
+			$_row_data = mysqli_num_rows($_res_initial);
+			$_dat = mysqli_fetch_assoc($_res_initial); 
+		}
+		
 	?>
 
 
@@ -91,18 +98,43 @@
 				<td width="6%" align="center"><a href="index.php?option=module_hr/index"><img src="../images/fingerprint.png" alt="" width="48px" border="0" /></a></td>
 				<td >
 					<strong><font color="#990000" size="4">งานบริหารบุคลากร</font></strong><br />
-					<span class="normal"><font color="#0066FF"><strong>รายละเอียดการยื่นคำขออนุญาต</strong></font></span></td>
+					<span class="normal"><font color="#0066FF"><strong>1.4 บันทึกผู้อนุมัติคำขอลา/ไปราชการ</strong></font></span></td>
 				<td width="330px">
-					<form method="post" action="index.php?option=module_hr/EditAbsent">
-							<input type="submit" class="button" value="แก้ไข" />
-							<input type="hidden" name="absent_id" value="<?=$_absent_id?>" />
-					</form>
-					<? if($_dat['request_status']=="ส่งคำขอแล้ว") { ?>
-					<form method="post" action="index.php?option=module_hr/HrArrpove">
-							<input type="submit" class="button" value="ส่งต่อ" />
-							<input type="hidden" name="absent_id" value="<?=$_absent_id?>" />
-					</form>
-					<? } ?>
+					<?php
+
+						$_sql_absent_list = "
+								select 
+									s.prefix,
+									s.firstname,
+									s.lastname,
+									s.position,
+									h.*
+								from
+									hr_staff_absent h inner join hr_staff s
+									on (
+										h.staff_id = s.staff_id
+									) 
+								where 
+									h.request_status = 'ส่งต่องานบุคลากรแล้ว'
+								order by
+									convert(s.firstname using tis620)
+								 ";
+						$_res_list = mysqli_query($_connection,$_sql_absent_list);
+
+					?>
+					<font size="2" color="#000000">
+						<form name="absent_list" method="post">
+							เลือกคำขอ 
+							<select name="absent_id" class="inputboxUpdate" onChange="document.absent_list.submit();">
+								<option value=""></option>
+								<? while ($_datL = mysqli_fetch_assoc($_res_list)) { ?>
+									<option value="<?=$_datL['absent_id']?>" <?=$_absent_id==$_datL['absent_id']?"selected":""?>>
+										<?=$_datL['absent_type'].' - '.$_datL['firstname'].' '.$_datL['lastname']?>
+									</option>
+								<? } ?>
+							</select>
+						</form>
+					</font>
 				</td>
 			</tr>
 		</table>
@@ -202,7 +234,7 @@
 				</tr>
 				<tr>
 					<td align="right">แก้ไขล่าสุด:</td>
-					<td><?=$_dat['created_datetime']?> โดย <?=getUserAccountName($_connection,$_dat['updated_user'])?></td>
+					<td><?=$_dat['created_datetime']?></td>
 				</tr>
 
 				<?php

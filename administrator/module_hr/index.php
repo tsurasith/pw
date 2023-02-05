@@ -36,7 +36,7 @@
 	<tr>
 		<td width="20px">&nbsp;</td>
 		<td>
-			<a href="index.php?option=module_hr/ReviewsRequestAbsent">1.4 ตรวจสอบคำร้องขอและส่งคำร้องเพื่อขออนุมัติ</a>
+			<a href="index.php?option=module_hr/AddApproval">1.4 บันทึกผู้อนุมัติคำขอลา/ไปราชการ</a>
 		</td>
 	</tr>
 	<tr>
