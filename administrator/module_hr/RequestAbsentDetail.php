@@ -202,7 +202,7 @@
 				</tr>
 				<tr>
 					<td align="right">แก้ไขล่าสุด:</td>
-					<td><?=$_dat['created_datetime']?> โดย <?=getUserAccountName($_connection,$_dat['updated_user'])?></td>
+					<td><?=$_dat['updated_datetime']?> โดย <?=getUserAccountName($_connection,$_dat['updated_user'])?></td>
 				</tr>
 
 				<?php
