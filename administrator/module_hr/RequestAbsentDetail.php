@@ -60,6 +60,25 @@
 			and acadsemester = '" . $acadsemester . "' 
 	";
 
+	$_sql_approval = "
+		SELECT 
+			h.prefix,
+			h.firstname,
+			h.lastname,
+			h.position,
+			a.*
+		FROM 
+			`hr_staff_absent_approval` a left join hr_staff h
+			on (a.approved_user = h.staff_id)
+		WHERE
+			absent_id = '" . $_absent_id . "'
+		order by sort_order
+	";
+	$_res_approval = mysqli_query($_connection,$_sql_approval);
+	$_approval_count = 0;
+
+	$_approval_count = mysqli_num_rows($_res_approval);
+
 ?>
 
 <?php
@@ -92,17 +111,33 @@
 				<td >
 					<strong><font color="#990000" size="4">งานบริหารบุคลากร</font></strong><br />
 					<span class="normal"><font color="#0066FF"><strong>รายละเอียดการยื่นคำขออนุญาต</strong></font></span></td>
-				<td width="330px">
-					<form method="post" action="index.php?option=module_hr/EditAbsent">
-							<input type="submit" class="button" value="แก้ไข" />
-							<input type="hidden" name="absent_id" value="<?=$_absent_id?>" />
-					</form>
-					<? if($_dat['request_status']=="ส่งคำขอแล้ว") { ?>
-					<form method="post" action="index.php?option=module_hr/HrArrpove">
-							<input type="submit" class="button" value="ส่งต่อ" />
-							<input type="hidden" name="absent_id" value="<?=$_absent_id?>" />
-					</form>
-					<? } ?>
+				<td width="360px">
+					<table>
+						<tr>
+							<td>
+								<form method="post" action="index.php?option=module_hr/EditAbsent">
+									<input type="submit" class="button" value="แก้ไข" />
+									<input type="hidden" name="absent_id" value="<?=$_absent_id?>" />
+								</form>
+							</td>
+							<? if($_dat['request_status']=="ส่งคำขอแล้ว") { ?>
+							<td>
+								<form method="post" action="index.php?option=module_hr/HrArrpove">
+									<input type="submit" class="button" value="ส่งต่อ" />
+									<input type="hidden" name="absent_id" value="<?=$_absent_id?>" />
+								</form>
+							</td>
+							<? } ?>
+							<? if($_dat['request_status']=="ส่งต่องานบุคลากรแล้ว") { ?>
+							<td>
+								<form method="post" action="index.php?option=module_hr/AddApproval">
+									<input type="submit" class="button" value="เพิ่มผู้อนุมัติ" />
+									<input type="hidden" name="absent_id" value="<?=$_absent_id?>" />
+								</form>
+							</td>
+							<? } ?>
+						</tr>
+					</table>
 				</td>
 			</tr>
 		</table>
@@ -196,6 +231,66 @@
 					</td>
 					<td><?=$_dat['contact_information']?></td>
 				</tr>
+				<tr>
+					<td class="key" height="28px" align="center" colspan="2">รายนามผู้อนุมัติ</td>
+				</tr>
+				<? if($_approval_count>0){ ?>
+					<? $_a_count = 1; ?>
+					<tr>
+						<td valign="top" colspan="2" align="center">
+							<table class="admintable" style="margin-top:0px">
+								<tr>
+									
+									<td class="key" align="center" width="180px">ความเห็น</td>
+									<td class="key" align="center" width="75px">สถานะ</td>
+									<td class="key" align="center" width="180px">ชื่อ-สกุล</td>
+									<td class="key" align="center" width="100px">วันที่อนุมัติ</td>
+									<td class="key" align="center" width="100px">วันที่ขออนุมัติ</td>
+								</tr>
+								<? while($_datA = mysqli_fetch_assoc($_res_approval)) { ?>
+									<tr>
+										
+										<td valign="top"><?=$_datA['approval_comment']?></td>
+										<td align="center" valign="top">
+											<?php
+												if($_datA['approved_datetime']==""){
+													echo "รอพิจารณา";
+												}else{
+													echo "อนุมัติ";
+												}
+											?>
+										</td>
+										<td valign="top"><?=$_datA['prefix'].$_datA['firstname']. ' ' . $_datA['lastname'];?></td>
+										<td valign="top">
+											<?=$_datA['approved_datetime']==""?"":(substr($_datA['approved_datetime'],0,strlen($_datA['approved_datetime'])-3))?>
+										</td>
+										<td valign="top">
+											<?=$_datA['created_datetime']==""?"":(substr($_datA['created_datetime'],0,strlen($_datA['created_datetime'])-3))?>
+										</td>
+										<? if($_datA['approved_user']==$_SESSION['user_account_id'] || $_SESSION['user_account_id']=="446CF8EB-CCF3-4C5D-A4EF-2B8FBD001E16"){ ?> 
+										<td valign="top">
+											<form method="post">
+												<input type="hidden" name="absent_id"      value="<?=$_datA['absent_id']?>" />
+												<input type="hidden" name="approved_user"  value="<?=$_datA['approved_user']?>" />
+												<input type="hidden" name="approve_id"     value="<?=$_datA['approve_id']?>" />
+												<input type="submit" name="approve"        value="อนมุติ" />
+											</form>
+										</td>
+										<? } //end if ?>
+									</tr>
+								<? } //end while ?>
+							</table>
+						</td>
+					</tr>
+				<? }else { ?>
+				<tr>
+					<td></td>
+					<td>ยังไม่ระบุ <br/><br/></td>
+				</tr>
+				<? } ?>
+				<tr>
+						<td class="key" colspan="2"> </td>
+					</tr>
 				<tr>
 					<td align="right">วันที่ส่งคำร้อง:</td>
 					<td><?=$_dat['created_datetime']?></td>
