@@ -136,6 +136,12 @@
 								</form>
 							</td>
 							<? } ?>
+							<? if($_dat['request_status']=="รอการอนุมัติ") { ?>
+							<td>
+									<input  type="button" class="button" value="อนุมัติ"
+											onclick="location.href='index.php?option=module_hr/ProcessApproval'" />
+							</td>
+							<? } ?>
 						</tr>
 					</table>
 				</td>

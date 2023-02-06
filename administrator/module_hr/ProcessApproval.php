@@ -1,4 +1,6 @@
-﻿
+﻿<link rel="stylesheet" type="text/css" href="module_moral/css/calendar-mos2.css"/>
+<script language="JavaScript" type="text/javascript" src="module_moral/js/calendar.js"></script>
+
 <style>
 	#image1 {
 		display:none;
@@ -38,13 +40,18 @@
 	$_processing_result = "";
 
 	if(isset($_POST['add'])) {
+
+		$_approved_date = "CURRENT_TIMESTAMP";
+		if(isset($_POST['approved_datetime']) && $_POST['approved_datetime'] != ""){
+			$_approved_date = "'" . $_POST['approved_datetime'] . " " . date("h:i:s") . "'";
+		}
 		$_sql_insert_approval = "
 		
 					UPDATE
 						`hr_staff_absent_approval`
 					SET
 						`approved_status`   = '" . $_POST['approved_status'] ."',
-						`approved_datetime` = CURRENT_TIMESTAMP,
+						`approved_datetime` =  " . $_approved_date . ",
 						`approval_comment`  = '" . $_POST['approval_comment'] ."',
 						`updated_datetime`  = CURRENT_TIMESTAMP,
 						`updated_user`      = '" . $_POST['approved_user'] ."' 
@@ -54,6 +61,19 @@
 				";
 		$_res_insert_approval = mysqli_query($_connection,$_sql_insert_approval);
 		if($_res_insert_approval){
+			
+			/* send line message here per each approval*/
+			// line message here
+			if($_POST['approved_status']=="อนุมัติ"){ 
+				$_text = "";
+				$_text .= $_SESSION['shortname'] . "ได้อนุมัติ";
+				$_text .= "คำขออนุญาต: " . $_POST['absent_type'] . "วันที่ " . $_POST['request_date'] . " ของ " . $_POST['request_user'];
+				$_text .= "แล้ว";
+
+				$message = $_text;
+				SendLineMessage($message,$_line_token);
+			}
+			
 			$_all_approve = 0;
 			$_sql_all_status = "
 					select * from `hr_staff_absent_approval`
@@ -80,7 +100,13 @@
 				$_res_status = mysqli_query($_connection,$_sql_update_status);
 				
 				/* send line message here */
+				// line message here
+				$_text = "";
+				$_text .= "คำขออนุญาต: " . $_POST['absent_type'] . "วันที่ " . $_POST['request_date'] . " ของ " . $_POST['request_user'];
+				$_text .= " ได้รับการอนุมัติครบถ้วนแล้ว" ;
 
+				$message = $_text;
+				SendLineMessage($message,$_line_token);
 			}else{
 				$_sql_update_status = "
 					update hr_staff_absent
@@ -209,7 +235,8 @@
 									on (h.staff_id = s.staff_id) inner join hr_staff_absent_approval a
 									on (h.absent_id = a.absent_id)
 								where 
-									a.approved_user = '" . $_SESSION['user_account_id'] . "' 
+									a.approved_user = '" . $_SESSION['user_account_id'] . "' and
+									h.request_status in ('รอการอนุมัติ','อนุมัติ')
 								order by
 									convert(s.firstname using tis620)
 								 ";
@@ -239,6 +266,15 @@
     <? if($_row_data>0){  ?>
 
 	<div align="center">
+		<?php
+			$_sql_get_approval = "
+					select * from hr_staff_absent_approval 
+					where
+						absent_id = '" . $_absent_id . "' and approved_user = '" . $_SESSION['user_account_id'] . "' 
+				";
+			$_res_get_approval = mysqli_query($_connection,$_sql_get_approval);
+			$_dat_get_approval = mysqli_fetch_assoc($_res_get_approval);
+		?>
 		<form name="approval" method="post" >
 			<table class="admintable">
 				<tr>
@@ -247,15 +283,23 @@
 				<tr>
 					<td align="right" valign="top">ความเห็น :</td>
 					<td valign="top">
-						<textarea name="approval_comment" cols="30" rows="3" class="inputboxUpdate"></textarea>
+						<textarea name="approval_comment" cols="30" rows="3" class="inputboxUpdate"><?=$_dat_get_approval['approval_comment']?></textarea>
 					</td>
 				</tr>
 				<tr>
 					<td align="right" valign="top">การพิจารณา :</td>
 					<td valign="top">
-						<input type="radio" name="approved_status" value="อนุมัติ" checked/> อนุมัติ <br/>
-						<input type="radio" name="approved_status" value="ไม่อนุมัติ" /> ไม่อนุมัติ <br/>
-						<input type="radio" name="approved_status" value="ขอข้อมูลเพิ่ม" /> ขอข้อมูลเพิ่ม
+						<input type="radio" name="approved_status" value="อนุมัติ"      checked/> อนุมัติ <br/>
+						<input type="radio" name="approved_status" value="ไม่อนุมัติ"    <?=$_dat_get_approval['approved_status']=="ไม่อนุมัติ"?"checked":""?> /> ไม่อนุมัติ <br/>
+						<input type="radio" name="approved_status" value="ขอข้อมูลเพิ่ม" <?=$_dat_get_approval['approved_status']=="ขอข้อมูลเพิ่ม"?"checked":""?> /> ขอข้อมูลเพิ่ม
+					</td>
+				</tr>
+				<tr>
+					<td align="right" valign="top">วันที่พิจารณา :</td>
+					<td valign="top">
+						<input  class="noborder2" type="text" id="approved_datetime" name="approved_datetime" 
+								size="10" onClick="showCalendar(this.id)"
+								value="<?=substr($_dat_get_approval['approved_datetime'],0,10)?>" />
 					</td>
 				</tr>
 				<tr>
@@ -264,6 +308,9 @@
 						<input type="hidden" name="approved_user" value="<?=$_SESSION['user_account_id']?>" />
 						<input type="hidden" name="sort_order" value="<?=$_approval_count+1?>" />
 						<input type="hidden" name="absent_id" value="<?=$_absent_id?>" />
+						<input type="hidden" name="request_user" value="<?=$_dat['firstname'].' ' .$_dat['lastname']?>" />
+						<input type="hidden" name="request_date" value="<?=$_dat['start_absent_date']?>" />
+						<input type="hidden" name="absent_type" value="<?=$_dat['absent_type']?>" />
 						<input type="submit" name="add" value="บันทึก" class="button" />
 					</td>
 				</tr>
