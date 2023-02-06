@@ -36,13 +36,13 @@
 	<tr>
 		<td width="20px">&nbsp;</td>
 		<td>
-			<a href="index.php?option=module_hr/AddApproval">1.4 บันทึกผู้อนุมัติคำขอลา/ไปราชการ</a>
+			<a href="index.php?option=module_hr/AddApproval">1.4 เพิ่มผู้อนุมัติคำร้องขอลา/ไปราชการ</a>
 		</td>
 	</tr>
 	<tr>
 		<td width="20px">&nbsp;</td>
 		<td>
-			1.5 พิจารณาอนุมัติคำร้องขอลา/ไปราชการ
+		<a href="index.php?option=module_hr/ProcessApproval">1.5 พิจารณาอนุมัติคำร้องขอลา/ไปราชการ</a>
 		</td>
 	</tr>
 	<tr>

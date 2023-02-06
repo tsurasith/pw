@@ -33,59 +33,56 @@
 </script>
 
 <?php
-	if(isset($_POST['delete'])){
-		$_sql_del = "delete from hr_staff_absent_approval where approve_id = '" . $_POST['approve_id'] . "'";
-		$_res_del = mysqli_query($_connection,$_sql_del);
 
-		$_sql_check = "select * from hr_staff_absent_approval where approve_id = '" . $_POST['approve_id'] . "'";
-		$_res_check = mysqli_query($_connection,$_sql_check);
-		if(mysqli_num_rows($_res_check)<1){
-			$_sql_update_status = "
+	$_processing_text = "";
+	$_processing_result = "";
+
+	if(isset($_POST['add'])) {
+		$_sql_insert_approval = "
+		
+					UPDATE
+						`hr_staff_absent_approval`
+					SET
+						`approved_status`   = '" . $_POST['approved_status'] ."',
+						`approved_datetime` = CURRENT_TIMESTAMP,
+						`approval_comment`  = '" . $_POST['approval_comment'] ."',
+						`updated_datetime`  = CURRENT_TIMESTAMP,
+						`updated_user`      = '" . $_POST['approved_user'] ."' 
+					WHERE
+						`absent_id`     = '" . $_POST['absent_id'] ."' and
+						`approved_user` = '" . $_POST['approved_user'] ."' 
+				";
+		$_res_insert_approval = mysqli_query($_connection,$_sql_insert_approval);
+		if($_res_insert_approval){
+			$_all_approve = 0;
+			$_sql_all_status = "
+					select * from `hr_staff_absent_approval`
+					where
+					`absent_id`     = '" . $_POST['absent_id'] ."' and
+					 (
+						trim(approved_status) in ('ไม่อนุมัติ','ขอข้อมูลเพิ่ม') or
+					    approved_status is null
+					  )
+				";
+			$_res_all_status = mysqli_query($_connection,$_sql_all_status);
+			$_all_approve = mysqli_num_rows($_res_all_status);
+
+			if($_all_approve == 0){
+				$_sql_update_status = "
 					update hr_staff_absent
 					set
-						request_status = 'ส่งต่องานบุคลากรแล้ว',
+						request_status = 'อนุมัติ',
 						updated_datetime = CURRENT_TIMESTAMP,
 						updated_user     = '" . $_SESSION['user_account_id'] . "' 
 					where
 						absent_id = '" . $_POST['absent_id'] . "' 
 				";
-			$_res_status = mysqli_query($_connection,$_sql_update_status);
-		}
-	}
-?>
+				$_res_status = mysqli_query($_connection,$_sql_update_status);
+				
+				/* send line message here */
 
-<?php
-
-	$_processing_text = "";
-	$_processing_result = "";
-
-	if(isset($_POST['add']) && $_POST['approval_id'] != "") {
-		$_sql_insert_approval = "
-		
-					INSERT INTO `hr_staff_absent_approval`(
-						`approve_id`,
-						`absent_id`,
-						`approved_user`,
-						`created_datetime`,
-						`created_user`,
-						`updated_datetime`,
-						`updated_user`,
-						`sort_order`
-					)
-					VALUES(
-						NULL,
-						'" . $_POST['absent_id'] . "',
-						'" . $_POST['approval_id'] . "',
-						CURRENT_TIMESTAMP,
-						'" . $_SESSION['user_account_id'] . "',
-						CURRENT_TIMESTAMP,
-						'" . $_SESSION['user_account_id'] . "',
-						'" . $_POST['sort_order'] . "'
-					)
-				";
-		$_res_insert_approval = mysqli_query($_connection,$_sql_insert_approval);
-		if($_res_insert_approval){
-			$_sql_update_status = "
+			}else{
+				$_sql_update_status = "
 					update hr_staff_absent
 					set
 						request_status = 'รอการอนุมัติ',
@@ -94,7 +91,10 @@
 					where
 						absent_id = '" . $_POST['absent_id'] . "' 
 				";
-			$_res_status = mysqli_query($_connection,$_sql_update_status);
+				$_res_status = mysqli_query($_connection,$_sql_update_status);
+			}
+
+			
 		}
 	}
 
@@ -193,7 +193,7 @@
 				<td width="6%" align="center"><a href="index.php?option=module_hr/index"><img src="../images/fingerprint.png" alt="" width="48px" border="0" /></a></td>
 				<td >
 					<strong><font color="#990000" size="4">งานบริหารบุคลากร</font></strong><br />
-					<span class="normal"><font color="#0066FF"><strong>1.4 เพิ่มผู้อนุมัติคำร้องขอลา/ไปราชการ</strong></font></span></td>
+					<span class="normal"><font color="#0066FF"><strong>1.5 พิจารณาอนุมัติคำร้องขอลา/ไปราชการ</strong></font></span></td>
 				<td width="330px">
 					<?php
 
@@ -206,11 +206,10 @@
 									h.*
 								from
 									hr_staff_absent h inner join hr_staff s
-									on (
-										h.staff_id = s.staff_id
-									) 
+									on (h.staff_id = s.staff_id) inner join hr_staff_absent_approval a
+									on (h.absent_id = a.absent_id)
 								where 
-									h.request_status != 'ส่งคำขอแล้ว'
+									a.approved_user = '" . $_SESSION['user_account_id'] . "' 
 								order by
 									convert(s.firstname using tis620)
 								 ";
@@ -243,48 +242,30 @@
 		<form name="approval" method="post" >
 			<table class="admintable">
 				<tr>
-					<td class="key" colspan="2" height="35px" align="center">ส่วนบันทึกเพิ่มผู้อนุมัติคำขอ</td>
+					<td class="key" colspan="2" height="35px" align="center">ส่วนบันทึกการพิจารณาคำร้อง</td>
 				</tr>
 				<tr>
-					<td align="right" valign="top">เลือกผู้อนุมัติคนที่ <?=$_approval_count+1?> :</td>
-					<td>
-						<?php
-							$_sql_staff = "
-									select * 
-									from   hr_staff
-									where  
-										staff_status = 'ACTIVE' and
-										staff_id not in 
-											(select approved_user from hr_staff_absent_approval where absent_id = '" . $_absent_id . "')
-									order by 
-										convert(firstname using tis620), convert(lastname using tis620)
-								";
-							$_res_staff = mysqli_query($_connection,$_sql_staff);
-
-						?>
-						<!-- onChange="document.approval.submit();" -->
-						<select name="approval_id" class="inputboxUpdate">
-							<option value=""></option>
-							<? while($_datA = mysqli_fetch_assoc($_res_staff)) { ?>
-								<option value="<?=$_datA['staff_id']?>" 
-										<?=isset($_POST['staff_id'])&&$_POST['staff_id']==$_datA['staff_id']?"selected":""?> >
-										<?=$_datA['firstname']. ' ' .$_datA['lastname']?>
-								</option>
-							<? } ?>
-						</select>
+					<td align="right" valign="top">ความเห็น :</td>
+					<td valign="top">
+						<textarea name="approval_comment" cols="30" rows="3" class="inputboxUpdate"></textarea>
+					</td>
+				</tr>
+				<tr>
+					<td align="right" valign="top">การพิจารณา :</td>
+					<td valign="top">
+						<input type="radio" name="approved_status" value="อนุมัติ" checked/> อนุมัติ <br/>
+						<input type="radio" name="approved_status" value="ไม่อนุมัติ" /> ไม่อนุมัติ <br/>
+						<input type="radio" name="approved_status" value="ขอข้อมูลเพิ่ม" /> ขอข้อมูลเพิ่ม
 					</td>
 				</tr>
 				<tr>
 					<td></td>
 					<td>
+						<input type="hidden" name="approved_user" value="<?=$_SESSION['user_account_id']?>" />
 						<input type="hidden" name="sort_order" value="<?=$_approval_count+1?>" />
 						<input type="hidden" name="absent_id" value="<?=$_absent_id?>" />
-						<input type="submit" name="add" value="เพิ่มผู้อนุมัติ" class="button" />
+						<input type="submit" name="add" value="บันทึก" class="button" />
 					</td>
-				</tr>
-				<tr>
-					<td></td>
-					<td></td>
 				</tr>
 			</table>
 		</form>
@@ -402,18 +383,6 @@
 										<td valign="top">
 											<?=$_datA['created_datetime']==""?"":(substr($_datA['created_datetime'],0,strlen($_datA['created_datetime'])-3))?>
 										</td>
-										<? if($_datA['approved_status'] == "" && 
-											  ($_datA['approved_user']==$_SESSION['user_account_id'] || 
-											   $_SESSION['user_account_id']=="446CF8EB-CCF3-4C5D-A4EF-2B8FBD001E16")){ ?> 
-										<td valign="top">
-											<form method="post">
-												<input type="hidden" name="absent_id"      value="<?=$_datA['absent_id']?>" />
-												<input type="hidden" name="approved_user"  value="<?=$_datA['approved_user']?>" />
-												<input type="hidden" name="approve_id"     value="<?=$_datA['approve_id']?>" />
-												<input type="submit" name="delete"        value="ลบ" />
-											</form>
-										</td>
-										<? } //end if ?>
 									</tr>
 								<? } //end while ?>
 							</table>

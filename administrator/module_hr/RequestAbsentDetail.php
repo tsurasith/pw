@@ -251,15 +251,7 @@
 									<tr>
 										
 										<td valign="top"><?=$_datA['approval_comment']?></td>
-										<td align="center" valign="top">
-											<?php
-												if($_datA['approved_datetime']==""){
-													echo "รอพิจารณา";
-												}else{
-													echo "อนุมัติ";
-												}
-											?>
-										</td>
+										<td valign="top" align="center"><?=$_datA['approved_status']?></td>
 										<td valign="top"><?=$_datA['prefix'].$_datA['firstname']. ' ' . $_datA['lastname'];?></td>
 										<td valign="top">
 											<?=$_datA['approved_datetime']==""?"":(substr($_datA['approved_datetime'],0,strlen($_datA['approved_datetime'])-3))?>
@@ -267,16 +259,6 @@
 										<td valign="top">
 											<?=$_datA['created_datetime']==""?"":(substr($_datA['created_datetime'],0,strlen($_datA['created_datetime'])-3))?>
 										</td>
-										<? if($_datA['approved_user']==$_SESSION['user_account_id'] || $_SESSION['user_account_id']=="446CF8EB-CCF3-4C5D-A4EF-2B8FBD001E16"){ ?> 
-										<td valign="top">
-											<form method="post">
-												<input type="hidden" name="absent_id"      value="<?=$_datA['absent_id']?>" />
-												<input type="hidden" name="approved_user"  value="<?=$_datA['approved_user']?>" />
-												<input type="hidden" name="approve_id"     value="<?=$_datA['approve_id']?>" />
-												<input type="submit" name="approve"        value="อนมุติ" />
-											</form>
-										</td>
-										<? } //end if ?>
 									</tr>
 								<? } //end while ?>
 							</table>
@@ -284,8 +266,19 @@
 					</tr>
 				<? }else { ?>
 				<tr>
-					<td></td>
-					<td>ยังไม่ระบุ <br/><br/></td>
+					<td colspan="2" align="center">
+						<font color='red'>
+							<?php
+								if($_dat['request_status']=="ส่งคำขอแล้ว"){
+									echo "ยังไม่ระบุ หากงานบุคลากรตรวจสอบความถูกต้องของคำขอแล้ว โปรดดำเนินการ \"ส่งต่อ\" เพื่อเพิ่มผู้อนุมัติคำขอ";
+								}
+								if($_dat['request_status']=="ส่งต่องานบุคลากรแล้ว"){
+									echo "ยังไม่ระบุ กรุณาเพิ่มผู้อนุมัตคำร้องขอ";
+								}
+								echo "<br/><br/>";
+							?>
+						</font>
+					</td>
 				</tr>
 				<? } ?>
 				<tr>

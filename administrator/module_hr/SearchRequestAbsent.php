@@ -106,7 +106,6 @@
 				<td align="right">จำนวนรายการที่แสดง :</td>
 				<td>
 					<select name="list" class="inputboxUpdate">
-						<option <?=isset($_POST['list'])&&$_POST['list']=="10"?"selected":""?> value="10">10</option>
 						<option <?=isset($_POST['list'])&&$_POST['list']=="25"?"selected":""?> value="25">25</option>
 						<option <?=isset($_POST['list'])&&$_POST['list']=="50"?"selected":""?> value="50">50</option>
 						<option <?=isset($_POST['list'])&&$_POST['list']=="100"?"selected":""?> value="100">100</option>
@@ -137,12 +136,23 @@
 							s.firstname,
 							s.lastname,
 							s.position,
-							h.*
+							h.*,
+							a.approved,
+							a.total
 						from
 							hr_staff_absent h inner join hr_staff s
-							on (
-								h.staff_id = s.staff_id
-							) 
+							on (h.staff_id = s.staff_id) left join 
+								(
+									select 
+										a.absent_id,
+										sum(if(approved_status='อนุมัติ',1,0)) as 'approved',
+										count(*) as 'total'
+									from
+										hr_staff_absent_approval a
+									group by
+										a.absent_id
+								) as a
+							on (h.absent_id = a.absent_id)
 						where
 							1=1
 					";
@@ -201,7 +211,14 @@
 							<td align="left"><?=displayDateShortMonth($_dat['start_absent_date']) . ' (' . displayDayofWeek(date('w',strtotime($_dat['start_absent_date']))) . ')'?></td>
 							<td align="center"><?=$_dat['total_absent']?></td>
 							<td align="center"><?=$_dat['absent_subtype']?></td>
-							<td align="center"><?=$_dat['request_status']?></td>
+							<td align="center">
+								<?=$_dat['request_status']?>
+								<?
+									if($_dat['total']!=""){
+										echo "(" . $_dat['approved'] . '/' . $_dat['total'] . ")";
+									} 
+								?>
+							</td>
 							<td align="center"><?=$_dat['acadsemester'].'/'.$_dat['acadyear']?></td>
 							<td align="center"><?=$_dat['created_datetime']?></td>
 							<td align="center">
