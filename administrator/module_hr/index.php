@@ -59,7 +59,7 @@
 	<tr>
 		<td width="20px">&nbsp;</td>
 		<td>
-			2.2 รายงานสรุปจำนวนบุคลากร
+		<a href="index.php?option=module_hr/SearchStaff">2.2 ค้นหา/ตรวจสอบ ข้อมูลบุคลากร</a>
 		</td>
 	</tr>
 	<tr>
