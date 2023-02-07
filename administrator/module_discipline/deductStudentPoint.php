@@ -63,6 +63,10 @@
 
 <? $_flag = 2; ?>
 <? if(isset($_POST['deduct'])){
+
+	$_text = "มีการ";
+
+
 	$_sql = "update students 
 				set points = '" . ($_POST['oldPoints'] + $_POST['deduct']) . "' 
 					where id = '" . $_POST['studentid'] . "' and 
@@ -74,8 +78,10 @@
 		 if(trim($_POST['deduct'])>=0){
 			$_point_type = 1;
 			$_point_changed = trim($_POST['deduct']);
+			$_text .= "เพิ่ม";
 		 }else{
 			$_point_changed = trim($_POST['deduct']) * -1;
+			$_text .= "หัก";
 		 }
 
 		 $_sql_insert_history = "
@@ -105,6 +111,15 @@
 					)
 		 	";
 		$_res_insert_his = mysqli_query($_connection,$_sql_insert_history);
+
+		$_text .= "คะแนนความประพฤติของนักเรียน " . $_point_changed . " คะแนน ";
+		$_text .= "ของนักเรียนเลขประจำตัว :" . $_POST['studentid'] . " โดย " . $_SESSION['shortname'];
+		$message = $_text;
+		// sending to specific level group
+
+		@SendLineMessage($message,$_token[$_POST['line_group']]);
+		SendLineMessage($message,$_line_token);
+
 	 }
 	 else $_flag = 0;
 	 //echo $_sql;
@@ -117,7 +132,7 @@
     <tr> 
       <td width="6%" align="center"><a href="index.php?option=module_discipline/index"><img src="../images/discipline.png" alt="" width="48" height="48" border="0"/></a></td>
       <td ><strong><font color="#990000" size="4">งานวินัยนักเรียน</font></strong><br />
-        <span class="normal"><font color="#0066FF"><strong>1.7 ตัดคะแนนความประพฤติ</strong></font></span></td>
+        <span class="normal"><font color="#0066FF"><strong>1.7 เพิ่ม/ลดคะแนนความประพฤติ</strong></font></span></td>
       <td align="right">
 		<form method="post" autocomplete="off"> 
 			ปีการศึกษา <?=$acadyear?> ภาคเรียนที่ <?=$acadsemester?> <br/>
@@ -199,6 +214,7 @@
 						(+10 เพิ่ม, -10 ลด)
 						<input type="hidden" name="studentid" value="<?=$_dat['id']?>" />
 						<input type="hidden" name="oldPoints" value="<?=$_dat['points']?>" />
+						<input type="hidden" name="line_group" value="<?=displayRoomTable($_dat['xlevel'],$_dat['xyearth'])?>" />
 						<input type="hidden" name="action" />
 					</td>
 				</tr>
