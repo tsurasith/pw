@@ -268,7 +268,7 @@
 	{
 		if($_value > 100)
 		{
-			return "<font color='black' size='4'>" . $_value . "</font><font color='red'>*</font>";
+			return "<font color='green' size='4'>" . $_value . "</font>";
 		}
 		else if($_value == 100)
 		{
@@ -276,10 +276,10 @@
 		}
 		else if($_value >=80)
 		{
-			return "<font color='green' size='4'>" . $_value . "</font>";
+			return "<font color='orange' size='4'>" . $_value . "</font>";
 		}else if ($_value >=60)
 		{
-			return "<font color='orange' size='4'>" . $_value . "</font>";
+			return "<font color='darkorange' size='4'>" . $_value . "</font>";
 		}else
 		{
 			return "<font color='red' size='4'>" . $_value . "</font>";

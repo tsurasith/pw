@@ -32,7 +32,7 @@
 		<tr><td >&nbsp;</td><td><a href="index.php?option=module_discipline/disciplineDecision">1.5 บันทึกการดำเนินการหัวหน้าฝ่ายกิจการนักเรียน</a></td></tr>
         <tr><td >&nbsp;</td><td><a href="index.php?option=module_discipline/reportStudentList">1.6 แสดงรายชื่อนักเรียนที่มีคดีตามห้องเรียน</a></td></tr>
    <? if($_SESSION['superAdmin']) { ?>
-        <tr><td >&nbsp;</td><td><a href="index.php?option=module_discipline/deductStudentPoint">1.7 ตัดคะแนนความประพฤติ</a></td></tr>
+        <tr><td >&nbsp;</td><td><a href="index.php?option=module_discipline/deductStudentPoint">1.7 เพิ่ม/ลดคะแนนความประพฤติ</a></td></tr>
    <? } //end-check_superAdmin ?>
 		<tr>
 			<td colspan="2" class="key" >2. รายงานผลพฤติกรรมไม่พึงประสงค์ </td>
