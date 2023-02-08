@@ -18,6 +18,10 @@
 			<td width="20px">&nbsp;</td>
 			<td><a href="index.php?option=module_discipline/disciplineFinished">1.1 รายละเอียดพฤติกรรมไม่พึงประสงค์ในแต่ละคดี</a></td>
 		</tr>
+		<tr>
+			<td width="20px">&nbsp;</td>
+			<td><a href="index.php?option=module_discipline/SearchStudenttPoints">1.2 คะแนนพฤติกรรม</a></td>
+		</tr>
 		<!--<tr><td >&nbsp;</td><td>1.2 บันทึกการสอบสวนพฤติกรรมไม่พึงประสงค์</td></tr>
 		<tr><td >&nbsp;</td><td>1.3 บันทึกบทลงโทษนักเรียน</td></tr>
 		<tr><td >&nbsp;</td><td>1.4 บันทึกการทำกิจกรรมปรับเปลี่ยนพฤติกรรม</td></tr>

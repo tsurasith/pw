@@ -5,7 +5,7 @@
 			<tr> 
 			<td width="6%" align="center"><a href="index.php?option=module_discipline/index"><img src="../images/discipline.png" alt="" width="48" height="48" /></a></td>
 			<td><strong><font color="#990000" size="4">งานวินัยนักเรียน</font></strong><br />
-				<span class="normal"><font color="#0066FF"><strong>2.1 รายงานแสดงการประวัติเพิ่ม/ลด คะแนนความประพฤติ</strong></font></span></td>
+				<span class="normal"><font color="#0066FF"><strong>1.2 คะแนนพฤติกรรม</strong></font></span></td>
 			<td >&nbsp;</td>
 			</tr>
 		</table>
@@ -15,25 +15,6 @@
 			<table align="center" class="admintable" >
 			<tr height="30px"> 
 				<td  class="key" colspan="2">โปรดใส่รายละเอียดที่ต้องการสืบค้นประวัติการเพิ่ม/ลด คะแนนพฤติกรรมนักเรียน</td>
-			</tr>
-			<tr>
-				<td align="right" width="140px" valign="top">เลขประจำตัวนักเรียน :</td>
-				<td>
-					<input type="text" name="student_id" value="<?=isset($_POST['student_id'])?$_POST['student_id']:""?>" maxlength="5" size="10" class="inputboxUpdate" />
-					<br/>ถ้าต้องการสืบค้นนักเรียนที่มีเลขประจำตัวขึ้นต้นด้วย 07 ทั้งหมดสามารถป้อน 07% เพื่อสืบค้นได้
-					<br/>ถ้าหากต้องการค้นหานักเรียนที่มีเลขประจำตัวลงด้วยด้วย 123 สามารถป้อน %123 เพื่อสืบค้นได้
-				</td>
-			</tr>
-			<tr>
-				<td align="right">ชื่อ :</td>
-				<td>
-					<input type="text" name="firstname" value="<?=isset($_POST['firstname'])?$_POST['firstname']:""?>" class="inputboxUpdate"/> 
-					สกุล 
-					<input type="text" name="lastname" value="<?=isset($_POST['lastname'])?$_POST['lastname']:""?>" class="inputboxUpdate" />
-					&nbsp; 
-					ชื่อเล่น :
-					<input  type="text"  name="nickname" value="<?=isset($_POST['nickname'])?$_POST['nickname']:""?>" size="5" class="inputboxUpdate" />
-				</td>
 			</tr>
 			<tr>
 				<td align="right">ปีการศึกษา </td>
@@ -61,48 +42,6 @@
 				</td>
 			</tr>
 			<tr>
-				<td align="right">ห้องเรียน :</td>
-				<td>
-					<select name="room" class="inputboxUpdate">
-						<option <?=isset($_POST['room'])&&$_POST['room']==""?"selected":""?> value=""> ทั้งหมด </option>
-						<?php
-							$_sql_room = "
-							
-									select 
-										DISTINCT
-										concat(xlevel,'|',xyearth,'|',room) as 'room' ,
-										concat(((xlevel-3)*3)+xyearth ,'/',room) as 'class_display'
-									FROM students
-									order by class_display
-								
-								";
-							$_resStatus = mysqli_query($_connection,$_sql_room);
-							while($_datRoom = mysqli_fetch_assoc($_resStatus))
-							{  ?>
-								<option value="<?=$_datRoom['room']?>" <?=isset($_POST['room'])&&$_POST['room']==$_datRoom['room']?"SELECTED":""?>>
-									<?=$_datRoom['class_display']?>
-								</option>
-						<?	} mysqli_free_result($_resStatus); ?>
-					</select>
-
-					&nbsp; &nbsp; 
-					สถานภาพ :
-
-					<select name="studstatus" class="inputboxUpdate">
-						<option <?=isset($_POST['studstatus'])&&$_POST['studstatus']==""?"selected":""?> value=""> ทั้งหมด </option>
-						<?php
-							$_resStatus = mysqli_query($_connection,"SELECT * FROM ref_studstatus ORDER BY FIELD(studstatus,0) ASC ");
-							while($_datStatus = mysqli_fetch_assoc($_resStatus))
-							{  ?>
-								<option value="<?=$_datStatus['studstatus']?>" <?=isset($_POST['studstatus'])&&$_POST['studstatus']==$_datStatus['studstatus']?"SELECTED":""?>>
-									<?=$_datStatus['studstatus_description']?>
-								</option>
-						<?	} mysqli_free_result($_resStatus); ?>
-					</select>
-
-				</td>
-			</tr>
-			<tr>
 				<td align="right">จำนวนรายการที่แสดง :</td>
 				<td>
 					<select name="list" class="inputboxUpdate">
@@ -115,8 +54,6 @@
 			<tr>
 				<td></td>
 				<td>
-					<input type="radio" name="order_by" value="id"   <?=isset($_POST['order_by'])&&$_POST['order_by']=="id"?"checked":""?>> เรียงตามเลขประจำตัว  &nbsp; 
-					<input type="radio" name="order_by" value="name" <?=isset($_POST['order_by'])&&$_POST['order_by']=="name"?"checked":""?>> เรียงตามใบรายชื่อ &nbsp; &nbsp; 
 					<input type="checkbox" name="group" value="group" <?=isset($_POST['group'])&&$_POST['group']=="group"?"checked":""?> /> ไม่แสดงประวัติคะแนน 
 					<br/>
 				</td>
@@ -129,10 +66,6 @@
 
 		<? if(isset($_POST['search'])) {?>
 		<?		
-				$_class = array();
-				if($_POST['room'] != ""){
-					$_class = explode("|",$_POST['room']);
-				}
 				$_sql_more = "";
 				$_sql_2 = "
 							select 
@@ -196,15 +129,10 @@
 							on (h.student_id = s.ID) left join teachers t
 							on (h.updated_user = t.teacher_id)
 							where 1=1 ";
+						$_sql_more .= " and h.student_id = '" . $_SESSION['username'] ."' ";
 						$_sql_more .= trim($_POST['point_type'])==""?"":" and point_type = '" . $_POST['point_type'] . "'";
-						$_sql_more .= trim($_POST['student_id'])==""?"":" and id like '" . $_POST['student_id'] . "'";
-						$_sql_more .= trim($_POST['firstname'])==""?"":" and s.firstname like '%" . $_POST['firstname'] . "%'";
-						$_sql_more .= trim($_POST['lastname'])==""?"":" and s.lastname like '%" . $_POST['lastname'] . "%'";
-						$_sql_more .= trim($_POST['nickname'])==""?"":" and s.nickname like '%" . $_POST['nickname'] . "%'";
 						$_sql_more .= trim($_POST['acadyear'])==""?"":" and xedbe = '" . $_POST['acadyear'] . "' ";
-						$_sql_more .= trim($_POST['studstatus'])==""?"":" and studstatus = '" . $_POST['studstatus'] . "' ";
-						$_sql_more .= trim($_POST['room'])==""?"":" and xlevel = '" . $_class[0] . "' and xyearth = '" . $_class[1]. "' and room = '" . $_class[2]. "' ";
-
+				
 				if(isset($_POST['group'])){
 					$_sql_2 .= $_sql_more;
 					$_sql_2 .= " group by h.student_id ";
@@ -213,20 +141,9 @@
 					$_sql .= $_sql_more;
 				}
 				
-
-				if(!isset($_POST['order_by'])){
-					$_sql .= " order by id";
-				}
-				else if($_POST['order_by']=="id"){
-					$_sql .= " order by id";
-				}else{
-					$_sql .= " order by xlevel,xyearth,room,s.sex,convert(s.firstname using tis620),convert(s.lastname using tis620),id ";
-				}
-				
 				if($_POST['list'] != "all")	$_sql .= " limit 0," . $_POST['list'] ;
 
 				$_total_rows = 0;
-
 
 				//echo $_sql;
 
