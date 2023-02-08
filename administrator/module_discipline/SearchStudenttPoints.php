@@ -116,8 +116,9 @@
 				<td></td>
 				<td>
 					<input type="radio" name="order_by" value="id"   <?=isset($_POST['order_by'])&&$_POST['order_by']=="id"?"checked":""?>> เรียงตามเลขประจำตัว  &nbsp; 
-					<input type="radio" name="order_by" value="name" <?=isset($_POST['order_by'])&&$_POST['order_by']=="name"?"checked":""?>> เรียงตามใบรายชื่อ (เพศ, ชื่อ, เลขประจำตัว)
-					<br/><br/>
+					<input type="radio" name="order_by" value="name" <?=isset($_POST['order_by'])&&$_POST['order_by']=="name"?"checked":""?>> เรียงตามใบรายชื่อ &nbsp; &nbsp; 
+					<input type="checkbox" name="group" value="group" <?=isset($_POST['group'])&&$_POST['group']=="group"?"checked":""?> /> ไม่แสดงประวัติคะแนน 
+					<br/>
 				</td>
 			</tr>
 			<tr>
@@ -132,6 +133,37 @@
 				if($_POST['room'] != ""){
 					$_class = explode("|",$_POST['room']);
 				}
+				$_sql_more = "";
+				$_sql_2 = "
+							select 
+								h.student_id,
+								h.dis_id,
+								sum(if(h.point_type=1,h.point_changed,-h.point_changed)) as point_changed,
+								h.point_comments,
+								h.acadyear,
+								h.acadsemester,
+								h.updated_user,
+								s.prefix,
+								s.firstname,
+								s.lastname,
+								s.nickname,
+								s.xlevel,
+								s.xyearth,
+								s.xedbe,
+								s.room,
+								s.points,
+								s.id,
+								s.sex,
+								s.studstatus,
+								t.PREFIX as t_prefix,
+								t.FIRSTNAME as t_firstname,
+								t.LASTNAME as t_lastname
+							from 
+							student_point_history h inner join students s 
+							on (h.student_id = s.ID) left join teachers t
+							on (h.updated_user = t.teacher_id)
+							where 1=1 
+						";
 
 				$_sql = "
 							select 
@@ -164,31 +196,38 @@
 							on (h.student_id = s.ID) left join teachers t
 							on (h.updated_user = t.teacher_id)
 							where 1=1 ";
-						$_sql .= trim($_POST['point_type'])==""?"":" and point_type = '" . $_POST['point_type'] . "'";
-						$_sql .= trim($_POST['student_id'])==""?"":" and id like '" . $_POST['student_id'] . "'";
-						$_sql .= trim($_POST['firstname'])==""?"":" and s.firstname like '%" . $_POST['firstname'] . "%'";
-						$_sql .= trim($_POST['lastname'])==""?"":" and s.lastname like '%" . $_POST['lastname'] . "%'";
-						$_sql .= trim($_POST['nickname'])==""?"":" and s.nickname like '%" . $_POST['nickname'] . "%'";
-						$_sql .= trim($_POST['acadyear'])==""?"":" and xedbe = '" . $_POST['acadyear'] . "' ";
-						$_sql .= trim($_POST['studstatus'])==""?"":" and studstatus = '" . $_POST['studstatus'] . "' ";
-						$_sql .= trim($_POST['room'])==""?"":" and xlevel = '" . $_class[0] . "' and xyearth = '" . $_class[1]. "' and room = '" . $_class[2]. "' ";
+						$_sql_more .= trim($_POST['point_type'])==""?"":" and point_type = '" . $_POST['point_type'] . "'";
+						$_sql_more .= trim($_POST['student_id'])==""?"":" and id like '" . $_POST['student_id'] . "'";
+						$_sql_more .= trim($_POST['firstname'])==""?"":" and s.firstname like '%" . $_POST['firstname'] . "%'";
+						$_sql_more .= trim($_POST['lastname'])==""?"":" and s.lastname like '%" . $_POST['lastname'] . "%'";
+						$_sql_more .= trim($_POST['nickname'])==""?"":" and s.nickname like '%" . $_POST['nickname'] . "%'";
+						$_sql_more .= trim($_POST['acadyear'])==""?"":" and xedbe = '" . $_POST['acadyear'] . "' ";
+						$_sql_more .= trim($_POST['studstatus'])==""?"":" and studstatus = '" . $_POST['studstatus'] . "' ";
+						$_sql_more .= trim($_POST['room'])==""?"":" and xlevel = '" . $_class[0] . "' and xyearth = '" . $_class[1]. "' and room = '" . $_class[2]. "' ";
 				
-				if(!isset($_POST['order_by'])){
-					$_sql .= " order by id";
-				}
-				else if($_POST['order_by']=="id"){
-					$_sql .= " order by id";
-				}else{
-					$_sql .= " order by xlevel,xyearth,room,s.sex,convert(s.firstname using tis620),convert(s.lastname using tis620),id ";
+				if(isset($_POST['group'])){
+					$_sql_2 .= " group by h.student_id ";
+					$_sql   = $_sql_2;
 				}
 
-				//echo $_sql;
+
+
+				if(!isset($_POST['order_by'])){
+					$_sql_more .= " order by id";
+				}
+				else if($_POST['order_by']=="id"){
+					$_sql_more .= " order by id";
+				}else{
+					$_sql_more .= " order by xlevel,xyearth,room,s.sex,convert(s.firstname using tis620),convert(s.lastname using tis620),id ";
+				}
 				
-				if($_POST['list'] != "all")	$_sql .= " limit 0," . $_POST['list'] ;
+				if($_POST['list'] != "all")	$_sql_more .= " limit 0," . $_POST['list'] ;
 
 				$_total_rows = 0;
 
+
 				//echo $_sql;
+				$_sql .= $_sql_more;
 
 				$_result = mysqli_query($_connection,$_sql);
 				$_total_rows = mysqli_num_rows($_result);
@@ -204,45 +243,117 @@
 						</tr>
 						<tr align="center" height="30px">
 							<td class="key" width="35px">ที่</td>
-							<td class="key" width="80px">เลขประจำตัว</td>
+							<td class="key" width="65px">เลขประจำตัว</td>
 							<td class="key" width="190px">ชื่อ - สกุล</td>
-							<td class="key" width="50px">ชื่อเล่น</td>
-							<td class="key" width="50px">ห้อง</td>
-							<td class="key" width="50px">คะแนน</td>
+							<td class="key" width="55px">ชื่อเล่น</td>
+							<td class="key" width="40px">ห้อง</td>
+							<td class="key" width="60px">คะแนน<br/>คงเหลือ</td>
+							<td class="key" width="50px">ประวัติ</td>
 							<td class="key" width="180px">สาเหตุ</td>
-							<td class="key" width="100px">สถานะภาพ</td>
-							<td class="key" width="50px">คะแนน<br/>คงเหลือ</td>
+							<td class="key" width="80px">สถานะภาพ</td>
 							<td class="key" width="75px">ปีการศึกษา</td>
-							<td class="key" width="130px">แก้ไขโดย</td>
+							<td class="key" width="150px">แก้ไขโดย</td>
 						</tr>
 					
+						<?php
+							$_init_student_id = "";
+						?>
+
 						<? $_i = 1; ?>
 						<? while($_dat = mysqli_fetch_assoc($_result)){ ?>
 						<tr onMouseOver="this.style.backgroundColor='#E5EBFE'; this.style.cursor='hand';" onMouseOut=this.style.backgroundColor="#FFFFFF">
-							<td align="center"><?=$_i++?></td>
-							<td align="center"><?=$_dat['id']?></td>
-							<td ><?=$_dat['prefix'] . $_dat['firstname'] . ' ' . $_dat['lastname']?></td>
-							<td align="left"><?=$_dat['nickname']?></td>
-							<td align="center"><?=displayXyear($_dat['xlevel'] . '/' . $_dat['xyearth']) . '/' . $_dat['room']?></td>
-							<td align="center">
-								<?php
-									if($_dat['point_type']==1){
-										echo "<font color='green'>+";
-										echo $_dat['point_changed'];
-										echo "</font>";
-									}else{
-										echo "<font color='red'>-";
-										echo $_dat['point_changed'];
-										echo "</font>";
+							<td valign="top" align="center"><?=$_i++?></td>
+							<td valign="top" align="center">
+								<?
+									if($_init_student_id != $_dat['id']){
+										echo $_dat['id'];
 									}
 								?>
 							</td>
-							<td align="left"><?=$_dat['point_comments']?></td>
-							<td align="center"><?=displayStudentStatusColor($_dat['studstatus'])?></td>
-							<td align="center"><?=$_dat['points']?></td>
-							<td align="center"><?=$_dat['acadsemester'].'/'.$_dat['acadyear']?></td>
-							<td ><?='ครู'. $_dat['t_firstname'] . ' ' . $_dat['t_lastname']?></td>
+							<td valign="top" >
+								<?php
+									if($_init_student_id != $_dat['id']){
+										echo $_dat['prefix'] . $_dat['firstname'] . ' ' . $_dat['lastname'];
+									}
+								?>
+							</td>
+							<td valign="top" align="left">
+								<?php
+									if($_init_student_id != $_dat['id']){
+										echo $_dat['nickname'];
+									}
+								?>
+							</td>
+							<td valign="top" align="center">
+								<?php
+									if($_init_student_id != $_dat['id']){
+										echo displayXyear($_dat['xlevel'] . '/' . $_dat['xyearth']) . '/' . $_dat['room'];
+									}
+								?>
+							</td>
+							<td valign="top" align="center">
+								<?php
+									if($_init_student_id != $_dat['id']){
+										if($_dat['points']<=0){
+											echo "<font color='red'>";
+											echo $_dat['points'];
+											echo "</font>";
+										}else if($_dat['points']>=100){
+											echo "<font color='green'>";
+											echo $_dat['points'];
+											echo "</font>";
+										}else{
+											echo $_dat['points'];
+										}
+									}
+								?>
+							</td>
+							<td valign="top" align="center">
+								<?php
+									if(isset($_POST['group'])){
+										if($_dat['point_changed']>0){
+
+											echo "<font color='green'>+";
+											echo $_dat['point_changed'];
+											echo "</font>";
+										}else{
+											echo "<font color='red'>";
+											echo $_dat['point_changed'];
+											echo "</font>";
+										}
+
+									}else{
+
+										if($_dat['point_type']==1){
+											echo "<font color='green'>+";
+											echo $_dat['point_changed'];
+											echo "</font>";
+										}else{
+											echo "<font color='red'>-";
+											echo $_dat['point_changed'];
+											echo "</font>";
+										}
+									}
+								?>
+							</td>
+							<td valign="top" align="left"><?=$_dat['point_comments']?></td>
+							<td valign="top" align="center">
+								<?php
+									if($_init_student_id != $_dat['id']){
+										echo displayStudentStatusColor($_dat['studstatus']);
+									}
+								?>
+							</td>
+							<td valign="top" align="center">
+								<?php
+									if($_init_student_id != $_dat['id']){
+										echo $_dat['acadsemester'].'/'.$_dat['acadyear'];
+									}
+								?>
+							</td>
+							<td valign="top" ><?='ครู'. $_dat['t_firstname'] . ' ' . $_dat['t_lastname']?></td>
 						</tr>
+						<? $_init_student_id = $_dat['id']; ?>
 						<? } //end while?>
 					</table>
 			<?	} else {?>
