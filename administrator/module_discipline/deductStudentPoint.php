@@ -209,7 +209,7 @@
 				<tr>
 					<td align="right">คะแนนพฤติกรรมที่เพิ่ม/ลด :</td>
 					<td>
-						<input type="text" id="deduct" name="deduct" size="5" maxlength="3" class="noborder" style="color:#cc0000 !important;font-size::14px !important;font-weight:bold !important;" />
+						<input type="text" id="deduct" name="deduct" size="5" maxlength="3" class="noborder" style="color:#cc0000 !important;font-size:14px !important;font-weight:bold !important;" />
 						<font color='red'>*</font>
 						(+10 เพิ่ม, -10 ลด)
 						<input type="hidden" name="studentid" value="<?=$_dat['id']?>" />
@@ -229,7 +229,7 @@
 					<td>
 						<br/>
 						<input type="button" name="save" value="บันทึก" class="button" onclick="checkDeduct()" />
-						<input type="reset" value="ยกเลิก" class="button" />
+						<input type="reset" value="ล้างข้อมูล" class="button" />
 					</td>
 				</tr>
 			</table>

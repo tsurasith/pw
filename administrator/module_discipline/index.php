@@ -37,13 +37,14 @@
 		<tr>
 			<td colspan="2" class="key" >2. รายงานผลพฤติกรรมไม่พึงประสงค์ </td>
 		</tr>
-		<tr><td >&nbsp;</td><td><a href="index.php?option=module_discipline/reportStatusRoom">2.1 รายงานสรุปพฤติกรรมไม่พึงประสงค์ตามสถานะการดำเนินการตามห้องเรียน</a></td></tr>
-		<tr><td >&nbsp;</td><td><a href="index.php?option=module_discipline/reportStatusLevel">2.2 รายงานสรุปพฤติกรรมไม่พึงประสงค์ตามสถานะการดำเนินการตามระดับชั้น</a></td></tr>
-		<tr><td >&nbsp;</td><td><a href="index.php?option=module_discipline/reportDisTypeRoom">2.3 รายงานสรุปพฤติกรรมไม่พึงประสงค์ตามประเภทพฤติกรรมไม่พึงประสงค์ตามห้องเรียน</a></td></tr>
-		<tr><td >&nbsp;</td><td><a href="index.php?option=module_discipline/reportDisTypeLevel">2.4 รายงานสรุปพฤติกรรมไม่พึงประสงค์ตามประเภทพฤติกรรมไม่พึงประสงค์ตามระดับชั้น</a></td></tr>
-		<tr><td >&nbsp;</td><td><a href="index.php?option=module_discipline/reportDisLevelRoom">2.5 รายงานสรุปพฤติกรรมไม่พึงประสงค์ตามระดับโทษความผิดตามห้องเรียน</a></td></tr>
-		<tr><td >&nbsp;</td><td><a href="index.php?option=module_discipline/reportDisLevelLevel">2.6 รายงานสรุปพฤติกรรมไม่พึงประสงค์ตามระดับโทษความผิดตามระดับชั้น</a></td></tr>
-		<tr><td >&nbsp;</td><td><a href="index.php?option=module_discipline/reportTeacherSanction">2.7 รายงานสรุปพฤติกรรมไม่พึงประสงค์ตามครูผู้ควบคุมการดำเนินกิจกรรมปรับเปลี่ยนพฤติกรรม</a></td></tr>
+		<tr><td >&nbsp;</td><td><a href="index.php?option=module_discipline/SearchStudenttPoints">2.1 รายงานแสดงการประวัติเพิ่ม/ลด คะแนนความประพฤติ</a></td></tr>
+		<tr><td >&nbsp;</td><td><a href="index.php?option=module_discipline/reportStatusRoom">2.2 รายงานสรุปพฤติกรรมไม่พึงประสงค์ตามสถานะการดำเนินการตามห้องเรียน</a></td></tr>
+		<tr><td >&nbsp;</td><td><a href="index.php?option=module_discipline/reportStatusLevel">2.3 รายงานสรุปพฤติกรรมไม่พึงประสงค์ตามสถานะการดำเนินการตามระดับชั้น</a></td></tr>
+		<tr><td >&nbsp;</td><td><a href="index.php?option=module_discipline/reportDisTypeRoom">2.4 รายงานสรุปพฤติกรรมไม่พึงประสงค์ตามประเภทพฤติกรรมไม่พึงประสงค์ตามห้องเรียน</a></td></tr>
+		<tr><td >&nbsp;</td><td><a href="index.php?option=module_discipline/reportDisTypeLevel">2.5 รายงานสรุปพฤติกรรมไม่พึงประสงค์ตามประเภทพฤติกรรมไม่พึงประสงค์ตามระดับชั้น</a></td></tr>
+		<tr><td >&nbsp;</td><td><a href="index.php?option=module_discipline/reportDisLevelRoom">2.6 รายงานสรุปพฤติกรรมไม่พึงประสงค์ตามระดับโทษความผิดตามห้องเรียน</a></td></tr>
+		<tr><td >&nbsp;</td><td><a href="index.php?option=module_discipline/reportDisLevelLevel">2.7 รายงานสรุปพฤติกรรมไม่พึงประสงค์ตามระดับโทษความผิดตามระดับชั้น</a></td></tr>
+		<tr><td >&nbsp;</td><td><a href="index.php?option=module_discipline/reportTeacherSanction">2.8 รายงานสรุปพฤติกรรมไม่พึงประสงค์ตามครูผู้ควบคุมการดำเนินกิจกรรมปรับเปลี่ยนพฤติกรรม</a></td></tr>
 		
 		<tr>
 			<td colspan="2" class="key">3. แผนภูมิพฤติกรรมไม่พึงประสงค์</td>
