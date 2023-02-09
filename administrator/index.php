@@ -57,17 +57,20 @@
 
 	<title>ระบบสารสนเทศกิจการนักเรียนโรงเรียนเพชรวิทยาคาร</title>
 </head>
+<? $number_of_users = count(scandir(ini_get("session.save_path"))) - 2 ?>
 <body>
 	<div id="header-bar">
-		<div id="header-logoff" style="width:500px;">ยินดีต้อนรับ <?= $_SESSION['name'] ?> 
-        &raquo; <a href="index.php">หน้าแรก</a> | <a href="index.php?option=module_profile/changepassword">เปลี่ยนรหัสผ่าน</a>
-        | <a href="../logoff.php">ออกจากระบบ</a></div>
+        <div id="header-logoff" style="width:550px;">
+            ยินดีต้อนรับ <?= $_SESSION['name'] ?> 
+            &raquo; <a href="index.php">หน้าแรก</a> | <a href="index.php?option=module_profile/changepassword">เปลี่ยนรหัสผ่าน</a>
+            | <a href="../logoff.php">ออกจากระบบ</a>
+        </div>
     </div>
     <div id="body">
     	<h3><a href="index.php">ระบบสารสนเทศกิจการนักเรียนโรงเรียนเพชรวิทยาคาร</a></h3>
         <div id="left">
         <? if(!isset($_REQUEST['option'])) { ?>
-            <div id="slogan">ระบบจัดการสารสนเทศกิจการนักเรียนเพื่อกำกับ ติดตาม ดูแลช่วยเหลือนักเรียน เพื่อเป้าหมายนักเรียนมีคุณลักษณะที่พึงประสงค์</div>
+            <div id="slogan">ระบบจัดการสารสนเทศกิจการนักเรียนเพื่อกำกับ ติดตาม ดูแลช่วยเหลือนักเรียน เพื่อเป้าหมายนักเรียนมีคุณลักษณะที่พึงประสงค์ (Active <?=$number_of_users?> users)</div>
 			<div id="cpanel">
                 <div style="float:left;">
                     <div class="icon">
@@ -263,7 +266,7 @@
             ?>
         </div>
     <div id="footer">
-            สงวนลิขสิทธิ์ &copy; ระบบจัดการสารสนเทศกิจการนักเรียน<br />
+            สงวนลิขสิทธิ์ &copy; ระบบจัดการสารสนเทศกิจการนักเรียน <br/>
 			System developed by: Mr.Surasith Taokok, email:taokok@gmail.com, Tel:087 370 8079
     </div>
     </div>

@@ -14,3 +14,7 @@ DELETE FROM students WHERE ID = '09219';
 
 DELETE FROM students WHERE ID = '09218';
 
+
+
+-- เด็กชายฟิล์ม
+call update_student_id('2565','3','3','05034','09186');
