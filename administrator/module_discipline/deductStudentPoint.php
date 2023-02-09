@@ -112,8 +112,8 @@
 		 	";
 		$_res_insert_his = mysqli_query($_connection,$_sql_insert_history);
 
-		$_text .= "คะแนนความประพฤติของนักเรียน " . $_point_changed . " คะแนน ";
-		$_text .= "ของนักเรียนเลขประจำตัว :" . $_POST['studentid'] . " โดย " . $_SESSION['shortname'];
+		$_text .= "คะแนนความประพฤติของ" . $_POST['student_name'] . ' ' . $_point_changed . " คะแนน ";
+		$_text .= "โดย " . $_SESSION['shortname'];
 		$message = $_text;
 		// sending to specific level group
 
@@ -214,6 +214,7 @@
 						(+10 เพิ่ม, -10 ลด)
 						<input type="hidden" name="studentid" value="<?=$_dat['id']?>" />
 						<input type="hidden" name="oldPoints" value="<?=$_dat['points']?>" />
+						<input type="hidden" name="student_name" value="<?=$_dat['prefix'].$_dat['firstname'].' '.$_dat['lastname']?>" />
 						<input type="hidden" name="line_group" value="<?=displayRoomTable($_dat['xlevel'],$_dat['xyearth'])?>" />
 						<input type="hidden" name="action" />
 					</td>
