@@ -95,6 +95,18 @@
 						absent_id = '" . $_POST['absent_id'] . "' 
 				";
 			$_res_status = mysqli_query($_connection,$_sql_update_status);
+
+			/* send line message here per each approval*/
+			// line message here
+			$_text  = "";
+			$_text .= "ขอความกรุณา " . getUserAccountName($_connection,$_POST['approval_id']) . " พิจารณาอนุมัติ ";
+			$_text .= "คำขออนุญาต: " . $_POST['absent_type'] . " ";
+			$_text .= "วัน" . displayDayofWeek(date('w',strtotime($_POST['request_date']))). " ";
+			$_text .= "ที่ " . displayDate($_POST['request_date']) . " ของ " . $_POST['request_name'];
+
+			$message = $_text;
+			SendLineMessage($message,$_line_token_module_hr);
+			SendLineMessage($message,$_line_token);
 		}
 	}
 
@@ -277,8 +289,11 @@
 				<tr>
 					<td></td>
 					<td>
-						<input type="hidden" name="sort_order" value="<?=$_approval_count+1?>" />
-						<input type="hidden" name="absent_id" value="<?=$_absent_id?>" />
+						<input type="hidden" name="sort_order"   value="<?=$_approval_count+1?>" />
+						<input type="hidden" name="absent_id"    value="<?=$_absent_id?>" />
+						<input type="hidden" name="absent_type"  value="<?=$_dat['absent_type']?>" />
+						<input type="hidden" name="request_name" value="<?=$_dat['firstname'].' '.$_dat['lastname']?>" />
+						<input type="hidden" name="request_date" value="<?=$_dat['start_absent_date']?>" />
 						<input type="submit" name="add" value="เพิ่มผู้อนุมัติ" class="button" />
 					</td>
 				</tr>

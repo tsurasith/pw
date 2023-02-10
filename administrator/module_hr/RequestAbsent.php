@@ -228,6 +228,7 @@
 				$_text .= "\n" . "โดย - " . $_SESSION['shortname'];
 
 				$message = $_text;
+				SendLineMessage($message,$_line_token_module_hr);
 				SendLineMessage($message,$_line_token);
 
 			}else{

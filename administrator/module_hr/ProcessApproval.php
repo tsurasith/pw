@@ -71,6 +71,7 @@
 				$_text .= "แล้ว";
 
 				$message = $_text;
+				SendLineMessage($message,$_line_token_module_hr);
 				SendLineMessage($message,$_line_token);
 			}
 			
@@ -106,6 +107,7 @@
 				$_text .= " ได้รับการอนุมัติครบถ้วนแล้ว" ;
 
 				$message = $_text;
+				SendLineMessage($message,$_line_token_module_hr);
 				SendLineMessage($message,$_line_token);
 			}else{
 				$_sql_update_status = "

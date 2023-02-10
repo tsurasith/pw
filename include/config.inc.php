@@ -17,6 +17,13 @@
 
 	// token งานจัดสอนแทนฝ่ายวิชาการ
 	$_line_token_teaching_substitute = "WByf00hGQL0URoh8FYDIcuwKNiJjIFTTIJL0PPdfcA0";
+
+
+	// token งานบุคลากร
+	$_line_token_module_hr = "WByf00hGQL0URoh8FYDIcuwKNiJjIFTTIJL0PPdfcA0";
+	/*
+
+
 	/*
 
 	$_token[0] = "";	
