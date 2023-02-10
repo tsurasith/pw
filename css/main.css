@@ -206,6 +206,13 @@ h3 {
 	border:1px solid;   
 	border-color: #696 #363 #363 #696;  
 }
+
+
+#div-overflow{
+	display: inline;
+	background-color: #ffffff;
+}
+
 #header-bar {
 	background: url(../images/header-bg2.png) 0 0 repeat-x;
 	color: #fff;

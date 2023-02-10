@@ -162,7 +162,7 @@
 	  
     <br/>
 <? if(isset($_POST['search']) && $_POST['subject_id'] != ""){ ?>
-	<div align="center">
+	<div id="div-overflow">
 	<?
 		// $_sub[0] = room_id
 		// $_sub[1] = subject_code
@@ -230,9 +230,10 @@
 		$_resClass = mysqli_query($_connection,$_sql_class_record);
 		$_totalRows = mysqli_num_rows($_resClass);
 		$_no = 1;
+		$_table_width = 10+25+50+200+80+100+100+(20*count($_date_array));
 	?>
 	<? if($_totalRows >0){  ?>
-	<table class="admintable" align="center">
+	<table class="admintable" align="center" width="<?=$_table_width?>px" style="line-height:12px !important;">
 		<tr>
 			<th colspan="<?=count($_date_array)+6?>" align="center">
 				<img src="../images/school_logo.png" width="120px"> <br/>
@@ -243,19 +244,29 @@
 		<tr height="35px"> 
 			<td class="key" width="25px"  align="center" rowspan="2">ที่</td>
 			<td class="key" width="50px"  align="center" rowspan="2">ID</td>
-			<td class="key" width="180px" align="center" rowspan="2">ชื่อ - นามสกุล</td>
+			<td class="key" width="200px" align="center" rowspan="2">ชื่อ - นามสกุล</td>
 			<td class="key" width="80px"  align="center" rowspan="2" >สถานภาพ<br/>ปัจจุบัน</td>
 			<td class="key" align="center" colspan="<?=count($_date_array)?>">วันที่/คาบ</td>
 			<td class="key" withd="100px" align="center" rowspan="2">รวม<br/>(<?=count($_date_array)?>)</td>
 			<td class="key" withd="100px" align="center" rowspan="2">%</td>
 		</tr>
 		<tr height="110px">
-			<? for($_i=0;$_i<count($_date_array);$_i++){ ?>
-				<td class="key" width="15px" align="center">
-					<div style="writing-mode: vertical-rl; transform:rotate(-180deg);">
-						<?=$_date_array[$_i]?>
-					</div>
-				</td>
+			<? if(count($_date_array)>40){ ?>
+				<? for($_i=0;$_i<count($_date_array);$_i++){ ?>
+					<td align="center" style="padding:0px">
+						<div style="writing-mode: vertical-rl; transform:rotate(-180deg);font-size:x-small;">
+							<?=$_date_array[$_i]?>
+						</div>
+					</td>
+				<? } ?>
+			<? }else{ ?>
+				<? for($_i=0;$_i<count($_date_array);$_i++){ ?>
+					<td class="key" width="15px" align="center">
+						<div style="writing-mode: vertical-rl; transform:rotate(-180deg);">
+							<?=$_date_array[$_i]?>
+						</div>
+					</td>
+				<? } ?>
 			<? } ?>
 		</tr>
 			<? while($_dat = mysqli_fetch_assoc($_resClass)){ ?>
