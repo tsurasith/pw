@@ -53,10 +53,17 @@
 	<tr>
 		<td>&nbsp;</td>
 		<td>
-          	<!--<a href="index.php?option=module_learn/dateTaskList">-->
-			2.2 เลือกวันที่บันทึกข้อมูล (แบบเก่า)
+          	<a href="index.php?option=module_learn/followUpLearningTask">2.2 ติดตามการบันทึกการเข้าเรียน</a>
 		</td>
 	</tr>
+	<!--
+	<tr>
+		<td>&nbsp;</td>
+		<td>
+          	<a href="index.php?option=module_learn/dateTaskList">
+			2.2 เลือกวันที่บันทึกข้อมูล (แบบเก่า)
+		</td>
+	</tr> -->
     <tr>
 		<td>&nbsp;</td>
 		<td>
