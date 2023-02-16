@@ -168,8 +168,8 @@
 								<tr height="35px"> 
 									<td class="key" width="25px" align="center">-</td>
 									<td class="key" width="90px" align="center">รหัสหลักสูตร</td>
-									<td class="key" width="200px" align="center">ชื่อหลักสูตร (แผนการเรียน)</td>
-									<td class="key" width="100px" align="center">ระดับการศึกษา</td>
+									<td class="key" width="300px" align="center">ชื่อหลักสูตร (แผนการเรียน)</td>
+									<td class="key" width="95px" align="center">ระดับการศึกษา</td>
 									<td class="key" width="50px" align="center">ชั้น</td>
 									<td class="key" width="50px" align="center">ภาคเรียน</td>
 									<td class="key" width="60px" align="center">ปีที่เริ่มใช้</td>
