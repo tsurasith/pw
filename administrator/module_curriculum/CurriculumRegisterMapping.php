@@ -14,7 +14,7 @@
 		$_sql_Operation = "";
 		if(isset($_POST['mapping'])){
 			$_sql_Operation = "
-					INSERT INTO `curriculum_register`(
+					INSERT INTO `register_curriculums`(
 						`curriculum_id`,
 						`acadyear`,
 						`acadsemester`,
@@ -36,7 +36,7 @@
 			$_ops = "เปิด";
 		}else{
 			$_sql_Operation = "
-				DELETE FROM `curriculum_register`
+				DELETE FROM `register_curriculums`
 				WHERE
 					`curriculum_id` = 	'" . $_POST['curriculum_id'] . "' AND
 					`register_id`	=	'" . $_POST['register_id'] . "' 
@@ -137,7 +137,7 @@
 			r.acadsemester,
 			r.register_id
 		FROM
-			curriculums c LEFT JOIN curriculum_register r 
+			curriculums c LEFT JOIN register_curriculums r 
 			ON (
 					c.curriculum_id = r.curriculum_id and 
 					r.acadyear      = '" . $acadyear . "' and

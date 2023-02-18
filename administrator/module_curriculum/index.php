@@ -90,11 +90,11 @@
         </tr> 
 		<tr>
         	<td>&nbsp;</td>
-			<td><a href="#">4.3 TBA</a></td>
+			<td><a href="index.php?option=module_curriculum/CurriculumRegisterTeacherMapping">4.3 จัดการครูผู้สอนสำหรับวิชาที่เปิดสอน</a></td>
         </tr>  
 		<tr>
         	<td>&nbsp;</td>
-			<td><a href="#">4.4 TBA</a></td>
+			<td><a href="#">4.4 จัดการลงทะเบียนนักเรียน</a></td>
         </tr>  
 		<? } ?>
 	</table>

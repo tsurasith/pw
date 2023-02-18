@@ -1,8 +1,8 @@
 
-DROP TABLE IF EXISTS `curriculum_register`;
+DROP TABLE IF EXISTS `register_curriculums`;
 
 
-CREATE TABLE IF NOT EXISTS `curriculum_register` (
+CREATE TABLE IF NOT EXISTS `register_curriculums` (
   `register_id`         int(11) NOT NULL AUTO_INCREMENT,
   `curriculum_id`       int(11) comment 'รหัสหลักสูตร' ,
   `acadyear`            int(11) NOT NULL COMMENT 'ปีการศึกษา',
