@@ -190,7 +190,8 @@
 								s.studstatus,
 								t.PREFIX as t_prefix,
 								t.FIRSTNAME as t_firstname,
-								t.LASTNAME as t_lastname
+								t.LASTNAME as t_lastname,
+								h.created_datetime
 							from 
 							student_point_history h inner join students s 
 							on (h.student_id = s.ID) left join teachers t
@@ -215,12 +216,12 @@
 				
 
 				if(!isset($_POST['order_by'])){
-					$_sql .= " order by id";
+					$_sql .= " order by id , h.created_datetime";
 				}
 				else if($_POST['order_by']=="id"){
-					$_sql .= " order by id";
+					$_sql .= " order by id , h.created_datetime";
 				}else{
-					$_sql .= " order by xlevel,xyearth,room,s.sex,convert(s.firstname using tis620),convert(s.lastname using tis620),id ";
+					$_sql .= " order by xlevel,xyearth,room,s.sex,convert(s.firstname using tis620),convert(s.lastname using tis620),id, h.created_datetime ";
 				}
 				
 				if($_POST['list'] != "all")	$_sql .= " limit 0," . $_POST['list'] ;
@@ -248,7 +249,7 @@
 							<td class="key" width="190px">ชื่อ - สกุล</td>
 							<td class="key" width="55px">ชื่อเล่น</td>
 							<td class="key" width="40px">ห้อง</td>
-							<td class="key" width="60px">คะแนน<br/>คงเหลือ</td>
+							<td class="key" width="55px">คะแนน<br/>คงเหลือ</td>
 							<td class="key" width="50px">ประวัติ</td>
 							<td class="key" width="180px">สาเหตุ</td>
 							<td class="key" width="80px">สถานะภาพ</td>
@@ -292,10 +293,10 @@
 									}
 								?>
 							</td>
-							<td valign="top" align="center">
+							<td valign="top" align="right" style="padding-right:15px;">
 								<?php
 									if($_init_student_id != $_dat['id']){
-										if($_dat['points']<=0){
+										/*if($_dat['points']<=0){
 											echo "<font color='red'>";
 											echo $_dat['points'];
 											echo "</font>";
@@ -305,11 +306,12 @@
 											echo "</font>";
 										}else{
 											echo $_dat['points'];
-										}
+										}*/
+										echo displayPoint($_dat['points']);
 									}
 								?>
 							</td>
-							<td valign="top" align="center">
+							<td valign="top" align="right" style="padding-right:10px;">
 								<?php
 									if(isset($_POST['group'])){
 										if($_dat['point_changed']>0){

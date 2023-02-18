@@ -796,6 +796,9 @@
 			// 48 bits for "node"
 			mt_rand( 0, 0xffff ), mt_rand( 0, 0xffff ), mt_rand( 0, 0xffff )
 		);
+
+		// defulat uuid = 00000000-0000-0000-0000-000000000000
+
 	}
 
 	function SendLineMessage($message,$token)

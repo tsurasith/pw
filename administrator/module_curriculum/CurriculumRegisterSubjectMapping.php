@@ -64,19 +64,114 @@
 
 		//echo $_sql_Operation . "<br/>";
 
+		$_sql_subject_mapping = "";
+
 		$_res = mysqli_query($_connection,$_sql_Operation);
 		if($_res){
-			$_processing_text  = "ระบบได้" .$_ops . "ให้ลงทะเบียนเรียนหลักสูตร: ";
-			$_processing_text .= $_POST['SubjectUnit'] . " ภาคเรียนที่ " . $acadsemester . " ปีการศึกษา " . $acadyear . " เรียบร้อยแล้ว";
+			if(isset($_POST['mapping'])){
+				if($_POST['is_split_class']==0){
+					$_sql_subject_mapping = "
+							INSERT INTO `register_teachers`(
+								`teacher_id`,
+								`room_id`,
+								`subject_level`,
+								`SubjectCode`,
+								`acadyear`,
+								`acadsemester`,
+								`is_split_class`,
+								`created_datetime`,
+								`created_user`,
+								`updated_datetime`,
+								`updated_user`
+							)
+							select
+								'00000000-0000-0000-0000-000000000000' as teacher_id,
+								r.room_id,
+								s.subject_level,
+								s.SubjectCode,
+								s.acadyear,
+								s.acadsemester,
+								s.is_split_class,
+								CURRENT_TIMESTAMP as created_datetime,
+								'". $_SESSION['user_account_id'] . "' as created_user,
+								CURRENT_TIMESTAMP as updated_datetime ,
+								'". $_SESSION['user_account_id'] . "' as updated_user
+							from
+								register_subjects s left join rooms r
+								on (s.acadyear = r.acadyear and s.acadsemester = r.acadsemester)
+							where
+								s.SubjectCode   = '" . $_POST['SubjectCode'] ."' AND
+								s.acadyear	    =	'" . $acadyear . "' AND
+								s.acadsemester 	=	'" . $acadsemester . "' AND
+								s.subject_level =   '" . $_POST['yearth'] . "' AND
+								s.subject_level =   left(r.room_id,1)
+							order by 
+								r.room_id
+
+							";
+				}else{
+					$_sql_subject_mapping = "
+							INSERT INTO `register_teachers`(
+								`teacher_id`,
+								`room_id`,
+								`subject_level`,
+								`SubjectCode`,
+								`acadyear`,
+								`acadsemester`,
+								`is_split_class`,
+								`created_datetime`,
+								`created_user`,
+								`updated_datetime`,
+								`updated_user`
+							)
+							select
+								'00000000-0000-0000-0000-000000000000' as teacher_id,
+								concat(s.subject_level,'00') as room_id,
+								s.subject_level,
+								s.SubjectCode,
+								s.acadyear,
+								s.acadsemester,
+								s.is_split_class,
+								CURRENT_TIMESTAMP as created_datetime,
+								'". $_SESSION['user_account_id'] . "' as created_user,
+								CURRENT_TIMESTAMP as updated_datetime ,
+								'". $_SESSION['user_account_id'] . "' as updated_user
+							from
+								register_subjects s 
+							where
+								s.SubjectCode   = '" . $_POST['SubjectCode'] ."' AND
+								s.acadyear	    =	'" . $acadyear . "' AND
+								s.acadsemester 	=	'" . $acadsemester . "' AND
+								s.subject_level =   '" . $_POST['yearth'] . "' 
+						";
+				}
+			}else{
+				$_sql_subject_mapping = "
+						delete from register_teachers 
+						where
+								SubjectCode   = '" . $_POST['SubjectCode'] ."' AND
+								acadyear	    =	'" . $acadyear . "' AND
+								acadsemester 	=	'" . $acadsemester . "' AND
+								subject_level =   '" . $_POST['yearth'] . "' 
+				";
+			}
+
+			$_regis_teaecher = mysqli_query($_connection,$_sql_subject_mapping);
+			
+			//echo $_sql_subject_mapping;
+
+
+			$_processing_text  = "รายวิชา - " . $_POST['SubjectCode'] . ': ' . $_POST['SubjectName'] . " ";
+			$_processing_text .= "ได้" . $_ops . "ให้ลงทะเบียนเรียนสำหรับนักเรียนชั้นมัธยมศึกษาปีที่ ";
+			$_processing_text .= $_POST['yearth'] . " ภาคเรียนที่ " . $acadsemester . " ปีการศึกษา " . $acadyear . " เรียบร้อยแล้ว";
 			$_processing_result = true;
 
 			// line message here
-			$_text .= "แผนการเรียน: " . $_POST['SubjectUnit'] . " ";
-			$_text .= ($_ops=="เปิด"?"เปิดให้ลงทะเบียน":"ยกเลิกการลงทะเบียน"). " ภาคเรียนที่ " . $acadsemester . " ปีการศึกษา " . $acadyear . " เรียบร้อยแล้ว";
-			$_text .= "" . "โดย - " . $_SESSION['shortname'];
+			$_text .= $_processing_text;
+			$_text .= " " . "โดย - " . $_SESSION['shortname'];
 
 			$message = $_text;
-			//SendLineMessage($message,$_line_token);
+			SendLineMessage($message,$_line_token);
 
 			$_event_details = "";
 			$_event_details .= $_text;
@@ -92,8 +187,8 @@
 			}
 
 		}else{
-			$_processing_text  = "เกิดข้อผิดพลาด ไม่สามารถบันทึก ประมวลผลการเปิด/ยกเลิก การลงทะเบียนเรียนหลักสูตรได้" . "<br/>";
-			$_processing_text .= "อาจจะเกิดจากการต้องการบันทึก <b>หลักสูตรที่ต้องการลงทะเบียน</b> ซ้ำ หรือ แจ้งข้อความนี้ต่อผู้ดูแลระบบ - " . mysqli_error($_connection);
+			$_processing_text  = "เกิดข้อผิดพลาด ไม่สามารถบันทึก ประมวลผลการเปิด/ยกเลิก รายวิชาสำหรับการลงทะเบียนเรียนได้" . "<br/>";
+			$_processing_text .= "อาจจะเกิดจากการต้องการบันทึก <b>ซ้ำหลายรอบระหว่างระบบประมวลผล</b> หรือ แจ้งข้อความนี้ต่อผู้ดูแลระบบ - " . mysqli_error($_connection);
 		}
 
 	}else{
