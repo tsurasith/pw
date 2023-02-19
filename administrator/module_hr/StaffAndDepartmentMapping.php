@@ -109,6 +109,25 @@ if(isset($_REQUEST['acadsemester']))
 				$_processing_message .= "หรือใช้ข้อความต่อไปนี้แจ้งผู้ดูแลระบบ : " . mysqli_error($_connection);
 			}
 	} // end save data process
+
+	if(isset($_POST['delete'])){
+		$_sql_delete = "
+				DELETE FROM `hr_staff_department_mapping`
+				WHERE
+					sub_department_id  = '" . $_POST['department_subtype_id'] . "'  and
+					staff_id           = '" . $_POST['staff_id'] . "' and
+					acadyear           = '" . $acadyear . "' and
+					acadsemester       = '" . $acadsemester . "'  
+			";
+		$_resDelete = mysqli_query($_connection,$_sql_delete);
+		if($_resDelete){
+			$_processing_message = "ระบบได้ลบภาระงานเรียบร้อยแล้ว";
+			$_processing_result  = true;
+		}else{
+			$_processing_message  = "เกิดข้อผิดพลาด อาจจะมีสาเหตุจากการพยายามบันทึกซ้ำ <br/>";
+			$_processing_message .= "หรือใช้ข้อความต่อไปนี้แจ้งผู้ดูแลระบบ : " . mysqli_error($_connection);
+		}
+	}
 ?>
 
 
@@ -156,14 +175,16 @@ if(isset($_REQUEST['acadsemester']))
 						$_sql_staff = "
 								select * 
 								from   hr_staff
-								where  staff_status = 'ACTIVE'
+								where  
+										staff_status = 'ACTIVE' and 
+										staff_id     != '446CF8EB-CCF3-4C5D-A4EF-2B8FBD001E16'
 								order by 
 									   convert(firstname using tis620), convert(lastname using tis620)
 							";
 						$_res_staff = mysqli_query($_connection,$_sql_staff);
 
 					?>
-					<form name="staff" method="post" action="" onChange="document.staff.submit();">
+					<form name="staffList" method="post" action="" onChange="document.staffList.submit();">
 						<select name="staff_id" class="inputboxUpdate">
 							<option value=""></option>
 							<? while($_dat = mysqli_fetch_assoc($_res_staff)) { ?>
@@ -201,6 +222,7 @@ if(isset($_REQUEST['acadsemester']))
 									)
 							order by
 								convert(department_name using tis620),
+								sort_order,
 								convert(department_subtype_name using tis620)
 				
 							";
@@ -227,7 +249,7 @@ if(isset($_REQUEST['acadsemester']))
 			</tr>
 			<? } ?>
 
-			<? if(isset($_POST['save'])){ ?>
+			<? if(isset($_POST['save']) || isset($_POST['delete'])){ ?>
 			<tr>
 				<td colspan="2" align="center">
 					<? 
@@ -264,13 +286,77 @@ if(isset($_REQUEST['acadsemester']))
 		</table>
 	</div>
 
-	<div align="center">
-		<table class="admintable">
-			<tr>
-				
-			</tr>
-		</table>
-	</div>
+	<? if(isset($_POST['staff_id']) && $_POST['staff_id'] != "") { ?>  
+		<div align="center">
+			<?php
+			
+				$_sql_assign = "
+								select 
+									s.staff_id,
+									s.finger_code,
+									s.prefix,
+									s.firstname,
+									s.lastname,
+									s.position,
+									s.staff_type,
+									s.staff_status,
+									s.mobile_number,
+									s.email,
+									m.acadyear,
+									m.acadsemester,
+									m.department_id,
+									d.department_name,
+									m.sub_department_id,
+									t.department_subtype_name,
+									m.updated_datetime,
+									m.updated_user
+								from 
+									hr_staff s left join hr_staff_department_mapping m 
+									on (s.staff_id = m.staff_id) left join departments d 
+									on (m.department_id = d.department_id) left join department_subtypes t
+									on (m.sub_department_id = t.department_subtype_id)
+								where
+									s.staff_id      = '" . $_POST['staff_id'] . "' and
+									m.acadyear      = '" . $acadyear . "' and 
+									m.acadsemester  = '" . $acadsemester . "' 
+								order by 
+									m.department_id,
+									t.sort_order,
+									convert(department_subtype_name using tis620)
+						";
+				$_res_assign = mysqli_query($_connection,$_sql_assign);
+			
+			?>
+			<table class="admintable">
+				<tr>
+					<td class="key" colspan="3" height="25px">&nbsp; งานที่ได้รับมอบหมายในภาคเรียนที่ <?=$acadsemester.'/'.$acadyear?></td>
+				</tr>
+				<? if(mysqli_num_rows($_res_assign)>0){ ?>
+					<? while($_assign = mysqli_fetch_assoc($_res_assign)) {  ?>
+						<tr>
+							<td align="center" valign="top" width="160px"><?=$_assign['department_name']?></td>
+							<td width="300px" valign="top"><?=$_assign['department_subtype_name']?></td>
+							<td valign="top">
+								<form method="post">
+									<input type="hidden" name="staff_id"              value="<?=$_assign['staff_id']?>" />
+									<input type="hidden" name="department_id"         value="<?=$_assign['department_id']?>" />
+									<input type="hidden" name="department_subtype_id" value="<?=$_assign['sub_department_id']?>" />
+									<input type="submit" name="delete" value="ลบ" />
+								</form>
+							</td>
+						</tr>
+					<? } ?>
+				<? } else { ?>
+					<tr>
+						<td colspan="3" align="center" width="600px">
+							<br/>
+							<font color='red'>ยังไม่มีการบันทึกภาระงานในภาคเรียนนี้</font>
+						</td>
+					</tr>
+				<? } ?>
+			</table>
+		</div>
+	<? } ?>
 
 </div>
 
