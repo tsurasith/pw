@@ -36,8 +36,8 @@
 
 <?php
 
-	$_processing_text = "";
-	$_processing_result = "";
+	$_processing_text   = "";
+	$_processing_result = false;
 
 	if(isset($_POST['add'])) {
 
@@ -122,7 +122,7 @@
 				$_res_status = mysqli_query($_connection,$_sql_update_status);
 			}
 
-			
+			$_processing_result = true;
 		}
 	}
 
@@ -142,6 +142,10 @@
 	}
 	if(isset($_POST['absent_id'])){
 		$_absent_id = $_POST['absent_id'];
+	}
+
+	if($_processing_result){
+		$_absent_id = "";
 	}
 ?>
 
@@ -231,14 +235,17 @@
 									s.firstname,
 									s.lastname,
 									s.position,
-									h.*
+									a.absent_id,
+									h.absent_type,
+									h.request_status,
+									a.approved_status
 								from
-									hr_staff_absent h inner join hr_staff s
-									on (h.staff_id = s.staff_id) inner join hr_staff_absent_approval a
-									on (h.absent_id = a.absent_id)
+									hr_staff_absent_approval a     inner join hr_staff_absent h 
+									on (a.absent_id = h.absent_id) inner join hr_staff s
+									on (h.staff_id = s.staff_id)   
 								where 
 									a.approved_user = '" . $_SESSION['user_account_id'] . "' and
-									h.request_status in ('รอการอนุมัติ','อนุมัติ')
+									if(a.approved_status IS NULL,'',a.approved_status) != 'อนุมัติ'
 								order by
 									convert(s.firstname using tis620)
 								 ";

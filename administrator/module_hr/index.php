@@ -63,6 +63,12 @@
 		</td>
 	</tr>
 	<tr>
+		<td width="20px">&nbsp;</td>
+		<td>
+		<a href="index.php?option=module_hr/ReportOrganizationSubDepartment">2.3 แสดงโครงสร้างภาระงานและผู้รับผิดชอบ</a>
+		</td>
+	</tr>
+	<tr>
 		<td colspan="2" class="key">
 			3. การนำเข้าข้อมูลและการจัดการผู้ใช้งาน &nbsp; &nbsp;
 		</td>

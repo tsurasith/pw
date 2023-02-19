@@ -82,7 +82,8 @@
 					`department_subtype_name` 	= '" . $_POST['department_subtype_name'] . "' ,
 					`department_id`				= '" . $_POST['department_id'] . "' ,
 					`updated_datetime` 			= CURRENT_TIMESTAMP,
-					`updated_user` 				= '" .$_SESSION['user_account_id'] . "' 
+					`updated_user` 				= '" .$_SESSION['user_account_id'] . "',
+					`sort_order` 				= '" .$_POST['sort_order'] . "'
 				WHERE
 					`department_subtype_id` = '" . $_POST['department_subtype_id'] . "' 
 				";
@@ -180,6 +181,19 @@
 											value="<?=$_dat['department_subtype_name']?>"
 											size="40" class="inputboxUpdate" maxlength="150" /> 
 									<input type="hidden" name="department_subtype_id" value="<?=$_dat['department_subtype_id']?>" />
+								</td>
+							</tr>
+							<tr>
+								<td  align="right" valign="top"> เรียงลำดับ </td>
+								<td> 
+									<input type="text" name="sort_order" id="sort_order" 
+											value="<?=$_dat['sort_order']?>"
+											size="5" class="inputboxUpdate" maxlength="4" onkeypress="return isNumberKey(event)" /> 
+									<br/>
+									ค่าเรียงลำดับ - ส่วนนี้เอาไว้เรียงลำดับสำหรับการแสดงผล ไม่มีผลต่อฟังก์ชันการใช้งาน <br/>
+									ระบุค่าใดค่าหนึ่งเท่านั้น เช่น หากต้องการให้ตำแหน่งงาน "หัวหน้า..." แสดงผลในลำดับก่อนหน้า <br/>
+									ตำแหน่งงาน "งานการเงิน" ให้กำหนดเรียงลำดับ "หัวหน้า..." น้อยกว่าตำแหน่งงาน "งานการเงิน" <br/>
+									<b>ตำแหน่งผู้อำนวยการโรงเรียน</b> กำหนดค่าเรียงลำดับเป็น 1 เพื่อให้แสดงผลเป็นลำดับแรก เป็นต้น
 								</td>
 							</tr>
 							<tr>

@@ -140,7 +140,9 @@
 								select * 
 								from department_subtypes 
 								where department_id = '" . $_process[$_i] . "' 
-								order by convert(department_subtype_name using tis620) ";
+								order by 
+									sort_order,
+									convert(department_subtype_name using tis620) ";
 							$_res = mysqli_query($_connection,$_sql_sub);
 							while($_dat = mysqli_fetch_assoc($_res)){
 								echo "<a href='index.php?option=module_hr/departmentSubTypeEdit&department_subtype_id=" . $_dat['department_subtype_id'] . "'>";

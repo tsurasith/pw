@@ -12,6 +12,8 @@ CREATE TABLE IF NOT EXISTS `department_subtypes` (
   PRIMARY KEY (`department_subtype_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=103 DEFAULT CHARSET=utf8;
 
+
+ALTER TABLE `department_subtypes` ADD `sort_order` INT NOT NULL DEFAULT '1000' COMMENT 'ค่าเอาไว้เรียงลำดับ' AFTER `updated_user`;
 --
 -- Dumping data for table `department_subtypes`
 --
@@ -107,3 +109,4 @@ INSERT INTO `department_subtypes` VALUES(101, 'งานรับนักเร
 INSERT INTO `department_subtypes` VALUES(102, 'งานเทียบโอนผลการเรียน', 3, '2023-01-22 02:12:19', NULL);
 
 
+ALTER TABLE `department_subtypes` ADD `sort_order` INT NOT NULL DEFAULT '1000' COMMENT 'ค่าเอาไว้เรียงลำดับ' AFTER `updated_user`;
