@@ -3,7 +3,7 @@ DROP TABLE IF EXISTS `register_subjects`;
 
 
 CREATE TABLE IF NOT EXISTS `register_subjects` (
-  `subject_register_id` int(11) NOT NULL AUTO_INCREMENT,
+  `subject_register_id` varchar(36) NOT NULL,
   `subject_level`       int(11) NOT NULL COMMENT 'ระดับชั้น 1-6',
   `SubjectCode`         varchar(6)  NOT NULL COMMENT 'รหัสวิชา',
   `acadyear`            int(11) NOT NULL COMMENT 'ปีการศึกษา',
@@ -15,7 +15,7 @@ CREATE TABLE IF NOT EXISTS `register_subjects` (
   `updated_user`        varchar(36) NULL COMMENT 'keep in UUID format',
   PRIMARY KEY (`subject_register_id`),
   UNIQUE(`subject_level`, `SubjectCode`, `acadyear`, `acadsemester`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
 

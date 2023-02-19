@@ -1,6 +1,9 @@
 ﻿<?php
 	if(isset($_REQUEST['acadyear'])) { $acadyear = $_REQUEST['acadyear']; }
 	if(isset($_REQUEST['acadsemester'])) { $acadsemester = $_REQUEST['acadsemester']; }
+
+	if(isset($_POST['acadyear']))     { $acadyear = $_POST['acadyear'];}
+	if(isset($_POST['acadsemester'])) { $acadsemester = $_POST['acadsemester'];}
 ?>
 
 <?php
@@ -8,13 +11,18 @@
 	$_processing_result = false;
 	$_text = "";
 
+	$_subject_register_id = "";
+
 	if(isset($_POST['SubjectCode'])){
 
 		$_ops = "";
 		$_sql_Operation = "";
 		if(isset($_POST['mapping'])){
+			$_subject_register_id = gen_uuid();
+
 			$_sql_Operation = "
 					INSERT INTO `register_subjects`(
+						`subject_register_id`,
 						`subject_level`,
 						`SubjectCode`,
 						`acadyear`,
@@ -26,6 +34,7 @@
 						`updated_user`
 					)
 					SELECT distinct
+				        '" . $_subject_register_id . "' as subject_register_id,
 						m.curriculum_mapping_level as subject_level,
 						m.SubjectCode,
 						r.acadyear,
@@ -64,7 +73,14 @@
 
 		//echo $_sql_Operation . "<br/>";
 
-		$_sql_subject_mapping = "";
+		$_sql_subject_mapping  = "";
+		$_sql_student_register = "";
+
+		$_xlevel  = 0;
+		$_xyearth = 0;
+
+		$_xlevel  = $_POST['yearth']>3?4:3;
+		$_xyearth = $_POST['yearth']%3;
 
 		$_res = mysqli_query($_connection,$_sql_Operation);
 		if($_res){
@@ -82,7 +98,8 @@
 								`created_datetime`,
 								`created_user`,
 								`updated_datetime`,
-								`updated_user`
+								`updated_user`,
+								`subject_register_id`
 							)
 							select
 								'00000000-0000-0000-0000-000000000000' as teacher_id,
@@ -95,7 +112,8 @@
 								CURRENT_TIMESTAMP as created_datetime,
 								'". $_SESSION['user_account_id'] . "' as created_user,
 								CURRENT_TIMESTAMP as updated_datetime ,
-								'". $_SESSION['user_account_id'] . "' as updated_user
+								'". $_SESSION['user_account_id'] . "' as updated_user,
+								'" . $_subject_register_id . "' as subject_register_id
 							from
 								register_subjects s left join rooms r
 								on (s.acadyear = r.acadyear and s.acadsemester = r.acadsemester)
@@ -109,6 +127,38 @@
 								r.room_id
 
 							";
+					$_sql_student_register = "
+							INSERT INTO `register_students`(
+								`student_id`,
+								`SubjectCode`,
+								`acadyear`,
+								`acadsemester`,
+								`created_datetime`,
+								`created_user`,
+								`updated_datetime`,
+								`updated_user`,
+								`subject_register_id`
+							)
+							SELECT 
+								s.ID,
+								r.SubjectCode,
+								r.acadyear,
+								r.acadsemester,
+								CURRENT_TIMESTAMP as created_datetime,
+								'". $_SESSION['user_account_id'] . "' as created_user,
+								CURRENT_TIMESTAMP as updated_datetime ,
+								'". $_SESSION['user_account_id'] . "' as updated_user,
+								r.subject_register_id
+							FROM
+								register_subjects r left join students s
+								on (r.acadyear = s.xedbe and r.SubjectCode = '" . $_POST['SubjectCode']. "')
+							WHERE
+								s.xlevel                  = '" . $_xlevel  . "'
+								and s.xyearth             = '" . $_xyearth . "' 
+								and xedbe                 = '" . $acadyear . "'
+								and studstatus            = 1
+								and r.subject_register_id = '" . $_subject_register_id . "'	
+					";
 				}else{
 					$_sql_subject_mapping = "
 							INSERT INTO `register_teachers`(
@@ -122,7 +172,8 @@
 								`created_datetime`,
 								`created_user`,
 								`updated_datetime`,
-								`updated_user`
+								`updated_user`,
+								`subject_register_id`
 							)
 							select
 								'00000000-0000-0000-0000-000000000000' as teacher_id,
@@ -135,7 +186,8 @@
 								CURRENT_TIMESTAMP as created_datetime,
 								'". $_SESSION['user_account_id'] . "' as created_user,
 								CURRENT_TIMESTAMP as updated_datetime ,
-								'". $_SESSION['user_account_id'] . "' as updated_user
+								'". $_SESSION['user_account_id'] . "' as updated_user,
+								'" . $_subject_register_id . "' as subject_register_id
 							from
 								register_subjects s 
 							where
@@ -156,9 +208,15 @@
 				";
 			}
 
+			// insert register_teachers
 			$_regis_teaecher = mysqli_query($_connection,$_sql_subject_mapping);
-			
+
+			// insert register_students when teaching by classroom
+			if($_POST['is_split_class']==0){
+				$_res_regis_student = mysqli_query($_connection,$_sql_student_register);
+			}
 			//echo $_sql_subject_mapping;
+			//echo $_sql_student_register;
 
 
 			$_processing_text  = "รายวิชา - " . $_POST['SubjectCode'] . ': ' . $_POST['SubjectName'] . " ";
@@ -340,13 +398,12 @@
 								</td>
 								<td align="center">
 								<? if($_dat['SubjectCode_register']!=""){ ?>
-												<form method="post" action="index.php?option=module_curriculum/CurriculumMappingMoreEdit">
-													<input type="hidden" name="subject_code_mapping" value="<?=$_dat['SubjectCode']?>" />
-													<input type="hidden" name="curriculum_id" value="<?=$_datC['curriculum_id']?>" />
-													<input type="hidden" name="curriculum_code" value="<?=$_datC['curriculum_code']?>" />
-													<input type="hidden" name="curriculum_name" value="<?=$_datC['curriculum_name']?>" />
+												<form method="post" action="index.php?option=module_curriculum/RegisterSubjectEdit">
 													<input type="hidden" name="subject_name" value="<?=$_dat['SubjectName']?>" />
-													<input type="hidden" name="subject_search" value="<?=$_dat['SubjectCode']?>" />
+													<input type="hidden" name="yearth" value="<?=$_POST['yearth']?>" />
+													<input type="hidden" name="SubjectCode" value="<?=$_dat['SubjectCode']?>" />
+													<input type="hidden" name="acadyear" value="<?=$acadyear?>" />
+													<input type="hidden" name="acadsemester" value="<?=$acadsemester?>" />
 													<input type="submit" name="modify_curr" value="แก้ไขเพิ่มเติม" />
 												</form>
 											<? } ?>
@@ -356,7 +413,7 @@
 					</table>
 				<? } else { 
 						echo "<br/><br/>";
-						echo "<font color='red'> ไม่พบหลักสูตรและรายวิชาที่สามารถเปิดลงทะเบียนเรียนได้ ขอให้กลับไปตรวจสอบหลักสูตรที่เปิดสอนอีกครั้ง </font>";
+						echo "<font color='red'> ไม่พบรายวิชาที่สามารถเปิดลงทะเบียนเรียนได้ ขอให้กลับไปตรวจสอบหลักสูตรที่เปิดสอนอีกครั้ง </font>";
 						echo "<br/><br/>";
 				} ?>
 			</div>

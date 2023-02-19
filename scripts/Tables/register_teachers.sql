@@ -15,7 +15,10 @@ CREATE TABLE IF NOT EXISTS `register_teachers` (
   `created_user`        varchar(36) NULL COMMENT 'keep in UUID format',
   `updated_datetime`    DATETIME NULL ,
   `updated_user`        varchar(36) NULL COMMENT 'keep in UUID format',
+  `subject_register_id` varchar(36) NOT NULL,
   PRIMARY KEY (`teacher_register_id`),
-  UNIQUE(`teacher_id`,`room_id`,`subject_level`, `SubjectCode`, `acadyear`, `acadsemester`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+  UNIQUE(`teacher_id`,`room_id`,`subject_level`, `SubjectCode`, `acadyear`, `acadsemester`),
+  FOREIGN KEY (`subject_register_id`) REFERENCES register_subjects(`subject_register_id`) 
+    ON UPDATE CASCADE ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
