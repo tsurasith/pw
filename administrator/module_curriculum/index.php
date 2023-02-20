@@ -74,7 +74,7 @@
         </tr>
 		<tr>
         	<td>&nbsp;</td>
-			<td><a href="index.php?option=module_curriculum/CreateCurriculum">3.5 เพิ่ม/แก้ไข หลักสูตรการเรียนการสอน (แผนการเรียน)</a></td>
+			<td><a href="index.php?option=module_curriculum/CreateCurriculum">3.5 เพิ่ม/แก้ไข แผนการเรียน</a></td>
         </tr>
 		<tr>
         	<td>&nbsp;</td>

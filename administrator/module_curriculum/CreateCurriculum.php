@@ -79,7 +79,7 @@
 				</a>
 				</td>
 				<td width="64%"><strong><font color="#990000" size="4">การจัดการหลักสูตรและการสอน</font></strong><br />
-					<span class="normal"><font color="#0066FF"><strong>3.5 เพิ่ม/แก้ไข หลักสูตรการเรียนการสอน (แผนการเรียน)</strong></font></span>
+					<span class="normal"><font color="#0066FF"><strong>3.5 เพิ่ม/แก้ไข แผนการเรียน</strong></font></span>
 				</td>
 				<td >
 					ปีการศึกษา <?=$acadyear?>
