@@ -14,6 +14,7 @@ CREATE TABLE IF NOT EXISTS `register_students` (
   `point_final`         decimal(5,2) NULL COMMENT 'คะแนนสอบปลายภาค',
   `point_100`           decimal(5,2) NULL COMMENT 'คะแนนรวม',
   `grade`               varchar(3) NULL COMMENT 'ผลการเรียน',
+  `club_code`           INT(4) ZEROFILL NULL DEFAULT 0 COMMENT 'รหัสชุมนุม',
   `created_datetime`    DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `created_user`        varchar(36) NULL COMMENT 'keep in UUID format',
   `updated_datetime`    DATETIME NULL ,

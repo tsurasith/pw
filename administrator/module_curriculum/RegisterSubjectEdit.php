@@ -30,6 +30,13 @@
 				$_xlevel  = $_POST['yearth']>3?4:3;
 				$_xyearth = $_POST['yearth']%3;
 
+				$_sql_delete = "
+					delete from register_students
+						where
+							subject_register_id = '" . $_POST['subject_register_id'] . "'
+				";
+				mysqli_query($_connection,$_sql_delete);
+
 				$_sql_student_register = "
 						INSERT INTO `register_students`(
 							`student_id`,
@@ -488,15 +495,23 @@
 												}else{
 													echo "<font color='green'>ครบถ้วนสมบูรณ์</font>";
 												}
+
+												$_subject_info = $_POST['yearth'] . "|" . $_dat['SubjectCode'] . "|" . $_dat['subject_register_id'] . "|" . $_datC['teacher_id'] . "|" . $_dat['SubjectName'];
 												
 											?>
 										</td>
 										<td align="center">
 											<?php
 												if(substr($_datC['room_id'],-2,2)=="000"){
-													echo "ลงทะเบียนนักเรียน";
-												}
-											?>
+													//concat(r.subject_level,'|',r.SubjectCode,'|',r.subject_register_id,'|',r.teacher_id,'|',s.SubjectName) as subject_info
+													?>
+													<form method="post" action="index.php?option=module_curriculum/RegisterStudentByLevel">
+														<input type="hidden" name="subject_info" value="<?=$_subject_info?>"/>
+														<input type="hidden" name="acadyear"     value="<?=$_dat['acadyear']?>"/>
+														<input type="hidden" name="acadsemester" value="<?=$_dat['acadsemester']?>"/>
+														<input type="submit" name="search" value="ไปหน้าลงทะเบียน" />
+													</form>
+												<? } ?>
 										</td>
 									</tr>
 								<? } ?>

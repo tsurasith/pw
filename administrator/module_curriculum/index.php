@@ -75,7 +75,10 @@
 		<tr>
         	<td>&nbsp;</td>
 			<td><a href="index.php?option=module_curriculum/CreateCurriculum">3.5 เพิ่ม/แก้ไข หลักสูตรการเรียนการสอน (แผนการเรียน)</a></td>
-			<!-- <td><a href="index.php?option=module_curriculum/gradeEdit">3.1 แก้ไขผลการเรียนนักเรียน</a></td> -->
+        </tr>
+		<tr>
+        	<td>&nbsp;</td>
+			<td><a href="index.php?option=module_curriculum/CreateClub">3.6 เพิ่ม/แก้ไข ชุมนุม</a></td>
         </tr>  
 		<tr>
 			<td class="key" colspan="2">4. การจัดการลงทะเบียนเรียน </td>
@@ -90,7 +93,7 @@
         </tr> 
 		<tr>
         	<td>&nbsp;</td>
-			<td><a href="index.php?option=module_curriculum/CurriculumRegisterTeacherMapping">4.3 จัดการครูผู้สอนสำหรับวิชาที่เปิดสอน</a></td>
+			<td><a href="index.php?option=module_curriculum/RegisterStudentByLevel">4.3 จัดการลงทะเบียนเรียนแบบคละห้อง</a></td>
         </tr>  
 		<tr>
         	<td>&nbsp;</td>
