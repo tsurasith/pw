@@ -93,11 +93,15 @@
         </tr> 
 		<tr>
         	<td>&nbsp;</td>
-			<td><a href="index.php?option=module_curriculum/RegisterStudentByLevel">4.3 จัดการลงทะเบียนเรียนแบบคละห้อง</a></td>
+			<td><a href="index.php?option=module_curriculum/RegisterStudentByLevel">4.3 จัดการลงทะเบียนเรียนวิชาเรียนแบบคละห้อง</a></td>
         </tr>  
 		<tr>
         	<td>&nbsp;</td>
-			<td><a href="#">4.4 จัดการลงทะเบียนนักเรียน</a></td>
+			<td><a href="index.php?option=module_curriculum/RegisterClubMapping">4.4 เตรียมชุมนุม/กิจกรรม สำหรับการลงทะเบียน</a></td>
+        </tr>
+		<tr>
+        	<td>&nbsp;</td>
+			<td><a href="index.php?option=module_curriculum/RegisterStudentClub">4.5 จัดการลงทะเบียนเรียนกิจกรรมพัฒนาผู้เรียนแบบคละห้อง</a></td>
         </tr>  
 		<? } ?>
 	</table>

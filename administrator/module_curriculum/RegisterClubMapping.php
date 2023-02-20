@@ -50,21 +50,25 @@
 
 		// looping for inseart or replace
 		for($_i = 1; $_i < $_POST['counter']; $_i++){
-			if(isset($_POST['student'][$_i])){
+			if(isset($_POST['club'][$_i])){
 				
-				$_data = explode("|",$_POST['student'][$_i]);
+				$_data = explode("|",$_POST['club'][$_i]);
 				// $_data[0] = 08818
 				// $_data[1] = register_student_id
 
 				$_sql = "";
 
-				if($_data[1]== "" && isset($_POST['selected_student'][$_i])){
+				if($_data[1]== "" && isset($_POST['selected_club'][$_i])){
 					$_sql = "
-						INSERT INTO `register_students`(
-							`student_id`,
+						INSERT INTO `register_teachers`(
+							`teacher_id`,
+							`room_id`,
+							`subject_level`,
 							`SubjectCode`,
 							`acadyear`,
 							`acadsemester`,
+							`is_split_class`,
+							`club_code`,
 							`created_datetime`,
 							`created_user`,
 							`updated_datetime`,
@@ -73,10 +77,14 @@
 						)
 						VALUES
 						(
-							'" . $_data[0] . "', 
+							'" . $_POST['teacher_id'] . "', 
+							'" . "100" . "', 
+							'" . substr($_POST['subject_info'],0,1) . "', 
 							'" . $_POST['SubjectCode'] . "',
 							'" . $_POST['acadyear']    . "',
 							'" . $_POST['acadsemester'] . "',
+							'" . "1" . "',
+							'" . $_data[0] . "',  
 							CURRENT_TIMESTAMP,
 							'" . $_SESSION['user_account_id'] . "',
 							CURRENT_TIMESTAMP,
@@ -92,13 +100,12 @@
 					}
 				}
 
-				if($_data[1]!="" && !isset($_POST['selected_student'][$_i])){
+				if($_data[1]!="" && !isset($_POST['selected_club'][$_i])){
 					$_sql = "
-						delete from `register_students` 
+						delete from `register_teachers` 
 						where
-							student_id = '" . $_data[0] . "' and 
-							SubjectCode = '" . $_POST['SubjectCode'] . "' and
-							register_student_id = '" . $_data[1] . "' 
+							SubjectCode         = '" . $_POST['SubjectCode'] . "' and
+							teacher_register_id = '" . $_data[1] . "' 
 						";
 					$_res = mysqli_query($_connection,$_sql);
 					if($_res){
@@ -116,7 +123,7 @@
 		//line message
 		if($_processing_result){
 
-			$_processing_text  = "มีการบันทึกลงทะเบียนเรียนของนักเรียน รายวิชา - " . $_POST['SubjectCode'] . ': ' . $_POST['SubjectName'] . " ";
+			$_processing_text  = "มีการบันทึกการเปิดลงทะเบียนชุมนุม/กิจกรรม รายวิชา - " . $_POST['SubjectCode'] . ': ' . $_POST['SubjectName'] . " ";
 			$_processing_text .= " ชั้นมัธยมศึกษาปีที่ " . substr($_POST['subject_info'],0,1);
 			$_processing_text .= " ภาคเรียนที่ " . $acadsemester . " ปีการศึกษา " . $acadyear . "  ";
 			$_processing_result = true;
@@ -143,7 +150,7 @@
 			}
 
 		}else{
-			$_processing_text  = "เกิดข้อผิดพลาด ไม่สามารถบันทึกการลงทะเบียนเรียนได้" . "<br/>";
+			$_processing_text  = "เกิดข้อผิดพลาด ไม่สามารถบันทึก ชุมนุม/กิจกรรม สำหรับการลงทะเบียนเรียนได้" . "<br/>";
 			$_processing_text .= "อาจจะเกิดจากการต้องการบันทึก <b>ซ้ำหลายรอบระหว่างระบบประมวลผล</b> หรือ แจ้งข้อความนี้ต่อผู้ดูแลระบบ - " . mysqli_error($_connection);
 		}
 	}
@@ -159,24 +166,24 @@
 			</td>
 			<td>
 				<strong><font color="#990000" size="4">การจัดการหลักสูตรและการสอน</font></strong><br />
-				<span class="normal"><font color="#0066FF"><strong>4.3 จัดการลงทะเบียนเรียนวิชาเรียนแบบคละห้อง</strong></font></span>
+				<span class="normal"><font color="#0066FF"><strong>4.4 เตรียมชุมนุม/กิจกรรม สำหรับการลงทะเบียน</strong></font></span>
 			</td>
 			<td>
 				<form method="post">
 					<? if(isset($_REQUEST['acadyear'])) { $acadyear = $_REQUEST['acadyear']; } ?>
 					ปีการศึกษา<?php  
-							echo "<a href=\"index.php?option=module_curriculum/RegisterStudentByLevel&acadyear=" . ($acadyear - 1) . "\"><img src=\"../images/pull_left.gif\" border=\"0\" /></a> " ;
+							echo "<a href=\"index.php?option=module_curriculum/RegisterClubMapping&acadyear=" . ($acadyear - 1) . "\"><img src=\"../images/pull_left.gif\" border=\"0\" /></a> " ;
 							echo '<font color=\'blue\'>' .$acadyear . '</font>';
-							echo " <a href=\"index.php?option=module_curriculum/RegisterStudentByLevel&acadyear=" . ($acadyear + 1) . "\"><img src=\"../images/pull_right.gif\" border=\"0\" /></a> " ;
+							echo " <a href=\"index.php?option=module_curriculum/RegisterClubMapping&acadyear=" . ($acadyear + 1) . "\"><img src=\"../images/pull_right.gif\" border=\"0\" /></a> " ;
 						?>
 						ภาคเรียนที่
 							<? if($acadsemester == 1) { echo "<font color='blue'>1</font> , "; }
 									else {
-										echo " <a href=\"index.php?option=module_curriculum/RegisterStudentByLevel&acadyear=" . ($acadyear) . "&acadsemester=1 \"> 1</a> , " ;
+										echo " <a href=\"index.php?option=module_curriculum/RegisterClubMapping&acadyear=" . ($acadyear) . "&acadsemester=1 \"> 1</a> , " ;
 									}
 									if($acadsemester == 2) { echo "<font color='blue'>2</font>"; }
 									else {
-										echo " <a href=\"index.php?option=module_curriculum/RegisterStudentByLevel&acadyear=" . ($acadyear) . "&acadsemester=2 \"> 2</a> " ;
+										echo " <a href=\"index.php?option=module_curriculum/RegisterClubMapping&acadyear=" . ($acadyear) . "&acadsemester=2 \"> 2</a> " ;
 									}
 								?>
 					</font><br/>
@@ -194,12 +201,12 @@
 												concat(r.subject_level,'|',r.SubjectCode,'|',r.subject_register_id,'|',r.teacher_id,'|',s.SubjectName) as subject_info
 											from 
 												register_teachers r 
-												left join curriculum_subjects s on (r.SubjectCode = s.SubjectCode)
+												left join curriculum_subjects s on (r.SubjectCode = s.SubjectCode and r.club_code = '000')
 											where 
 												r.acadyear       = '" . $acadyear . "' and 
 												r.acadsemester   = '" . $acadsemester . "' and
 												r.is_split_class = '1' and
-												s.SubjectType    != 'กิจกรรมพัฒนาผู้เรียน'
+												s.SubjectType    = 'กิจกรรมพัฒนาผู้เรียน'
 											order by
 												r.subject_level,
 												convert(r.SubjectCode using tis620)
@@ -213,14 +220,14 @@
 							<? while($_sub = mysqli_fetch_assoc($_res_subject_info)) {
 									$_select = (isset($_POST['subject_info'])&& $_POST['subject_info'] == $_sub['subject_info']?"selected":"");
 									echo "<option value=\"" . $_sub['subject_info'] . "\" $_select>";
-									echo $_sub['SubjectCode'] . ' ชั้น ม.' . $_sub['subject_level'];
+									echo $_sub['SubjectCode'] . ' ' . $_sub['SubjectName']  . ' ชั้น ม.' . $_sub['subject_level'];
 									echo "</option>";
 								}
 							?>
 						</select>
 						<input type="submit" value="เรียกดู" class="button" name="search"/> <br/>
 						<input type="checkbox" name="registered" value="OK"  <?=isset($_POST['registered'])=="OK"?"checked='checked'":"";?> />
-						เฉพาะนักเรียนที่ลงทะเบียนเรียนวิชานี้
+						เฉพาะชุมนุมหรือกิจกรรมที่เปิดลงทะเบียน
 					
 					</font>
 				</form>
@@ -252,34 +259,39 @@
 				$_xyearth = $_sub_info[0];
 			}
 			
-			$_sql_student = "
+			$_sql_club = "
 							select 
-								s.id,
-								r.student_id,
-								s.prefix,s.firstname,s.lastname,s.nickname,s.room,s.studstatus,
-								r.register_student_id
+								c.club_code,
+								c.club_name,
+								c.club_level,
+								c.club_status,
+								t.teacher_register_id,
+								t.SubjectCode,
+								t.acadyear,
+								t.acadsemester,
+								t.subject_register_id
 							from 
-								students s left join register_students r
+								curriculum_clubs c left join register_teachers t
 								on (
-									 s.id = r.student_id and
-									 s.xedbe = r.acadyear and
-									 r.SubjectCode = '" . $_sub_info[1] . "' and
-									 r.acadsemester = '" . $acadsemester . "' 
+									 c.club_code    = t.club_code and
+									 t.acadyear     = '2565' and
+									 t.SubjectCode = '" . $_sub_info[1] . "' and
+									 t.acadsemester = '" . $acadsemester . "' 
 								    )
-							where 
-								s.xlevel  = '". $_xlevel . "' and 
-								s.xyearth = '" . $_xyearth . "' and 
-								s.xedbe   = '" . $acadyear . "' and 
-								s.studstatus in (1,2) 
+							where
+								1=1 
+								and c.club_level in ('0','" . $_xlevel . "') 
 							";
-			$_sql_student .= "";
+			$_sql_club .= "";
 
-			if(isset($_POST['registered'])=="OK") $_sql_student .= " and r.student_id IS NOT NULL";
-			$_sql_student .= " order by s.room,s.sex, convert(s.firstname using tis620),convert(s.lastname using tis620)";
+			if(isset($_POST['registered'])=="OK") $_sql_club .= " and t.subject_register_id IS NOT NULL";
+			$_sql_club .= " order by 
+									convert(c.club_name using tis620),
+									c.club_code	";
 
-			$_res_student = mysqli_query($_connection,$_sql_student);
+			$_res_student = mysqli_query($_connection,$_sql_club);
 
-			//echo $_sql_student."<br/>";
+			//echo $_sql_club."<br/>";
 		?>
 
 
@@ -290,49 +302,58 @@
 						<tr>
 							<td colspan="8" align="center">
 								<img src="../images/school_logo.png" width="120px"><br/>
-								<b>รายชื่อนักเรียนชั้นมัธยมศึกษาปีที่ <?=$_sub_info[0]?> ภาคเรียนที่ <?=$acadsemester.'/'.$acadyear?><br/>
-								สำหรับการจัดการลงทะเบียนเรียน รายวิชา <?=$_sub_info[1]?> : 
+								<b>รายชื่อชุมนุม/กิจกรรม สำหรับนักเรียนชั้นมัธยมศึกษาปีที่ <?=$_sub_info[0]?> ภาคเรียนที่ <?=$acadsemester.'/'.$acadyear?><br/>
+								โปรดเลือกชุมนุม/กิจกรรมสำหรับ รายวิชา <?=$_sub_info[1]?> : 
 								<?=$_sub_info[4]?></b>
 							</td>
 						</tr>
 						<tr>
-							<td width="40px" align="center" class="key">เลขที่</td>
-							<td width="85px" align="center" class="key">เลขประจำตัว</td>
-							<td  align="center" class="key">ชื่อ - นามสกุล</td>
-							<td align="center" width="100px" class="key">ชื่อเล่น</td>
-							<td align="center" width="60px" class="key">ห้อง</td>
-							<td width="100px"  align="center" class="key">สถานภาพปัจจุบัน</td>
+							<td width="40px"  align="center" class="key">ที่</td>
+							<td width="85px"  align="center" class="key">รหัสชุมนุม /กิจกรรม</td>
+							<td width="200px" align="center" class="key">ชื่อชุมนุม/กิจกรรม</td>
+							<td width="100px" align="center"  class="key">ระดับการสอน</td>
+							<td width="100px" align="center" class="key">สถานะ<br/>ชุมนุม</td>
 							<td width="100px" align="center" class="key">สถานะ<br/>ลงทะเบียน</td>
 							<td align="center" width="40px" class="key"><input type='checkbox' name='checkall' onclick='checkedAll(<?=mysqli_num_rows($_res_student)?>);' ></td>
 						</tr>
 						<? $_i = 1;?>
 						<? while($_dat = mysqli_fetch_assoc($_res_student)){ ?>
-						<tr id="row<?=$_i?>" <?=$_dat['register_student_id']!=""?"bgcolor='#FFFF99'":""?> >
+						<tr id="row<?=$_i?>" <?=$_dat['teacher_register_id']!=""?"bgcolor='#FFFF99'":""?> >
 							<td align="center"><?=$_i?></td>
-							<td align="center"><?=$_dat['id']?></td>
-							<td><?=$_dat['prefix'].$_dat['firstname']. ' ' .$_dat['lastname']?></td>
-							<td align="center"><?=$_dat['nickname']!=""?$_dat['nickname']:"-"?></td>
-							<td align="center"><?=$_sub_info[0].'/'.$_dat['room']?></td>
-							<td align="center"><?=displayStudentStatusColor($_dat['studstatus'])?></td>
+							<td align="center"><?=$_dat['club_code']?></td>
+							<td><?=$_dat['club_name']?></td>
 							<td align="center">
 								<?php
-									if($_dat['student_id']!=""){
-										echo "ลงทะเบียนแล้ว";
+								if($_dat['club_level']=="0"){
+									echo "ทุกระดับชั้น";
+								}else{
+									echo displayEducationLevel($_dat['club_level']);
+								}
+							?>
+							</td>
+							<td align="center">
+								<?=$_dat['club_status']=="ACTIVE"?"เปิดสอน":"หยุดทำการสอน"?>
+							</td>
+							<td align="center">
+								<?php
+									if($_dat['teacher_register_id']!=""){
+										echo "เปิดลงทะเบียน";
 									}else{
 										echo "-";
 									}
 
 									$_check_box_value = "";
 
-									$_check_box_value = $_dat['id'] . "|" . $_dat['register_student_id'] . "";
+									$_check_box_value = $_dat['club_code'] . "|" . $_dat['teacher_register_id'] . "";
 
 								?>
 							</td>
 							<td align="center">
-								<input type="hidden"   name="student[<?=$_i?>]" value="<?=$_check_box_value?>" />
-								<input type="checkbox" name="selected_student[<?=$_i?>]" 
+								<input type="hidden"   name="club[<?=$_i?>]" value="<?=$_check_box_value?>" />
+								<input type="checkbox" name="selected_club[<?=$_i?>]" 
 									   id="chk<?=$_i?>" value="<?=$_check_box_value?>" 
-									   <?=$_dat['register_student_id']!=""?"checked":""?>
+									   <?=$_dat['teacher_register_id']!=""?"checked":""?>
+									   <?=$_dat['club_status']=="ACTIVE"?"":"disabled"?>
 									   onclick="changeBackgroundColor('row<?=$_i?>',<?=$_i++?>)" />
 							</td>
 						</tr>
@@ -345,10 +366,11 @@
 								<input type="hidden" name="SubjectCode"         value="<?=$_sub_info[1]?>" />
 								<input type="hidden" name="SubjectName"         value="<?=$_sub_info[4]?>" />
 								<input type="hidden" name="subject_register_id" value="<?=$_sub_info[2]?>" />
+								<input type="hidden" name="teacher_id"          value="<?=$_sub_info[3]?>" />
 								<input type="hidden" name="search"              value=""/>
 								<input type="hidden" name="subject_info"        value="<?=$_POST['subject_info']?>" />
 								<input type="submit" name="save"                value="บันทึก" class="button" />
-								<input type="button" value="ยกเลิก" class="button" onclick="location.href='index.php?option=module_curriculum/RegisterStudentByLevel'" />
+								<input type="button" value="ยกเลิก" class="button" onclick="location.href='index.php?option=module_curriculum/RegisterClubMapping'" />
 							</td>
 						</tr>
 					</table>

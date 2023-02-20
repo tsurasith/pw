@@ -28,7 +28,11 @@
 				$_xyearth = 0;
 
 				$_xlevel  = $_POST['yearth']>3?4:3;
-				$_xyearth = $_POST['yearth']%3;
+				if($_xlevel == 3){
+					$_xyearth = $_POST['yearth'];
+				}else{
+					$_xyearth = $_POST['yearth']-3;
+				}
 
 				$_sql_delete = "
 					delete from register_students

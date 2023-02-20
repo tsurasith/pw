@@ -80,7 +80,11 @@
 		$_xyearth = 0;
 
 		$_xlevel  = $_POST['yearth']>3?4:3;
-		$_xyearth = $_POST['yearth']%3;
+		if($_xlevel == 3){
+			$_xyearth = $_POST['yearth'];
+		}else{
+			$_xyearth = $_POST['yearth']-3;
+		}
 
 		$_res = mysqli_query($_connection,$_sql_Operation);
 		if($_res){
@@ -212,7 +216,7 @@
 			$_regis_teaecher = mysqli_query($_connection,$_sql_subject_mapping);
 
 			// insert register_students when teaching by classroom
-			if($_POST['is_split_class']==0){
+			if($_POST['is_split_class']==0 && isset($_POST['mapping'])){
 				$_res_regis_student = mysqli_query($_connection,$_sql_student_register);
 			}
 			//echo $_sql_subject_mapping;
