@@ -151,7 +151,16 @@
 
 		$_res_teacher = mysqli_query($_connection,$_sql_teacher_register);
 		$_res_student = mysqli_query($_connection,$_sql_student_register);
-		//echo $_sql_student_register;
+		
+		//echo $_sql_student_register ."<br/>";
+
+		if($_res_teacher && $_res_student){
+			$_processing_result = true;
+			$_processing_text   = "บันทึกแก้ไขรูปแบบการสอนสำหรับการลงทะเบียนเรียยร้อยแล้ว";
+		}else{
+			$_processing_result = false;
+			$_processing_text   = "เกิดข้อผิดพลาด กรุณาลองใหม่อีกครั้ง หรือแจ้งข้อความนี้ต่อผู้ดูแลระบบ - " . mysqli_error($_connection);
+		}
 
 	}
 
@@ -163,31 +172,27 @@
 		$_sql_Operation = "";
 		
 		$_sql_Operation = "
-			UPDATE `curriculum_subject_mappings`
+			UPDATE `register_teachers`
 			SET
-				`subject_level`		= '" . $_POST['subject_level'] . "',
-				`acadsemester`	    = '" . $_POST['acadsemester'] . "',
-				`updated_datetime`  = CURRENT_TIMESTAMP,
-				`updated_user`      = '". $_SESSION['user_account_id'] . "'
+				`teacher_id`		   = '" . $_POST['teacher_id'] . "',
+				`updated_datetime`     = CURRENT_TIMESTAMP,
+				`updated_user`         = '". $_SESSION['user_account_id'] . "'
 			WHERE
-				`teacher_id`        = '" . $_POST['teacher_id'] . "' AND
-				`SubjectCode`	    = '" . $_POST['SubjectCode'] . "' AND
-				`SubjectCode`       = '" . $_POST['subject_code_mapping'] . "'
+				`teacher_register_id`  = '" . $_POST['teacher_register_id'] . "' AND
+				`subject_register_id`  = '" . $_POST['subject_register_id'] . "'
 			";
-		$_ops = "แก้ไข";
+		$_ops = "เพิ่มข้อมูล";
 	
 		//echo $_sql_Operation;
 
 		$_res = mysqli_query($_connection,$_sql_Operation);
 		if($_res){
-			$_processing_text  = "ระบบได้ทำการ " . $_ops . " ระดับชั้นที่เปิดสอนของวิชา: <b>" . $_POST['subject_name'] . "</b> ของหลักสูตร: ";
-			$_processing_text .= $_POST['SubjectName'] . " เรียบร้อยแล้ว";
+			$_processing_text  = "ระบบได้ทำการ " . $_ops . "ครูผู้สอนรายวิชา " . $_POST['SubjectCode'] . " - " . $_POST['subject_name'];
+			$_processing_text .= " ห้อง " . $_POST['room'] . " ภาคเรียนที่ " . $_POST['acadsemester'] . '/' . $_POST['acadyear'] . " เรียบร้อยแล้ว";
 			$_processing_result = true;
 
 			// line message here
-			$_text .= "รหัสวิชา: ";
-			$_text .= trim($_POST['SubjectCode']) . " ถูก" . $_ops;
-			$_text .= "ระดับชั้นที่เปิดสอน ของแผนการเรียน: " . $_POST['SubjectName'] . " แล้ว ";
+			$_text .= $_processing_text;
 			$_text .= "" . "โดย - " . $_SESSION['shortname'];
 
 			$message = $_text;
@@ -210,7 +215,6 @@
 			$_processing_text  = "เกิดข้อผิดพลาด ไม่สามารถแก้ไข วิชาเรียน ได้" . "<br/>";
 			$_processing_text .= "อาจจะเกิดจากการต้องการบันทึก <b>รหัสวิชา</b> ซ้ำ หรือ แจ้งข้อความนี้ต่อผู้ดูแลระบบ - " . mysqli_error($_connection);
 		}
-
 	}
 
 ?>
@@ -271,25 +275,87 @@
 				<?php
 				$_dat = mysqli_fetch_assoc($_resSearch); // search result subject details
 
+				$_sqlRegisSubject = "";
+
+				if($_dat['r_is_split_class']==0){ 
 
 					$_sqlRegisSubject = "
-					SELECT
-						rt.*
-					FROM
-						register_subjects rs inner join register_teachers rt
-						on (
-							 rs.SubjectCode         = rt.SubjectCode         and 
-							 rs.acadyear            = rt.acadyear            and
-							 rs.subject_register_id = rt.subject_register_id 
-							)
-					WHERE
-						rs.subject_register_id = '" . $_dat['subject_register_id'] . "' 
-					ORDER BY
-						rt.room_id
+							SELECT
+								rg.registered,
+								rt.*
+							FROM
+								register_subjects rs
+								INNER JOIN register_teachers rt ON
+									(
+										rs.SubjectCode  = rt.SubjectCode AND 
+										rs.acadyear     = rt.acadyear AND
+										rs.acadsemester = rt.acadsemester AND
+										rs.subject_register_id = rt.subject_register_id
+									)
+								LEFT JOIN
+									(
+										select 
+											concat(((s.xlevel-3)*3)+s.xyearth,'0',s.room) as 'class_id',
+											count(*) as 'registered'
+										from 
+											register_students r inner join students s
+											on (
+												r.student_id  = s.ID and 
+												r.acadyear    = s.xEDBE and 
+												r.subject_register_id = '" . $_dat['subject_register_id'] . "'
+												)
+										group by
+											concat(((s.xlevel-3)*3)+s.xyearth,'0',s.room)
+									) rg
+								ON (rt.room_id = rg.class_id)
+
+							WHERE
+								rs.subject_register_id = '" . $_dat['subject_register_id'] . "'
+							ORDER BY
+								rt.room_id
 					";
+				}else{
+					$_sqlRegisSubject = "
+							SELECT
+								rg.registered,
+								rt.*
+							FROM
+								register_subjects rs
+								INNER JOIN register_teachers rt ON
+									(
+										rs.SubjectCode  = rt.SubjectCode AND 
+										rs.acadyear     = rt.acadyear AND
+										rs.acadsemester = rt.acadsemester AND
+										rs.subject_register_id = rt.subject_register_id
+									)
+								LEFT JOIN
+									(
+										select 
+											concat(((s.xlevel-3)*3)+s.xyearth,'00') as 'class_id',
+											count(*) as 'registered'
+										from 
+											register_students r inner join students s
+											on (
+												r.student_id  = s.ID and 
+												r.acadyear    = s.xEDBE and 
+												r.subject_register_id = '" . $_dat['subject_register_id'] . "'
+												)
+										group by
+											concat(((s.xlevel-3)*3)+s.xyearth,'00')
+									) rg
+								ON (rt.room_id = rg.class_id)
+
+							WHERE
+								rs.subject_register_id = '" . $_dat['subject_register_id'] . "'
+							ORDER BY
+								rt.room_id
+					";
+				}
 
 					$_resC = mysqli_query($_connection,$_sqlRegisSubject);
 					$_rowC = mysqli_num_rows($_resC);
+
+					//echo $_sqlRegisSubject;
 				?>
 
 				<form method="post" action="">
@@ -336,7 +402,6 @@
 												<option value=""> - ไม่มีข้อมูล - </option>
 												<option value="0" <?=$_dat['r_is_split_class']=="0"?"selected":""?> >จัดตามห้องเรียน</option>
 												<option value="1" <?=$_dat['r_is_split_class']=="1"?"selected":""?> >คละห้อง</option>
-												<option value="2" <?=$_dat['r_is_split_class']=="2"?"selected":""?> >คละระดับชั้น</option>
 											</select>
 											<input type="hidden" name="subject_register_id" value="<?=$_dat['subject_register_id']?>" />
 											<input type="hidden" name="subject_name"        value="<?=$_dat['SubjectName']?>" />
@@ -349,7 +414,7 @@
 								</tr>
 							</table>
 							<br/>
-							
+
 							<table class="admintable">
 								<tr height="35px">
 									<td class="key" colspan="7">
@@ -359,27 +424,79 @@
 								</tr>
 								<tr height="35px"> 
 									<!--<td class="key" width="25px" align="center">-</td>-->
-									<td class="key" width="90px" align="center">ห้องเรียน</td>
-									<td class="key" width="200px" align="center">ครูผู้สอน</td>
-									<td class="key" width="100px" align="center">ระดับการศึกษา</td>
-									<td class="key" width="120px" align="center">แก้ไขระดับชั้น</td>
-									<td class="key" width="80px" align="center">จำนวนนักเรียน<br/>ลงทะเบียน</td>
-									<td class="key" width="120px" align="center">สถานะการบรรจุ<br/>ในแผนการเรียน</td>
+									<td class="key" width="90px" align="center">ห้อง</td>
+									<td class="key" width="210px" align="center">ครูผู้สอน</td>
+									<td class="key" width="100px" align="center">จำนวนนักเรียน<br/>ลงทะเบียน</td>
+									<td class="key" width="220px" align="center">สถานะ<br/>การเรียนการสอน</td>
 								</tr>
 								<? while($_datC = mysqli_fetch_assoc($_resC)){ ?>
 									<tr onMouseOver="this.style.backgroundColor='#E5EBFE'; this.style.cursor='hand';" onMouseOut=this.style.backgroundColor="#FFFFFF">
-										<!--<td align="center"></td>-->
-										<td align="center"><?=$_datC['room_id']?></td>
-										<td><?=$_datC['teacher_id']?></td>
-										<td align="center"><?=displayEducationLevel($_datC['subject_level'])?></td>
-										<td align="left">
-										<? $_i=0; ?>
-											<? $_select = ($_datC['SubjectCode']==$_dat['SubjectCode']?"checked":""); ?>
-											
-										</td>
-										<td></td>
 										<td align="center">
-											<?=($_datC['SubjectCode']!=""?"<font color='green'>บรรจุแล้ว</font>":"ยังไม่บรรจุ")?>
+											<?php
+												echo substr($_datC['room_id'],0,1) . '/' . (int) substr($_datC['room_id'],-2,2);	
+											?>
+										</td>
+										<td align="left"  >
+											<form method="post">
+												<?php 
+													$sql_teacher = " 
+														SELECT
+															t.teacher_id,
+															t.firstname,
+															t.lastname
+														FROM
+															teachers t
+														WHERE
+															t.type != 'xcancel'
+														ORDER BY
+															CONVERT(t.firstname using tis620),
+															CONVERT(t.lastname  using tis620)
+														" ;
+														//echo $sql_Room ;
+														$resTeacher = mysqli_query($_connection,$sql_teacher);	
+												?>
+												<select name="teacher_id" class="inputboxUpdate" onChange="this.form.submit();">
+													<option value="00000000-0000-0000-0000-000000000000"> - ไม่ระบุ - </option>
+													<?php
+														$_select = "";
+														while($datSelect = mysqli_fetch_assoc($resTeacher))
+														{
+															$_select = ($datSelect['teacher_id'] == $_datC['teacher_id']?"selected":"");
+															echo "<option value=" . $datSelect['teacher_id'] . " $_select>";
+															echo $datSelect['firstname']. ' ' . $datSelect['lastname'];
+															echo "</option>";
+														}
+													?>
+												</select>
+												<input type="hidden" name="subject_register_id" value="<?=$_dat['subject_register_id']?>" />
+												<input type="hidden" name="teacher_register_id" value="<?=$_datC['teacher_register_id']?>" />
+												<input type="hidden" name="subject_name"        value="<?=$_dat['SubjectName']?>" />
+												<input type="hidden" name="yearth"              value="<?=$_POST['yearth']?>" />
+												<input type="hidden" name="SubjectCode"         value="<?=$_dat['SubjectCode']?>" />
+												<input type="hidden" name="acadyear"            value="<?=$_dat['acadyear']?>" />
+												<input type="hidden" name="acadsemester"        value="<?=$_dat['acadsemester']?>" />
+												<input type="hidden" name="room"                value="<?=substr($_datC['room_id'],0,1) . '/' . (int) substr($_datC['room_id'],-2,2)?>" />
+											</form>
+										</td>
+										<td align="center"><?=$_datC['registered']?></td>
+										<td align="center">
+											<?php
+												if($_datC['teacher_id'] == "00000000-0000-0000-0000-000000000000"){
+													echo "<font color='red'>ยังไม่ระบุครูผู้สอน</font>";
+												}else if(trim($_datC['registered'])==""){
+													echo "<font color='red'>ยังไม่มีนักเรียนลงทะเบียนเรียน</font>";
+												}else{
+													echo "<font color='green'>ครบถ้วนสมบูรณ์</font>";
+												}
+												
+											?>
+										</td>
+										<td align="center">
+											<?php
+												if(substr($_datC['room_id'],-2,2)=="000"){
+													echo "ลงทะเบียนนักเรียน";
+												}
+											?>
 										</td>
 									</tr>
 								<? } ?>
@@ -391,21 +508,23 @@
 						} ?>
 					</div>
 				</form>
-
+				<br/>
 
 				<div align="center">
-					<?php
-						if($_processing_text != ""){
-							if($_processing_result){
-								echo "<font color='green'>";
-							}else{
-								echo "<font color='red'>";
-							}
-							echo "<br/>";
-							echo $_processing_text;
-							echo "</font>";
-						}
-					?>
+					<br/>
+								<?php
+									if (((isset($_POST['r_is_split_class']) && $_POST['r_is_split_class']!="")) || ((isset($_POST['teacher_id']) && $_POST['teacher_id'] != ""))) {
+										if($_processing_result){
+											echo "<font color='green'>";
+											echo $_processing_text;
+											echo "</font>";
+										}else{
+											echo "<font color='red'>";
+											echo $_processing_text;
+											echo "</font>";
+										}
+									}
+								?>
 				</div>
 
 				<div align="center">

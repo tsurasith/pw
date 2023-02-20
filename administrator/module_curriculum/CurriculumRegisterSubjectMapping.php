@@ -320,7 +320,9 @@
 				s.SubjectGroup,
 				m.curriculum_mapping_level,
 				s.is_split_class,
-				sr.SubjectCode as SubjectCode_register
+				sr.SubjectCode    as SubjectCode_register,
+				sr.is_split_class as r_is_split_class,
+				rg.total_student
 			from
 				curriculum_subject_mappings m inner join register_curriculums r 
 				on (m.curriculum_id = r.curriculum_id and m.curriculum_mapping_semester = r.acadsemester)
@@ -328,7 +330,20 @@
 				on (m.SubjectCode = s.SubjectCode)
 				left join register_subjects sr 
 				on (r.acadyear = sr.acadyear and r.acadsemester = sr.acadsemester and s.SubjectCode = sr.SubjectCode)
-				
+				left join
+				    (
+						select 
+							SubjectCode,
+							count(*) as 'total_student'
+						from
+							register_students
+						where
+							acadyear     = '" . $acadyear . "' and
+							acadsemester = '" . $acadsemester . "' 
+						group by
+						    SubjectCode,acadyear,acadsemester
+					) as rg
+				on (m.SubjectCode = rg.SubjectCode)
 			where
 				m.curriculum_mapping_level = '" . $_POST['yearth'] . "' and
 				r.acadyear      = '" . $acadyear . "' and
@@ -355,12 +370,13 @@
 						</tr>
 						<tr height="35px"> 
 							<td class="key" width="25px" align="center" colspan="2">-</td>
-							<td class="key" width="90px" align="center">รหัสวิชา</td>
-							<td class="key" width="250px" align="center">ชื่อวิชา</td>
-							<td class="key" width="95px" align="center">หน่วยการเรียน</td>
+							<td class="key" width="80px" align="center">รหัสวิชา</td>
+							<td class="key" width="220px" align="center">ชื่อวิชา</td>
+							<td class="key" width="75px" align="center">หน่วย<br/>การเรียน</td>
 							<td class="key" width="60px" align="center">ชั่วโมง</td>
-							<td class="key" width="140px" align="center">ประเภทวิชา</td>
-							<td class="key" width="100px" align="center">รูปแบบการสอน</td>
+							<td class="key" width="130px" align="center">ประเภทวิชา</td>
+							<td class="key" width="90px" align="center">รูปแบบ<br/>การสอน</td>
+							<td class="key" width="70px" align="center">นักเรียน<br/>ลงทะเบียน</td>
 							<td class="key" width="120px" align="center">สถานะสำหรับ<br/>ลงทะเบียน</td>
 						</tr>
 						<? while($_dat = mysqli_fetch_assoc($_resC)){ ?>
@@ -384,14 +400,25 @@
 								<td align="center"><?=$_dat['SubjectType']?></td>
 								<td align="center">
 									<?php
-										if($_dat['is_split_class']==0){
+										$_split_class = "";
+
+										if($_dat['r_is_split_class']!=""){
+											$_split_class = $_dat['r_is_split_class'];
+										}else{
+											$_split_class = $_dat['is_split_class'];
+										}
+
+										if($_split_class==0){
 											echo "จัดตามห้อง";
-										}else if($_dat['is_split_class']==1){
+										}else if($_split_class==1){
 											echo "คละห้อง";
 										}else{
 											echo "คละระดับชั้น";
 										}
 									?>
+								</td>
+								<td align="center">
+									<?=$_dat['total_student']?>
 								</td>
 								<td align="center">
 									<?=($_dat['SubjectCode_register']!=""?"<font color='green'>เปิดลงทะเบียน</font>":"ไม่เปิดลงทะเบียน")?>
