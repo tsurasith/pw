@@ -16,11 +16,11 @@
 		</tr>
         <tr>
             <td width="20px">&nbsp;</td>
-            <td>1.2 To be announced</td>
+            <td>1.2 รายวิชาที่เปิดลงทะเบียนรายภาคเรียน</td>
 		</tr>
 		<tr>
 			<td>&nbsp;</td>
-			<td>1.3 To be announced</td>
+			<td>1.3 รายชื่อชุมนุม/กิจกรรมที่เปิดลงทะเบียน</td>
 		</tr>
         <tr>
 			<td>&nbsp;</td>

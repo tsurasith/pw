@@ -53,7 +53,7 @@
 			if(isset($_POST['club'][$_i])){
 				
 				$_data = explode("|",$_POST['club'][$_i]);
-				// $_data[0] = 08818
+				// $_data[0] = 0033 - club_code
 				// $_data[1] = register_student_id
 
 				$_sql = "";
@@ -105,10 +105,24 @@
 						delete from `register_teachers` 
 						where
 							SubjectCode         = '" . $_POST['SubjectCode'] . "' and
-							teacher_register_id = '" . $_data[1] . "' 
+							teacher_register_id = '" . $_data[1] . "' and
+							acadyear            = '" . $_POST['acadyear'] . "' and
+							acadsemester        = '" . $_POST['acadsemester'] . "' 
 						";
+					$_sql_student = "
+						delete from `register_students`
+						where
+							SubjectCode         = '" . $_POST['SubjectCode'] . "' and
+							club_code           = '" . $_data[0] . "' and
+							acadyear            = '" . $_POST['acadyear'] . "' and
+							acadsemester        = '" . $_POST['acadsemester'] . "' 
+
+						";
+
 					$_res = mysqli_query($_connection,$_sql);
-					if($_res){
+					$_res_student = mysqli_query($_connection,$_sql_student);
+
+					if($_res && $_res_student){
 						$_processing_result = true;
 					}else{
 						$_processing_result = false;
@@ -274,8 +288,8 @@
 								curriculum_clubs c left join register_teachers t
 								on (
 									 c.club_code    = t.club_code and
-									 t.acadyear     = '2565' and
-									 t.SubjectCode = '" . $_sub_info[1] . "' and
+									 t.acadyear     = '" . $acadyear . "' and
+									 t.SubjectCode  = '" . $_sub_info[1] . "' and
 									 t.acadsemester = '" . $acadsemester . "' 
 								    )
 							where
