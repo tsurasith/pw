@@ -78,7 +78,7 @@
 						VALUES
 						(
 							'" . $_POST['teacher_id'] . "', 
-							'" . "100" . "', 
+							'" . substr($_POST['subject_info'],0,1) . "00" . "', 
 							'" . substr($_POST['subject_info'],0,1) . "', 
 							'" . $_POST['SubjectCode'] . "',
 							'" . $_POST['acadyear']    . "',
