@@ -16,15 +16,15 @@
 		</tr>
         <tr>
             <td width="20px">&nbsp;</td>
-            <td>1.2 รายวิชาที่เปิดลงทะเบียนรายภาคเรียน</td>
+            <td><a href="index.php?option=module_curriculum/ReportEnrollmentSubjects">1.2 รายวิชาที่เปิดลงทะเบียนรายภาคเรียน</a></td>
 		</tr>
 		<tr>
 			<td>&nbsp;</td>
-			<td>1.3 รายชื่อชุมนุม/กิจกรรมที่เปิดลงทะเบียน</td>
+			<td><a href="index.php?option=module_curriculum/ReportEnrollmentClubs">1.3 รายชื่อชุมนุม/กิจกรรมที่เปิดลงทะเบียน</a</td>
 		</tr>
         <tr>
 			<td>&nbsp;</td>
-			<td>1.4 To be announced</td>
+			<td>1.4 รายชื่อครูผู้สอนและภาระการสอน</td>
 		</tr>
 	   <tr>
 		<td class="key" colspan="2">2. สืบค้นข้อมูล </td>
@@ -43,6 +43,10 @@
 		<tr>
 			<td>&nbsp;</td>
 			<td><a href="index.php?option=module_curriculum/ShowCurriculumSubjectMappingWithCredit2">2.4 แสดงรายวิชาตามโครงสร้างแผนการเรียนและสรุปหน่วยการเรียน (รูปแบบ 2)</td> 
+		</tr>
+		<tr>
+			<td>&nbsp;</td>
+			<td>2.5 สืบค้นข้อมูลการลงทะเบียนเรียน</td>
 		</tr>
 		<? if(
                         $_SESSION['username'] == "admin" || 
