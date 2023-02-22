@@ -2,28 +2,46 @@
 <table width="100%" border="0" align="center" cellpadding="0" cellspacing="10" class="header">
   <tr>
     <td width="6%" align="center"><img src="../images/computer.png" alt="" width="48px" border="0" /></td>
-    <td ><strong><font color="#990000" size="4">ระบบสารสนเทศกิจกรรม/โครงการ</font></strong><br />
-	<span class="normal"><font color="#0066FF"><strong>สารสนเทศการจัดกิจกรรมโครงการตามมาตรฐานและตัวชี้วัด</strong></font></span></td>
+    <td ><strong><font color="#990000" size="4">ระบบสารสนเทศแผน งบประมาณ โครงการและกิจกรรม</font></strong><br />
+	<span class="normal"><font color="#0066FF"><strong>สารสนเทศการแผน งบประมาณ โครงการและการจัดกิจกรรมตามมาตรฐานและตัวชี้วัด</strong></font></span></td>
     <td width="300px">&nbsp;</td>
   </tr>
 </table>
 <table width="100%" align="center" cellspacing="1" class="admintable">
-	<tr>
+	<tr height="35px">
 		<td colspan="2" class="key">
 			1. การบันทึกข้อมูลกิจกรรม/โครงการ 
 			[<a href="index.php?option=module_projects/projectListAll">รายชื่อกิจกรรม/โครงการทั้งหมด</a>]
-			[<a href="index.php?option=module_projects/edit">แก้ไขข้อมูลกิจกรรมโครงการ</a>]
 		</td>
 	</tr>
 	<tr>
 		<td width="20px">&nbsp;</td>
 		<td >
-			<a href="index.php?option=module_projects/addnew">1.1 บันทึกข้อมูลกิจกรรม/โครงการ</a>(เพิ่มใหม่)
+			<a href="index.php?option=module_projects/addProject">1.1 บันทึกข้อมูลโครงการ</a>
 		</td>
 	</tr>
 	<tr>
+		<td width="20px">&nbsp;</td>
+		<td >
+			<a href="index.php?option=module_projects/EditProject">1.2 แก้ไขข้อมูลโครงการ</a>
+		</td>
+	</tr>
+	<tr>
+		<td width="20px">&nbsp;</td>
+		<td >
+			<a href="index.php?option=module_projects/addActivity">1.3 บันทึกข้อมูลกิจกรรมย่อยของโครงการ</a>
+		</td>
+	</tr>
+	<tr>
+		<td width="20px">&nbsp;</td>
+		<td >
+			<a href="index.php?option=module_projects/editActivity">1.4 แก้ไขข้อมูลกิจกรรมย่อยของโครงการ</a>
+		</td>
+	</tr>
+	<!--
+	<tr>
 		<td>&nbsp;</td>
-		<td><a href="index.php?option=module_projects/addQA">1.2 บันทึกความสอดคล้องกับมาตรฐานการศึกษา</a>(เพิ่ม/ลบ)</td>
+		<td><a href="index.php?option=module_projects/addQA">1.3 บันทึกความสอดคล้องกับมาตรฐานการศึกษา</a>(เพิ่ม/ลบ)</td>
 	</tr>
 	<tr>
 		<td>&nbsp;</td>
@@ -32,7 +50,27 @@
 	<tr>
 		<td>&nbsp;</td>
 		<td><a href="index.php?option=module_projects/addComment">1.4 บันทึกปัญหา/ข้อเสนอแนะ</a>(เพิ่ม/ลบ)</td>
+	</tr> -->
+	<tr height="35px">
+		<td colspan="2" class="key">
+			2. แผน/ยุทธศาสตร์/กลยุทธ์
+		</td>
 	</tr>
+	<tr>
+		<td width="20px">&nbsp;</td>
+		<td >
+			2.1 TBA
+		</td>
+	</tr>
+	<tr>
+		<td>&nbsp;</td>
+		<td>2.2 TBA</td>
+	</tr>
+	<tr>
+		<td>&nbsp;</td>
+		<td>2.3 TBA</td>
+	</tr>
+	<!--
 	<tr>
 		<td colspan="2" class="key">
 			2. รายงานสารสนเทศกิจกรรมโครงการ
@@ -81,6 +119,7 @@
         	<td>&nbsp;</td>
 			<td><a href="index.php?option=module_projects/CurriculumMapping">3.4 จัดการรายวิชาที่บรรจุในแผนการเรียน</a></td>
         </tr>
+-->
 </table>
 
 </div>

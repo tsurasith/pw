@@ -16,7 +16,7 @@
 		</a>
 	  </td>
 	  <td >
-	  		<strong><font color="#990000" size="4">ระบบสารสนเทศกิจกรรม/โครงการ</font></strong><br />
+	  		<strong><font color="#990000" size="4">ระบบสารสนเทศแผน งบประมาณ โครงการและกิจกรรม</font></strong><br />
 			<span class="normal"><font color="#0066FF"><strong>1.3 บันทึกการใช้งบประมาณ &gt;&gt; ลบรายการใช้งบประมาณ</strong></font></span>
 	  </td>
       <td >&nbsp;</td>

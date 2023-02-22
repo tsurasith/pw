@@ -16,7 +16,7 @@
 		</a>
 	  </td>
 	  <td >
-	  		<strong><font color="#990000" size="4">ระบบสารสนเทศกิจกรรม/โครงการ</font></strong><br />
+	  		<strong><font color="#990000" size="4">ระบบสารสนเทศแผน งบประมาณ โครงการและกิจกรรม</font></strong><br />
 			<span class="normal">ระบบสารสนเทศ การจัดกิจกรรมโครงการตามมาตรฐานและตัวชี้วัด</span>
 	  </td>
       <td >&nbsp;</td>

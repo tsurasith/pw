@@ -25,7 +25,7 @@
 			<img src="../images/computer.png" alt="" width="48" height="48" border="0"/>
 		</a>
 	  </td>
-    <td ><strong><font color="#990000" size="4">ระบบสารสนเทศกิจกรรม/โครงการ</font></strong><br />
+    <td ><strong><font color="#990000" size="4">ระบบสารสนเทศแผน งบประมาณ โครงการและกิจกรรม</font></strong><br />
 	<span class="normal"><font color="#0066FF"><strong>1.2 บันทึกความสอดคล้องกับมาตรฐานการศึกษา</strong></font></span></td>
       <td >
 		<?php

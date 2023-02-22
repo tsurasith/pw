@@ -139,8 +139,8 @@
                 <div style="float:left;">
                     <div class="icon">
                         <a href="index.php?option=module_projects/index">
-                        <img src="../images/computer.png" alt="กิจกรรม/โครงการ" align="middle" border="0" />
-                        <span>กิจกรรม/โครงการ</span>
+                        <img src="../images/computer.png" alt="แผน/งบประมาณ" align="middle" border="0" />
+                        <span>แผน/งบประมาณ</span>
                         </a>
                     </div>
                 </div>
