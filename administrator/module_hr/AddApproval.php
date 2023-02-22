@@ -187,7 +187,7 @@
 					h.staff_id = s.staff_id
 				) 
 			where
-				h.absent_id = '" . $_absent_id . "'
+				h.absent_id = '" . $_absent_id . "' 
 			";
 		if($_absent_id != ""){
 			$_res_initial = mysqli_query($_connection,$_sql_initial);
@@ -222,7 +222,7 @@
 										h.staff_id = s.staff_id
 									) 
 								where 
-									h.request_status != 'ส่งคำขอแล้ว'
+									h.request_status in ('ส่งคำขอแล้ว','รอการอนุมัติ','ส่งต่องานบุคลากรแล้ว')
 								order by
 									convert(s.firstname using tis620)
 								 ";
