@@ -98,8 +98,10 @@
 						c.updated_datetime,
 						count(r.club_code) as 'total_register_club'
 					from
-						curriculum_clubs c left join register_clubs r
-						on (c.club_code = r.club_code)
+						curriculum_clubs c left join register_teachers r
+						on (
+							 c.club_code    = r.club_code 
+							)
 					group by
 						c.club_code
 					order by
