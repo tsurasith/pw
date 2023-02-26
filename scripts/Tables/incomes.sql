@@ -2,21 +2,25 @@
 
 DROP TABLE IF EXISTS `incomes`;
 
+
 CREATE TABLE IF NOT EXISTS `incomes` (
-  `income_id` INT(2) ZEROFILL  NOT NULL  AUTO_INCREMENT COMMENT 'รหัสงบประมาณ',
-  `income_name` varchar(100)  NOT NULL COMMENT 'ชื่อรายได้สถานศึกษา',
-  `income_type_id` INT(2) ZEROFILL  NOT NULL COMMENT 'รหัสประเภท/กลุ่มรายได้',
-  `income_description` varchar(255)  NULL COMMENT 'คำอธิบายเพิ่มเติม',
-  `display_status` varchar(1)  NOT NULL DEFAULT 'Y' COMMENT 'การแสดงใน select box, Y=แสดง,N=ไม่แสดง',
-  `created_datetime` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `created_user` varchar(36) NULL,
-  `updated_datetime` DATETIME NULL,
-  `updated_user` varchar(36) NULL,
+  `income_id` int(2) UNSIGNED ZEROFILL NOT NULL AUTO_INCREMENT COMMENT 'รหัสงบประมาณ',
+  `income_name` varchar(100) NOT NULL COMMENT 'ชื่อรายได้สถานศึกษา',
+  `income_group_id` int(2) UNSIGNED ZEROFILL NOT NULL COMMENT 'รหัสประเภท/กลุ่มรายได้',
+  `income_description` varchar(255) DEFAULT NULL COMMENT 'คำอธิบายเพิ่มเติม',
+  `display_status` varchar(1) NOT NULL DEFAULT 'Y' COMMENT 'การแสดงใน select box, Y=แสดง,N=ไม่แสดง',
+  `sort_order` int(11) NOT NULL DEFAULT '100',
+  `created_datetime` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `created_user` varchar(36) DEFAULT NULL,
+  `updated_datetime` datetime DEFAULT NULL,
+  `updated_user` varchar(36) DEFAULT NULL,
   PRIMARY KEY (`income_id`),
-  FOREIGN KEY ('income_type_id') REFERENCES income_types('income_type_id') ON UPDATE CASCADE ON DELETE RESTRICT
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  KEY `income_type_id` (`income_group_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8;
 
-
+--
+-- Dumping data for table `incomes`
+--
 
 INSERT INTO `incomes` (`income_id`, `income_name`, `income_group_id`, `income_description`, `display_status`, `sort_order`, `created_datetime`, `created_user`, `updated_datetime`, `updated_user`) VALUES
 (01, 'เงินสะสม', 01, NULL, 'Y', 100, '2023-02-12 16:19:19', NULL, '2023-02-12 09:18:37', NULL),
@@ -36,3 +40,13 @@ INSERT INTO `incomes` (`income_id`, `income_name`, `income_group_id`, `income_de
 (15, 'เงินพัฒนาห้องสมุดโรงเรียน', 03, NULL, 'Y', 100, '2023-02-23 01:57:15', NULL, '2023-02-22 18:56:35', NULL),
 (16, 'เงินพัฒนาข้าราชการครู', 03, NULL, 'Y', 100, '2023-02-23 01:57:15', NULL, '2023-02-22 18:56:35', NULL),
 (17, 'เงินค่าใช้จ่ายในการพัฒนาแหล่งเรียนรู้', 03, NULL, 'Y', 100, '2023-02-23 01:57:15', NULL, '2023-02-22 18:56:35', NULL);
+
+--
+-- Constraints for dumped tables
+--
+
+--
+-- Constraints for table `incomes`
+--
+ALTER TABLE `incomes`
+  ADD CONSTRAINT `incomes_ibfk_1` FOREIGN KEY (`income_group_id`) REFERENCES `income_group` (`income_group_id`) ON UPDATE CASCADE;
