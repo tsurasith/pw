@@ -50,7 +50,7 @@
 		if(start_date > finish_date)
 		{
 			alert('คุณป้อนข้อมูลไม่ถูกต้อง วันที่เริ่มกิจกรรม มากกว่า วันสิ้นสุดกิจกรรม กรุณาตรวจสอบอีกครั้ง'); 
-			document.getElementById('start_absent_date').focus(); return;
+			document.getElementById('start_date').focus(); return;
 		}
 
 
@@ -61,7 +61,7 @@
 			return;
 		}
 
-		if(document.getElementById('request_budget').value == '')
+		if(document.getElementById('request_budget').value == '' || document.getElementById('request_budget').value*0 != 0)
 		{ 
 			alert('กรุณาป้อนข้อมูล เงินงบประมาณที่ขอก่อน'); 
 			document.getElementById('request_budget').focus(); 
@@ -82,7 +82,7 @@
 			return;
 		}
 		
-		if(document.getElementById('approve_budget').value == '')
+		if(document.getElementById('approve_budget').value == '' || document.getElementById('approve_budget').value*0 != 0)
 		{ 
 			alert('กรุณาป้อนข้อมูล เงินงบประมาณที่อนุมัติก่อน'); 
 			document.getElementById('approve_budget').focus(); 
