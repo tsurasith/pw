@@ -29,13 +29,13 @@
 	<tr>
 		<td width="20px">&nbsp;</td>
 		<td >
-			<a href="index.php?option=module_projects/addActivity">1.3 บันทึกข้อมูลกิจกรรมย่อยของโครงการ</a>
+			<a href="index.php?option=module_projects/addActivity">1.3 บันทึกกิจกรรมย่อยของโครงการ</a>
 		</td>
 	</tr>
 	<tr>
 		<td width="20px">&nbsp;</td>
 		<td >
-			<a href="index.php?option=module_projects/editActivity">1.4 แก้ไขข้อมูลกิจกรรมย่อยของโครงการ</a>
+			<a href="index.php?option=module_projects/addGoal">1.4 บันทึกเป้าหมายโครงการ/กิจกรรม</a>
 		</td>
 	</tr>
 	<!--
