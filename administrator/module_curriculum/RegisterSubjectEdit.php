@@ -228,6 +228,72 @@
 		}
 	}
 
+
+	// การจัดการห้องเรียนที่ลงทะเบียน (ลบห้องเรียนที่ไม่เปิดสอนออก)
+	if(isset($_POST['delete'])){
+
+		$_ops = "";
+		$_sql_Operation = "";
+		$_sql_delete_registered_student = "";
+
+		$_sql_delete_registered_student = "
+			DELETE FROM `register_students`
+			WHERE
+				`subject_register_id`  = '" . $_POST['subject_register_id'] . "' AND
+				`student_id`  IN 
+								(
+									select id from students 
+									where 
+										xedbe = '" . $_POST['acadyear'] . "' and
+										concat((((xlevel-3)*3)+xyearth),'0',room) = '" . $_POST['room_id'] . "'
+								)
+				";
+
+		$_sql_Operation = "
+			DELETE FROM `register_teachers`
+			WHERE
+				`teacher_register_id`  = '" . $_POST['teacher_register_id'] . "' AND
+				`subject_register_id`  = '" . $_POST['subject_register_id'] . "'
+			";
+		$_ops = "ปิดการลงทะเบียน";
+	
+		//echo $_sql_delete_registered_student . "<br/>";
+		//echo $_sql_Operation;
+		$_res_student = mysqli_query($_connection,$_sql_delete_registered_student);
+		if($_res_student){
+			$_res = mysqli_query($_connection,$_sql_Operation);
+
+			if($_res){
+				$_processing_text  = "ระบบได้ทำการ " . $_ops . " รายวิชา " . $_POST['SubjectCode'] . " - " . $_POST['subject_name'];
+				$_processing_text .= " ห้อง " . $_POST['room'] . " ภาคเรียนที่ " . $_POST['acadsemester'] . '/' . $_POST['acadyear'] . " เรียบร้อยแล้ว";
+				$_processing_result = true;
+
+				// line message here
+				$_text .= $_processing_text;
+				$_text .= "" . "โดย - " . $_SESSION['shortname'];
+
+				$message = $_text;
+				SendLineMessage($message,$_line_token);
+
+				$_event_details = "";
+				$_event_details .= $_text;
+
+				$_event_key = hash("sha256",$_event_details);
+
+				$_event_user_id = $_SESSION['user_account_id'];
+				if(checkDuplicateEventLog($_connection,$_event_key)){
+					event_log($_connection,1,1,2,
+					$_event_key,
+					$_event_details,
+					$_event_user_id,$acadyear,$acadsemester);
+				}
+
+			}else{
+				$_processing_text  = "เกิดข้อผิดพลาด ไม่สามารถแก้ไข วิชาเรียน ได้" . "<br/>";
+				$_processing_text .= "อาจจะเกิดจากการต้องการบันทึก <b>รหัสวิชา</b> ซ้ำ หรือ แจ้งข้อความนี้ต่อผู้ดูแลระบบ - " . mysqli_error($_connection);
+			}
+		}
+	}
 ?>
 
 
@@ -551,6 +617,21 @@
 																<input type="submit" name="search" value="ไปหน้าลงทะเบียน" />
 															</form>
 														<? } ?>
+
+													<? if(substr($_datC['room_id'],-2,2) != '00') { ?>
+														<form method="post">
+															<input type="hidden" name="subject_register_id" value="<?=$_dat['subject_register_id']?>" />
+															<input type="hidden" name="teacher_register_id" value="<?=$_datC['teacher_register_id']?>" />
+															<input type="hidden" name="subject_name"        value="<?=$_dat['SubjectName']?>" />
+															<input type="hidden" name="yearth"              value="<?=$_POST['yearth']?>" />
+															<input type="hidden" name="SubjectCode"         value="<?=$_dat['SubjectCode']?>" />
+															<input type="hidden" name="acadyear"            value="<?=$_dat['acadyear']?>" />
+															<input type="hidden" name="acadsemester"        value="<?=$_dat['acadsemester']?>" />
+															<input type="hidden" name="room_id"             value="<?=$_datC['room_id']?>" />
+															<input type="hidden" name="room"                value="<?=substr($_datC['room_id'],0,1) . '/' . (int) substr($_datC['room_id'],-2,2)?>" />
+															<input type="submit" name="delete" value="ลบ" />
+														</form>
+													<? } ?>
 												</td>
 											</tr>
 										<? } ?>
