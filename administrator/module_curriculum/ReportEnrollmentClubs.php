@@ -16,7 +16,7 @@
 				</a>
 				</td>
 				<td width="64%"><strong><font color="#990000" size="4">การจัดการหลักสูตรและการสอน</font></strong><br />
-					<span class="normal"><font color="#0066FF"><strong>1.2 รายวิชาที่เปิดลงทะเบียนรายภาคเรียน</strong></font></span>
+					<span class="normal"><font color="#0066FF"><strong>1.3 รายชื่อชุมนุม/กิจกรรมที่เปิดลงทะเบียน</strong></font></span>
 				</td>
 				<td >
 					<?php

@@ -159,8 +159,9 @@
 					left join curriculum_clubs c 
 					on (rt.club_code = c.club_code)
 				where
-					rt.teacher_id = '" . $_POST['teacher_id'] . "'
-
+					rt.teacher_id = '" . $_POST['teacher_id'] . "' and
+					concat(s.SubjectType,rt.club_code,rt.is_split_class) != 'กิจกรรมพัฒนาผู้เรียน00001' 
+					
 				order by
 					FIELD(s.SubjectType,'พื้นฐาน','เพิ่มเติม','กิจกรรมพัฒนาผู้เรียน'),
 					s.SubjectGroup,
@@ -173,6 +174,9 @@
 			$_resC = mysqli_query($_connection,$_sqlCurr);
 			$_rowC = mysqli_num_rows($_resC);
 			$_order = 1;
+
+			$_init_subject_code = "";
+			$_init_club_name    = "";
 		?>
 
 		<form method="post" action="">
@@ -200,18 +204,33 @@
 						<? while($_dat = mysqli_fetch_assoc($_resC)){ ?>
 							<tr onMouseOver="this.style.backgroundColor='#E5EBFE'; this.style.cursor='hand';" onMouseOut=this.style.backgroundColor="#FFFFFF">
 								<td align="right"><?=$_order++?></td>
-								<td align="center"><?=$_dat['SubjectCode']?></td>
+								<td align="center">
+									<?php
+										if($_init_subject_code != $_dat['SubjectCode']){
+											echo $_dat['SubjectCode'];
+										}else{
+											echo "";
+										}
+										
+									?>
+								</td>
 								<td align="left">
 									<?php
 										//echo $_dat['SubjectName'] . "<br/>";
 
-										if($_dat['SubjectType']=='กิจกรรมพัฒนาผู้เรียน'){
-											echo $_dat['SubjectName'];
-											echo "<br/>(" . $_dat['club_name'] . ")";
+										if($_init_subject_code != $_dat['SubjectCode'] || $_init_club_name != $_dat['club_name']){
+											if($_dat['SubjectType']=='กิจกรรมพัฒนาผู้เรียน'){
+												echo $_dat['SubjectName'];
+												if($_dat['club_name'] != ""){
+													echo "<br/>(" . $_dat['club_name'] . ")";
+												}
+											}
+											else{
+												echo $_dat['SubjectName'];
+											}
 										}
-										else{
-											echo $_dat['SubjectName'];
-										}
+										$_init_club_name = $_dat['club_name'];
+										$_init_subject_code = $_dat['SubjectCode'];
 									?>
 								</td>
 								<td align="center"><?=getFullRoomFormat($_dat['room_id'])?></td>

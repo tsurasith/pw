@@ -122,7 +122,7 @@
 								<tr height="35px"> 
 									<td class="key" width="30px" align="center">ที่</td>
 									<td class="key" width="85px" align="center">รหัสหลักสูตร</td>
-									<td class="key" width="210px" align="center">ชื่อหลักสูตร (แผนการเรียน)</td>
+									<td class="key" width="280px" align="center">ชื่อหลักสูตร (แผนการเรียน)</td>
 									<td class="key" width="95px" align="center">ระดับการศึกษา</td>
 									<td class="key" width="60px" align="center">ปีที่เริ่มใช้</td>
 									<td class="key" width="80px" align="center">สถานะ<br/>หลักสูตร</td>

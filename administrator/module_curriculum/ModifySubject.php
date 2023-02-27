@@ -139,7 +139,7 @@
 								<tr height="35px"> 
 									<td class="key" width="30px" align="center">ที่</td>
 									<td class="key" width="85px" align="center">รหัสหลักสูตร</td>
-									<td class="key" width="210px" align="center">ชื่อหลักสูตร (แผนการเรียน)</td>
+									<td class="key" width="280px" align="center">ชื่อหลักสูตร (แผนการเรียน)</td>
 									<td class="key" width="95px" align="center">ระดับการศึกษา</td>
 									<td class="key" width="50px" align="center">ชั้น</td>
 									<td class="key" width="50px" align="center">ภาคเรียน</td>

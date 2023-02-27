@@ -638,7 +638,7 @@
 					where student_id = '" . $_POST['student_id'] ."' and
 						  semester = '" . $_POST['semester'] . "' and
 						  acadyear = '" . $_POST['acadyear'] . "'";
-			$_res = mysqli_query($_connection,$_sql) or die (mysqli_error());
+			$_res = mysqli_query($_connection,$_sql) or die (mysqli_error($_connection));
 			
 			$_sqlResult = "update sdq_result set
 							type1 = '" . $_type1 . "',
@@ -652,7 +652,7 @@
 								and acadsemester = '" . $_POST['semester'] . "'
 								and student_id = '" . $_POST['student_id'] . "'
 								and questioner = 'student' ";
-			$_resResult = mysqli_query($_connection,$_sqlResult)or die (mysqli_error());
+			$_resResult = mysqli_query($_connection,$_sqlResult)or die (mysqli_error($_connection));
 			if($_res && $_resResult)
 			{
 				echo "<table width='95%' class='admintable' align='center'><tr><td align='center'>";
