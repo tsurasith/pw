@@ -24,7 +24,7 @@
 		</tr>
         <tr>
 			<td>&nbsp;</td>
-			<td>1.4 รายชื่อครูผู้สอนและภาระการสอน</td>
+			<td><a href="index.php?option=module_curriculum/ReportTeachingSubjects">1.4 รายชื่อครูผู้สอนและภาระการสอน</a></td>
 		</tr>
 	   <tr>
 		<td class="key" colspan="2">2. สืบค้นข้อมูล </td>
