@@ -146,7 +146,7 @@
 							concat((((ss.xlevel-3)*3)+ss.xyearth),'00') = rt.room_id
 					) as total_students2
 				from 
-					register_teachers rt inner join teachers t
+					register_teachers rt LEFT join teachers t
 					on (
 						 t.teacher_id    = rt.teacher_id and 
 						 rt.acadyear     = '" . $acadyear . "' and 
