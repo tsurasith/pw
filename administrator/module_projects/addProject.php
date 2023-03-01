@@ -61,23 +61,9 @@
 			return;
 		}
 
-		if(document.getElementById('request_budget').value == '' || document.getElementById('request_budget').value*0 != 0)
-		{ 
-			alert('กรุณาป้อนข้อมูล เงินงบประมาณที่ขอก่อน'); 
-			document.getElementById('request_budget').focus(); 
-			return;
-		}
-
-		if(document.getElementById('acadsemester').value == '')
-		{ 
-			alert('กรุณาป้อนข้อมูล ภาคเรียน'); 
-			document.getElementById('acadsemester').focus(); 
-			return;
-		}
-
 		if(document.getElementById('acadyear').value == '')
 		{ 
-			alert('กรุณาป้อนข้อมูล ภาคเรียน'); 
+			alert('กรุณาป้อนข้อมูล ปีงบประมาณก่อน'); 
 			document.getElementById('acadyear').focus(); 
 			return;
 		}
@@ -138,13 +124,11 @@
 				`project_number`,
 				`project_name`,
 				`acadyear`,
-				`acadsemester`,
 				`project_details`,
 				`start_date`,
 				`finish_date`,
 				`income_id`,
 				`department_id`,
-				`request_budget`,
 				`approve_budget`,
 				`used_budget`,
 				`project_owner`,
@@ -159,13 +143,11 @@
 				'" . $_POST['project_number'] . "',
 				'" . trim($_POST['project_name']) . "',
 				'" . $_POST['acadyear'] . "',
-				'" . $_POST['acadsemester'] . "',
 				'" . trim($_POST['project_details']) . "',
 				'" . $_POST['start_date'] . "',
 				'" . $_POST['finish_date'] . "',
 				'" . $_POST['income_id'] . "',
 				'" . $_POST['department_id'] . "',
-				'" . $_POST['request_budget'] . "',
 				'" . $_POST['approve_budget'] . "',
 				'" . $_POST['used_budget'] . "',
 				'" . $_POST['project_owner'] . "',
@@ -218,13 +200,11 @@
 				`project_number`   = '" . $_POST['project_number'] . "',
 				`project_name`     = '" . trim($_POST['project_name']) . "',
 				`acadyear`         = '" . $_POST['acadyear'] . "',
-				`acadsemester`     = '" . $_POST['acadsemester'] . "',
 				`project_details`  = '" . trim($_POST['project_details']) . "',
 				`start_date`       = '" . $_POST['start_date'] . "',
 				`finish_date`      = '" . $_POST['finish_date'] . "',
 				`income_id`        = '" . $_POST['income_id'] . "',
 				`department_id`    = '" . $_POST['department_id'] . "',
-				`request_budget`   = '" . $_POST['request_budget'] . "',
 				`approve_budget`   = '" . $_POST['approve_budget'] . "',
 				`used_budget`      = '" . $_POST['used_budget'] . "',
 				`project_owner`    = '" . $_POST['project_owner'] . "',
@@ -332,12 +312,8 @@
 					</td>
 				</tr>
 				<tr>
-					<td align="right" width="200px" valign="top" >ภาคเรียน / ปีการศึกษา :</td>
+					<td align="right" width="200px" valign="top" >ปีงบประมาณ :</td>
 					<td>
-						<input  type="text" id="acadsemester" name="acadsemester" class="noborder2" 
-								size="1" maxlength="1" onkeypress="return isNumberKey(event)"
-								value="<?=isset($_POST['action'])?$_project['acadsemester']:""?>" /> / 
-
 						<input  type="text" id="acadyear" name="acadyear" class="noborder2" 
 								size="4" maxlength="4" onkeypress="return isNumberKey(event)"
 								value="<?=isset($_POST['action'])?$_project['acadyear']:""?>" />
@@ -394,15 +370,6 @@
 								</option>
 							<? } ?>
 						</select>
-					</td>
-				</tr>
-				<tr>
-					<td align="right" >จำนวนเงินงบประมาณที่ขอ :</td>
-					<td>
-						<input  type="text" id="request_budget" name="request_budget" 
-								size="15" maxlength="13" value="<?=isset($_POST['action'])?$_project['request_budget']:""?>" 
-								onkeypress="return isNumberKey2(event)" class="noborder2"  /> 
-								บาท <font color="#FF0000">*</font>
 					</td>
 				</tr>
 				<tr>

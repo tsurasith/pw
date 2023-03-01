@@ -61,23 +61,9 @@
 			return;
 		}
 
-		if(document.getElementById('request_budget').value == '' || document.getElementById('request_budget').value*0 != 0)
-		{ 
-			alert('กรุณาป้อนข้อมูล เงินงบประมาณที่ขอก่อน'); 
-			document.getElementById('request_budget').focus(); 
-			return;
-		}
-
-		if(document.getElementById('acadsemester').value == '')
-		{ 
-			alert('กรุณาป้อนข้อมูล ภาคเรียน'); 
-			document.getElementById('acadsemester').focus(); 
-			return;
-		}
-
 		if(document.getElementById('acadyear').value == '')
 		{ 
-			alert('กรุณาป้อนข้อมูล ภาคเรียน'); 
+			alert('กรุณาป้อนข้อมูล ปีงบประมาณ'); 
 			document.getElementById('acadyear').focus(); 
 			return;
 		}
@@ -144,13 +130,11 @@
 				`activity_number`,
 				`activity_name`,
 				`acadyear`,
-				`acadsemester`,
 				`activity_details`,
 				`start_date`,
 				`finish_date`,
 				`income_id`,
 				`department_id`,
-				`request_budget`,
 				`approve_budget`,
 				`used_budget`,
 				`activity_owner`,
@@ -166,13 +150,11 @@
 				'" . $_POST['activity_number'] . "',
 				'" . trim($_POST['activity_name']) . "',
 				'" . $_POST['acadyear'] . "',
-				'" . $_POST['acadsemester'] . "',
 				'" . trim($_POST['activity_details']) . "',
 				'" . $_POST['start_date'] . "',
 				'" . $_POST['finish_date'] . "',
 				'" . $_POST['income_id'] . "',
 				'" . $_POST['department_id'] . "',
-				'" . $_POST['request_budget'] . "',
 				'" . $_POST['approve_budget'] . "',
 				'" . $_POST['used_budget'] . "',
 				'" . $_POST['activity_owner'] . "',
@@ -225,13 +207,11 @@
 				`activity_number`  = '" . $_POST['activity_number'] . "',
 				`activity_name`    = '" . trim($_POST['activity_name']) . "',
 				`acadyear`         = '" . $_POST['acadyear'] . "',
-				`acadsemester`     = '" . $_POST['acadsemester'] . "',
 				`activity_details` = '" . trim($_POST['activity_details']) . "',
 				`start_date`       = '" . $_POST['start_date'] . "',
 				`finish_date`      = '" . $_POST['finish_date'] . "',
 				`income_id`        = '" . $_POST['income_id'] . "',
 				`department_id`    = '" . $_POST['department_id'] . "',
-				`request_budget`   = '" . $_POST['request_budget'] . "',
 				`approve_budget`   = '" . $_POST['approve_budget'] . "',
 				`used_budget`      = '" . $_POST['used_budget'] . "',
 				`activity_owner`   = '" . $_POST['activity_owner'] . "',
@@ -361,19 +341,17 @@
 					<tr>
 						<td class="key" align="center" rowspan="2" width="100px">รหัสโครงการ</td>
 						<td class="key" align="center" rowspan="2" width="300px">ชื่อโครงการ</td>
-						<td class="key" align="center" colspan="3">งบประมาณ (บาท)</td>
+						<td class="key" align="center" colspan="2">งบประมาณ (บาท)</td>
 						<td class="key" align="center" rowspan="2" width="120px"> ฝ่าย</td>
 						<td class="key" align="center" rowspan="2" width="120px">ผู้รับผิดชอบ</td>
 						<td class="key" align="center" rowspan="2" width="150px">สถานะโครงการ</td>
 					</tr>
-						<td class="key" align="center" width="80px">ขอ</td>
 						<td class="key" align="center" width="80px">อนุมัติ</td>
 						<td class="key" align="center" width="80px">คงเหลือ</td>
 					</tr>
 					<tr>
 						<td valign="top" align="center"><?=$_project['project_number']?></td>
 						<td valign="top" align="left"><?=$_project['project_name']?></td>
-						<td valign="top" align="right"><?=number_format($_project['request_budget'],2,'.',',')?></td>
 						<td valign="top" align="right"><?=number_format($_project['approve_budget'],2,'.',',')?></td>
 						<td valign="top" align="right"><?=number_format($_project['approve_budget']-$_project['used_budget'],2,'.',',')?></td>
 						<td valign="top" align="center"><?=$_project['department_name']?></td>
@@ -426,7 +404,6 @@
 									</a>
 								</td>
 								<td valign="top" align="left"><?=$_existing_act['activity_name']?></td>
-								<td valign="top" align="right"><?=number_format($_existing_act['request_budget'],2,'.',',')?></td>
 								<td valign="top" align="right"><?=number_format($_existing_act['approve_budget'],2,'.',',')?></td>
 								<td valign="top" align="right"><?=number_format($_existing_act['approve_budget']-$_existing_act['used_budget'],2,'.',',')?></td>
 								<td valign="top" align="left"><?=$_existing_act['department_name']?></td>
@@ -472,13 +449,11 @@
 
 							$_input_activity_number  = "";
 							$_input_acadyear         = "";
-							$_input_acadsemester     = "";
 							$_input_activity_name    = "";
 							$_input_activity_details = "";
 							$_input_income_id        = "";
 							$_input_start_date       = "";
 							$_input_finish_date      = "";
-							$_input_request_budget   = "";
 							$_input_approve_budget   = "";
 							$_input_used_budget      = "0";
 							$_input_department_id    = "";
@@ -490,13 +465,11 @@
 
 								$_input_activity_number  = $_new_act['activity_number'];
 								$_input_acadyear         = $_new_act['acadyear'];
-								$_input_acadsemester     = $_new_act['acadsemester'];
 								$_input_activity_name    = $_new_act['activity_name'];
 								$_input_activity_details = $_new_act['activity_details'];
 								$_input_start_date       = $_new_act['start_date'];
 								$_input_income_id        = $_new_act['income_id'];
 								$_input_finish_date      = $_new_act['finish_date'];
-								$_input_request_budget   = $_new_act['request_budget'];
 								$_input_approve_budget   = $_new_act['approve_budget'];
 								$_input_used_budget      = $_new_act['used_budget'];
 								$_input_department_id    = $_new_act['department_id'];
@@ -506,14 +479,12 @@
 							}
 							if((isset($_POST['action']) && !$_processing_result)){ 
 								$_input_activity_number  = $_POST['activity_number'];
-								$_input_acadsemester     = $_POST['acadsemester'];
 								$_input_acadyear         = $_POST['acadyear'];
 								$_input_activity_name    = $_POST['activity_name'];
 								$_input_activity_details = $_POST['activity_details'];
 								$_input_start_date       = $_POST['start_date'];
 								$_input_income_id        = $_POST['income_id'];
 								$_input_finish_date      = $_POST['finish_date'];
-								$_input_request_budget   = $_POST['request_budget'];
 								$_input_approve_budget   = $_POST['approve_budget'];
 								$_input_used_budget      = $_POST['used_budget'];
 								$_input_department_id    = $_POST['department_id'];
@@ -528,12 +499,8 @@
 					</td>
 				</tr>
 				<tr>
-					<td align="right" width="200px" valign="top" >ภาคเรียน / ปีการศึกษา :</td>
+					<td align="right" width="200px" valign="top" >ปีงบประมาณ :</td>
 					<td>
-						<input  type="text" id="acadsemester" name="acadsemester" class="noborder2" 
-								size="1" maxlength="1" onkeypress="return isNumberKey(event)"
-								value="<?=$_input_acadsemester?>" /> / 
-
 						<input  type="text" id="acadyear" name="acadyear" class="noborder2" 
 								size="4" maxlength="4" onkeypress="return isNumberKey(event)"
 								value="<?=$_input_acadyear?>" />
@@ -590,15 +557,6 @@
 								</option>
 							<? } ?>
 						</select>
-					</td>
-				</tr>
-				<tr>
-					<td align="right" >จำนวนเงินงบประมาณที่ขอ :</td>
-					<td>
-						<input  type="text" id="request_budget" name="request_budget" 
-								size="15" maxlength="13" value="<?=$_input_request_budget?>" 
-								onkeypress="return isNumberKey2(event)" class="noborder2"  /> 
-								บาท <font color="#FF0000">*</font>
 					</td>
 				</tr>
 				<tr>
