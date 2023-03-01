@@ -387,7 +387,6 @@
 						<tr>
 							<td class="key" align="center" width="100px">รหัสกิจกรรม</td>
 							<td class="key" align="center" width="300px">ชื่อกิจกรรม</td>
-							<td class="key" align="center" width="80px">ขอ</td>
 							<td class="key" align="center" width="80px">อนุมัติ</td>
 							<td class="key" align="center" width="80px">คงเหลือ</td>
 							<td class="key" align="center" width="120px"> ฝ่าย</td>
