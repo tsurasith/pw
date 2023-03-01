@@ -6,7 +6,7 @@ DROP TABLE IF EXISTS `hr_staff`;
 CREATE TABLE IF NOT EXISTS `hr_staff` (
   `staff_id` varchar(36) NOT NULL COMMENT 'รหัสบุคลากร',
   `finger_code` varchar(5) DEFAULT NULL COMMENT 'รหัสเครื่องสแกนลายนิ้วมือ',
-  `TeacCode` varchar(3) NOT NULL DEFAULT '' COMMENT 'รหัสครูระบบสารสนเทศ',
+  `TeacCode` varchar(3) NULL COMMENT 'รหัสครูระบบสารสนเทศ',
   `prefix` varchar(20) DEFAULT NULL,
   `firstname` varchar(50) DEFAULT NULL,
   `lastname` varchar(50) DEFAULT NULL,
