@@ -23,12 +23,14 @@
 			return;
 		}
 
+		/*
 		if(document.getElementById('activity_details').value == '' || document.getElementById('activity_details').value.length < 6)
 		{ 
 			alert('กรุณาป้อนข้อมูล วัตถุประสงค์ก่อน'); 
 			document.getElementById('activity_details').focus(); 
 			return;
 		}
+		*/
 		
 		if(document.getElementById('start_date').value == '' || document.getElementById('start_date').value.length < 10)
 		{ 
@@ -413,256 +415,256 @@
 					</table>
 				<? } ?> 
 			</div>
-		<? } ?>
+		
 
-		<div align="center">
-			<table class="admintable">
-				<tr height="55px">
-					<td colspan="2" align="center">
-						<?php
-								if($_processing_result){
-									echo "<font color='green'>";
-									echo $_processing_text;
-									echo "</font>";
-								}else{
-									echo "<font color='red'>";
-									echo $_processing_text;
-									echo "</font>";
-								}
-						?>
-					</td>
-				</tr>
-			</table>
-		</div>
-
-	<form method="post" autocomplete="off" name="myform">
-		<div align="center">
-			<table class="admintable">
-				<tr height="35px">
-					<td class="key" colspan="2" align="center">บันทึกข้อมูลกิจกรรม</td>
-				</tr>
-				<tr>
-					<td align="right" width="200px" valign="top" >รหัสกิจกรรม :</td>
-					<td>
-						<?php
-
-							$_input_activity_number  = "";
-							$_input_acadyear         = "";
-							$_input_activity_name    = "";
-							$_input_activity_details = "";
-							$_input_income_id        = "";
-							$_input_start_date       = "";
-							$_input_finish_date      = "";
-							$_input_approve_budget   = "";
-							$_input_used_budget      = "0";
-							$_input_department_id    = "";
-							$_input_activity_owner   = "";
-							$_input_activity_status  = "";
-							
-
-							if((isset($_POST['action']) && $_processing_result) || $_check_new_act){
-
-								$_input_activity_number  = $_new_act['activity_number'];
-								$_input_acadyear         = $_new_act['acadyear'];
-								$_input_activity_name    = $_new_act['activity_name'];
-								$_input_activity_details = $_new_act['activity_details'];
-								$_input_start_date       = $_new_act['start_date'];
-								$_input_income_id        = $_new_act['income_id'];
-								$_input_finish_date      = $_new_act['finish_date'];
-								$_input_approve_budget   = $_new_act['approve_budget'];
-								$_input_used_budget      = $_new_act['used_budget'];
-								$_input_department_id    = $_new_act['department_id'];
-								$_input_activity_owner   = $_new_act['activity_owner'];
-								$_input_activity_status  = $_new_act['activity_status'];
-								
-							}
-							if((isset($_POST['action']) && !$_processing_result)){ 
-								$_input_activity_number  = $_POST['activity_number'];
-								$_input_acadyear         = $_POST['acadyear'];
-								$_input_activity_name    = $_POST['activity_name'];
-								$_input_activity_details = $_POST['activity_details'];
-								$_input_start_date       = $_POST['start_date'];
-								$_input_income_id        = $_POST['income_id'];
-								$_input_finish_date      = $_POST['finish_date'];
-								$_input_approve_budget   = $_POST['approve_budget'];
-								$_input_used_budget      = $_POST['used_budget'];
-								$_input_department_id    = $_POST['department_id'];
-								$_input_activity_owner   = $_POST['activity_owner'];
-								$_input_activity_status  = $_POST['activity_status'];
-
-							}
-						?>
-						<input  type="text" id="activity_number" name="activity_number" class="noborder2" 
-								size="20" maxlength="20" value="<?=$_input_activity_number?>" />
-						<font color="#FF0000">*</font>
-					</td>
-				</tr>
-				<tr>
-					<td align="right" width="200px" valign="top" >ปีงบประมาณ :</td>
-					<td>
-						<input  type="text" id="acadyear" name="acadyear" class="noborder2" 
-								size="4" maxlength="4" onkeypress="return isNumberKey(event)"
-								value="<?=$_input_acadyear?>" />
-						<font color="#FF0000">*</font>
-					</td>
-				</tr>
-
-				<tr>
-					<td align="right" >ชื่อกิจกรรม :</td>
-					<td>
-						<input  type="text" id="activity_name" name="activity_name" class="noborder2" s
-								size="50" maxlength="250" 
-								value="<?=$_input_activity_name?>" />
-						<font color="#FF0000">*</font>
-					</td>
-				</tr>
-				<tr>
-					<td align="right" valign="top" >วัตถุประสงค์ :</td>
-					<td>
-						<textarea id="activity_details" name="activity_details" cols="50" rows="6" 
-								  class="inputboxUpdate" ><?=$_input_activity_details?></textarea>
-					</td>
-				</tr>
-				<tr>
-					<td align="right" >วันที่เริ่มกิจกรรม :</td>
-					<td>
-						<input  type="text" name="start_date" id="start_date" size="10" 
-								onClick="showCalendar(this.id)" 
-								value="<?=$_input_start_date?>" class="noborder2"  />
-						<font color="#FF0000">*</font>
-					</td>
-				</tr>
-				<tr>
-					<td align="right" >วันที่สิ้นสุดกิจกรรม :</td>
-					<td>
-						<input  type="text" name="finish_date" id="finish_date" size="10" 
-								onClick="showCalendar(this.id)" 
-								value="<?=$_input_finish_date?>" class="noborder2"  />
-						<font color="#FF0000">*</font>
-					</td>
-				</tr>
-				<tr>
-					<td align="right" valign="top" >ประเภทเงินงบประมาณ :</td>
-					<td>
-						<?php
-							$_sql_income = "select * from incomes order by convert(income_name using tis620) ";
-							$_res_income = mysqli_query($_connection,$_sql_income);
-						?>
-						<select id="income_id" name="income_id" class="inputboxUpdate">
-							<option value=""></option>
-							<? while($_dat = mysqli_fetch_assoc($_res_income)) { ?> 
-								<option value="<?=$_dat['income_id']?>" <?=$_input_income_id==$_dat['income_id']?"selected":""?> >
-									<?=$_dat['income_name']?>
-								</option>
-							<? } ?>
-						</select>
-					</td>
-				</tr>
-				<tr>
-					<td align="right" >จำนวนเงินงบประมาณที่อนุมัติ :</td>
-					<td>
-						<input  type="text" id="approve_budget" name="approve_budget" 
-								size="15" maxlength="13" value="<?=$_input_approve_budget?>" 
-								onkeypress="return isNumberKey2(event)" class="noborder2"  /> 
-								บาท <font color="#FF0000">*</font>
-					</td>
-				</tr>
-				<tr>
-					<td align="right" valign="top" >ฝ่ายที่รับผิดกิจกรรม :</td>
-					<td>
-						<?php
-							$_sql_income = "select * from departments";
-							$_res_income = mysqli_query($_connection,$_sql_income);
-						?>
-						<select id="department_id" name="department_id" class="inputboxUpdate">
-							<option value=""></option>
-							<? while($_dat = mysqli_fetch_assoc($_res_income)) { ?> 
-								<option value="<?=$_dat['department_id']?>" <?=$_input_department_id==$_dat['department_id']?"selected":""?> >
-									<?=$_dat['department_name']?>
-								</option>
-							<? } ?>
-						</select>
-					</td>
-				</tr>
-
-				<tr>
-					<td align="right" valign="top" >ผู้รับผิดชอบกิจกรรม :</td>
-					<td>
-						<?php 
-							$sql_teacher = " select * from hr_staff s
-											where 
-												1=1
-												and staff_status = 'ACTIVE'
-											order by convert(s.firstname using tis620), convert(s.lastname using tis620)
-										";
-							$resTeacher = mysqli_query($_connection,$sql_teacher);	
-							$_submit_teacher_name = "";		
-						?>
-						
-							<select id="activity_owner" name="activity_owner" class="inputboxUpdate">
-								<option value=""></option>
-								<?php
-									$_select = "";
-									while($dat = mysqli_fetch_assoc($resTeacher))
-									{
-										if($_input_activity_owner == $dat['staff_id']){
-											$_select = "selected";
-										}else{
-											$_select = "";
-										}
-										echo "<option value=\"" . $dat['staff_id'] . "\" $_select>";
-										echo $dat['firstname']. ' ' . $dat['lastname'];
-										echo "</option>";
+			<div align="center">
+				<table class="admintable">
+					<tr height="55px">
+						<td colspan="2" align="center">
+							<?php
+									if($_processing_result){
+										echo "<font color='green'>";
+										echo $_processing_text;
+										echo "</font>";
+									}else{
+										echo "<font color='red'>";
+										echo $_processing_text;
+										echo "</font>";
 									}
-									
-								?>
-							</select>
-					</td>
-				</tr>
-				<tr>
-					<td align="right" valign="top" >สถานะกิจกรรม :</td>
-					<td>
-						<?php
-							$_sql_status = "select * from project_status";
-							$_res_status = mysqli_query($_connection,$_sql_status);
-						?>
-						<select id="activity_status" name="activity_status" class="inputboxUpdate">
-							<? while($_dat = mysqli_fetch_assoc($_res_status)) { ?> 
-								<option value="<?=$_dat['status_id']?>" <?=$_input_activity_status==$_dat['status_id']?"selected":""?> >
-									<?=$_dat['status_name']?>
-								</option>
-							<? } ?>
-						</select>
-					</td>
-				</tr>
-				<tr>
-					<td align="right"></td>
-					<td>
-						<?php
-							$_button_value = "บันทึก";
-							$_action       = "save";
-							$_button       = "";
-							if((isset($_POST['action']) && $_processing_result) || $_check_new_act){
-								$_action       = "update";
-								$_button_value = "แก้ไข";
-								$_button       = "<input type=\"button\" value=\"เพิ่มใหม่\" ";
-								$_button      .= "onclick=\"location.href='index.php?option=module_projects/addActivity&project_number_search=" . $_project['project_number'] . "'\"";
-								$_button      .= " class=\"button\" />";
-							}else{
-								$_action = "save";
-							}
-						?>
-						<input type="hidden" name="used_budget"  value="<?=$_input_used_budget?>" />
-						<input type="hidden" name="project_id"   value="<?=$_project['project_id']?>" />
-						<input type="hidden" name="activity_id"  value="<?=$_activity_id?>" />
-						<input type="hidden" name="action" value="<?=$_action?>" />
-						<input type="button" value="<?=$_button_value?>" onclick="checkFormValue()" class="button" />
-						<?=$_button?>
-					</td>
-				</tr>
-			</table>
-		</div>
-	</form>
+							?>
+						</td>
+					</tr>
+				</table>
+			</div>
 
+			<form method="post" autocomplete="off" name="myform">
+				<div align="center">
+					<table class="admintable">
+						<tr height="35px">
+							<td class="key" colspan="2" align="center">บันทึกข้อมูลกิจกรรม</td>
+						</tr>
+						<tr>
+							<td align="right" width="200px" valign="top" >รหัสกิจกรรม :</td>
+							<td>
+								<?php
+
+									$_input_activity_number  = "";
+									$_input_acadyear         = "";
+									$_input_activity_name    = "";
+									$_input_activity_details = "";
+									$_input_income_id        = "";
+									$_input_start_date       = "";
+									$_input_finish_date      = "";
+									$_input_approve_budget   = "";
+									$_input_used_budget      = "0";
+									$_input_department_id    = "";
+									$_input_activity_owner   = "";
+									$_input_activity_status  = "";
+									
+
+									if((isset($_POST['action']) && $_processing_result) || $_check_new_act){
+
+										$_input_activity_number  = $_new_act['activity_number'];
+										$_input_acadyear         = $_new_act['acadyear'];
+										$_input_activity_name    = $_new_act['activity_name'];
+										$_input_activity_details = $_new_act['activity_details'];
+										$_input_start_date       = $_new_act['start_date'];
+										$_input_income_id        = $_new_act['income_id'];
+										$_input_finish_date      = $_new_act['finish_date'];
+										$_input_approve_budget   = $_new_act['approve_budget'];
+										$_input_used_budget      = $_new_act['used_budget'];
+										$_input_department_id    = $_new_act['department_id'];
+										$_input_activity_owner   = $_new_act['activity_owner'];
+										$_input_activity_status  = $_new_act['activity_status'];
+										
+									}
+									if((isset($_POST['action']) && !$_processing_result)){ 
+										$_input_activity_number  = $_POST['activity_number'];
+										$_input_acadyear         = $_POST['acadyear'];
+										$_input_activity_name    = $_POST['activity_name'];
+										$_input_activity_details = $_POST['activity_details'];
+										$_input_start_date       = $_POST['start_date'];
+										$_input_income_id        = $_POST['income_id'];
+										$_input_finish_date      = $_POST['finish_date'];
+										$_input_approve_budget   = $_POST['approve_budget'];
+										$_input_used_budget      = $_POST['used_budget'];
+										$_input_department_id    = $_POST['department_id'];
+										$_input_activity_owner   = $_POST['activity_owner'];
+										$_input_activity_status  = $_POST['activity_status'];
+
+									}
+								?>
+								<input  type="text" id="activity_number" name="activity_number" class="noborder2" 
+										size="20" maxlength="20" value="<?=$_input_activity_number?>" />
+								<font color="#FF0000">*</font>
+							</td>
+						</tr>
+						<tr>
+							<td align="right" width="200px" valign="top" >ปีงบประมาณ :</td>
+							<td>
+								<input  type="text" id="acadyear" name="acadyear" class="noborder2" 
+										size="4" maxlength="4" onkeypress="return isNumberKey(event)"
+										value="<?=$_input_acadyear?>" />
+								<font color="#FF0000">*</font>
+							</td>
+						</tr>
+
+						<tr>
+							<td align="right" >ชื่อกิจกรรม :</td>
+							<td>
+								<input  type="text" id="activity_name" name="activity_name" class="noborder2" s
+										size="50" maxlength="250" 
+										value="<?=$_input_activity_name?>" />
+								<font color="#FF0000">*</font>
+							</td>
+						</tr>
+						<tr>
+							<td align="right" valign="top" >วัตถุประสงค์ :</td>
+							<td>
+								<textarea id="activity_details" name="activity_details" cols="50" rows="6" 
+										class="inputboxUpdate" ><?=$_input_activity_details?></textarea>
+							</td>
+						</tr>
+						<tr>
+							<td align="right" >วันที่เริ่มกิจกรรม :</td>
+							<td>
+								<input  type="text" name="start_date" id="start_date" size="10" 
+										onClick="showCalendar(this.id)" 
+										value="<?=$_input_start_date?>" class="noborder2"  />
+								<font color="#FF0000">*</font>
+							</td>
+						</tr>
+						<tr>
+							<td align="right" >วันที่สิ้นสุดกิจกรรม :</td>
+							<td>
+								<input  type="text" name="finish_date" id="finish_date" size="10" 
+										onClick="showCalendar(this.id)" 
+										value="<?=$_input_finish_date?>" class="noborder2"  />
+								<font color="#FF0000">*</font>
+							</td>
+						</tr>
+						<tr>
+							<td align="right" valign="top" >ประเภทเงินงบประมาณ :</td>
+							<td>
+								<?php
+									$_sql_income = "select * from incomes order by convert(income_name using tis620) ";
+									$_res_income = mysqli_query($_connection,$_sql_income);
+								?>
+								<select id="income_id" name="income_id" class="inputboxUpdate">
+									<option value=""></option>
+									<? while($_dat = mysqli_fetch_assoc($_res_income)) { ?> 
+										<option value="<?=$_dat['income_id']?>" <?=$_input_income_id==$_dat['income_id']?"selected":""?> >
+											<?=$_dat['income_name']?>
+										</option>
+									<? } ?>
+								</select>
+							</td>
+						</tr>
+						<tr>
+							<td align="right" >จำนวนเงินงบประมาณที่อนุมัติ :</td>
+							<td>
+								<input  type="text" id="approve_budget" name="approve_budget" 
+										size="15" maxlength="13" value="<?=$_input_approve_budget?>" 
+										onkeypress="return isNumberKey2(event)" class="noborder2"  /> 
+										บาท <font color="#FF0000">*</font>
+							</td>
+						</tr>
+						<tr>
+							<td align="right" valign="top" >ฝ่ายที่รับผิดกิจกรรม :</td>
+							<td>
+								<?php
+									$_sql_income = "select * from departments";
+									$_res_income = mysqli_query($_connection,$_sql_income);
+								?>
+								<select id="department_id" name="department_id" class="inputboxUpdate">
+									<option value=""></option>
+									<? while($_dat = mysqli_fetch_assoc($_res_income)) { ?> 
+										<option value="<?=$_dat['department_id']?>" <?=$_input_department_id==$_dat['department_id']?"selected":""?> >
+											<?=$_dat['department_name']?>
+										</option>
+									<? } ?>
+								</select>
+							</td>
+						</tr>
+
+						<tr>
+							<td align="right" valign="top" >ผู้รับผิดชอบกิจกรรม :</td>
+							<td>
+								<?php 
+									$sql_teacher = " select * from hr_staff s
+													where 
+														1=1
+														and staff_status = 'ACTIVE'
+													order by convert(s.firstname using tis620), convert(s.lastname using tis620)
+												";
+									$resTeacher = mysqli_query($_connection,$sql_teacher);	
+									$_submit_teacher_name = "";		
+								?>
+								
+									<select id="activity_owner" name="activity_owner" class="inputboxUpdate">
+										<option value=""></option>
+										<?php
+											$_select = "";
+											while($dat = mysqli_fetch_assoc($resTeacher))
+											{
+												if($_input_activity_owner == $dat['staff_id']){
+													$_select = "selected";
+												}else{
+													$_select = "";
+												}
+												echo "<option value=\"" . $dat['staff_id'] . "\" $_select>";
+												echo $dat['firstname']. ' ' . $dat['lastname'];
+												echo "</option>";
+											}
+											
+										?>
+									</select>
+							</td>
+						</tr>
+						<tr>
+							<td align="right" valign="top" >สถานะกิจกรรม :</td>
+							<td>
+								<?php
+									$_sql_status = "select * from project_status";
+									$_res_status = mysqli_query($_connection,$_sql_status);
+								?>
+								<select id="activity_status" name="activity_status" class="inputboxUpdate">
+									<? while($_dat = mysqli_fetch_assoc($_res_status)) { ?> 
+										<option value="<?=$_dat['status_id']?>" <?=$_input_activity_status==$_dat['status_id']?"selected":""?> >
+											<?=$_dat['status_name']?>
+										</option>
+									<? } ?>
+								</select>
+							</td>
+						</tr>
+						<tr>
+							<td align="right"></td>
+							<td>
+								<?php
+									$_button_value = "บันทึก";
+									$_action       = "save";
+									$_button       = "";
+									if((isset($_POST['action']) && $_processing_result) || $_check_new_act){
+										$_action       = "update";
+										$_button_value = "แก้ไข";
+										$_button       = "<input type=\"button\" value=\"เพิ่มใหม่\" ";
+										$_button      .= "onclick=\"location.href='index.php?option=module_projects/addActivity&project_number_search=" . $_project['project_number'] . "'\"";
+										$_button      .= " class=\"button\" />";
+									}else{
+										$_action = "save";
+									}
+								?>
+								<input type="hidden" name="used_budget"  value="<?=$_input_used_budget?>" />
+								<input type="hidden" name="project_id"   value="<?=$_project['project_id']?>" />
+								<input type="hidden" name="activity_id"  value="<?=$_activity_id?>" />
+								<input type="hidden" name="action" value="<?=$_action?>" />
+								<input type="button" value="<?=$_button_value?>" onclick="checkFormValue()" class="button" />
+								<?=$_button?>
+							</td>
+						</tr>
+					</table>
+				</div>
+			</form>
+		<? } ?>
 </div>
 

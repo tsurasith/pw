@@ -46,7 +46,7 @@
 					on (p.income_id = i.income_id) left join teachers t 
 					on (p.project_owner = t.teacher_id)
 				where
-					p.acadyear = '" .$acadyear . "'
+					p.acadyear between '" . $acadyear . "' and '" . ($acadyear + 1) . "' 
 				order by
 					convert(p.project_name using tis620)
 			";
@@ -61,17 +61,18 @@
 		<table align="center" cellspacing="1" class="admintable" border="0" cellpadding="3">
 			<tr> 
 				<th colspan="6" align="left">
-						รายการแสดงข้อมูลกิจกรรมโครงการ ปีงบประมาณ <?=$acadyear?>
+						รายการแสดงข้อมูลกิจกรรมโครงการ ปีงบประมาณ <?=$acadyear . ' - ' . ($acadyear+1)?>
 				</th>
 			</tr>
 			<tr height="30px">
 				<td class="key" width="40px"  align="center" >ที่</td>
-				<td class="key" width="100px" align="center" >รหัสโครงการ</td>
-				<td class="key" width="300px" align="center" >ชื่อกิจกรรม/โครงการ</td>
-				<td class="key" width="90px"  align="center" >งบประมาณ (บาท)</td>
-				<td class="key" width="130px"  align="center" >งบประมาณ (ที่มา)</td>
+				<td class="key" width="80px" align="center" >รหัสโครงการ</td>
+				<td class="key" width="400px" align="center" >ชื่อกิจกรรม/โครงการ</td>
+				<td class="key" width="70px" align="center" >ปีงบ</td>
+				<td class="key" width="100px"  align="center" >งบประมาณ (บาท)</td>
+				<td class="key" width="150px"  align="center" >งบประมาณ (ที่มา)</td>
 				<td class="key" width="110px" align="center" >ฝ่าย</td>
-				<td class="key" width="110px" align="center" >ผู้รับผิดชอบ</td>
+				<td class="key" width="120px" align="center" >ผู้รับผิดชอบ</td>
 			</tr>
 		<? if(mysqli_num_rows($_result) > 0) { ?>
 			<? while($_dat = mysqli_fetch_assoc($_result)){ ?>
@@ -81,6 +82,7 @@
 				<td valign="top">
 					<?=$_dat['project_name']?>
 				</td>
+				<td align="center" valign="top"><?=$_dat['acadyear']?></td>
 				<td align="right" valign="top" style="padding-right:10px"><?=number_format($_dat['approve_budget'],2,'.',',')?></td>
 				<td align="left" valign="top"><?=$_dat['income_name']?></td>
 				<td align="left" valign="top"><?=$_dat['department_name']?></td>

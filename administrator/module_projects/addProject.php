@@ -23,12 +23,14 @@
 			return;
 		}
 
+		/*
 		if(document.getElementById('project_details').value == '' || document.getElementById('project_details').value.length < 6)
 		{ 
 			alert('กรุณาป้อนข้อมูล วัตถุประสงค์ก่อน'); 
 			document.getElementById('project_details').focus(); 
 			return;
 		}
+		*/
 		
 		if(document.getElementById('start_date').value == '' || document.getElementById('start_date').value.length < 10)
 		{ 

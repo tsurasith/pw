@@ -23,7 +23,7 @@
 	<tr>
 		<td width="20px">&nbsp;</td>
 		<td >
-			<a href="index.php?option=module_projects/EditProject">1.2 แก้ไขข้อมูลโครงการ</a>
+			<a href="index.php?option=module_projects/editProject">1.2 แก้ไขข้อมูลโครงการ</a>
 		</td>
 	</tr>
 	<tr>
