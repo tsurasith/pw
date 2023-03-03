@@ -59,6 +59,15 @@
 	<? if(isset($_POST['yearth']) && $_POST['yearth'] != ""){ ?> 
 		<?php
 
+			$_xlevel  = 0;
+			$_xyearth = 0;
+
+			$_xlevel  = $_POST['yearth']>3?4:3;
+			if($_xlevel == 3){
+				$_xyearth = $_POST['yearth'];
+			}else{
+				$_xyearth = $_POST['yearth']-3;
+			}
 
 			$_sqlCurr = "
 			select distinct
@@ -76,11 +85,19 @@
 				rg.total_student
 			from
 				curriculum_subject_mappings m inner join register_curriculums r 
-				on (m.curriculum_id = r.curriculum_id and m.curriculum_mapping_semester = r.acadsemester)
+				on (
+					 m.curriculum_id = r.curriculum_id and 
+					 m.curriculum_mapping_semester = r.acadsemester
+					)
 				inner join curriculum_subjects s 
 				on (m.SubjectCode = s.SubjectCode)
 				left join register_subjects sr 
-				on (r.acadyear = sr.acadyear and r.acadsemester = sr.acadsemester and s.SubjectCode = sr.SubjectCode)
+				on (
+					 r.acadyear = sr.acadyear and 
+					 r.acadsemester = sr.acadsemester and 
+					 s.SubjectCode = sr.SubjectCode and
+					 m.curriculum_mapping_level = sr.subject_level
+					)
 				left join
 				    (
 						select 
@@ -90,7 +107,12 @@
 							register_students
 						where
 							acadyear     = '" . $acadyear . "' and
-							acadsemester = '" . $acadsemester . "' 
+							acadsemester = '" . $acadsemester . "' and
+							student_id in 
+								(
+									select id from students 
+									where xedbe = '" . $acadyear . "' and xlevel = '" . $_xlevel . "' and xyearth = '" . $_xyearth . "' 
+								)
 						group by
 						    SubjectCode,acadyear,acadsemester
 					) as rg

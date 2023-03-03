@@ -333,11 +333,14 @@
 					s.*
 				from 
 					register_subjects r inner join curriculum_subjects s
-					on (r.SubjectCode = s.SubjectCode)
+					on (
+						 r.SubjectCode = s.SubjectCode
+						)
 				where 
-					r.SubjectCode  = '" . trim($_POST['SubjectCode']) . "' and
-					r.acadyear     = '" . $_POST['acadyear'] . "' and
-					r.acadsemester = '" . $_POST['acadsemester'] . "'
+					r.SubjectCode   = '" . trim($_POST['SubjectCode']) . "' and
+					r.acadyear      = '" . $_POST['acadyear'] . "' and
+					r.acadsemester  = '" . $_POST['acadsemester'] . "' and
+					r.subject_level = '" . $_POST['yearth'] . "' 
 				 ";
 			$_resSearch = mysqli_query($_connection,$_sqlSearch);
 			$_rows = mysqli_num_rows($_resSearch);
