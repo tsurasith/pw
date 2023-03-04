@@ -35,7 +35,7 @@
 	<tr>
 		<td width="20px">&nbsp;</td>
 		<td >
-			<a href="index.php?option=module_projects/addGoal">1.4 บันทึกเป้าหมายโครงการ/กิจกรรม</a>
+			<a href="index.php?option=module_projects/addGoals">1.4 บันทึกเป้าหมายโครงการ/กิจกรรม</a>
 		</td>
 	</tr>
 	<!--
