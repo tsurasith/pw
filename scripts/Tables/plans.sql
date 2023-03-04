@@ -21,3 +21,7 @@ CREATE TABLE IF NOT EXISTS `plans` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
+
+INSERT INTO `plans` (`plan_id`, `plan_name`, `plan_description`, `start_year`, `finish_year`, `start_date`, `finish_date`, `plan_type`, `plan_owner`, `display_status`, `created_datetime`, `created_user`, `updated_datetime`, `updated_user`) VALUES
+(01, 'แผนยุทธศาสตร์และกลยุทธ์ ปีงบประมาณ 2566-2570 ', 'ในปีงบประมาณ พ.ศ. 2566 – 2570 กองการศึกษา ศาสนาและวัฒนธรรม ได้กำหนดวิสัยทัศน์ไว้ว่า “สืบสานประเพณี วัฒนธรรม ส่งเสริมสุขภาพ ล้ำเลิศวิชาการ ก้าวสู่การเปลี่ยนแปลงในศตวรรษที่ 21” และกำหนดยุทธศาสตร์และกลยุทธ์ในการพัฒนาการศึกษา ขององค์การบริหารส่วนจังหวัดชัยภูมิ แบ่งออกเป็น 8 ยุทธศาสตร์ 25 กลยุทธ์', '2566', '2570', '0000-00-00', '0000-00-00', 'แผนห้าปี', 'อบจ.ชัยภูมิ', 'Y', '2023-02-26 23:16:23', NULL, '2023-02-26 16:14:02', NULL);
+
