@@ -449,7 +449,7 @@
 					<table class="admintable">
 						<tr>
 							<td class="key" align="center" width="30px">-</td>
-							<td class="key" align="center" width="400px">เป้าหมาย</td>
+							<td class="key" align="center" width="400px">เป้าหมายโครงการ</td>
 							<td class="key" align="center" width="100px">ผลการประเมิน</td>
 							<td class="key" align="center" width="185px">ผู้ตรวจสอบ/ประเมิน</td>
 							<td class="key" align="center" width="115px"></td>
@@ -470,7 +470,7 @@
 					<table class="admintable">
 							<tr>
 							<td class="key" align="center" width="30px">-</td>
-							<td class="key" align="center" width="400px">เป้าหมาย</td>
+							<td class="key" align="center" width="400px">เป้าหมายโครงการ</td>
 							<td class="key" align="center" width="100px">ผลการประเมิน</td>
 							<td class="key" align="center" width="185px">ผู้ตรวจสอบ/ประเมิน</td>
 							<td class="key" align="center" width="115px"></td>
@@ -524,7 +524,7 @@
 							const project_id_from_php = "<?=$_project_id?>";
 							//insert
 							if (check && !this.form.isEdit){
-								axios.post("./module_projects/addGoalsActions.php",{
+								axios.post("./module_projects/addGoalsAPI.php",{
 									teacher_id    : this.form.teacher_id,
 									goal_details  : this.form.goal_details,
 									goal_evaluate : this.form.goal_evaluate,
@@ -541,7 +541,7 @@
 							//update
 							if(check && this.form.isEdit){
 								// console.log(this.form.teacber_id);
-								axios.post("./module_projects/addGoalsActions.php",{
+								axios.post("./module_projects/addGoalsAPI.php",{
 									teacher_id   : this.form.teacher_id,
 									project_goal_id: this.form.project_goal_id,
 									goal_details : this.form.goal_details,
@@ -559,7 +559,7 @@
 							//alert('edit' + project_goal_id);
 							this.form.status = "แก้ไข";
 							this.form.isEdit = true;
-							axios.post("./module_projects/addGoalsActions.php",{
+							axios.post("./module_projects/addGoalsAPI.php",{
 								project_goal_id:id,
 								action: "get_project_goal"
 							}).then(function(res){
@@ -574,7 +574,7 @@
 						},
 						delProjectGoal(id){
 							if(confirm("คุณต้องการลบข้อมูล " + id + " ใช่หรือไม่ ")){
-								axios.post("./module_projects/addGoalsActions.php",{
+								axios.post("./module_projects/addGoalsAPI.php",{
 									project_goal_id:id,
 									action: "delete"
 								}).then(function(res){
@@ -584,7 +584,7 @@
 							}
 						},
 						getAllGoals(){
-							axios.post("./module_projects/addGoalsActions.php",{
+							axios.post("./module_projects/addGoalsAPI.php",{
 								action:"get_all",
 								project_id: "<?=$_project_id?>"
 							}).then(function(res){
@@ -601,7 +601,7 @@
 							this.form.isEdit        = false;
 						},
 						getAllTeacher(){
-							axios.post("./module_projects/addGoalsActions.php",{
+							axios.post("./module_projects/addGoalsAPI.php",{
 								action: "get_all_teacher"
 							}).then(function(res){
 								app.teachers = res.data;

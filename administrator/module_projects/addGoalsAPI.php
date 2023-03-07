@@ -1,5 +1,5 @@
 ﻿<?
-
+session_start();
 
 //include("../../include/mysqliphp");
 
@@ -13,18 +13,43 @@ $data=array();
 
 
 if($request_data->action=="insert"){
+
     $data=array(
-                ":goal_details" =>$request_data->goal_details , 
-                ":goal_evaluate"=>$request_data->goal_evaluate,
-                ":goal_checker" =>$request_data->teacher_id
+                ":project_id"   => $request_data->project_id,
+                ":goal_details" => $request_data->goal_details , 
+                ":goal_evaluate"=> $request_data->goal_evaluate,
+                ":goal_checker" => $request_data->teacher_id,
+                ":created_user" => $_SESSION['user_account_id'],
+                ":updated_user" => $_SESSION['user_account_id']
             );
 
     $query= "
-                INSERT INTO project_goals (project_id,goal_details,goal_evaluate,goal_checker) 
+                INSERT INTO 
+                    project_goals (
+                            project_id,
+                            goal_details,
+                            goal_evaluate,
+                            goal_checker,
+                            created_user,
+                            created_datetime,
+                            updated_user,
+                            updated_datetime
+                        ) 
                 VALUES
-                    ('" . $request_data->project_id . "' ,:goal_details,:goal_evaluate,:goal_checker)";
+                    (
+                        :project_id ,
+                        :goal_details,
+                        :goal_evaluate,
+                        :goal_checker,
+                        :created_user,
+                        CURRENT_TIMESTAMP,
+                        :updated_user,
+                        CURRENT_TIMESTAMP
+                    )";
     $statement=$connect->prepare($query);
     $statement->execute($data);
+
+    //prepare and return data back to Front-end
     $output=array("message"=>"Insert Complete");
     echo json_encode($output);
 }
@@ -89,10 +114,11 @@ if($request_data->action=="get_project_goal"){
 if($request_data->action=="update"){
 
     $data=array(
-                    ":goal_details"   =>$request_data->goal_details , 
-                    ":goal_evaluate"  =>$request_data->goal_evaluate, 
-                    ":goal_checker"   =>$request_data->teacher_id,
-                    ":project_goal_id" =>$request_data->project_goal_id
+                    ":goal_details"    =>$request_data->goal_details , 
+                    ":goal_evaluate"   =>$request_data->goal_evaluate, 
+                    ":goal_checker"    =>$request_data->teacher_id,
+                    ":project_goal_id" =>$request_data->project_goal_id,
+                    ":updated_user"    => $_SESSION['user_account_id']
                 );
 
     $query= "
@@ -100,7 +126,9 @@ if($request_data->action=="update"){
                 SET 
                         goal_details  = '" . $request_data->goal_details . "'  , 
                         goal_evaluate = '" . $request_data->goal_evaluate . "'  ,
-                        goal_checker  = '" . $request_data->teacher_id . "' 
+                        goal_checker  = '" . $request_data->teacher_id . "' ,
+                        updated_user  = '" . $_SESSION['user_account_id'] . "' ,
+                        updated_datetime = CURRENT_TIMESTAMP
                 WHERE 
                         project_goal_id = " . $request_data->project_goal_id ;
 
