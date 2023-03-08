@@ -165,6 +165,15 @@
                     </div>
                 </div>
 
+                <div style="float:left;">
+                    <div class="icon">
+                        <a href="index.php?option=module_curriculum/index">
+                        <img src="../images/graduation.png" width="49px" alt="Curriculum and Instruction" align="middle" border="0" />
+                        <span>บริหารหลักสูตร</span>
+                        </a>
+                    </div>
+                </div>
+                
                 <div style="float:left;display:none;">
                     <div class="icon">
                         <a href="index.php?option=module_color/index">
