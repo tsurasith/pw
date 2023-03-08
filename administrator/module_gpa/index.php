@@ -52,6 +52,10 @@
         	<td>&nbsp;</td>
 			<td><a href="index.php?option=module_gpa/learnTables">3.2 จัดการรายวิชาที่สอน</a></td>
         </tr>
+		<tr>
+        	<td>&nbsp;</td>
+			<td><a href="index.php?option=module_gpa/teachingTable">3.3 จัดการรายวิชาที่สอน (จากผลการลงทะเบียน)</a></td>
+        </tr>
 	</table>
 				  
 </div>

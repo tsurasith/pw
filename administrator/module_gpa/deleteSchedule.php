@@ -34,7 +34,7 @@
 	<table align="center">
 		<tr>
 			<td>
-				<form method="post" action="index.php?option=module_gpa/learnTables">
+				<form method="post" action="index.php?option=module_gpa/<?=$_REQUEST['page']?>">
 					<input type="submit" name="delete" 		value="ยืนยัน" />
 					<input type="hidden" name="teacher_id" 	value="<?=$_REQUEST['teacher_id']?>" />
 					<input type="hidden" name="acadyear" 	value="<?=$_REQUEST['acadyear']?>" />
@@ -46,7 +46,7 @@
 				</form>
 			</td>
 			<td>
-				<form method="post" action="index.php?option=module_gpa/learnTables">
+				<form method="post" action="index.php?option=module_gpa/<?=$_REQUEST['page']?>">
 					<input type="submit" name="search" 		value="ย้อนกลับ" />
 					<input type="hidden" name="teacher_id" 	value="<?=$_REQUEST['teacher_id']?>" />
 					<input type="hidden" name="acadyear" 	value="<?=$_REQUEST['acadyear']?>" />

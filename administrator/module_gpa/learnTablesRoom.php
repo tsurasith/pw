@@ -102,6 +102,7 @@
     </tr>
 	<?php
 
+		$_all_room = substr($_roomID,0,1) . "00";
 
 		$sqlStudent = "select t.*,
 								u.user_account_firstname
@@ -109,13 +110,13 @@
 							teaching_schedule t left join users_account u
 							on (t.teacher_id = u.user_account_id)
 						WHERE
-							t.room_id = '" . $_roomID . "'
+							t.room_id IN ('" . $_roomID . "', '" . $_all_room . "')
 							and t.acadyear = '" . $acadyear . "'
 							and t.acadsemester = '" . $acadsemester . "'
 						order BY
 							weekday,period  ";
 		
-		// echo $sqlStudent;
+		echo $sqlStudent . "<br/>";
 		
 		$resStudent = mysqli_query($_connection,$sqlStudent);
 		$totalRows = mysqli_num_rows($resStudent);
@@ -144,10 +145,10 @@
 					if(isset($_data[$_i][$_j])){
 						$_subject = explode("#",$_data[$_i][$_j]);
 					}
-					echo "<td align='center'>";
+					echo "<td align='center' valign='top'>";
 					for($_k=0;$_k<count($_subject)-1;$_k++){
 						$_detail = explode("|",$_subject[$_k]);
-						echo @$_detail[1] . "<br/>"; // subjectcode
+						echo "<b>" . @$_detail[1] . "</b>" . "<br/>"; // subjectcode
 						echo "ครู" . $_detail[0] . "<br/>";
 						echo @$_detail[2] . "<br/>"; // location
 					}
@@ -157,7 +158,7 @@
 					echo "</td>";
 					
 					if($_j==4){
-						echo "<td align='center'>-</td>";
+						echo "<td align='center' valign='top'>-</td>";
 					}
 				}
 				echo "</tr>";

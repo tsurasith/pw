@@ -23,6 +23,8 @@
 		//echo $_sqlDel . "<br/>";
 		$resDel = mysqli_query($_connection,$_sqlDel);
 
+		//$message = $_text;
+		//SendLineMessage($message,$_line_token);
 
 	}
 ?>
@@ -32,27 +34,32 @@
   <?php
 		$_addnew_result = "";
 		$_roomID = "";
-	  	$_roomID = isset($_POST['roomID'])?$_POST['roomID']:"";
 
+		$xlevel  = "";
+		$xyearth = "";
+		$room    = "";
 
-		$xlevel = getXlevel($_roomID);
-		$xyearth= getXyearth($_roomID);
-		$room = getRoom($_roomID);
+		if(isset($_POST['addnew']) && $_POST['subject_info'] != ""){
 
-		if(isset($_POST['addnew'])){
-			if(trim($_POST['subject_code'])==""){
+			$_subject = explode("|",$_POST['subject_info']);
+			$_roomID  = $_subject[0];
+			$xlevel   = getXlevel($_roomID);
+			$xyearth  = getXyearth($_roomID);
+			$room     = getRoom($_roomID);
+
+			if(trim($_subject[1])==""){
 				$_addnew_result = "<font color='red'>ไม่สามารถเพิ่มรายวิชาที่สอนได้ กรุณาใส่รหัสวิชาให้ถูกต้อง</font>";
 			}else {
 
 				$_existing = 0;
 				$_sqlExisting = "SELECT * FROM teaching_schedule 
 							WHERE
-								teacher_id 		= '" . $_POST['teacher_id'] . "'
-								and weekday 	= '" . $_POST['weekday'] . "'
-								and period 		= '" . $_POST['period'] . "'
-								and acadyear 	= '" . $acadyear . "'
+								teacher_id       = '" . $_POST['teacher_id'] . "'
+								and weekday      = '" . $_POST['weekday'] . "'
+								and period       = '" . $_POST['period'] . "'
+								and acadyear 	 = '" . $acadyear . "'
 								and acadsemester = '" . $acadsemester ."' 
-								and teacher_id  =  '" . $_POST['teacher_id'] . "' and
+								and teacher_id   = '" . $_POST['teacher_id'] . "' 
 								and SubjectCode  = '" . trim($_subject[1]) . "' 
 							";
 				$_resExisting = mysqli_query($_connection,$_sqlExisting);
@@ -80,21 +87,23 @@
 						`level`,
 						`room`,
 						`room_id`,
+						`club_code`,
 						`created_datetime`,
 						`created_user`
 					)
 					VALUES(
 						'" . $_POST['teacher_id'] . "',
-						'" . trim($_POST['subject_code']) . "',
+						'" . trim($_subject[1]) . "',
 						'" . $_POST['weekday'] . "',
 						'" . $_POST['period'] . "',
 						'" . trim($_POST['location']) . "',
 						'" . $acadyear . "',
 						'" . $acadsemester . "',
 						'" . $xlevel . "',
-						'" . substr($_POST['roomID'],0,1) . "',
+						'" . substr($_roomID,0,1) . "',
 						'" . $room . "',
-						'" . $_POST['roomID'] . "',
+						'" . $_subject[0] . "',
+						'" . $_subject[2] . "',
 						CURRENT_TIMESTAMP,
 						'" . $_SESSION['user_account_id'] . "'
 					) ";
@@ -114,11 +123,11 @@
 								$_event_user_id,$acadyear,$acadsemester)
 								*/
 	
-						$_key = $_POST['teacher_id'].trim($_POST['subject_code']).$_POST['weekday'].$_POST['period'].$_POST['roomID'].$acadyear.$acadsemester;
+						$_key = $_POST['teacher_id'].trim($_subject[1]).$_POST['weekday'].$_POST['period'].$_subject[0].$acadyear.$acadsemester;
 						
 						$_event_details = "";
-						$_event_details .= "บันทึกข้อมูลตารางสอน วิชา " . trim($_POST['subject_code']) ;
-						$_event_details .= " ห้อง " . substr($_POST['roomID'],0,1) . '/' .$room . " สอนวัน" . displayDayofWeek($_POST['weekday']) ;
+						$_event_details .= "บันทึกข้อมูลตารางสอน วิชา " . trim($_subject[1]) ;
+						$_event_details .= " ห้อง " . substr($_subject[0],0,1) . '/' .$room . " สอนวัน" . displayDayofWeek($_POST['weekday']) ;
 						$_event_details .= " คาบเรียนที่ " . $_POST['period'];
 						
 						$_event_key = hash("sha256",$_key);
@@ -146,13 +155,13 @@
     <tr> 
       <td width="6%" align="center"><a href="index.php?option=module_gpa/index"><img src="../images/gpa.png" alt="" width="48" height="48" border="0" /></a></td>
       <td ><strong><font color="#990000" size="4">Learning Achievement</font></strong><br />
-        <span class="normal"><font color="#0066FF"><strong>3.2 จัดการรายวิชาที่สอน</strong></font></span></td>
+        <span class="normal"><font color="#0066FF"><strong>3.3 จัดการรายวิชาที่สอน (จากผลการลงทะเบียน)</strong></font></span></td>
       <td >
 
 		ปีการศึกษา<?php  
-					echo "<a href=\"index.php?option=module_gpa/learnTables&acadyear=" . ($acadyear - 1) . "\"><img src=\"../images/pull_left.gif\" border=\"0\" /></a> " ;
+					echo "<a href=\"index.php?option=module_gpa/teachingTable&acadyear=" . ($acadyear - 1) . "\"><img src=\"../images/pull_left.gif\" border=\"0\" /></a> " ;
 					echo '<font color=\'blue\'>' .$acadyear . '</font>';
-					echo " <a href=\"index.php?option=module_gpa/learnTables&acadyear=" . ($acadyear + 1) . "\"><img src=\"../images/pull_right.gif\" border=\"0\" /></a> " ;
+					echo " <a href=\"index.php?option=module_gpa/teachingTable&acadyear=" . ($acadyear + 1) . "\"><img src=\"../images/pull_right.gif\" border=\"0\" /></a> " ;
 				?>
 		ภาคเรียนที่   <?php 
 					if($acadsemester == 1)
@@ -161,7 +170,7 @@
 					}
 					else
 					{
-						echo " <a href=\"index.php?option=module_gpa/learnTables&acadyear=" . ($acadyear) . "&acadsemester=1 \"> 1</a> , " ;
+						echo " <a href=\"index.php?option=module_gpa/teachingTable&acadyear=" . ($acadyear) . "&acadsemester=1 \"> 1</a> , " ;
 					}
 					if($acadsemester == 2)
 					{
@@ -169,7 +178,7 @@
 					}
 					else
 					{
-						echo " <a href=\"index.php?option=module_gpa/learnTables&acadyear=" . ($acadyear) . "&acadsemester=2 \"> 2</a> " ;
+						echo " <a href=\"index.php?option=module_gpa/teachingTable&acadyear=" . ($acadyear) . "&acadsemester=2 \"> 2</a> " ;
 					}
 				?>
 		</font>
@@ -188,6 +197,8 @@
 							users_account u 
 							left join teaching_schedule t 
 							on (u.user_account_id = t.teacher_id and t.acadyear = '" . $acadyear ."' and t.acadsemester = '" . $acadsemester ."')
+						where
+							u.user_account_status = 'active'
 						group by 
 							u.user_account_id,
 							u.user_account_prefix,
@@ -265,13 +276,15 @@
 						and t.acadsemester = '" . $acadsemester . "'
 					order BY
 						weekday,period,room_id  ";
-		$_resTable = mysqli_query($_connection,$_sqlTable);
-		$_totalRows = mysqli_num_rows($_resTable);
+		
+		//echo $_sqlTable . "<br/>";
+		$_resTable2 = mysqli_query($_connection,$_sqlTable);
+		$_totalRows = mysqli_num_rows($_resTable2);
 
 		if($_totalRows>0){
 
 			// add data to array
-			while($_data = mysqli_fetch_assoc($_resTable)){
+			while($_data = mysqli_fetch_assoc($_resTable2)){
 				$_table[$_data['weekday']][$_data['period']][] = $_data['SubjectCode']."|".$_data['room_id'] . "|" . $_data['teacher_id'] . "|" . $_data['club_code'] . "|" . $_data['location'];
 			}
 			$_bg_color = "onMouseOver=\"this.style.backgroundColor='#FFCCFF'; this.style.cursor='hand';\" onMouseOut=this.style.backgroundColor=\"#FFFFFF\";";
@@ -298,7 +311,7 @@
 									"&period="   . $_j . "&weekday="   . $_i . 
 									"&acadyear=" . $acadyear           . "&acadsemester=" . $acadsemester . 
 									"&subject="  . $_rr[0] . 
-									"&page=learnTables'>";
+									"&page=teachingTable'>";
 							echo "<b>" . $_rr[0] . "</b><br/>";
 							echo "</a>";
 							echo getFullRoomFormat($_rr[1])."<br/>";
@@ -323,39 +336,60 @@
 </div>
   <? } //end else-if ?>
 
+<? if(isset($_POST['teacher_id']) && $_POST['teacher_id'] != "") { ?>
 
 
 	<div align="center">
 		<br/><br/><br/>
 		<form action="" method="post" autocomplete="off">
-			<table class="admintable" width="400px">
+			<table class="admintable">
 				<tr height="35px">
 					<td class="key" colspan="2"> &nbsp; ส่วนเพิ่มรายวิชาที่สอน</td>
 				</tr>
 				<tr>
-					<td align="right" width="100px"> รหัสวิชา </td>
-					<td> <input type="text" name="subject_code" size="10" class="inputboxUpdate" maxlength="6" /> </td>
-				</tr>
-				<tr>
-					<td align="right"> เลือกห้องเรียน </td>
+					<td align="right" width="100px"> ห้อง / รายวิชา </td>
 					<td> 
 						<?php
-							$sql_Room = "select room_id from rooms where acadyear = '". $acadyear . "' and acadsemester = '" . $acadsemester . "'  order by room_id";
-							$resRoom = mysqli_query($_connection,$sql_Room);
+							$_sql_teaching = "
+							
+									select 
+										r.room_id,
+										r.SubjectCode,
+										s.SubjectName,
+										r.club_code,
+										c.club_name,
+										if(r.club_code = '0000',s.SubjectName,c.club_name) as 's_name'
+									from 
+										register_teachers r inner join teachers t
+										on (r.teacher_id = t.teacher_id and r.acadyear = '" . $acadyear . "' and r.acadsemester = '" . $acadsemester . "')
+										left join curriculum_subjects s 
+										on (r.SubjectCode = s.SubjectCode) 
+										left join curriculum_clubs c 
+										on (r.club_code = c.club_code and r.club_code != '0000')
+									where
+										r.teacher_id = '" . $_POST['teacher_id'] . "'
+									order by
+										FIELD(
+											s.SubjectType,
+											'พื้นฐาน',
+											'เพิ่มเติม',
+											'กิจกรรมพัฒนาผู้เรียน'
+										),
+										s.SubjectGroup,
+										c.club_code,
+										r.SubjectCode,
+										r.room_id
+						
+								";
+							$_res_teaching = mysqli_query($_connection,$_sql_teaching);
 						?>
-						<select name="roomID" class="inputboxUpdate">
-							<option value="000">สอนรวม</option>
-							<?php
-
-								while($dat = mysqli_fetch_assoc($resRoom))
-								{
-									$_select = (isset($_POST['roomID'])&&$_POST['roomID'] == $dat['room_id']?"selected":"");
-									echo "<option value=\"" . $dat['room_id'] . "\" $_select>";
-									echo getFullRoomFormat($dat['room_id']);
-									echo "</option>";
-								}
-								
-							?>
+						<select name="subject_info" class="inputboxUpdate">
+							<option value=""></option>
+							<? while ($_datT = mysqli_fetch_assoc($_res_teaching)) { ?>
+								<option value="<?=$_datT['room_id'] . "|" . $_datT['SubjectCode'] . "|" . $_datT['club_code']?>" >
+									<?=getFullRoomFormat($_datT['room_id']) . ' - ' . $_datT['SubjectCode'] . ' ' . $_datT['s_name']?>
+								</option>
+							<? } ?>
 						</select>
 					</td>
 				</tr>
@@ -401,7 +435,7 @@
 			</table>
 		</form>
 	</div>
-
+<? } ?>
 
 </div>
 

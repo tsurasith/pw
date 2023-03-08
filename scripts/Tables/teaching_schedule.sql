@@ -23,6 +23,12 @@ CREATE TABLE IF NOT EXISTS `teaching_schedule` (
   PRIMARY KEY (`teacher_id`,`SubjectCode`,`acadyear`,`acadsemester`,`weekday`,`period`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
+ALTER TABLE `teaching_schedule` 
+    CHANGE `room_id` `room_id` VARCHAR(3) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '000' AFTER `room`;
+
+ALTER TABLE `teaching_schedule` 
+    ADD `club_code` VARCHAR(4) NULL DEFAULT '0000' AFTER `room_id`;
+
 
 -- TRIGGER to handle trigger_learn_tables_insert
  
