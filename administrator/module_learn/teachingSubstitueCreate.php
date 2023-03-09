@@ -1,4 +1,12 @@
 ﻿
+<?php
+	if(isset($_REQUEST['acadyear'])) { $acadyear = $_REQUEST['acadyear']; }
+	if(isset($_REQUEST['acadsemester'])) { $acadsemester = $_REQUEST['acadsemester']; }
+
+	//==============$_POST value===========//
+	if(isset($_POST['acadyearX'])) { $acadyear = $_POST['acadyearX']; }
+	if(isset($_POST['acadsemesterX'])) { $acadsemester = $_POST['acadsemesterX']; }
+?>
  
  <?php
 	$_processing_message = "";
@@ -123,13 +131,7 @@
       <td><strong><font color="#990000" size="4">Room Tracking</font></strong><br />
         <span class="normal"><font color="#0066FF"><strong>1.3 งานจัดการสอนแทน </strong></font></span></td>
       <td align="right">
-	  <? if(isset($_REQUEST['acadyear'])) { $acadyear = $_REQUEST['acadyear']; }
-			if(isset($_REQUEST['acadsemester'])) { $acadsemester = $_REQUEST['acadsemester']; }
-
-			//==============$_POST value===========//
-			if(isset($_POST['acadyearX'])) { $acadyear = $_POST['acadyearX']; }
-			if(isset($_POST['acadsemesterX'])) { $acadsemester = $_POST['acadsemesterX']; }
-
+	  <?
 
 			$_date = "";
 			$_date = isset($_POST['date'])?$_POST['date']:"";
@@ -209,25 +211,18 @@
 								u.user_account_prefix,
 								u.user_account_firstname,
 								u.user_account_lastname,
-								count(t.teacher_id) as 'c'
+								count(distinct t.period) as 'c'
 							FROM
-								student_learn_task l INNER JOIN teaching_schedule t 
-								ON
-								(
-									l.acadyear = t.acadyear AND 
-									l.acadsemester = t.acadsemester AND 
-									l.weekday = t.weekday AND 
-									l.period = t.period AND 
-									l.task_roomid = t.room_id AND 
-									t.teacher_id IS NOT NULL
-								)
+								teaching_schedule t 
 								INNER JOIN users_account u 
 								ON
 								(
 									t.teacher_id = u.user_account_id
 								)
 							WHERE
-								l.task_date = '" . $_POST['date'] . "' and
+								t.weekday   = '" . date('w',strtotime($_POST['date'])) . "' and
+								t.period   != '8' and 
+								t.club_code = '0000' and 
 								concat(t.teacher_id,t.period) not in (
 																		select distinct concat(owner_teacher_id,period)
 																		from teaching_substitute
@@ -239,7 +234,7 @@
 								CONVERT(u.user_account_firstname using tis620),
 								CONVERT(u.user_account_lastname using tis620)
 							" ;
-							//echo $sql_Room ;
+							//echo $sql_teacher . "<br/>" ;
 							$resTeacher = mysqli_query($_connection,$sql_teacher);	
 					?>
 					<select name="teacher_id" class="inputboxUpdate" onChange="document.teachList.submit();">
@@ -266,21 +261,17 @@
 								t.teacher_id,
 								t.SubjectCode,
 								t.period,
-								t.room_id
+								t.room_id,
+								t.weekday,
+								s.SubjectName
 							FROM
-								student_learn_task l INNER JOIN teaching_schedule t 
-								ON
-								(
-									l.acadyear = t.acadyear AND 
-									l.acadsemester = t.acadsemester AND 
-									l.weekday = t.weekday AND 
-									l.period = t.period AND 
-									l.task_roomid = t.room_id AND 
-									t.teacher_id IS NOT NULL
-								)
+								teaching_schedule t left join curriculum_subjects s
+								on (t.SubjectCode = s.SubjectCode)
 							WHERE
-								l.task_date = '" . $_POST['date'] . "' and 
+								t.weekday    = '" . date('w',strtotime($_POST['date']))  . "' and 
 								t.teacher_id = '" . $_POST['teacher_id'] . "' and
+								t.club_code  = '0000' and 
+								t.period     != '8' and 
 								concat(t.SubjectCode,t.period) not in (
 																		select distinct concat(SubjectCode,period)
 																		from teaching_substitute
@@ -293,7 +284,8 @@
 							ORDER BY
 								t.period
 							" ;
-							//echo $sql_Room ;
+
+							//echo $sql_subject . "<br/>" ;
 							$resSubject = mysqli_query($_connection,$sql_subject);	
 					?>
 					<select name="subject_info" class="inputboxUpdate" onChange="document.teachList.submit();">
@@ -304,7 +296,8 @@
 							{
 								$_select = (isset($_POST['subject_info'])&&$_POST['subject_info'] == ($dat['SubjectCode'].'/'.$dat['period'].'/'. $dat['room_id'] . '/' . $dat['weekday'])?"selected":"");
 								echo "<option value=" . $dat['SubjectCode'].'/'.$dat['period'].'/'. $dat['room_id'] . '/' . $dat['weekday'] . " $_select>";
-								echo $dat['SubjectCode'] . ' ห้อง ' . getFullRoomFormat($dat['room_id']) . ' คาบที่ ' . $dat['period'] ;
+								echo ' ห้อง ' . getFullRoomFormat($dat['room_id']) . ' คาบที่ ' . $dat['period'] ;
+								echo ' - ' . $dat['SubjectCode'] . ' ' . $dat['SubjectName'];
 								echo "</option>";
 							}
 						?>
@@ -411,12 +404,13 @@
 									acadyear 		= '" . $acadyear . "' AND
 									acadsemester	= '" . $acadsemester . "' 
 							";
+						//echo $_sql_location . "<br/>";
 						$_resLocation = mysqli_query($_connection,$_sql_location);
 						$_datLo = mysqli_fetch_assoc($_resLocation);
 					?>
 					<br/><br/>
 					หากต้องการบันทึกให้ <font color='green'><b>ครู<?=getUserAccountName($_connection,$_POST['teacher_id2'])?></b></font> 
-					ทำการสอนแทนคุณ <font color='darkorange'><b>ครู<?=getUserAccountName($_connection,$_POST['teacher_id'])?></b></font> <br/>
+					ทำการสอนแทน <font color='darkorange'><b>ครู<?=getUserAccountName($_connection,$_POST['teacher_id'])?></b></font> <br/>
 					ในวัน <font color='green'><b><?=displayDayofWeek(date('w',strtotime($_POST['date'])))?></b> </font>
 					ที่ <font color='green'><b><?=displayFullDate($_POST['date'])?></b></font>
 					รหัสวิชา <font color='green'><b><?=$_subject_info[0]?></b></font> 

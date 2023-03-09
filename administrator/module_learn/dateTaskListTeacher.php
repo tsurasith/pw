@@ -223,6 +223,7 @@
 					l.task_date = '" . $_date . "' and
 					t.teacher_id = '" . $_teacher_id . "' 
 				UNION
+
 				SELECT
 					s.teacher_id,
 					s.SubjectCode,
@@ -249,6 +250,36 @@
 					)
 				WHERE 
 					s.teaching_date = '" . $_date . "' and s.teacher_id = '" . $_teacher_id . "' 
+				
+				UNION
+
+				SELECT
+					s.teacher_id,
+					s.SubjectCode,
+					s.location,
+					s.teaching_date,
+					s.period,
+					s.room_id,
+					s.acadyear,
+					s.acadsemester,
+					s.weekday,
+					(
+						select exists 
+						(
+							select * from student_learn c
+							where
+								c.check_date   = '" . $_date . "' and 
+								c.SubjectCode  = s.SubjectCode and
+								c.period       = s.period
+						)
+					) as task_status,
+					'substitute' AS 'class_type'
+				FROM
+					teaching_substitute s 
+				WHERE 
+					s.teaching_date = '" . $_date . "' and s.teacher_id = '" . $_teacher_id . "' and
+					s.room_id    like '%00'
+
 				order by
 					period
 

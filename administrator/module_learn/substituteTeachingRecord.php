@@ -166,40 +166,29 @@
 						t.teacher_id,
 						t.SubjectCode,
 						t.location,
-						l.task_date,
-						l.period,
-						l.task_roomid,
-						l.acadyear,
-						l.acadsemester,
-						l.weekday,
+						t.period,
+						t.room_id,
+						t.acadyear,
+						t.acadsemester,
+						t.weekday,
 						s.*
 					FROM
-						student_learn_task l
-					INNER JOIN teaching_schedule t ON
+						teaching_schedule t 
+						INNER JOIN teaching_substitute s ON
 						(
-							l.acadyear = t.acadyear AND 
-							l.acadsemester = t.acadsemester AND 
-							l.weekday = t.weekday AND 
-							l.period = t.period AND 
-							l.task_roomid = t.room_id AND 
-							t.teacher_id IS NOT NULL
-						)
-					LEFT JOIN teaching_substitute s ON
-						(
-							l.acadyear = s.acadyear AND 
-							l.acadsemester = s.acadsemester AND 
-							l.task_date = s.teaching_date AND 
-							l.weekday = s.weekday AND 
-							l.period = s.period AND 
-							l.task_roomid = s.room_id AND 
-							s.teacher_id IS NOT NULL
+							t.acadyear     = s.acadyear AND 
+							t.acadsemester = s.acadsemester AND 
+							t.weekday      = s.weekday AND 
+							t.period       = s.period AND 
+							t.room_id      = s.room_id AND 
+							s.teacher_id   IS NOT NULL
 						)
 				WHERE
-						l.task_date = '" . $_POST['date'] . "' and
+						s.teaching_date = '" . $_POST['date'] . "' and
 						(t.teacher_id = '" . $_POST['teacher_id'] . "' or s.teacher_id = '" . $_POST['teacher_id'] . "'  )and
 						(t.room_id = '". $_POST['room_id'] . "' or s.room_id = '". $_POST['room_id'] . "') and
 						(t.SubjectCode = '" . $_POST['subject_code'] . "' or s.SubjectCode = '" . $_POST['subject_code'] . "' ) and 
-						l.period = '" . $_POST['period'] . "' 
+						s.period = '" . $_POST['period'] . "' 
 					";
 			}else{
 				$_sql_learntable = "
@@ -207,44 +196,34 @@
 						t.teacher_id,
 						t.SubjectCode,
 						t.location,
-						l.task_date,
-						l.period,
-						l.task_roomid,
-						l.acadyear,
-						l.acadsemester,
-						l.weekday,
+						t.period,
+						t.room_id,
+						t.acadyear,
+						t.acadsemester,
+						t.weekday,
 						s.*
 					FROM
-						student_learn_task l
-					INNER JOIN teaching_schedule t ON
+						teaching_schedule t 
+						INNER JOIN teaching_substitute s ON
 						(
-							l.acadyear = t.acadyear AND 
-							l.acadsemester = t.acadsemester AND 
-							l.weekday = t.weekday AND 
-							l.period = t.period AND 
-							l.task_roomid = t.room_id AND 
-							t.teacher_id IS NOT NULL
-						)
-					LEFT JOIN teaching_substitute s ON
-						(
-							l.acadyear = s.acadyear AND 
-							l.acadsemester = s.acadsemester AND 
-							l.task_date = s.teaching_date AND
-							l.weekday = s.weekday AND 
-							l.period = s.period AND 
-							l.task_roomid = s.room_id AND 
+							t.acadyear     = s.acadyear AND 
+							t.acadsemester = s.acadsemester AND 
+							t.weekday      = s.weekday AND 
+							t.period       = s.period AND 
+							t.room_id      = s.room_id AND 
 							s.teacher_id IS NOT NULL
 						)
 				WHERE
-						l.task_date = '" . $_REQUEST['date'] . "' and
+						s.teaching_date = '" . $_REQUEST['date'] . "' and
 						(t.teacher_id = '" . $_REQUEST['teacher_id'] . "' or s.teacher_id = '" . $_REQUEST['teacher_id'] . "'  )and
 						(t.room_id = '". $_REQUEST['room'] . "' or s.room_id = '". $_REQUEST['room'] . "') and
 						(t.SubjectCode = '" . $_REQUEST['subject'] . "' or s.SubjectCode = '" . $_REQUEST['subject'] . "' ) and 
-						l.period = '" . $_REQUEST['period'] . "' 
+						t.period = '" . $_REQUEST['period'] . "' 
 					" ;
 			}
 
 
+			// echo $_sql_learntable . "<br/>";
 			$_resCheck = mysqli_query($_connection,$_sql_learntable);
 			$_check_data = mysqli_num_rows($_resCheck);
 
