@@ -116,7 +116,7 @@
 						order BY
 							weekday,period  ";
 		
-		echo $sqlStudent . "<br/>";
+		//echo $sqlStudent . "<br/>";
 		
 		$resStudent = mysqli_query($_connection,$sqlStudent);
 		$totalRows = mysqli_num_rows($resStudent);
