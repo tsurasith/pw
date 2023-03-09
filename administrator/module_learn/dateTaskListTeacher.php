@@ -117,34 +117,89 @@
 	  
     <br/>
 <? if(isset($_POST['submit']) && $_POST['teacher_id'] != ""){ ?>
-	<div align="center">
-	<table class="admintable" align="center">
-		<tr>
-			<th colspan="10" align="center">
-				<img src="../images/school_logo.png" width="120px"> <br/>
-				แสดงรายวิชาที่ต้องบันทึกการเข้าเรียนของนักเรียน<br/>
-				ของคุณครู <?=getUserAccountName($_connection,$_POST['teacher_id'])?> <br/>
-				วัน <?=displayDayOfWeek(date('w',strtotime($_date)))?> 
-				ที่ <?=isset($_date)&&$_date!=""?displayFullDate($_date):""?> <br/>
-			</th>
-		</tr>
-		<tr height="35px"> 
-			<? $_width = "90px"; ?>
-			<td class="key" width="100px" align="center">วัน/คาบเรียน</td>
-			<td class="key" width="<?=$_width?>" align="center">1</td>
-			<td class="key" width="<?=$_width?>" align="center">2</td>
-			<td class="key" width="<?=$_width?>" align="center">3</td>
-			<td class="key" width="<?=$_width?>" align="center">4</td>
-			<td class="key" width="<?=$_width?>" align="center">พักเที่ยง</td>
-			<td class="key" width="<?=$_width?>" align="center">5</td>
-			<td class="key" width="<?=$_width?>" align="center">6</td>
-			<td class="key" width="<?=$_width?>" align="center">7</td>
-			<td class="key" width="<?=$_width?>" align="center">8</td>
-		</tr>
-    <?
+
+
+	<?
 
 		$_totalRows = 0;
 		$_sql_learntable = "
+
+				SELECT DISTINCT
+					t.teacher_id,
+					t.club_code as SubjectCode,
+					(
+						select cc.club_name from curriculum_clubs cc
+						where
+							cc.club_code = t.club_code
+					) as location,
+					l.task_date,
+					l.period,
+					'000' AS task_roomid,
+					l.acadyear,
+					l.acadsemester,
+					l.weekday,
+					(
+					SELECT
+						EXISTS( 
+							SELECT * FROM student_learn c
+							WHERE
+								c.check_date  = l.task_date AND 
+								c.period      = t.period AND
+								c.club_code   = t.club_code AND
+								c.teacher_id  = '" . $_teacher_id . "' 
+					)
+				) AS task_status,
+				'master' AS 'class_type'
+				FROM
+					teaching_schedule t
+				LEFT JOIN student_learn_task l ON
+					(
+						l.acadyear = t.acadyear AND l.acadsemester = t.acadsemester AND l.weekday = t.weekday AND l.period = t.period AND t.room_id LIKE '%00' AND LEFT(l.task_roomid, 1) = t.level AND t.teacher_id IS NOT NULL
+					)
+				WHERE
+					l.task_date   = '" . $_date . "' and
+					t.teacher_id  = '" . $_teacher_id . "' and 
+					t.club_code  != '0000'
+	
+				union
+
+				select distinct
+						t.teacher_id,
+						t.SubjectCode,
+						t.location,
+						l.task_date,
+						l.period,
+						if(right(t.room_id,2)='00' , t.room_id,l.task_roomid) as task_roomid,
+						l.acadyear,
+						l.acadsemester,
+						l.weekday,
+						(
+							select exists 
+							(
+								select * from student_learn c
+								where
+									c.check_date   = l.task_date and
+									c.SubjectCode  = t.SubjectCode and
+									c.period       = t.period
+							)
+						) as task_status,
+						'master' as 'class_type'
+				from 
+					teaching_schedule t left join student_learn_task l 
+					on (
+							l.acadyear    = t.acadyear   and l.acadsemester = t.acadsemester and
+							l.weekday     = t.weekday    and l.period = t.period and 
+							t.room_id     like '%00'     and
+							left(l.task_roomid,1) = t.level and 
+							t.teacher_id is not null
+						)
+				where
+					l.task_date  = '" . $_date . "' and
+					t.teacher_id = '" . $_teacher_id . "' and 
+					t.club_code  = '0000'
+				
+				UNION
+
 				select 
 						t.teacher_id,
 						t.SubjectCode,
@@ -199,106 +254,128 @@
 
 
 				" ;
+		//echo $_sql_learntable . "<br/>";
+		
 		$_resTeaching = mysqli_query($_connection,$_sql_learntable);
 		$_totalRows = mysqli_num_rows($_resTeaching);
 
+		$_teaching = array(array());
+		
+		if($_totalRows>0){
+			while($_x = mysqli_fetch_assoc($_resTeaching)){
+				$_teaching[$_x['period']] = $_x;
+			}
+		}
+		//print_r($_teaching);
+		?>
+	<div align="center">
+	<table class="admintable" align="center">
+		<tr>
+			<th colspan="10" align="center">
+				<img src="../images/school_logo.png" width="120px"> <br/>
+				แสดงรายวิชาที่ต้องบันทึกการเข้าเรียนของนักเรียน<br/>
+				ของคุณครู <?=getUserAccountName($_connection,$_POST['teacher_id'])?> <br/>
+				วัน <?=displayDayOfWeek(date('w',strtotime($_date)))?> 
+				ที่ <?=isset($_date)&&$_date!=""?displayFullDate($_date):""?> <br/>
+			</th>
+		</tr>
+		<tr height="35px"> 
+			<? $_width = "95px"; ?>
+			<td class="key" width="80px" align="center">วัน/คาบ</td>
+			<td class="key" width="<?=$_width?>" align="center">1</td>
+			<td class="key" width="<?=$_width?>" align="center">2</td>
+			<td class="key" width="<?=$_width?>" align="center">3</td>
+			<td class="key" width="<?=$_width?>" align="center">4</td>
+			<td class="key" width="<?=$_width?>" align="center">พักเที่ยง</td>
+			<td class="key" width="<?=$_width?>" align="center">5</td>
+			<td class="key" width="<?=$_width?>" align="center">6</td>
+			<td class="key" width="<?=$_width?>" align="center">7</td>
+			<td class="key" width="<?=$_width?>" align="center">8</td>
+		</tr>
+    <?php
+
 		if($_totalRows>0){
 
-			$_counter = 0;
-			$_dat = mysqli_fetch_assoc($_resTeaching);
-			$_counter++;
-
-			$_initPeriod  = $_dat['period'];
-			$_initSubject = $_dat['SubjectCode'];
-
-			echo "<td align='center' class='key'>". displayDayofWeek($_dat['weekday']) . "</td>";
+			echo "<tr>";
+			echo "<td align='center' class='key'>". displayDayofWeek(date('w',strtotime($_POST['date']))) . "</td>";
 
 			for($_j=1;$_j<=8;$_j++){
-				if($_initPeriod==$_j){
-					if($_dat['task_status']!="1"){
-						echo "<td align='center' valign='top'>";					
-						echo "<a href='index.php?option=module_learn/studentListFormSinglePeriod&room=" .$_dat['task_roomid'] . "&date=" .$_dat['task_date'] . "&teacher_id=" . $_dat['teacher_id'] .
-								"&period=" . $_dat['period'] . 
-								"&acadyear=" . $_dat['acadyear'] . "&acadsemester=" . $_dat['acadsemester'] . 
-								"&class_type=" . $_dat['class_type'] . 
-								"&subject=" . $_dat['SubjectCode'] . "'>";
-						echo "<b>" . $_dat['SubjectCode'] . "</b><br/>";
-						echo "</a>";
+
+				echo "<td align='center' valign='top'>";
+
+				if(!empty($_teaching[$_j])){
+					if($_teaching[$_j]['task_status']!="1"){
+							
+						if($_teaching[$_j]['task_roomid'] == "000"){
+							echo "<a href='index.php?option=module_learn/studentListFormSinglePeriodClub&room=" .$_teaching[$_j]['task_roomid'] . "&date=" .$_teaching[$_j]['task_date'] . "&teacher_id=" . $_teaching[$_j]['teacher_id'] .
+							"&period=" . $_teaching[$_j]['period'] . 
+							"&acadyear=" . $_teaching[$_j]['acadyear'] . "&acadsemester=" . $_teaching[$_j]['acadsemester'] . 
+							"&class_type=" . $_teaching[$_j]['class_type'] . 
+							"&subject=" . $_teaching[$_j]['SubjectCode'] . "'>";
+							echo "<b>" . $_teaching[$_j]['SubjectCode'] . "</b><br/>";
+							echo "</a>";
+						} else if(substr($_teaching[$_j]['task_roomid'],-2) == "00"){
+							echo "<a href='index.php?option=module_learn/studentListFormSinglePeriodSBM&room=" .$_teaching[$_j]['task_roomid'] . "&date=" .$_teaching[$_j]['task_date'] . "&teacher_id=" . $_teaching[$_j]['teacher_id'] .
+								"&period=" . $_teaching[$_j]['period'] . 
+								"&acadyear=" . $_teaching[$_j]['acadyear'] . "&acadsemester=" . $_teaching[$_j]['acadsemester'] . 
+								"&class_type=" . $_teaching[$_j]['class_type'] . 
+								"&subject=" . $_teaching[$_j]['SubjectCode'] . "'>";
+							echo "<b>" . $_teaching[$_j]['SubjectCode'] . "</b><br/>";
+							echo "</a>";
+						}else{
+							echo "<a href='index.php?option=module_learn/studentListFormSinglePeriod&room=" .$_teaching[$_j]['task_roomid'] . "&date=" .$_teaching[$_j]['task_date'] . "&teacher_id=" . $_teaching[$_j]['teacher_id'] .
+								"&period=" . $_teaching[$_j]['period'] . 
+								"&acadyear=" . $_teaching[$_j]['acadyear'] . "&acadsemester=" . $_teaching[$_j]['acadsemester'] . 
+								"&class_type=" . $_teaching[$_j]['class_type'] . 
+								"&subject=" . $_teaching[$_j]['SubjectCode'] . "'>";
+							echo "<b>" . $_teaching[$_j]['SubjectCode'] . "</b><br/>";
+							echo "</a>";
+						}
+						
 					}else{
-						echo "<td align='center' valign='top'>";
-						echo "<b>" . $_dat['SubjectCode'] . "</b><br/>";
+						echo "<b>" . $_teaching[$_j]['SubjectCode'] . "</b><br/>";
 					}
 					
-					echo getFullRoomFormat($_dat['task_roomid'])."<br/>";
-					echo $_dat['location'];
-					if($_dat['class_type']=="substitute"){
-						echo "(สอนแทน)";
-						$_link = checkExistingSubstituteTeachingRecord($_connection,$_dat['SubjectCode'],$_dat['task_date'],$_dat['teacher_id'],$_dat['period'],$_dat['task_roomid']);
+					//แสดงห้อง
+					if($_teaching[$_j]['task_roomid']!="000"){
+						echo getFullRoomFormat($_teaching[$_j]['task_roomid'])."<br/>";
+					}
+					
+
+					//แสดงสถานที่สอน ถ้าเป็นชุมนุมจะแสดงเป็นชื่อชุมนุม
+					echo $_teaching[$_j]['location'];
+					if($_teaching[$_j]['class_type']=="substitute"){
+						echo "<br/>(สอนแทน)";
+						$_link = checkExistingSubstituteTeachingRecord($_connection,$_teaching[$_j]['SubjectCode'],$_teaching[$_j]['task_date'],$_teaching[$_j]['teacher_id'],$_teaching[$_j]['period'],$_teaching[$_j]['task_roomid']);
 						echo "<br/><br/>";
-						echo "<a $_link href='index.php?option=module_learn/substituteTeachingRecord&room=" .$_dat['task_roomid'] . "&date=" .$_dat['task_date'] . "&teacher_id=" . $_dat['teacher_id'] .
-								"&period=" . $_dat['period'] . 
-								"&acadyear=" . $_dat['acadyear'] . "&acadsemester=" . $_dat['acadsemester'] . 
-								"&class_type=" . $_dat['class_type'] . 
-								"&subject=" . $_dat['SubjectCode'] . "'>";
+						echo "<a $_link href='index.php?option=module_learn/substituteTeachingRecord&room=" .$_teaching[$_j]['task_roomid'] . "&date=" .$_teaching[$_j]['task_date'] . "&teacher_id=" . $_teaching[$_j]['teacher_id'] .
+								"&period="     . $_teaching[$_j]['period'] . 
+								"&acadyear="   . $_teaching[$_j]['acadyear'] . "&acadsemester=" . $_teaching[$_j]['acadsemester'] . 
+								"&class_type=" . $_teaching[$_j]['class_type'] . 
+								"&subject="    . $_teaching[$_j]['SubjectCode'] . "'>";
 						echo "บันทึก<br/>การสอน";
 						echo "</a>";
 					}else{
-						$_link = checkExistingTeachingRecord($_connection,$_dat['SubjectCode'],$_dat['task_date'],$_dat['teacher_id'],$_dat['period'],$_dat['task_roomid']);
+						echo "<br/>";
+						$_link = checkExistingTeachingRecord($_connection,$_teaching[$_j]['SubjectCode'],$_teaching[$_j]['task_date'],$_teaching[$_j]['teacher_id'],$_teaching[$_j]['period'],$_teaching[$_j]['task_roomid']);
 						echo "<br/><br/>" ;
-						echo "<a $_link href='index.php?option=module_learn/masterTeachingRecord&room=" .$_dat['task_roomid'] . "&date=" .$_dat['task_date'] . "&teacher_id=" . $_dat['teacher_id'] .
-								"&period=" . $_dat['period'] . 
-								"&acadyear=" . $_dat['acadyear'] . "&acadsemester=" . $_dat['acadsemester'] . 
-								"&class_type=" . $_dat['class_type'] . 
-								"&subject=" . $_dat['SubjectCode'] . "'>";
+						echo "<a $_link href='index.php?option=module_learn/masterTeachingRecord&room=" .$_teaching[$_j]['task_roomid'] . "&date=" .$_teaching[$_j]['task_date'] . "&teacher_id=" . $_teaching[$_j]['teacher_id'] .
+								"&period="     . $_teaching[$_j]['period'] . 
+								"&acadyear="   . $_teaching[$_j]['acadyear'] . "&acadsemester=" . $_teaching[$_j]['acadsemester'] . 
+								"&class_type=" . $_teaching[$_j]['class_type'] . 
+								"&subject="    . $_teaching[$_j]['SubjectCode'] . "'>";
 						echo "บันทึก<br/>การสอน";
 						echo "</a>";
 
 					}
-
-					$_initSubject = $_dat['SubjectCode'];
-
-					if($_counter < $_totalRows){
-						$_dat = mysqli_fetch_assoc($_resTeaching);
-						$_counter++;
-						if($_dat['period'] == $_j){
-							if($_initSubject == $_dat['SubjectCode']){
-								echo getFullRoomFormat($_dat['task_roomid'])."<br/>";
-								echo $_dat['location'];
-								if($_dat['class_type']=="substitute"){
-									echo "(สอนแทน)";
-									echo "<br/><br/>" . "บันทึก<br/>การสอน";
-								}else{
-									$_link = checkExistingTeachingRecord($_connection,$_dat['SubjectCode'],$_dat['task_date'],$_dat['teacher_id'],$_dat['period'],$_dat['task_roomid']);
-									echo "<br/><br/>" ;
-									echo "<a $_link href='index.php?option=module_learn/masterTeachingRecord&room=" .$_dat['task_roomid'] . "&date=" .$_dat['task_date'] . "&teacher_id=" . $_dat['teacher_id'] .
-											"&period=" . $_dat['period'] . 
-											"&acadyear=" . $_dat['acadyear'] . "&acadsemester=" . $_dat['acadsemester'] . 
-											"&class_type=" . $_dat['class_type'] . 
-											"&subject=" . $_dat['SubjectCode'] . "'>";
-									echo "บันทึก<br/>การสอน";
-									echo "</a>";
-			
-								}
-							}
-							if($_counter < $_totalRows){
-								$_dat = mysqli_fetch_assoc($_resTeaching);
-								$_initPeriod = $_dat['period'];
-								$_initSubject = $_dat['SubjectCode'];
-								$_counter++;
-							}
-						}
-						else{
-							$_initPeriod = $_dat['period'];
-						}
-					}
-					echo "</td>";
 				} else {
-					echo "<td align='center'> -";
-					echo "</td>";
+					echo " - ";
 				}
 
+				echo "</td>";
+
 				if($_j==4){
-					echo "<td align='center'>-</td>";
+					echo "<td align='center' valign='top'>-</td>";
 				}
 			}
 		}//end if
