@@ -375,6 +375,9 @@
 
 					//แสดงสถานที่สอน ถ้าเป็นชุมนุมจะแสดงเป็นชื่อชุมนุม
 					echo $_teaching[$_j]['location'];
+
+
+					//แสดงลิงก์ บันทึกการสอน
 					if($_teaching[$_j]['class_type']=="substitute"){
 						echo "<br/>(สอนแทน)";
 						$_link = checkExistingSubstituteTeachingRecord($_connection,$_teaching[$_j]['SubjectCode'],$_teaching[$_j]['task_date'],$_teaching[$_j]['teacher_id'],$_teaching[$_j]['period'],$_teaching[$_j]['task_roomid']);
@@ -390,13 +393,31 @@
 						echo "<br/>";
 						$_link = checkExistingTeachingRecord($_connection,$_teaching[$_j]['SubjectCode'],$_teaching[$_j]['task_date'],$_teaching[$_j]['teacher_id'],$_teaching[$_j]['period'],$_teaching[$_j]['task_roomid']);
 						echo "<br/><br/>" ;
-						echo "<a $_link href='index.php?option=module_learn/masterTeachingRecord&room=" .$_teaching[$_j]['task_roomid'] . "&date=" .$_teaching[$_j]['task_date'] . "&teacher_id=" . $_teaching[$_j]['teacher_id'] .
+						
+						$_sql_check_club = "select * from curriculum_clubs where club_name = '" . $_teaching[$_j]['location'] . "'";
+						$_res_check_club = mysqli_query($_connection,$_sql_check_club);
+
+						$_check_club = 0;
+						$_check_club = mysqli_num_rows($_res_check_club);
+
+
+						if($_check_club == 0){
+							echo "<a $_link href='index.php?option=module_learn/masterTeachingRecord&room=" .$_teaching[$_j]['task_roomid'] . "&date=" .$_teaching[$_j]['task_date'] . "&teacher_id=" . $_teaching[$_j]['teacher_id'] .
 								"&period="     . $_teaching[$_j]['period'] . 
 								"&acadyear="   . $_teaching[$_j]['acadyear'] . "&acadsemester=" . $_teaching[$_j]['acadsemester'] . 
 								"&class_type=" . $_teaching[$_j]['class_type'] . 
 								"&subject="    . $_teaching[$_j]['SubjectCode'] . "'>";
-						echo "บันทึก<br/>การสอน";
-						echo "</a>";
+							echo "บันทึก<br/>การสอน";
+							echo "</a>";
+						}else{
+							echo "<a $_link href='index.php?option=module_learn/masterTeachingRecordClub&room=" .$_teaching[$_j]['task_roomid'] . "&date=" .$_teaching[$_j]['task_date'] . "&teacher_id=" . $_teaching[$_j]['teacher_id'] .
+								"&period="     . $_teaching[$_j]['period'] . 
+								"&acadyear="   . $_teaching[$_j]['acadyear'] . "&acadsemester=" . $_teaching[$_j]['acadsemester'] . 
+								"&class_type=" . $_teaching[$_j]['class_type'] . 
+								"&subject="    . $_teaching[$_j]['SubjectCode'] . "'>";
+							echo "บันทึก<br/>การสอน";
+							echo "</a>";
+						}
 
 					}
 				} else {

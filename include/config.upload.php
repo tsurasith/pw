@@ -42,4 +42,8 @@
 
     /* student LEC path files */
     $_student_lec_folder = "/pwnew/pw/student_lec_files";
+
+    /* student grade files */
+    $_student_grade_folder = "/pwnew/pw/student_grade_files";
+
 ?>

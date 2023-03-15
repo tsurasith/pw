@@ -60,32 +60,40 @@
 				   <font  size="2" color="#000000">เลือกครูผู้สอน
 					<?php 
 							$sql_teacher = " 
-									select
+									SELECT
 										u.user_account_prefix,
 										u.user_account_firstname,
 										u.user_account_lastname,
 										u.user_account_id,
-										count(*) as c
-									from
-										users_account u
-										inner join (select teacher_id,room_id,SubjectCode,count(*)
-													from
-														teaching_schedule t
-													where
-														t.room_id != '000' and 
-														acadyear = '" . $acadyear . "' and
-														acadsemester = '" . $acadsemester . "'
-													group by
-														subjectcode,room_id) as t
-										on t.teacher_id = u.user_account_id
-									group by
-										u.user_account_id,
-										u.user_account_prefix,
-										u.user_account_firstname,
-										u.user_account_lastname
-									order by convert(u.user_account_firstname using tis620)
+										(
+											select count(distinct SubjectCode,room_id) 
+											from teaching_schedule t
+											where 
+												t.teacher_id   = u.user_account_id and
+												t.acadyear     = '" . $acadyear . "' and 
+												t.acadsemester = '" . $acadsemester ."' and 
+												t.room_id      != '000' and 
+												t.club_code    = '0000'
+										) as a,
+										(
+											select count(distinct club_code) 
+											from teaching_schedule t
+											where 
+												t.teacher_id   = u.user_account_id and
+												t.acadyear     = '" . $acadyear . "' and 
+												t.acadsemester = '" . $acadsemester ."' and 
+												t.room_id      != '000' and 
+												t.club_code    != '0000'
+										) as b
+									FROM
+										users_account u inner join teachers tt 
+										on (u.user_account_id = tt.teacher_id)
+									ORDER BY
+										CONVERT(
+											u.user_account_firstname USING tis620
+										)			
 								";
-							//echo $sql_Room ;
+							//echo $sql_teacher . "<br/>" ;
 							$resTeacher = mysqli_query($_connection,$sql_teacher);	
 							$_submit_teacher_name = "";		
 					?>
@@ -96,9 +104,12 @@
 							$_select = "";
 							while($dat = mysqli_fetch_assoc($resTeacher))
 							{
+								// not include club 
+								$_sum_subjects = $dat['a'];
+
 								$_select = (isset($_POST['teacher_id'])&&$_POST['teacher_id'] == $dat['user_account_id']?"selected":"");
 								echo "<option value=\"" . $dat['user_account_id'] . "\" $_select>";
-								echo $dat['user_account_firstname']. ' ' . $dat['user_account_lastname'] . ' (' . $dat['c'] . ' วิชา)';
+								echo $dat['user_account_firstname']. ' ' . $dat['user_account_lastname'] . ' (' . $_sum_subjects . ' วิชา)';
 								echo "</option>";
 							}
 							
@@ -112,30 +123,35 @@
 						<option value=""></option>
 					<?php
 					$sql_subjects = "
-						SELECT
+						select 
 							t.teacher_id,
 							t.room_id,
 							t.SubjectCode,
-							COUNT(r.SubjectCode) AS 'record'
-						FROM
-							teaching_schedule t
-						INNER JOIN student_learn_task r ON
+							s.SubjectName,
 							(
-								t.teacher_id = r.teacher_id AND 
-								t.SubjectCode = r.SubjectCode AND 
-								t.acadyear = r.acadyear AND 
-								t.acadsemester = r.acadsemester AND 
-								t.room_id = r.task_roomid AND
-								t.weekday = r.weekday AND
-								t.period = r.period
-							)
-						WHERE
-							t.room_id != '000' 
-							and t.teacher_id = '" . $_teacher_id . "' and
-							t.acadyear = '" . $acadyear . "' and
-							t.acadsemester = '" . $acadsemester . "' 
+								select count(*)
+								from
+									student_learn_task l
+								where
+									l.teacher_id   = t.teacher_id and 
+									l.SubjectCode  = t.SubjectCode and 
+									l.task_roomid  = t.room_id and 
+									l.acadyear     = '" . $acadyear . "' and 
+									l.acadsemester = '" . $acadsemester . "'
+							) as record
+						from
+							teaching_schedule t left join curriculum_subjects s 
+							on (t.SubjectCode = s.SubjectCode)
+						where
+							t.teacher_id   = '" . $_teacher_id ."' and 
+							t.room_id     != '000' and 
+							t.club_code    = '0000' and 
+							t.acadsemester = '" . $acadsemester . "' and 
+							t.acadyear     = '" . $acadyear . "'
 						group by
-							t.teacher_id,t.room_id,t.SubjectCode 	
+							t.teacher_id,
+							t.room_id,
+							t.SubjectCode
 						order by t.room_id,t.SubjectCode								
 							" ;
 					$_select_subject = "";
@@ -146,7 +162,7 @@
 						$_select_subject = (isset($_POST['subject_id'])&&$_POST['subject_id']==$data['room_id'].'-'.$data['SubjectCode']?"selected":"");
 						 ?>
 						<option value="<?=$data['room_id'].'-'.$data['SubjectCode']?>" <?=$_select_subject?>>
-							<?=getFullRoomFormat($data['room_id']) . ' ' . $data['SubjectCode']?> (<?=$data['record']?>)
+							<?=getFullRoomFormat($data['room_id']) . ' ' . $data['SubjectCode'] . ' ' . $data['SubjectName']?> (<?=$data['record']?>)
 						</option>
 					<? }  ?>
 						</select>
@@ -155,6 +171,7 @@
 						<input type="hidden" name="search" value="search"> <br/>
 						<input type="submit" name="search" value="เรียกดู" class="button">
                 </form>
+				<? //echo $sql_subjects . "<br/>"; ?>
            </font>
 	  </td>
     </tr>
@@ -177,13 +194,16 @@
 				acadyear = '" . $acadyear . "' AND
 				acadsemester = '" . $acadsemester . "' AND
 				SubjectCode = '" . $_sub[1] . "' AND
-				class_id = '" . $_sub[0] . "'  
+				class_id = '" . $_sub[0] . "'  and
+				teacher_id = '" . $_POST['teacher_id'] . "' 
 			order by
 				check_date,period
 		";
 
 		$_res_column = mysqli_query($_connection,$_sql_column);
 		$_row_column = mysqli_num_rows($_res_column);
+
+		//echo $_sql_column . "<br/>";
 
 		$_sql_builder = "";
 		$_t = 1;

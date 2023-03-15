@@ -10,3 +10,4 @@ include/config.inc.php
 hr_files/*
 student_lec_files/*
 hr_absent_files/*
+student_grade_files/*

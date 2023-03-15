@@ -98,7 +98,7 @@
 			}
 			if($_processing_result){
 				// line message here
-				$_text .= "งานทะเบียนนักเรียน ได้นำเข้าข้อมูลการสแกนลายนิ้วมือ วันที่ " . $_import_date;
+				$_text .= "งานทะเบียนนักเรียน ได้นำเข้าข้อมูลนักเรียนจากระบบ LEC วันที่ " . $_import_date;
 				$_text .= " แล้ว ";
 				$_text .= "" . "โดย - " . $_SESSION['shortname'];
 
