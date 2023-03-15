@@ -43,7 +43,7 @@
 		$_res_update = mysqli_query($_connection,$_sql_update);
 		if($_res_update){
 			$_processing_result = true;
-			$_processing_text = "รายวิชา " . $_POST['SubjectCode'] . ' ' . $_POST['SubjectName'] . ' ยืนยันผบการเรียนเรียบร้อยแล้ว';
+			$_processing_text = "รายวิชา " . $_POST['SubjectCode'] . ' ' . $_POST['SubjectName'] . ' ยืนยันผลการเรียนเรียบร้อยแล้ว';
 
 			// line message here
 			$_text .= "รายวิชา " . $_POST['SubjectCode'] . ': ' . $_POST['SubjectName'];
@@ -75,11 +75,11 @@
 
 		if(in_array($_FILES["student_file"]["type"],$_allowFileType)) {
 
-			$_target_file = $_target . $_FILES["student_file"]["name"];
+			$_target_file = $_target . $_POST['teacher_register_id']. "_" . $_FILES["student_file"]["name"];
 			move_uploaded_file($_FILES["student_file"]["tmp_name"],$_target_file);
 
 			if(file_exists($_target_file)){
-				$_processing_text = "อัพโหลดไฟล์เรียบร้อยแล้ว แต่ยังไม่ได้ทำการประมวลผล";
+				$_processing_text = "อัปโหลดไฟล์เรียบร้อยแล้ว แต่ยังไม่ได้ทำการประมวลผล";
 
 				// start process XLS here
 
@@ -239,7 +239,7 @@
 				}
 			}
 		}else{
-			$_processing_text = "คุณไม่ได้อัพโหลดไฟล์นามสกุล xls หรือ xlsx อย่างถูกต้อง กรุณาส่งไฟล์ข้อมูลให้ผู้ดูแลระบบตรวจสอบ";
+			$_processing_text = "คุณไม่ได้อัปโหลดไฟล์นามสกุล xls หรือ xlsx อย่างถูกต้อง กรุณาส่งไฟล์ข้อมูลให้ผู้ดูแลระบบตรวจสอบ";
 		}
 		
 	}// --- end upload file
@@ -536,7 +536,7 @@
 						<input type="hidden" name="acadsemester"        value="<?=$_POST['acadsemester']?>" />
 						<input type="hidden" name="subject_register_id" value="<?=$_POST['subject_register_id']?>" />
 
-						<input type="submit" name="upload" value="อัพโหลด" class="button"/>
+						<input type="submit" name="upload" value="อัปโหลด" class="button"/>
 					</td>
 					<tr>
 						<td colspan="2">
