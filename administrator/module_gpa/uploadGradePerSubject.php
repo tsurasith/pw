@@ -293,13 +293,15 @@
 					s.SubjectCode,
 					s.point_100,
 					s.grade,
+					s.updated_datetime,
 					i.student_id as i_student_id,
 					i.prefix as i_prefix,
 					i.firstname as i_firstname,
 					i.lastname as i_lastname,
 					i.SubjectCode as i_SubjectCode,
 					i.point_100 as i_point_100,
-					i.grade as i_grade
+					i.grade as i_grade,
+					i.updated_datetime as i_updated_datetime
 				from
 					register_students s inner join students ss 
 					on (s.student_id = ss.id and s.acadyear = ss.xedbe)
@@ -308,7 +310,7 @@
 						s.student_id = i.student_id and 
 						s.acadsemester = i.acadsemester and 
 						s.acadyear = i.acadyear and
-						s.SubjectCode = '" . $_POST['SubjectCode'] . "'
+						s.SubjectCode = i.SubjectCode
 						)
 				where
 					ss.room        = '" . $room . "' and 
@@ -330,13 +332,15 @@
 					s.SubjectCode,
 					s.point_100,
 					s.grade,
+					s.updated_datetime,
 					i.student_id as i_student_id,
 					i.prefix as i_prefix,
 					i.firstname as i_firstname,
 					i.lastname as i_lastname,
 					i.SubjectCode as i_SubjectCode,
 					i.point_100 as i_point_100,
-					i.grade as i_grade
+					i.grade as i_grade,
+					i.updated_datetime as i_updated_datetime
 				from
 					register_students_grades_import i 
 					left join students ss 
@@ -346,7 +350,7 @@
 						 s.student_id = i.student_id and 
 						 s.acadsemester = i.acadsemester and 
 						 s.acadyear = i.acadyear and
-						 s.SubjectCode = '" . $_POST['SubjectCode'] . "'
+						 s.SubjectCode = i.SubjectCode
 						)
 				where
 					i.import_key   = '" . $_import_key . "' and
@@ -372,13 +376,15 @@
 					s.SubjectCode,
 					s.point_100,
 					s.grade,
+					s.updated_datetime,
 					i.student_id as i_student_id,
 					i.prefix as i_prefix,
 					i.firstname as i_firstname,
 					i.lastname as i_lastname,
 					i.SubjectCode as i_SubjectCode,
 					i.point_100 as i_point_100,
-					i.grade as i_grade
+					i.grade as i_grade,
+					i.updated_datetime as i_updated_datetime
 				from
 					register_students s inner join students ss 
 					on (s.student_id = ss.id and s.acadyear = ss.xedbe)
@@ -387,7 +393,7 @@
 						 s.student_id = i.student_id and 
 						 s.acadsemester = i.acadsemester and 
 						 s.acadyear = i.acadyear and
-						 s.SubjectCode = '" . $_POST['SubjectCode'] . "'
+						 s.SubjectCode = i.SubjectCode
 						)
 				where
 					ss.xlevel      = '" . $xlevel . "' and 
@@ -408,13 +414,15 @@
 					s.SubjectCode,
 					s.point_100,
 					s.grade,
+					s.updated_datetime,
 					i.student_id as i_student_id,
 					i.prefix as i_prefix,
 					i.firstname as i_firstname,
 					i.lastname as i_lastname,
 					i.SubjectCode as i_SubjectCode,
 					i.point_100 as i_point_100,
-					i.grade as i_grade
+					i.grade as i_grade,
+					i.updated_datetime as i_updated_datetime
 				from
 					register_students_grades_import i 
 					left join students ss 
@@ -424,7 +432,7 @@
 						 s.student_id = i.student_id and 
 						 s.acadsemester = i.acadsemester and 
 						 s.acadyear = i.acadyear and
-						 s.SubjectCode = '" . $_POST['SubjectCode'] . "'
+						 s.SubjectCode = i.SubjectCode
 						)
 				where
 					i.import_key   = '" . $_import_key . "' and
@@ -569,7 +577,7 @@
 			</table>
 		</form> 
 
-	<? if($_check_existing_grade > 0){ ?> 
+	<? if($_check_existing_grade > 0 ){ ?> 
 		<div align="center">
 			<table class="admintable">
 				<tr>
@@ -610,8 +618,17 @@
 						<td align="left"><?=$_dat['prefix'].$_dat['firstname'].' ' . $_dat['lastname']?></td>
 						<td align="center"><?=$_dat['room_id']?></td>
 						<td align="center"><?=$_dat['point_100']?></td>
-						<td align="right" style="padding-right:20px"><?=displayGrade($_dat['grade'])?></td>
-
+						<td align="right" style="padding-right:20px">
+							<?php
+								if($_dat['updated_datetime'] < $_dat['i_updated_datetime']){
+									echo "<font color='orange'>";
+									echo displayGrade($_dat['grade']);
+									echo "</font>";
+								}else{
+									echo displayGrade($_dat['grade']);
+								}
+							?>
+						</td>
 						<td align="center">
 						<?php
 								if($_dat['student_id'] != $_dat['i_student_id']){

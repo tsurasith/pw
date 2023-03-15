@@ -18,7 +18,7 @@
 		$_SESSION['username'] == "tc114" ||
 		$_SESSION['username'] == "tc110" ||
 		$_SESSION['username'] == "tc137" || $_SESSION['username'] == "tc111" ||
-		$_SESSION['username'] == "tc144" || $_SESSION['username'] == "tc113" 
+		$_SESSION['username'] == "tc109" 
 	) {
 		if(isset($_REQUEST['teacher_id'])){
 			$_teacher_id = $_REQUEST['teacher_id'];
@@ -94,6 +94,18 @@
 						$_res_teacher = mysqli_query($_connection,$_sql_teacher);
 						//echo $_sql_teacher . "<br/>";
 					?>
+					<?php
+					if(
+						$_SESSION['username'] == "admin" || 
+						$_SESSION['username'] == "tc100" || 
+						$_SESSION['username'] == "tc101" || 
+						$_SESSION['username'] == "tc102" || 
+						$_SESSION['username'] == "tc103" ||
+						$_SESSION['username'] == "tc114" ||
+						$_SESSION['username'] == "tc110" ||
+						$_SESSION['username'] == "tc137" || $_SESSION['username'] == "tc111" ||
+						$_SESSION['username'] == "tc109" 
+					) { ?>
 					<font size="2" color="#000000">
 						<form name="teachers" method="get">
 							<input type="hidden" name="option"       value="module_gpa/uploadGrade" />
@@ -109,6 +121,7 @@
 							</select>
 						</form>
 					</font>
+					<? } ?>
 				</td>
 			</tr>
 	</table>
