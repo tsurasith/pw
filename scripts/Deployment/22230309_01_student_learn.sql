@@ -9,4 +9,9 @@ ALTER TABLE `student_learn` ADD `club_code` VARCHAR(4) NULL DEFAULT '0000' AFTER
 
 
 -- create index on table student_learn include 3 columns
+ALTER TABLE `student_learn` ADD INDEX(`period`, `check_date`, `SubjectCode`);
 
+
+
+-- นางสาวอธิชา ตระเตื่อย
+call update_student_id('2565','4','3','08324','08323');

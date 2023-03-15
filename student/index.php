@@ -95,6 +95,7 @@
                         </a>
                     </div>
                 </div>
+                <!--
                 <div style="float:left;">
                     <div class="icon">
                         <a href="index.php?option=module_gpa/index">
@@ -103,6 +104,7 @@
                         </a>
                     </div>
                 </div>
+                -->
                 <div style="float:left;">
                     <div class="icon">
                         <a href="index.php?option=module_discipline/index">
@@ -169,7 +171,7 @@
                     <div class="icon">
                         <a href="index.php?option=module_curriculum/index">
                         <img src="../images/graduation.png" width="49px" alt="Curriculum and Instruction" align="middle" border="0" />
-                        <span>บริหารหลักสูตร</span>
+                        <span>หลักสูตร</span>
                         </a>
                     </div>
                 </div>

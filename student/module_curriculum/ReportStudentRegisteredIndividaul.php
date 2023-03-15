@@ -79,6 +79,8 @@
 				rs.point_mid,
 				rs.point_2,
 				rs.point_final,
+				rs.point_100,
+				rs.grade,
 				rs.club_code,
 				c.club_name,
 				(
@@ -154,17 +156,19 @@
 							</td>
 						</tr>
 						<tr height="35px"> 
-							<td class="key" width="25px" align="center" >-</td>
-							<td class="key" width="80px" align="center">รหัสวิชา</td>
+							<td class="key" width="25px"  align="center">-</td>
+							<td class="key" width="80px"  align="center">รหัสวิชา</td>
 							<td class="key" width="240px" align="center">ชื่อวิชา</td>
-							<td class="key" width="75px" align="center">หน่วย<br/>การเรียน</td>
-							<td class="key" width="60px" align="center">ชั่วโมง</td>
-							<td class="key" width="130px" align="center">ประเภทวิชา</td>
-							<td class="key" width="120px" align="center">ครูผู้สอน</td>
+							<td class="key" width="55px"  align="center">หน่วย<br/>การเรียน</td>
+							<td class="key" width="55px"  align="center">ชั่วโมง<br/>เรียน</td>
+							<td class="key" width="50px"  align="center">คะแนน</td>
+							<td class="key" width="50px"  align="center">เกรด</td>
+							<td class="key" width="90px" align="center">ประเภทวิชา</td>
+							<td class="key" width="140px" align="center">ครูผู้สอน</td>
 						</tr>
 						<? while($_dat = mysqli_fetch_assoc($_resC)){ ?>
 							<tr onMouseOver="this.style.backgroundColor='#E5EBFE'; this.style.cursor='hand';" onMouseOut=this.style.backgroundColor="#FFFFFF">
-								<td valign="top" align="right"><?=$_order++?></td>
+								<td valign="top" align="center"><?=$_order++?></td>
 								<td valign="top" align="center">
 									<?php
 										echo $_dat['SubjectCode'];
@@ -200,7 +204,11 @@
 								</td>
 								<td valign="top" align="center"><?=$_dat['SubjectUnit']?></td>
 								<td valign="top" align="center"><?=$_dat['SubjectHour']?></td>
-								<td valign="top" align="center"><?=$_dat['SubjectType']?></td>
+								<td valign="top" align="center"><?=$_dat['point_100']?></td>
+								<td valign="top" align="center"><?=displayGrade($_dat['grade'])?></td>
+								<td valign="top" align="center">
+									<?=$_dat['SubjectType']=="กิจกรรมพัฒนาผู้เรียน"?"กิจกรรมฯ":$_dat['SubjectType']?>
+								</td>
 								<td valign="top" align="left">
 									<?php
 										if($_dat['teacher_1'] != ""){

@@ -8,7 +8,7 @@
 	$_config['database']['username'] = "root";
 	$_config['database']['password'] = "root";
 	// $_config['database']['password'] = "meroot";
-	$_config['database']['database'] = "pw_prod";
+	$_config['database']['database'] = "saais_pw";
 		
 	# configuration for module grade
 	$_config['grade'] = array("tc004","admin","tc208");

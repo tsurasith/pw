@@ -79,96 +79,119 @@ BEGIN
 		WHERE
 			StudentCode = original_id ;
 
-		-- 3. Table: rooms
+		-- 3. Table: register_students
+		UPDATE register_students
+		SET 
+			student_id = new_id 
+		WHERE 
+			student_id = original_id;
+		
+		-- 4. Table: register_students
+		UPDATE register_students_grades_import
+		SET 
+			student_id = new_id 
+		WHERE 
+			student_id = original_id;
+
+		-- 5. Table: rooms
         UPDATE rooms
         SET
 			student_id = new_id
 		WHERE
 			student_id = original_id and acadyear = original_xedbe;
 		
-        -- 4. Table: sdq_parent
+        -- 6. Table: sdq_parent
         UPDATE sdq_parent
         SET
 			student_id = new_id
 		WHERE
 			student_id = original_id and acadyear = original_xedbe;
 		
-        -- 5. Table: sdq_result
+        -- 7. Table: sdq_result
         UPDATE sdq_result
         SET
 			student_id = new_id
 		WHERE
 			student_id = original_id and acadyear = original_xedbe;
 
-		-- 6. Table: sdq_student
+		-- 8. Table: sdq_student
 		UPDATE sdq_student
 		SET
 			student_id = new_id
 		WHERE	
 			student_id = original_id and acadyear = original_xedbe;
 		
-		-- 7. Table: sdq_teacher
+		-- 9. Table: sdq_teacher
 		UPDATE sdq_teacher
 		SET
 			student_id = new_id
 		WHERE
 			student_id = original_id and acadyear = original_xedbe;
 
-		-- 8. Table: student_800
+		-- 10. Table: student_800
 		UPDATE student_800
 		SET
 			student_id = new_id
 		WHERE
 			student_id = original_id and acadyear = original_xedbe;
 		
-		-- 9. Table: student_color
+		-- 11. Table: student_color
 		UPDATE student_color
 		SET
 			student_id = new_id
 		WHERE
 			student_id = original_id and acadyear = original_xedbe;
 		
-		-- 10. Table: student_discipline
+		-- 12. Table: student_discipline
 		UPDATE student_discipline
 		SET
 			dis_studentid = new_id
 		WHERE
 			dis_studentid = original_id;
 
-		-- 11. Table: student_disciplinestatus
+		-- 13. Table: student_disciplinestatus
 		UPDATE student_disciplinestatus
 		SET
 			student_id = new_id
 		WHERE
 			student_id = original_id and acadyear = original_xedbe;
 
-		-- 12. Table: student_drug
+		-- 14. Table: student_drug
 		UPDATE student_drug
 		SET
 			student_id = new_id
 		WHERE
 			student_id = original_id and acadyear = original_xedbe;
 
-		-- 13. Table: student_investigation
+		-- 15. Table: student_investigation
 		UPDATE student_investigation
 		SET
 			student_id = new_id
 		WHERE
 			student_id = original_id;
 				
-		-- 14. Table: student_learn
+		-- 16. Table: student_learn
 		UPDATE student_learn
 		SET
 			student_id = new_id
 		WHERE
 			student_id = original_id and acadyear = original_xedbe;
 
-		-- 15. Table: student_moral
+		-- 17. Table: student_moral
 		UPDATE student_moral
 		SET
 			student_id = new_id
 		WHERE
 			student_id = original_id and acadyear = original_xedbe;
+
+		-- 18. Table: student_point_history
+		UPDATE student_point_history
+		SET
+			student_id = new_id
+		WHERE
+			student_id = original_id ;
+		
+		select 'Success';
 
 	ELSE
 		select count_original_id,count_new_id,is_update_available,message;
