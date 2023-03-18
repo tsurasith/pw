@@ -27,6 +27,10 @@
 			<td>1.4 รายชื่อนักเรียนที่ส่งผลสอบแก้ไขผลการเรียนแล้ว</td>
 			<!-- <td><a href="index.php?option=module_gpa/studentListRegradeLevel">1.4 รายชื่อนักเรียนที่ส่งผลสอบแก้ไขผลการเรียนแล้ว</a></td> -->
 		</tr>
+		<tr>
+			<td>&nbsp;</td>
+			<td><a href="index.php?option=module_gpa/reportRoomAllSubjects">1.5 รายงานผลการเรียนตามห้องเรียน (ทุกรายวิชา) - จากการนำเข้าผลการเรียน</a></td>
+		</tr>
 	   <tr>
 		<td class="key" colspan="2">2. สารสนเทศ </td>
 	   </tr>
