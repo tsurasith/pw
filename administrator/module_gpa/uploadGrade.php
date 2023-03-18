@@ -15,10 +15,10 @@
 		$_SESSION['username'] == "tc101" || 
 		$_SESSION['username'] == "tc102" || 
 		$_SESSION['username'] == "tc103" ||
-		$_SESSION['username'] == "tc114" ||
-		$_SESSION['username'] == "tc110" ||
-		$_SESSION['username'] == "tc137" || $_SESSION['username'] == "tc111" ||
-		$_SESSION['username'] == "tc109" 
+		$_SESSION['username'] == "tc108" ||
+		$_SESSION['username'] == "tc109" ||
+		$_SESSION['username'] == "tc110" || $_SESSION['username'] == "tc111" ||
+		$_SESSION['username'] == "tc137" 
 	) {
 		if(isset($_REQUEST['teacher_id'])){
 			$_teacher_id = $_REQUEST['teacher_id'];
@@ -101,10 +101,10 @@
 						$_SESSION['username'] == "tc101" || 
 						$_SESSION['username'] == "tc102" || 
 						$_SESSION['username'] == "tc103" ||
-						$_SESSION['username'] == "tc114" ||
-						$_SESSION['username'] == "tc110" ||
-						$_SESSION['username'] == "tc137" || $_SESSION['username'] == "tc111" ||
-						$_SESSION['username'] == "tc109" 
+						$_SESSION['username'] == "tc108" ||
+						$_SESSION['username'] == "tc109" ||
+						$_SESSION['username'] == "tc110" || $_SESSION['username'] == "tc111" ||
+						$_SESSION['username'] == "tc137" 
 					) { ?>
 					<font size="2" color="#000000">
 						<form name="teachers" method="get">
