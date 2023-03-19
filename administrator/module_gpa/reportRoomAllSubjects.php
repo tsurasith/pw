@@ -230,7 +230,11 @@
 			<td align="center">
 				<?php
 					if($_total_unit != 0.0){
-						echo number_format($_total_point/$_total_unit,2);
+						$_gpa_cal = $_total_point/$_total_unit;
+
+						echo substr(number_format($_gpa_cal,5),0,4);
+
+						// echo "|" . number_format($_gpa_cal,4);
 					}else{
 						echo "-";
 					}
