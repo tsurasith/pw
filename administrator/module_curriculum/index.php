@@ -34,6 +34,10 @@
 			<td>&nbsp;</td>
 			<td><a href="index.php?option=module_curriculum/ReportStudentRegisteredClub">1.6 รายชื่อนักเรียนตามชุมนุม/กิจกรรม</a></td>
 		</tr>
+		<tr>
+			<td>&nbsp;</td>
+			<td><a href="index.php?option=module_curriculum/ReportStudentGradeResult">1.7 ผลการเรียนของนักเรียน</a></td>
+		</tr>
 	   <tr>
 		<td class="key" colspan="2">2. สืบค้นข้อมูล </td>
 	   </tr>

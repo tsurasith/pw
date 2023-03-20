@@ -62,7 +62,7 @@
         </tr>
 		<tr>
         	<td>&nbsp;</td>
-			<td><a href="index.php?option=module_gpa/uploadGrade">3.4 อัปโหลดผลกาาเรียน (วิชาพื้นฐาน,เพิ่มเติม)</a></td>
+			<td><a href="index.php?option=module_gpa/uploadGrade">3.4 อัปโหลดผลการเรียน (วิชาพื้นฐาน,เพิ่มเติม)</a></td>
         </tr>
 	</table>
 				  

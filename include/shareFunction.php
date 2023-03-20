@@ -554,7 +554,10 @@
 		{ 
 			if($_value > 0) { return number_format($_value,1,'.',','); }
 			else return "<font color='red'>" . trim($_value) . "</font>";
-		}else return "<font color='red'>" . trim($_value) . "</font>";
+		}else {
+			if (trim($_value) == "ผ"){return trim($_value);}
+			else { return "<font color='red'>" . trim($_value) . "</font>"; }
+		}
 	}
 	
 		

@@ -17,23 +17,23 @@
 				</a>
 				</td>
 				<td width="64%"><strong><font color="#990000" size="4">การจัดการหลักสูตรและการสอน</font></strong><br />
-					<span class="normal"><font color="#0066FF"><strong>1.5 ตรวจสอบการลงทะเบียนเรียนของนักเรียน</strong></font></span>
+					<span class="normal"><font color="#0066FF"><strong>1.7 ผลการเรียนของนักเรียน</strong></font></span>
 				</td>
 				<td >
 					ปีการศึกษา
 					<?php  
-							echo "<a href=\"index.php?option=module_curriculum/ReportStudentRegisteredIndividaul&acadyear=" . ($acadyear - 1) . "\"><img src=\"../images/pull_left.gif\" border=\"0\" /></a> " ;
+							echo "<a href=\"index.php?option=module_curriculum/ReportStudentGradeResult&acadyear=" . ($acadyear - 1) . "\"><img src=\"../images/pull_left.gif\" border=\"0\" /></a> " ;
 							echo ' <font color=\'blue\'>' .$acadyear . '</font>';
-							echo " <a href=\"index.php?option=module_curriculum/ReportStudentRegisteredIndividaul&acadyear=" . ($acadyear + 1) . "\"><img src=\"../images/pull_right.gif\" border=\"0\" /></a> " ;
+							echo " <a href=\"index.php?option=module_curriculum/ReportStudentGradeResult&acadyear=" . ($acadyear + 1) . "\"><img src=\"../images/pull_right.gif\" border=\"0\" /></a> " ;
 						?>
 					ภาคเรียนที่
 					<? if($acadsemester == 1) { echo "<font color='blue'>1</font> , "; }
 							else {
-								echo " <a href=\"index.php?option=module_curriculum/ReportStudentRegisteredIndividaul&acadyear=" . ($acadyear) . "&acadsemester=1 \"> 1</a> , " ;
+								echo " <a href=\"index.php?option=module_curriculum/ReportStudentGradeResult&acadyear=" . ($acadyear) . "&acadsemester=1 \"> 1</a> , " ;
 							}
 							if($acadsemester == 2) { echo "<font color='blue'>2</font>"; }
 							else {
-								echo " <a href=\"index.php?option=module_curriculum/ReportStudentRegisteredIndividaul&acadyear=" . ($acadyear) . "&acadsemester=2 \"> 2</a> " ;
+								echo " <a href=\"index.php?option=module_curriculum/ReportStudentGradeResult&acadyear=" . ($acadyear) . "&acadsemester=2 \"> 2</a> " ;
 							}
 					?>
 					<form name="myform" autocomplete="off" method="post">
@@ -170,8 +170,14 @@
 			$_rowC = mysqli_num_rows($_resC);
 			$_order = 1;
 
-			$_total_unit = array(0.0,0.0,0.0);
-			$_total_hour = array(0,0,0);
+			$_total_point = array(0.0,0.0,0.0);
+			$_total_unit  = array(0.0,0.0,0.0);
+			$_total_hour  = array(0,0,0);
+
+			$_total_pass_unit  = array(0.0,0.0,0.0);
+			$_total_pass_hour  = array(0,0,0);
+
+			$_init_subject_type = "";
 		?>
 
 		<form method="post" action="">
@@ -184,26 +190,43 @@
 								<?php
 									$_st = displayStudent($_connection,$_POST['student_id'],$acadyear);
 								?>
-								ผลการลงทะเบียนเรียน <br/>เลขประจำตัว <b><?=$_POST['student_id']?></b> 
-								<b><?=$_st['prefix'].$_st['firstname']. ' ' . $_st['lastname']?> </b><br/>
-								ชั้นมัธยมศึกษาปีที่ <?=getFullRoomFormat($_POST['class_id'])?>
-								ภาคเรียนที่ <?=$acadsemester?> ปีการศึกษา <?=$acadyear?> 
+								รายงานผลสัมฤทธิ์ทางการเรียนโรงเรียนเพชรวิทยาคาร <br/>
+								ภาคเรียนที่ <b><?=$acadsemester?></b> ปีการศึกษา <b><?=$acadyear?></b> <br/>
+								ชั้นมัธยมศึกษาปีที่ <b><?=getFullRoomFormat($_POST['class_id'])?></b>
+								เลขประจำตัว <b><?=$_POST['student_id']?></b> 
+								ชื่อ-สกุล <b><?=$_st['prefix'].$_st['firstname']. ' ' . $_st['lastname']?> </b><br/>
 							</td>
 						</tr>
 						<tr height="35px"> 
-							<td class="key" width="25px" align="center" >-</td>
 							<td class="key" width="80px" align="center">รหัสวิชา</td>
 							<td class="key" width="240px" align="center">ชื่อวิชา</td>
-							<td class="key" width="70px" align="center">หน่วย<br/>การเรียน</td>
+							<td class="key" width="60px" align="center">หน่วย<br/>การเรียน</td>
 							<td class="key" width="60px" align="center">ชั่วโมง<br/>เรียน</td>
-							<td class="key" width="50px" align="center">คะแนน</td>
-							<td class="key" width="50px" align="center">เกรด</td>
-							<td class="key" width="130px" align="center">ประเภทวิชา</td>
-							<td class="key" width="120px" align="center">ครูผู้สอน</td>
+							<td class="key" width="60px" align="center">คะแนน</td>
+							<td class="key" width="60px" align="center">เกรด</td>
+							<td class="key" width="140px" align="center">ครูผู้สอน</td>
 						</tr>
 						<? while($_dat = mysqli_fetch_assoc($_resC)){ ?>
+							<? if($_init_subject_type != $_dat['SubjectType']) { ?>
+								<tr >
+									<td></td>
+									<td>
+										<b>
+										<?php
+											if($_dat['SubjectType']!= 'กิจกรรมพัฒนาผู้เรียน'){
+												echo "สาระการเรียนรู้";
+												echo $_dat['SubjectType'];
+												
+											}else{
+												echo $_dat['SubjectType'];
+											}
+											$_init_subject_type = $_dat['SubjectType'];
+										?>
+										</b>
+									</td>
+								</tr>	
+							<? } ?>
 							<tr onMouseOver="this.style.backgroundColor='#E5EBFE'; this.style.cursor='hand';" onMouseOut=this.style.backgroundColor="#FFFFFF">
-								<td valign="top" align="right"><?=$_order++?></td>
 								<td valign="top" align="center">
 									<?php
 										echo $_dat['SubjectCode'];
@@ -226,14 +249,34 @@
 										if($_dat['SubjectType']=="พื้นฐาน"){
 											$_total_unit[0] += $_dat['SubjectUnit'];
 											$_total_hour[0] += $_dat['SubjectHour'];
+											if(is_numeric($_dat['grade'])){
+												$_total_point[0] += $_dat['grade'] * $_dat['SubjectUnit'];
+												if($_dat['grade']!=0){
+													$_total_pass_unit[0] += $_dat['SubjectUnit'];
+													$_total_pass_hour[0] += $_dat['SubjectHour'];
+												}
+											}
 										}
 										if($_dat['SubjectType']=="เพิ่มเติม"){
 											$_total_unit[1] += $_dat['SubjectUnit'];
 											$_total_hour[1] += $_dat['SubjectHour'];
+											if(is_numeric($_dat['grade'])){
+												$_total_point[1] += $_dat['grade'] * $_dat['SubjectUnit'];
+												if($_dat['grade']!=0){
+													$_total_pass_unit[1] += $_dat['SubjectUnit'];
+													$_total_pass_hour[1] += $_dat['SubjectHour'];
+												}
+											}
 										}
 										if($_dat['SubjectType']=="กิจกรรมพัฒนาผู้เรียน"){
 											$_total_unit[2] += $_dat['SubjectUnit'];
 											$_total_hour[2] += $_dat['SubjectHour'];
+											if(trim($_dat['grade'])!=""){
+												if($_dat['grade']=='ผ'){
+													$_total_pass_unit[2] += $_dat['SubjectUnit'];
+													$_total_pass_hour[2] += $_dat['SubjectHour'];
+												}
+											}
 										}
 									?>
 								</td>
@@ -241,7 +284,6 @@
 								<td valign="top" align="center"><?=$_dat['SubjectHour']?></td>
 								<td valign="top" align="center"><?=$_dat['point_100']?></td>
 								<td valign="top" align="center"><?=displayGrade($_dat['grade'])?></td>
-								<td valign="top" align="center"><?=$_dat['SubjectType']?></td>
 								<td valign="top" align="left">
 									<?php
 										if($_dat['teacher_1'] != ""){
@@ -254,32 +296,53 @@
 								</td>
 							</tr>
 						<? } ?>
+						<tr height="30px">
+							<td class="key" align="center" colspan="2">สรุปผลการเรียน (หน่วยการเรียน/ชั่วโมงเรียน)</td>
+							<td class="key" align="center">ที่เรียน</td>
+							<td class="key" align="center">ที่ได้</td>
+							<td class="key" align="center">ที่เรียน</td>
+							<td class="key" align="center">ที่ได้</td>
+						</tr>
+						</tr>
 						<tr>
 							<td align="center"></td>
-							<td align="center"></td>
-							<td align="left"><b>วิชาพื้นฐาน</b></td>
+							<td align="left"><b>สาระการเรียนรู้พื้นฐาน</b></td>
 							<td align="center"><b><?=number_format($_total_unit[0],1)?></b></td>
-							<td align="center"><b><?=$_total_hour[0]?></b></td>
+							<td align="center"><b><?=number_format($_total_pass_unit[0],1)?></b></td>
+							<td align="center"><b><?=number_format($_total_hour[0],1)?></b></td>
+							<td align="center"><b><?=number_format($_total_pass_hour[0],1)?></b></td>
 						</tr>
 						<tr>
 							<td align="center"></td>
-							<td align="center"></td>
-							<td align="left"><b>วิชาเพิ่มเติม</b></td>
+							<td align="left"><b>สาระการเรียนรู้เพิ่มเติม</b></td>
 							<td align="center"><b><?=number_format($_total_unit[1],1)?></b></td>
-							<td align="center"><b><?=$_total_hour[1]?></b></td>
+							<td align="center"><b><?=number_format($_total_pass_unit[1],1)?></b></td>
+							<td align="center"><b><?=number_format($_total_hour[1],1)?></b></td>
+							<td align="center"><b><?=number_format($_total_pass_hour[1],1)?></b></td>
 						</tr>
 						<tr>
-							<td align="center"></td>
 							<td align="center"></td>
 							<td align="left"><b>กิจกรรมพัฒนาผู้เรียน</b></td>
 							<td align="center"><b><?=number_format($_total_unit[2],1)?></b></td>
-							<td align="center"><b><?=$_total_hour[2]?></b></td>
+							<td align="center"><b><?=number_format($_total_pass_unit[2],1)?></b></td>
+							<td align="center"><b><?=number_format($_total_hour[2],1)?></b></td>
+							<td align="center"><b><?=number_format($_total_pass_hour[2],1)?></b></td>
 						</tr>
 						<tr height="30px">
-							<td align="center"></td>
 							<td class="key" align="center" colspan="2">รวม</td>
 							<td class="key" align="center"><?=array_sum($_total_unit)?></td>
+							<td class="key" align="center"><?=array_sum($_total_pass_unit)?></td>
 							<td class="key" align="center"><?=array_sum($_total_hour)?></td>
+							<td class="key" align="center"><?=array_sum($_total_pass_hour)?></td>
+						</tr>
+						<tr height="30px">
+							<td class="key" align="center" colspan="2">ผลการเรียนเฉลี่ย (GPA)</td>
+							<td class="key" align="center" colspan="2">
+								<?php
+									$_gpa = array_sum($_total_point)/array_sum($_total_unit);
+									echo substr(number_format($_gpa,4),0,4);
+								?>
+							</td>
 						</tr>
 					</table>
 				<? } else { 

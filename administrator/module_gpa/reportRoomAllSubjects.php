@@ -248,3 +248,15 @@
   <? } //end else-if ?>
 </div>
 
+<?php
+/*
+
+update register_students 
+set 
+	grade = 'ผ'
+WHERE
+SubjectCode like 'ก%' and grade is null
+
+*/
+?>
+
