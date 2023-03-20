@@ -17,7 +17,7 @@
 				</a>
 				</td>
 				<td width="64%"><strong><font color="#990000" size="4">การจัดการหลักสูตรและการสอน</font></strong><br />
-					<span class="normal"><font color="#0066FF"><strong>1.7 ผลการเรียนของนักเรียน</strong></font></span>
+					<span class="normal"><font color="#0066FF"><strong>1.7 ผลการเรียน</strong></font></span>
 				</td>
 				<td >
 					ปีการศึกษา
@@ -36,68 +36,33 @@
 								echo " <a href=\"index.php?option=module_curriculum/ReportStudentGradeResult&acadyear=" . ($acadyear) . "&acadsemester=2 \"> 2</a> " ;
 							}
 					?>
-					<form name="myform" autocomplete="off" method="post">
-						<font  size="2" color="#000000">
-						เลือกห้อง 
-						<?	
-							$sql_Room = "select room_id from rooms where acadyear = '". $acadyear . "' and acadsemester = '" . $acadsemester . "'  order by room_id";
-							$resRoom = mysqli_query($_connection,$sql_Room); 
-							
-						?>
-						<select name="roomID" class="inputboxUpdate" onchange="document.myform.submit();">
-							<option value=""></option>
-							<? while($dat = mysqli_fetch_assoc($resRoom)) { ?>
-								<option value="<?=$dat['room_id']?>"<?=(isset($_POST['roomID'])&&$_POST['roomID'] == $dat['room_id']?"selected":"")?>><?=getFullRoomFormat($dat['room_id'])?></option>
-							<? } mysqli_free_result($resRoom);?>
-						</select> <br/>
-						<?php
-							$_roomID = "";
-							$_roomID = isset($_POST['roomID'])?$_POST['roomID']:"";
+					<?php
+						$_room     = "";
+						$_class_id = "";
 
-							//$_roomID = isset($_POST['class_id'])?$_POST['class_id']:$_roomID;
+						$_student_id = $_SESSION['username'];
 
-							$xlevel = getXlevel($_roomID);
-							$xyearth= getXyearth($_roomID);
-							$room   = getRoom($_roomID);
-?>
-						<? if($_roomID != ""){ ?>
+						$_sql  = "select id,xlevel,xyearth,room from students where id = '" . $_student_id . "' and xedbe = '" . $acadyear . "'";
+						$_resStudent = mysqli_query($_connection,$_sql);
 
-								
-								นักเรียน 
-								<? 
-									$sql_Student = "select id,prefix,firstname,lastname from students 
-													where 
-														xedbe   = '" . $acadyear . "' and 
-														xlevel  = '" . $xlevel . "' and
-														xyearth = '" . $xyearth . "' and
-														room    = '" . $room . "' and
-														studstatus in ('1','2')
-													order by sex,convert(firstname using tis620),convert(lastname using tis620) "; 
-								
-									$resStud = mysqli_query($_connection,$sql_Student);
+						if(mysqli_num_rows($_resStudent)>0){
+							$_datS = mysqli_fetch_assoc($_resStudent);
 
-									//echo $sql_Student . "<br/>";
-								 ?>
+							$_room = $_datS['room'];
 
-								<select name="student_id" class="inputboxUpdate" onchange="document.myform.submit();">
-									<option value=""></option>
-									<? while($_datSt = mysqli_fetch_assoc($resStud)){ ?>
-										<?php
-											$_student_id = "";
-											$_student_id = isset($_POST['student_id'])?$_POST['student_id']:"";
-										?>
-										<option value="<?=$_datSt['id']?>" <?=$_datSt['id']==$_student_id?"selected":""?>><?=$_datSt['id']."-".$_datSt['prefix'].$_datSt['firstname']." ".$_datSt['lastname']?></option>
-									<? }mysqli_free_result($resStud); ?>
-								</select>
-								<input type="hidden" name="class_id" value="<?=$_roomID?>" />
-						<? } //end if check roomID submit ?>
-						</font>
-					</form>
+							if($_datS['xlevel']==3){
+								$_class_id = $_datS['xyearth'] . "0" . $_datS['room'];
+							}else{
+								$_class_id = (3+$_datS['xyearth']) . "0" . $_datS['room'];
+							}
+						}
+						
+					?>
 				</td>
 			</tr>
 	</table>
  
-	<? if(isset($_POST['student_id']) && $_POST['student_id'] != ""){ ?> 
+	<? if($_student_id != ""){ ?> 
 		<?php
 
 
@@ -127,7 +92,7 @@
 						t.SubjectCode  = rs.SubjectCode and 
 						t.club_code    = rs.club_code and
 						t.subject_register_id = rs.subject_register_id and 
-						t.room_id = '" . $_POST['class_id'] . "'
+						t.room_id = '" . $_class_id . "'
 					limit 1
 				) as teacher_1,
 					(
@@ -140,7 +105,7 @@
 						t.SubjectCode  = rs.SubjectCode and 
 						t.club_code    = rs.club_code and
 						t.subject_register_id = rs.subject_register_id and 
-						t.room_id = '" . substr($_POST['class_id'],0,1) . "00'
+						t.room_id = '" . substr($_class_id,0,1) . "00'
 					limit 1
 				) as teacher_2
 			from 
@@ -149,7 +114,7 @@
 				left join curriculum_clubs c 
 				on (rs.club_code = c.club_code)
 			where
-				rs.student_id   = '" . $_POST['student_id'] . "' and
+				rs.student_id   = '" . $_student_id . "' and
 				rs.acadyear     = '" . $acadyear . "' and
 				rs.acadsemester = '" . $acadsemester . "'
 			ORDER BY
@@ -190,12 +155,12 @@
 							<td colspan="10" align="center">
 								<img src="../images/school_logo.png" width="120px"><br/>
 								<?php
-									$_st = displayStudent($_connection,$_POST['student_id'],$acadyear);
+									$_st = displayStudent($_connection,$_student_id,$acadyear);
 								?>
 								รายงานผลสัมฤทธิ์ทางการเรียนโรงเรียนเพชรวิทยาคาร <br/>
 								ภาคเรียนที่ <b><?=$acadsemester?></b> ปีการศึกษา <b><?=$acadyear?></b> <br/>
-								ชั้นมัธยมศึกษาปีที่ <b><?=getFullRoomFormat($_POST['class_id'])?></b>
-								เลขประจำตัว <b><?=$_POST['student_id']?></b> 
+								ชั้นมัธยมศึกษาปีที่ <b><?=getFullRoomFormat($_class_id)?></b>
+								เลขประจำตัว <b><?=$_student_id?></b> 
 								ชื่อ-สกุล <b><?=$_st['prefix'].$_st['firstname']. ' ' . $_st['lastname']?> </b><br/>
 							</td>
 						</tr>
@@ -252,7 +217,8 @@
 											$_total_unit[0] += $_dat['SubjectUnit'];
 											$_total_hour[0] += $_dat['SubjectHour'];
 											if(is_numeric($_dat['grade'])){
-												$_total_point[0] += $_dat['grade'] * $_dat['SubjectUnit'];
+												$_total_point[0] += ($_dat['grade'] * $_dat['SubjectUnit']);
+
 												if($_dat['grade']!=0){
 													$_total_pass_unit[0] += $_dat['SubjectUnit'];
 													$_total_pass_hour[0] += $_dat['SubjectHour'];
@@ -266,7 +232,8 @@
 											$_total_unit[1] += $_dat['SubjectUnit'];
 											$_total_hour[1] += $_dat['SubjectHour'];
 											if(is_numeric($_dat['grade'])){
-												$_total_point[1] += $_dat['grade'] * $_dat['SubjectUnit'];
+												$_total_point[1] += ($_dat['grade'] * $_dat['SubjectUnit']);
+
 												if($_dat['grade']!=0){
 													$_total_pass_unit[1] += $_dat['SubjectUnit'];
 													$_total_pass_hour[1] += $_dat['SubjectHour'];
@@ -286,6 +253,7 @@
 												}
 											}
 										}
+
 									?>
 								</td>
 								<td valign="top" align="center"><?=$_dat['SubjectUnit']?></td>
