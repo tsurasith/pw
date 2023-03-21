@@ -258,7 +258,7 @@
 										
 									?>
 								</td>
-								<td align="left">
+								<td align="left" valign="top">
 									<?php
 										//echo $_dat['SubjectName'] . "<br/>";
 

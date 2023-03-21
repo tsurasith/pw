@@ -46,4 +46,7 @@
     /* student grade files */
     $_student_grade_folder = "/pwnew/pw/student_grade_files";
 
+     /* Local School grade files */
+     $_local_school_folder = "/pwnew/pw/local_school_export_files";
+
 ?>

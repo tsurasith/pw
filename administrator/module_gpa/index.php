@@ -64,6 +64,10 @@
         	<td>&nbsp;</td>
 			<td><a href="index.php?option=module_gpa/uploadGrade">3.4 อัปโหลดผลการเรียน (วิชาพื้นฐาน,เพิ่มเติม)</a></td>
         </tr>
+		<tr>
+        	<td>&nbsp;</td>
+			<td><a href="index.php?option=module_gpa/exportGradeToLocalSchool">3.5 ส่งออกผบการเรียนสำหรับ Local School</a></td>
+        </tr>
 	</table>
 				  
 </div>
