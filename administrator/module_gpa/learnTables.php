@@ -52,9 +52,10 @@
 								and period 		= '" . $_POST['period'] . "'
 								and acadyear 	= '" . $acadyear . "'
 								and acadsemester = '" . $acadsemester ."' 
-								and teacher_id  =  '" . $_POST['teacher_id'] . "' and
-								and SubjectCode  = '" . trim($_subject[1]) . "' 
+								and teacher_id  =  '" . $_POST['teacher_id'] . "'
+								and SubjectCode  = '" . trim($_POST['subject_code']) . "' 
 							";
+				//echo $_sqlExisting . "<br/>";
 				$_resExisting = mysqli_query($_connection,$_sqlExisting);
 				$_existing = mysqli_num_rows($_resExisting);
 				if($_existing > 0){
@@ -392,10 +393,10 @@
 				</tr>
 				<tr>
 					<td colspan="2" align="center"><br/><?=$_addnew_result?><br/><br/>
-						<input type="hidden" name="search" value="ค้นหา" />
-						<input type="hidden" name="teacher_id" value="<?=$_POST['teacher_id']?>" />
-						<input type="hidden" value="<?=$_submit_teacher_name?>" name="teacher_name" />
-						<input type="submit" name="addnew" class="button" value="เพิ่ม" /> 
+						<input type="hidden" name="search"       value="ค้นหา" />
+						<input type="hidden" name="teacher_id"   value="<?=$_POST['teacher_id']?>" />
+						<input type="hidden" name="teacher_name" value="<?=$_submit_teacher_name?>" />
+						<input type="submit" name="addnew"       class="button" value="เพิ่ม" /> 
 					</td>
 				</tr>
 			</table>

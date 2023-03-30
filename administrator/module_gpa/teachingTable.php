@@ -111,6 +111,51 @@
 					$_resAddnew = mysqli_query($_connection,$_sql);
 	
 					if($_resAddnew){
+
+						// update student_learn && student_learn_task
+						if(substr($_roomID,-2) != "00"){
+							$_sql_student_learn = "
+								update student_learn
+								set
+									SubjectCode = '" . trim($_subject[1]) . "',
+									teacher_id  = '" . $_POST['teacher_id'] . "' 
+								where
+									acadyear     = '" . $acadyear . "' and
+									acadsemester = '" . $acadsemester . "' and
+									class_id     = '" . $_roomID . "' and
+									period       = '" . $_POST['period'] . "' and
+									weekday      = '" . $_POST['weekday'] . "' 
+							";
+							$_res_student_learn = mysqli_query($_connection,$_sql_student_learn);
+
+							$_sql_student_learn_task = "
+								update student_learn_task
+								set
+									SubjectCode = '" . trim($_subject[1]) . "',
+									teacher_id  = '" . $_POST['teacher_id'] . "' 
+								where
+									acadyear     = '" . $acadyear . "' and
+									acadsemester = '" . $acadsemester . "' and
+									task_roomid  = '" . $_roomID . "' and
+									period       = '" . $_POST['period'] . "' and
+									weekday      = '" . $_POST['weekday'] . "' 
+							";
+							$_res_student_learn_task = mysqli_query($_connection,$_sql_student_learn_task);
+
+							$_sql_teaching_record = "
+								update teaching_record
+								set
+									SubjectCode = '" . trim($_subject[1]) . "'
+								where
+									acadyear     = '" . $acadyear . "' and
+									acadsemester = '" . $acadsemester . "' and
+									room_id      = '" . $_roomID . "' and
+									period       = '" . $_POST['period'] . "' and
+									weekday      = '" . $_POST['weekday'] . "' 
+							";
+						}
+
+
 						$_addnew_result = "<font color='green'>เพิ่มวิชาที่สอนเรียบร้อยแล้ว</font>";
 	
 								/*

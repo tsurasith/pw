@@ -1,4 +1,6 @@
-﻿<div id="content">
+﻿
+
+<div id="content">
 	<table width="100%"  align="center" border="0" cellspacing="10" cellpadding="0"  class="header">
     	<tr>
 			<td width="6%" align="center"><a href="index.php?option=module_800/index"><img src="../images/modules/800_clock2.png" alt="" width="48" height="48" border="0"/></a></td>
@@ -10,17 +12,12 @@
 				if(isset($_REQUEST['acadyear'])) { $acadyear = $_REQUEST['acadyear']; }
 				if(isset($_REQUEST['acadsemester'])) { $acadsemester = $_REQUEST['acadsemester']; }
 				//==============$_POST value===========//
-				if(isset($_POST['acadyearX']))
-				{
-					$acadyear = $_POST['acadyearX'];
-				}
-				if(isset($_POST['acadsemesterX']))
-				{
-					$acadsemester = $_POST['acadsemesterX'];
-				}
+				if(isset($_POST['acadyearX'])) { $acadyear = $_POST['acadyearX']; }
+				if(isset($_POST['acadsemesterX'])) { $acadsemester = $_POST['acadsemesterX']; }
 
 				$_date = "";
 				$_date = isset($_POST['date'])?$_POST['date']:"";
+				$_date = isset($_REQUEST['date'])?$_REQUEST['date']:$_date;
 
 			?>
 			ปีการศึกษา
@@ -75,18 +72,19 @@
     </tr>
   </table>
   <br />
-  							<?php
-								$sql_room = "select * from student_800_task where task_status = '0' and task_date  = '" .  $_date  ."' order by task_roomid" ;
-								$res = mysqli_query($_connection,$sql_room) or die (' ' . mysqli_error($_connection));
-								$row_room  =  mysqli_num_rows($res);
-								$i  = 1;
-								if($row_room != 0)
-								{
-							?>
+		<?php
+			$sql_room = "select * from student_800_task where task_status = '0' and task_date  = '" .  $_date  ."' order by task_roomid" ;
+			$res = mysqli_query($_connection,$sql_room) or die (' ' . mysqli_error($_connection));
+			$row_room  =  mysqli_num_rows($res);
+			$i  = 1;
+		?>
+
+	
+	<? if($row_room != 0) { ?>
 	<div align="center">
 		<table class="admintable">
 			<tr> 
-				<td class="key" align="center" width="35px">ลำดับที่</td>
+				<td class="key" align="center" width="45px">ลำดับที่</td>
 				<td class="key" align="center" width="50px">ห้อง</td>
 				<td class="key" align="center" width="100px">-</td>
 			</tr>
@@ -100,10 +98,9 @@
 						</a>
 					</td>
 				</tr>
-			<? }}
-			mysqli_free_result($result);  ?>
+			<? } ?>
 		</table>
 	</div>
+	<? } ?>
+	<? mysqli_free_result($result);  ?>
 </div>
-
-								
