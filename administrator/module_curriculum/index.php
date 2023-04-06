@@ -19,6 +19,13 @@
             <td><a href="index.php?option=module_curriculum/ReportEnrollmentSubjects">1.2 รายวิชาที่เปิดลงทะเบียนรายภาคเรียน</a></td>
 		</tr>
 		<tr>
+            <td width="20px">&nbsp;</td>
+            <td>
+				&nbsp; &nbsp; &nbsp;
+				<a href="index.php?option=module_curriculum/ReportEnrollmentSubjectGroups">1.2.1 รายวิชาที่เปิดลงทะเบียนรายภาคเรียน (กลุ่มสาระการเรียนรู้)</a>
+			</td>
+		</tr>
+		<tr>
 			<td>&nbsp;</td>
 			<td><a href="index.php?option=module_curriculum/ReportEnrollmentClubs">1.3 รายชื่อชุมนุม/กิจกรรมที่เปิดลงทะเบียน</a</td>
 		</tr>
