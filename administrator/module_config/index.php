@@ -3,7 +3,7 @@
     <tr> 
       <td width="6%" align="center"><img src="../images/config.png" alt="" width="48" height="48" /></td>
       <td><strong><font color="#990000" size="4">ปรับแต่งระบบ</font></strong><br />
-        <span class="normal"><font color="#0066FF"><strong>การปรับแต่ง จัดเตรียม ความพร้อมของระบบสารสนเทศกิจการนักเรียน</strong></font></span></td>
+        <span class="normal"><font color="#0066FF"><strong>การปรับแต่ง จัดเตรียม ความพร้อมของระบบสารสนเทศ</strong></font></span></td>
       <td>&nbsp;</td>
     </tr>
   </table>

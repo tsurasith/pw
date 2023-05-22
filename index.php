@@ -180,7 +180,7 @@
 			<link href="css/main.css" type=text/css rel=stylesheet>
 			<link rel="shortcut icon" href="images/favicon.ico" />
 			
-			<title>-:- ระบบสารสนเทศกิจการนักเรียนโรงเรียนเพชรวิทยาคาร -:-</title>
+			<title>-:- ระบบสารสนเทศโรงเรียนเพชรวิทยาคาร -:-</title>
 			
 			
 			
@@ -222,7 +222,7 @@
 							<td colspan="2">
 								<div style="line-height: 18px">
 									<br />
-									ระบบจัดการสารสนเทศกิจการนักเรียน<br />
+									ระบบจัดการสารสนเทศ<br />
 									ออกแบบและพัฒนาระบบ: <a href="mailto:taokok@gmail.com">นายสุรสิทธิ์  ท้าวกอก</a>
 								</div>
 							</td>

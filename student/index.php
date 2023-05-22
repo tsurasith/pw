@@ -57,7 +57,7 @@
     <script type="text/javascript" language="Javascript" src="../fusionII/assets/ui/js/jquery.min.js"></script>
     <script type="text/javascript" language="Javascript" src="../fusionII/assets/ui/js/lib.js"></script>
 
-	<title>ระบบสารสนเทศกิจการนักเรียนโรงเรียนเพชรวิทยาคาร</title>
+	<title>ระบบสารสนเทศโรงเรียนเพชรวิทยาคาร</title>
 </head>
 <body>
 	<div id="header-bar">
@@ -66,10 +66,10 @@
         | <a href="../logoff.php">ออกจากระบบ</a></div>
     </div>
     <div id="body">
-    	<h3><a href="index.php">ระบบสารสนเทศกิจการนักเรียนโรงเรียนเพชรวิทยาคาร</a></h3>
+    	<h3><a href="index.php">ระบบสารสนเทศโรงเรียนเพชรวิทยาคาร</a></h3>
         <div id="left">
         <? if(!isset($_REQUEST['option'])) { ?>
-            <div id="slogan">ระบบจัดการสารสนเทศกิจการนักเรียนเพื่อกำกับ ติดตาม ดูแลช่วยเหลือนักเรียน เพื่อเป้าหมายนักเรียนมีคุณลักษณะที่พึงประสงค์</div>
+            <div id="slogan">ระบบจัดการสารสนเทศเพื่อกำกับ ติดตาม ดูแลช่วยเหลือนักเรียน เพื่อเป้าหมายนักเรียนมีคุณลักษณะที่พึงประสงค์</div>
 			<div id="cpanel">
                 <div style="float:left;">
                     <div class="icon">
@@ -204,7 +204,7 @@
             ?>
         </div>
         <div id="footer">
-            สงวนลิขสิทธิ์ &copy; ระบบจัดการสารสนเทศกิจการนักเรียน<br />
+            สงวนลิขสิทธิ์ &copy; ระบบจัดการสารสนเทศ<br />
 			System developed by: Mr.Surasith Taokok, email:taokok@gmail.com, Tel:087 370 8079
     </div>
     </div>

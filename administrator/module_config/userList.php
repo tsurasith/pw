@@ -25,7 +25,7 @@
   <? $_res = mysqli_query($_connection,$_sql) ?>
 	<table class="admintable">
 		<tr>
-			<td colspan="8"><h3>บัญชีรายชื่อผู้ใช้งานระบบสารสนเทศกิจการนักเรียน</h3></td>
+			<td colspan="8"><h3>บัญชีรายชื่อผู้ใช้งานระบบสารสนเทศ</h3></td>
 		</tr>
 		<tr>
 			<td align="center" class="key" width="35px">ที่</td>
