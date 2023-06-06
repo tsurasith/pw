@@ -109,9 +109,9 @@ function check(name,value) { document.getElementById(name).bgColor=value; }
 				$sqlEdit = $sqlEdit . " timecheck_id = '" . timecheck_id($_POST['check'][1]) . "'";
 				$sqlEdit = $sqlEdit . " where student_id = '" . $_POST['studentid'] . "'" ;
 				$sqlEdit = $sqlEdit . " and check_date = '" . $_POST['date']  . "'" ;
-				$update = mysqli_query($_connection,$sqlEdit) or die ('Error - ' . mysqli_error());
+				$update = mysqli_query($_connection,$sqlEdit) or die ('Error - ' . mysqli_error($_connection));
 				if($update) { echo "<center><font color='green' ><br/>บันทึกการแก้ไขข้อมูลเรียบร้อยแล้ว</font></center>"; }
-				else { echo "<center><font color='red'><br/>เกิดข้อผิดพลาดเนื่องจาก - ". mysqli_error() . "</font></color>";}
+				else { echo "<center><font color='red'><br/>เกิดข้อผิดพลาดเนื่องจาก - ". mysqli_error($_connection) . "</font></color>";}
 			}
 		?>
 </div>
@@ -134,7 +134,7 @@ function timecheck_id($value) {
 			case "03" : $txt = $txt . number_format($_x[2],0,'.','') . " เดือน มีนาคม  พ.ศ. " . ($_x[0] + 543) ;break;
 			case "04" : $txt = $txt . number_format($_x[2],0,'.','') . " เดือน เมษายน  พ.ศ. " . ($_x[0] + 543) ;break;
 			case "05" : $txt = $txt . number_format($_x[2],0,'.','') . " เดือน พฤษภาคม  พ.ศ. " . ($_x[0] + 543) ;break;
-			case "06" : $txt = $txt . number_format($_x[2],0,'.','') . " เดือน มิถุุนายน  พ.ศ. " . ($_x[0] + 543) ;break;
+			case "06" : $txt = $txt . number_format($_x[2],0,'.','') . " เดือน มิถุนายน  พ.ศ. " . ($_x[0] + 543) ;break;
 			case "07" : $txt = $txt . number_format($_x[2],0,'.','') . " เดือน กรกฎาคม  พ.ศ. " . ($_x[0] + 543) ;break;
 			case "08" : $txt = $txt . number_format($_x[2],0,'.','') . " เดือน สิงหาคม  พ.ศ. " . ($_x[0] + 543) ;break;
 			case "09" : $txt = $txt . number_format($_x[2],0,'.','') . " เดือน กันยายน  พ.ศ. " . ($_x[0] + 543) ;break;

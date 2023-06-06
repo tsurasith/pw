@@ -52,7 +52,7 @@
 				<td align="center">-</td>
 				<td align="center"> ม.ต้น <br />
 					<? $sql_room = "select * from student_color_task where task_roomid like '3%' and task_date  = '" .  $_POST['date']  ."' order by task_roomid" ; ?>
-					<? $res = mysqli_query($_connection,$sql_room) or die (' ' . mysqli_error()); ?>
+					<? $res = mysqli_query($_connection,$sql_room) or die (' ' . mysqli_error($_connection)); ?>
 					<? echo "| "; ?>
 					<? while($_dat = mysqli_fetch_assoc($res)) { ?>
 						<? if($_dat['task_status'] == 0) {
@@ -63,7 +63,7 @@
 						}//end while ?>
 					<br/><br/>ม.ปลาย<br/>
 					<? $sql_room = "select * from student_color_task where task_roomid like '4%' and task_date  = '" .  $_POST['date']  ."' order by task_roomid" ; ?>
-					<? $res = mysqli_query($_connection,$sql_room) or die (' ' . mysqli_error()); ?>
+					<? $res = mysqli_query($_connection,$sql_room) or die (' ' . mysqli_error($_connection)); ?>
 					<? echo "| ";?>
 					<? while($_dat = mysqli_fetch_assoc($res)){ ?>
 						<? if($_dat['task_status'] == 0){
@@ -89,7 +89,7 @@
 			case "03" : $txt = $txt . number_format($_x[2],0,'.','') . " เดือน มีนาคม  พ.ศ. " . ($_x[0] + 543) ;break;
 			case "04" : $txt = $txt . number_format($_x[2],0,'.','') . " เดือน เมษายน  พ.ศ. " . ($_x[0] + 543) ;break;
 			case "05" : $txt = $txt . number_format($_x[2],0,'.','') . " เดือน พฤษภาคม  พ.ศ. " . ($_x[0] + 543) ;break;
-			case "06" : $txt = $txt . number_format($_x[2],0,'.','') . " เดือน มิถุุนายน  พ.ศ. " . ($_x[0] + 543) ;break;
+			case "06" : $txt = $txt . number_format($_x[2],0,'.','') . " เดือน มิถุนายน  พ.ศ. " . ($_x[0] + 543) ;break;
 			case "07" : $txt = $txt . number_format($_x[2],0,'.','') . " เดือน กรกฎาคม  พ.ศ. " . ($_x[0] + 543) ;break;
 			case "08" : $txt = $txt . number_format($_x[2],0,'.','') . " เดือน สิงหาคม  พ.ศ. " . ($_x[0] + 543) ;break;
 			case "09" : $txt = $txt . number_format($_x[2],0,'.','') . " เดือน กันยายน  พ.ศ. " . ($_x[0] + 543) ;break;

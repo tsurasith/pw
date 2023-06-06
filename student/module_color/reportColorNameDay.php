@@ -160,7 +160,7 @@
 			case "03" : $txt = $txt . number_format($_x[2],0,'.','') . "  มีนาคม   " . ($_x[0] + 543) ;break;
 			case "04" : $txt = $txt . number_format($_x[2],0,'.','') . "  เมษายน   " . ($_x[0] + 543) ;break;
 			case "05" : $txt = $txt . number_format($_x[2],0,'.','') . "  พฤษภาคม   " . ($_x[0] + 543) ;break;
-			case "06" : $txt = $txt . number_format($_x[2],0,'.','') . "  มิถุุนายน   " . ($_x[0] + 543) ;break;
+			case "06" : $txt = $txt . number_format($_x[2],0,'.','') . "  มิถุนายน   " . ($_x[0] + 543) ;break;
 			case "07" : $txt = $txt . number_format($_x[2],0,'.','') . "  กรกฎาคม   " . ($_x[0] + 543) ;break;
 			case "08" : $txt = $txt . number_format($_x[2],0,'.','') . "  สิงหาคม   " . ($_x[0] + 543) ;break;
 			case "09" : $txt = $txt . number_format($_x[2],0,'.','') . "  กันยายน   " . ($_x[0] + 543) ;break;

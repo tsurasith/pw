@@ -17,7 +17,7 @@
 	</script>
 
 	<? $sql = 'SELECT id, prefix , firstname , lastname,xyearth,room FROM students WHERE xLevel =  \''. $_REQUEST['xlevel'] . '\' and color=\'' .$_REQUEST['color'] . '\' and xedbe = \'' .$acadyear . '\'  and studstatus = \'1\' order by xyearth,room,ordinal'; ?>
-	<? $result = mysqli_query($_connection,$sql) or die ('Error  - ' .mysqli_error()); ?>
+	<? $result = mysqli_query($_connection,$sql) or die ('Error  - ' .mysqli_error($_connection)); ?>
 	<? $i = 1;  $j = 0; ?>
 	<? $rows = mysqli_num_rows($result); ?>
 	<form method="post" action="../index.php?option=module_color/insertStudentCheck">
@@ -91,7 +91,7 @@
 			case "03" : $txt = $txt . number_format($_x[2],0,'.','') . " เดือน มีนาคม  พ.ศ. " . ($_x[0] + 543) ;break;
 			case "04" : $txt = $txt . number_format($_x[2],0,'.','') . " เดือน เมษายน  พ.ศ. " . ($_x[0] + 543) ;break;
 			case "05" : $txt = $txt . number_format($_x[2],0,'.','') . " เดือน พฤษภาคม  พ.ศ. " . ($_x[0] + 543) ;break;
-			case "06" : $txt = $txt . number_format($_x[2],0,'.','') . " เดือน มิถุุนายน  พ.ศ. " . ($_x[0] + 543) ;break;
+			case "06" : $txt = $txt . number_format($_x[2],0,'.','') . " เดือน มิถุนายน  พ.ศ. " . ($_x[0] + 543) ;break;
 			case "07" : $txt = $txt . number_format($_x[2],0,'.','') . " เดือน กรกฎาคม  พ.ศ. " . ($_x[0] + 543) ;break;
 			case "08" : $txt = $txt . number_format($_x[2],0,'.','') . " เดือน สิงหาคม  พ.ศ. " . ($_x[0] + 543) ;break;
 			case "09" : $txt = $txt . number_format($_x[2],0,'.','') . " เดือน กันยายน  พ.ศ. " . ($_x[0] + 543) ;break;

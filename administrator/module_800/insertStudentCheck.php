@@ -1,9 +1,11 @@
 ﻿
 <?php
-/* echo $_SESSION['name'] . "<br/>";
-echo $_POST['room_id'] . "<br/>";
-echo date('Y-m-d') . "<br/>";
-echo $_POST['date'] . "<br/>"; */
+	/* 
+		echo $_SESSION['name'] . "<br/>";
+		echo $_POST['room_id'] . "<br/>";
+		echo date('Y-m-d') . "<br/>";
+		echo $_POST['date'] . "<br/>";
+	*/
 	$a = false;
 	for($i =0 ;$i < $_POST['count'] ;$i ++)
 	{
@@ -189,7 +191,7 @@ function reportHeader($date)
 		case "03" : $txt = $txt . number_format($_x[2],0,'.','') . " เดือน มีนาคม  พ.ศ. " . ($_x[0] + 543) ;break;
 		case "04" : $txt = $txt . number_format($_x[2],0,'.','') . " เดือน เมษายน  พ.ศ. " . ($_x[0] + 543) ;break;
 		case "05" : $txt = $txt . number_format($_x[2],0,'.','') . " เดือน พฤษภาคม  พ.ศ. " . ($_x[0] + 543) ;break;
-		case "06" : $txt = $txt . number_format($_x[2],0,'.','') . " เดือน มิถุุนายน  พ.ศ. " . ($_x[0] + 543) ;break;
+		case "06" : $txt = $txt . number_format($_x[2],0,'.','') . " เดือน มิถุนายน  พ.ศ. " . ($_x[0] + 543) ;break;
 		case "07" : $txt = $txt . number_format($_x[2],0,'.','') . " เดือน กรกฎาคม  พ.ศ. " . ($_x[0] + 543) ;break;
 		case "08" : $txt = $txt . number_format($_x[2],0,'.','') . " เดือน สิงหาคม  พ.ศ. " . ($_x[0] + 543) ;break;
 		case "09" : $txt = $txt . number_format($_x[2],0,'.','') . " เดือน กันยายน  พ.ศ. " . ($_x[0] + 543) ;break;
