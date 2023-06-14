@@ -76,7 +76,8 @@
 						$_SESSION['username'] == "tc114" ||
 						$_SESSION['username'] == "tc110" ||
                         $_SESSION['username'] == "tc137" || $_SESSION['username'] == "tc111" ||
-                        $_SESSION['username'] == "tc144" || $_SESSION['username'] == "tc113" 
+                        $_SESSION['username'] == "tc144" || $_SESSION['username'] == "tc113" ||
+						$_SESSION['username'] == "tc154" || $_SESSION['username'] == "tc112"
                     ) { ?>
        <tr>
 			<td class="key" colspan="2">3. การจัดการหลักสูตรรายวิชา และ โครงสร้างการหลักสูตร </td>
