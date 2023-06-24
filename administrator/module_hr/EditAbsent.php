@@ -168,7 +168,7 @@
 						unlink($_f);
 					}
 					if(rename($_target_file,$_f)){
-						$_processing_upload_1 = "อัพโหลดไฟล์แนบ 1 เรียบร้อยแล้ว";
+						$_processing_upload_1 = "อัปโหลดไฟล์แนบ 1 เรียบร้อยแล้ว";
 					}
 				}
 				$_file_1_name = str_replace($_target_semester."/","",$_f);
@@ -195,7 +195,7 @@
 						unlink($_f);
 					}
 					if(rename($_target_file,$_f)){
-						$_processing_upload_2 = "อัพโหลดไฟล์แนบ 2 เรียบร้อยแล้ว";
+						$_processing_upload_2 = "อัปโหลดไฟล์แนบ 2 เรียบร้อยแล้ว";
 					}
 				}
 				$_file_2_name = str_replace($_target_semester."/","",$_f);
@@ -524,7 +524,7 @@
 						<input type="file" name="file_2" id="file_2" size="60px" accept=".jpg, .png" onchange="checkFile(this,event);"/><br/>
 						<br/>
 						<br/>
-						หากต้องการแก้รูปภาพ สามารถเลือกไฟล์อัพโหลดและบันทึก ไฟล์ที่อัพโหลดใหม่จะไปแทนที่ไฟล์เดิมก่อนหน้า <br/>
+						หากต้องการแก้รูปภาพ สามารถเลือกไฟล์อัปโหลดและบันทึก ไฟล์ที่อัปโหลดใหม่จะไปแทนที่ไฟล์เดิมก่อนหน้า <br/>
 						ไฟล์ต้องมีรูปแบบไฟล์เป็น .jpg หรือ .png และขนาดไม่ควรเกิน 1 MB<br/>
 						
 					</td>

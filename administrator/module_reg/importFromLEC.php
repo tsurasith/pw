@@ -24,7 +24,7 @@
 			move_uploaded_file($_FILES["student_file"]["tmp_name"],$_target_file);
 
 			if(file_exists($_target_file)){
-				$_processing_text = "อัพโหลดไฟล์เรียบร้อยแล้ว";
+				$_processing_text = "อัปโหลดไฟล์เรียบร้อยแล้ว";
 
 				// start process XLS here
 
@@ -119,7 +119,7 @@
 				}
 			}
 		}else{
-			$_processing_text = "คุณไม่ได้อัพโหลดไฟล์นามสกุล xls หรือ xlsx อย่างถูกต้อง กรุณาส่งไฟล์ข้อมูลให้ผู้ดูแลระบบตรวจสอบ";
+			$_processing_text = "คุณไม่ได้อัปโหลดไฟล์นามสกุล xls หรือ xlsx อย่างถูกต้อง กรุณาส่งไฟล์ข้อมูลให้ผู้ดูแลระบบตรวจสอบ";
 		}
 		
 	}// --- end upload file
@@ -144,7 +144,7 @@
 				<tr height="35px">  
 					<td colspan="2" align="center" class="key">
 							<!-- <img src="../images/school_logo.png" width="120px"><br/> -->
-							อัพโหลดไฟล์รายชื่อนักเรียนจากระบบ LEC
+							อัปโหลดไฟล์รายชื่อนักเรียนจากระบบ LEC
 							<br/>
 					</td>
 				</tr>
@@ -156,7 +156,7 @@
 				</tr>
 				<tr>
 					<td></td>
-					<td><input type="submit" name="upload" value="อัพโหลด"/></td>
+					<td><input type="submit" name="upload" value="อัปโหลด"/></td>
 				</tr>
 				<tr>
 					<td colspan="2">

@@ -94,7 +94,7 @@ else
     </tr>
     <tr>
       <td align="right" valign="top">เลือกรูปภาพ :</td>
-      <td>รูปบ้านของนักเรียนที่อัพโหลดควรมีขนาด กว้าง 800 pixel สูง 600 pixel <br/>
+      <td>รูปบ้านของนักเรียนที่อัปโหลดควรมีขนาด กว้าง 800 pixel สูง 600 pixel <br/>
 					และมีรูปแบบไฟล์เป็น .jpg <br/>
 					ขนาดไม่ควรเกิน 900 Kb<br/><br/>
 			<form method="post" enctype="multipart/form-data" action=""> 
@@ -102,7 +102,7 @@ else
 				<input type="hidden" name="roomID" value="<?=$_roomID?>" />
 				<input type="hidden" name="acadyear" value="<?=$_acadyear?>"/>
 				<input type="file" name="file" size="60px"/><br/>
-				<input type="submit" name="upload" value="อัพโหลดรูปภาพ"/>
+				<input type="submit" name="upload" value="อัปโหลดรูปภาพ"/>
 			</form> 
 			<?php
 				if(isset($_POST['upload']) && $_uploadError != 0)
@@ -111,7 +111,7 @@ else
 					switch ($_uploadError)
 					{
 						case 1; echo "<font color='red'><b>การเชื่อมต่อเครือข่ายผิดพลาด กรุณาตรวจสอบอีกครั้ง</b></font>"; break;
-						case 2; echo "<font color='red'><b>รูปแบบหรือนามสกุลไฟล์ที่อัพโหลดไม่ถูกต้อง</b></font>"; break;
+						case 2; echo "<font color='red'><b>รูปแบบหรือนามสกุลไฟล์ที่อัปโหลดไม่ถูกต้อง</b></font>"; break;
 						case 3; echo "<font color='red'><b>ขนาดไฟล์ใหญ่เกินไปและไฟล์ที่เลือกขนาดไม่ควรเกิน 666Kb </b>
 															<br/>(ไฟล์ทีี่ Upload มีขนาด :" . number_format(($_FILES["file"]["size"]/1024),2,'.','') . "Kb)</font>"; break;
 						case 4; echo "<font color='blue'><b>ทำการส่งรูปภาพเรียบร้อย</b></font>"; break;

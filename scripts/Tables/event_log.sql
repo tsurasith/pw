@@ -79,7 +79,7 @@ INSERT INTO `event_action_type`
     VALUES (6,'PRINTED','สั่งพิมพ์');
 INSERT INTO `event_action_type` 
     (event_action_type_code,event_action_type_name,event_action_type_description) 
-    VALUES (7,'UPLOADED','อัพโหลดข้อมูล');
+    VALUES (7,'UPLOADED','อัปโหลดข้อมูล');
     
 
 DROP TABLE IF EXISTS

@@ -13,7 +13,7 @@
   <tr>
     <td width="6%" align="center"><a href="index.php?option=module_eis/index"><img src="../images/eis2.png" alt="" width="48px" border="0" /></a></td>
     <td ><strong><font color="#990000" size="4">ระบบสารสนเทศสำหรับผู้บริหาร</font></strong><br />
-	<span class="normal"><font color="#0066FF"><strong>3.2 ความคืบหน้าการอัพโหลดรูปนักเรียน</strong></font></span></td>
+	<span class="normal"><font color="#0066FF"><strong>3.2 ความคืบหน้าการอัปโหลดรูปนักเรียน</strong></font></span></td>
     <td>
 		ปีการศึกษา<?php  
 					echo "<a href=\"index.php?option=module_eis/uploadStudentPictureProgress&acadyear=" . ($acadyear - 1) . "\"><img src=\"../images/pull_left.gif\" border=\"0\" /></a> " ;
@@ -64,7 +64,7 @@ if($_roomID != "all")
     <tr> 
       <th colspan="21" align="center">
 	  		<img src="../images/school_logo.png" width="120px"><br/>
-			รายงานความคืบหน้า การอัพโหลดรูปภาพนักเรียน<br/>ประจำปีการศึกษา <?=$acadyear?><br/>
+			รายงานความคืบหน้า การอัปโหลดรูปภาพนักเรียน<br/>ประจำปีการศึกษา <?=$acadyear?><br/>
 			ชั้นมัธยมศึกษาปีที่ 
 			<?
 			   if($_POST['roomID'] != "all") echo $xlevel==3?$xyearth:($xyearth+3);
@@ -74,8 +74,8 @@ if($_roomID != "all")
     </tr>
     <tr height="35px"> 
       	<td class="key" width="70px" align="center">ห้องเรียน</td>
-		<td class="key" width="80px" align="center">อัพโหลด</td>
-		<td class="key" width="80px" align="center">ยังไม่อัพโหลด</td>
+		<td class="key" width="80px" align="center">อัปโหลด</td>
+		<td class="key" width="80px" align="center">ยังไม่อัปโหลด</td>
 		<td class="key" width="80px" align="center">รวม</td>
     </tr>
 	<?php

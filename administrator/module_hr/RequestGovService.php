@@ -134,7 +134,7 @@
 						unlink($_f);
 					}
 					if(rename($_target_file,$_f)){
-						$_processing_upload_1 = "อัพโหลดไฟล์แนบ 1 เรียบร้อยแล้ว";
+						$_processing_upload_1 = "อัปโหลดไฟล์แนบ 1 เรียบร้อยแล้ว";
 					}
 				}
 				$_file_1_name = str_replace($_target_semester."/","",$_f);
@@ -161,7 +161,7 @@
 						unlink($_f);
 					}
 					if(rename($_target_file,$_f)){
-						$_processing_upload_2 = "อัพโหลดไฟล์แนบ 2 เรียบร้อยแล้ว";
+						$_processing_upload_2 = "อัปโหลดไฟล์แนบ 2 เรียบร้อยแล้ว";
 					}
 				}
 				$_file_2_name = str_replace($_target_semester."/","",$_f);

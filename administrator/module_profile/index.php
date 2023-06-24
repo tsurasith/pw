@@ -74,7 +74,7 @@
 			<tr>
 				<td width="20px">&nbsp;</td>
 				<td>
-					<a href="index.php?option=module_profile/AdminEditPic&teacher_code=<?=$_dat['TeacCode']?>">1.2 อัพโหลดรูปโปรไฟล์</a> 
+					<a href="index.php?option=module_profile/AdminEditPic&teacher_code=<?=$_dat['TeacCode']?>">1.2 อัปโหลดรูปโพรไฟล์</a> 
 				</td>
 			</tr>
 			<tr>

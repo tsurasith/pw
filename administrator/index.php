@@ -115,8 +115,8 @@
                 <div style="float:left;">
                     <div class="icon">
                          <a href="index.php?option=module_maps/index">
-                        <img src="../images/add.png" alt="แผนที่ติดตามที่อยู่" align="middle" border="0" height="48px" />
-                        <span>แผนที่ติดตามที่อยู่</span>
+                        <img src="../images/add.png" alt="ภูมิสารสนเทศ" align="middle" border="0" height="48px" />
+                        <span>ภูมิสารสนเทศ</span>
                         </a>
                     </div>
                 </div>
@@ -241,7 +241,7 @@
                     <div class="icon">
                         <a href="index.php?option=module_config/index">
                         <img src="../images/config.png" alt="ปรับแต่งระบบ/ข้อมูลพื้นฐาน" align="middle" border="0" />
-                        <span>ปรับแต่งระบบ</span>
+                        <span>ตั้งค่าระบบ</span>
                         </a>
                     </div>
                 </div>

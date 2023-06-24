@@ -182,7 +182,7 @@
 					switch ($_uploadError)
 					{
 						case 1: echo "<font color='red'>การเชื่อมต่อเครือข่ายผิดพลาด กรุณาตรวจสอบอีกครั้ง</font>"; break;
-						case 2: echo "<font color='red'>รูปแบบหรือนามสกุลไฟล์ที่อัพโหลดไม่ถูกต้อง</font>"; break;
+						case 2: echo "<font color='red'>รูปแบบหรือนามสกุลไฟล์ที่อัปโหลดไม่ถูกต้อง</font>"; break;
 						case 3: echo "<font color='red'>กรุณาเลือกไฟล์นำเข้าข้อมูลนักเรียนก่อน</font>"; break;
 					}
 				?>

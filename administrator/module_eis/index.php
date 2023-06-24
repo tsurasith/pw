@@ -64,13 +64,13 @@
 	<tr>
 		<td width="20px">&nbsp;</td>
 		<td>
-			<a href="index.php?option=module_eis/uploadStudentPictureProgress">3.2 ความคืบหน้าการอัพโหลดรูปนักเรียน</a> 
+			<a href="index.php?option=module_eis/uploadStudentPictureProgress">3.2 ความคืบหน้าการอัปโหลดรูปนักเรียน</a> 
 		</td>
 	</tr>
 	<tr>
 		<td width="20px">&nbsp;</td>
 		<td>
-			<a href="index.php?option=module_eis/uploadStudentHomePictureProgress">3.3 ความคืบหน้าการอัพโหลดรูปบ้าน รูปผู้ปกครองนักเรียน</a> 
+			<a href="index.php?option=module_eis/uploadStudentHomePictureProgress">3.3 ความคืบหน้าการอัปโหลดรูปบ้าน รูปผู้ปกครองนักเรียน</a> 
 		</td>
 	</tr>
 </table>

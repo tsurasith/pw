@@ -56,12 +56,12 @@ if(isset($_POST['upload']))
 				<td class="key">
 					<img src="../images/teacphoto/TC<?=$_teacherCode?>.jpg" width="150px" height="200" border="1"><br/>
 					<br/>
-					รูปภาพส่วนตัวที่อัพโหลดควรมีขนาด กว้าง 200 pixel สูง 266 pixel <br/>
+					รูปภาพส่วนตัวที่อัปโหลดควรมีขนาด กว้าง 200 pixel สูง 266 pixel <br/>
 					และมีรูปแบบไฟล์เป็น .jpg <br/>
 					ขนาดไม่ควรเกิน 200 Kb<br/><br/>
 						<input type="hidden" name="teacher_code" value="<?=$_teacherCode?>"/>
 						<input type="file" name="file" size="40px" /><br/>
-						<input type="submit" name="upload" value="อัพโหลดรูปภาพ"/>
+						<input type="submit" name="upload" value="อัปโหลดรูปภาพ"/>
 					<?php
 						if(isset($_POST['upload']) && $_uploadError != 0)
 						{
@@ -69,7 +69,7 @@ if(isset($_POST['upload']))
 							switch ($_uploadError)
 							{
 								case 1; echo "<font color='red'><b>การเชื่อมต่อเครือข่ายผิดพลาด กรุณาตรวจสอบอีกครั้ง</b></font>"; break;
-								case 2; echo "<font color='red'><b>รูปแบบหรือนามสกุลไฟล์ที่อัพโหลดไม่ถูกต้อง</b></font>"; break;
+								case 2; echo "<font color='red'><b>รูปแบบหรือนามสกุลไฟล์ที่อัปโหลดไม่ถูกต้อง</b></font>"; break;
 								case 3; echo "<font color='red'><b>ขนาดไฟล์ใหญ่เกินไปและไฟล์ที่เลือกขนาดไม่ควรเกิน 200Kb </b>
 																	<br/>(ไฟล์ทีี่ Upload มีขนาด :" . number_format(($_FILES["file"]["size"]/1024),2,'.','') . "Kb)</font>"; break;
 								case 4; echo "<font color='blue'><b>ทำการส่งรูปภาพเรียบร้อย</b></font>"; break;
