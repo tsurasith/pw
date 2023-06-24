@@ -153,7 +153,7 @@
 						s.task_roomid
 					";
 
-				//echo $_sql;
+				//echo $_sql . "<br/>";
 				
 
 				$_total_rows = 0;

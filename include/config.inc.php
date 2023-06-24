@@ -1,13 +1,18 @@
 <?php
 	# configuration for default Time
-	$acadyear = 2565;
-	$acadsemester = 2;
+	$acadyear = 2566;
+	$acadsemester = 1;
 	
 	# configuration for database
 	$_config['database']['hostname'] = "localhost";
 	$_config['database']['username'] = "root";
 	$_config['database']['password'] = "root";
 	// $_config['database']['password'] = "meroot";
+	
+	// for develop
+	// $_config['database']['database'] = "pw_prod";
+
+	// for investigate
 	$_config['database']['database'] = "saais_pw";
 		
 	# configuration for module grade
@@ -25,7 +30,7 @@
 
 
 	/* -- local -- */
-	$_token[0] = "";	
+	$_token[0] = "WByf00hGQL0URoh8FYDIcuwKNiJjIFTTIJL0PPdfcA0";	
 	//Line Token ม.1
 	$_token[1] = "WByf00hGQL0URoh8FYDIcuwKNiJjIFTTIJL0PPdfcA0";
 	//Line Token ม.2
