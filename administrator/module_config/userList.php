@@ -6,7 +6,7 @@
 			<img src="../images/config.png" alt="" width="48" height="48" />
 		</a>
 	</td>
-      <td><strong><font color="#990000" size="4">ปรับแต่งระบบ</font></strong><br />
+      <td><strong><font color="#990000" size="4">ตั้งค่าระบบ</font></strong><br />
         <span class="normal"><font color="#0066FF"><strong>1. จัดการบัญชีผู้ใช้งาน [บัญชีผู้ใช้งาน]</strong></font></span></td>
       <td align="right">
 	  	<form method="post" name="myform">

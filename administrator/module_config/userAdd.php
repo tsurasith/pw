@@ -83,7 +83,7 @@
 				</a>
 			</td>
 			<td>
-				<strong><font color="#990000" size="4">ปรับแต่งระบบ</font></strong><br />
+				<strong><font color="#990000" size="4">ตั้งค่าระบบ</font></strong><br />
 				<span class="normal"><font color="#0066FF"><strong>
 				1.2 เพิ่มบัญชีผู้ใช้งาน
 				[<a href="index.php?option=module_config/userList">บัญชีผู้ใช้งาน</a>]

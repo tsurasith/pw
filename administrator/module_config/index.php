@@ -2,7 +2,7 @@
   <table width="100%"  align="center" border="0" cellspacing="10" cellpadding="0"  class="header">
     <tr> 
       <td width="6%" align="center"><img src="../images/config.png" alt="" width="48" height="48" /></td>
-      <td><strong><font color="#990000" size="4">ปรับแต่งระบบ</font></strong><br />
+      <td><strong><font color="#990000" size="4">ตั้งค่าระบบ</font></strong><br />
         <span class="normal"><font color="#0066FF"><strong>การปรับแต่ง จัดเตรียม ความพร้อมของระบบสารสนเทศ</strong></font></span></td>
       <td>&nbsp;</td>
     </tr>

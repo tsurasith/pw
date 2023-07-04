@@ -188,7 +188,7 @@
 		<body onLoad="document.login.username.focus();">
 		<div id="maincontent">
 			<div id="loginform">
-				<h2>ระบบสารสนเทศ<span class="green">กิจการนักเรียน</span></h2>
+				<h2>ระบบสารสนเทศ<span class="green">โรงเรียนเพชรวิทยาคาร</span></h2>
 				<form name="login" id="login" method="post" action="" autocomplete="off">
 					<?php echo $message; ?>
 					<table align="right">

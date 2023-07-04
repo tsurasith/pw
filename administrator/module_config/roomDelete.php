@@ -6,7 +6,7 @@
 			<img src="../images/config.png" alt="" width="48" height="48" />
 		</a>
 	</td>
-      <td><strong><font color="#990000" size="4">ปรับแต่งระบบ</font></strong><br />
+      <td><strong><font color="#990000" size="4">ตั้งค่าระบบ</font></strong><br />
         <span class="normal"><font color="#0066FF"><strong>3.1 เพิ่ม/ลบ ห้องเรียนที่ใช้ในระบบ &gt;&gt; ลบห้องเรียน</strong></font></span></td>
       <td></td>
     </tr>
@@ -45,7 +45,7 @@
 							<? } else
 								{ 
 									echo "<font color='red'>";
-									echo "<br/>ไม่สามารถทำการลบห้อง " . displayRoom($_REQUEST['room_id']) . " ได้ เนื่องจาก - " . mysqli_error() ;
+									echo "<br/>ไม่สามารถทำการลบห้อง " . displayRoom($_REQUEST['room_id']) . " ได้ เนื่องจาก - " . mysqli_error($_connection) ;
 									echo "</font>";
 									echo "<br/><br/><br/><input type='button' value='ย้อนกลับ' onclick='history.go(-1)'/>";
 								}

@@ -240,7 +240,7 @@
 				<div style="float:left;">
                     <div class="icon">
                         <a href="index.php?option=module_config/index">
-                        <img src="../images/config.png" alt="ปรับแต่งระบบ/ข้อมูลพื้นฐาน" align="middle" border="0" />
+                        <img src="../images/config.png" alt="ตั้งค่า/ข้อมูลพื้นฐาน" align="middle" border="0" />
                         <span>ตั้งค่าระบบ</span>
                         </a>
                     </div>

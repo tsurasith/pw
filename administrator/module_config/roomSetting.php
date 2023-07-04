@@ -8,7 +8,7 @@
 			<img src="../images/config.png" alt="" width="48" height="48" />
 		</a>
 	</td>
-      <td><strong><font color="#990000" size="4">ปรับแต่งระบบ</font></strong><br />
+      <td><strong><font color="#990000" size="4">ตั้งค่าระบบ</font></strong><br />
         <span class="normal"><font color="#0066FF"><strong>3.1 เพิ่ม/ลบ ห้องเรียนที่ใช้ในระบบ</strong></font></span></td>
       <td>
 	  	<?php		
@@ -64,7 +64,7 @@
 											'" . $_POST['acadsemester']. "',
 											'" . $_POST['acadyear']."')";
 								if(mysqli_query($_connection,$_sqlInsert)){ echo "<font color='green'><br/><b>ได้ทำการบันทึกห้อง " . displayRoom($_POST['room_id']) . " เรียบร้อยแล้ว<b><br/><br/> </font>";}
-								else { echo "<font color='red'><br/>เกิดข้อผิดพลาดเนื่องจาก - " . mysqli_error() . "</font>";}
+								else { echo "<font color='red'><br/>เกิดข้อผิดพลาดเนื่องจาก - " . mysqli_error($_connection) . "</font>";}
 							}
 						?>
 				<? } //end submit valid value ?>
