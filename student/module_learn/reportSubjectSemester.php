@@ -25,7 +25,7 @@
 			$_date = isset($_POST['date'])?$_POST['date']:"";
 	
 			$_teacher_id = "";
-			if($_SESSION['username'] == "admin" || $_SESSION['username'] == "tc100" || $_SESSION['username'] == "tc101" || $_SESSION['username'] == "tc102" || $_SESSION['username'] == "tc103") {
+			if($_SESSION['username'] == "admin" || $_SESSION['username'] == "tc001" || $_SESSION['username'] == "tc101" || $_SESSION['username'] == "tc102" || $_SESSION['username'] == "tc103") {
 				$_teacher_id = isset($_POST['teacher_id'])?$_POST['teacher_id']:"";
 			} else{
 				$_teacher_id = $_SESSION['user_account_id'];

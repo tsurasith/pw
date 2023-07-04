@@ -266,7 +266,7 @@
 				<td>
 					<font  size="2" color="#000000">
 						<form name="sSelect" method="post" action="">
-						<? if($_SESSION['username'] == "admin" || $_SESSION['username'] == "tc100" || $_SESSION['username'] == "tc101" || $_SESSION['username'] == "tc102" || $_SESSION['username'] == "tc103" || $_SESSION['username'] == "tc121") { ?>
+						<? if($_SESSION['username'] == "admin" || $_SESSION['username'] == "tc001" || $_SESSION['username'] == "tc101" || $_SESSION['username'] == "tc102" || $_SESSION['username'] == "tc103" || $_SESSION['username'] == "tc121") { ?>
 						เลือกบุคลากร
 							<?php 
 									$sql_teacher = " 

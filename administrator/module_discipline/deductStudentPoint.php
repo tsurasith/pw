@@ -296,7 +296,7 @@
 						<td valign="top"><?=$_datH['firstname']. ' ' .$_datH['lastname']?></td>
 						<td valign="top" align="center">
 							<? 
-								$_permission = array("admin","tc100","tc101","tc102","tc103","tc111");
+								$_permission = array("admin","tc001","tc101","tc102","tc103","tc111");
 
 							?>
 							<? if($_datH['dis_id']=="" && in_array(strtolower($_SESSION['username']),$_permission)){ ?>

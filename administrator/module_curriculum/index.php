@@ -69,7 +69,7 @@
 		</tr>
 		<? if(
                         $_SESSION['username'] == "admin" || 
-                        $_SESSION['username'] == "tc100" || 
+                        $_SESSION['username'] == "tc001" || 
                         $_SESSION['username'] == "tc101" || 
                         $_SESSION['username'] == "tc102" || 
                         $_SESSION['username'] == "tc103" ||

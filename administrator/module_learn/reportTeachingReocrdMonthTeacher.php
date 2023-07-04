@@ -54,7 +54,7 @@
 		<font  size="2" color="#000000">
 			<form action="index.php?option=module_learn/reportTeachingReocrdMonthTeacher" method="post" autocomplete="off">
 				
-				<? if($_SESSION['username'] == "admin" || $_SESSION['username'] == "tc100" || $_SESSION['username'] == "tc101" || $_SESSION['username'] == "tc102" || $_SESSION['username'] == "tc103") { ?>
+				<? if($_SESSION['username'] == "admin" || $_SESSION['username'] == "tc001" || $_SESSION['username'] == "tc101" || $_SESSION['username'] == "tc102" || $_SESSION['username'] == "tc103") { ?>
 				   <font  size="2" color="#000000">เลือกครูผู้สอน
 					<?php 
 							$sql_teacher = " 

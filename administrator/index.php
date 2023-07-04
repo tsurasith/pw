@@ -188,7 +188,7 @@
                     </div>
                 </div>
 
-                <? if($_SESSION['username'] == "admin" || $_SESSION['username'] == "tc100" || $_SESSION['username'] == "tc101" || $_SESSION['username'] == "tc102" || $_SESSION['username'] == "tc103") { ?>
+                <? if($_SESSION['username'] == "admin" || $_SESSION['username'] == "tc001" || $_SESSION['username'] == "tc101" || $_SESSION['username'] == "tc102" || $_SESSION['username'] == "tc103") { ?>
                 <div style="float:left;">
                     <div class="icon">
                         <a href="index.php?option=module_eis/index">
@@ -201,7 +201,7 @@
 
                 <? if(
                         $_SESSION['username'] == "admin" || 
-                        $_SESSION['username'] == "tc100" || 
+                        $_SESSION['username'] == "tc001" || 
                         $_SESSION['username'] == "tc101" || 
                         $_SESSION['username'] == "tc102" || 
                         $_SESSION['username'] == "tc103" ||

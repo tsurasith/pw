@@ -9,7 +9,7 @@ function check(name,value)
 }
 </script>
 <SCRIPT language=Javascript>
-      <!--
+      //<!--
       function isNumberKey(evt)
       {
          var charCode = (evt.which) ? evt.which : event.keyCode
@@ -122,7 +122,7 @@ function check(name,value)
 								$p4Check = "";
 								$p5Check = "";
 								$_permission = "";
-								if($dat['created_user']!=$_SESSION['user_account_id'] && ($_SESSION['username'] != 'admin' && $_SESSION['username'] != 'tc100' && $_SESSION['username'] != 'tc111')){
+								if($dat['created_user']!=$_SESSION['user_account_id'] && ($_SESSION['username'] != 'admin' && $_SESSION['username'] != 'tc001' && $_SESSION['username'] != 'tc111')){
 									$_permission = "disabled";
 								}
 								$_created_by_name = $dat['created_user'];
