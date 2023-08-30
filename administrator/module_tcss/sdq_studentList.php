@@ -68,86 +68,88 @@ if(isset($_POST['search']) && $_POST['roomID'] != "")
 	$_resCount = mysqli_query($_connection,$_sqlCount);
 	$_datCount = mysqli_fetch_assoc($_resCount);
   ?>
-  <table class="admintable" align="center">
-    <tr> 
-      <th colspan="8" align="center">
-	  	<img src="../images/school_logo.png" width="120px"><br/>
-	  	สรุปผลการทำแบบประเมิน SDQ ห้อง <?=$_POST['roomID']?> ภาคเรียนที่ <?=$acadsemester?> ปีการศึกษา <?=$acadyear?><br />
-		<table align="center" bgcolor="#FFCCFF" cellpadding="1" cellspacing="1">
-			<tr bgcolor="#FFFFFF">
-				<td colspan="6">
-					<font color="#0000CC">จำนวนนักเรียนทั้งหมด </font><font color="#0000CC" size="4"> <?=$_datCount['b0']+$_datCount['b1']?></font> คน
-				</td>
-			</tr>
-			<tr bgcolor="#FFFFFF">
-				<td colspan="2" align="center">
-					<font color="#0000FF"><b>นักเรียน</b></font>
-				</td>
-				<td colspan="2" align="center">
-					<font color="#0000FF"><b>ผู้ปกครอง</b></font>
-				</td>
-				<td colspan="2" align="center">
-					<font color="#0000FF"><b>ครูที่ปรึกษา</b></font>
-				</td>
-			</tr>
-			<tr bgcolor="#FFFFFF">
-				<td align="right"><font color="green" size="4"><?=$_datCount['b1']!=""?$_datCount['b1']:0?></font> </td>
-				<td>คน ประเมินแล้ว</td>
-				<td align="right"><font color="green" size="4"><?=$_datCount['c1']!=""?$_datCount['c1']:0?></font> </td>
-				<td>คน ประเมินแล้ว</td>
-				<td align="right"><font color="green" size="4"><?=$_datCount['d1']!=""?$_datCount['d1']:0?></font> </td>
-				<td>คน ประเมินแล้ว</td>
-			</tr>
-			<tr bgcolor="#FFFFFF">
-				<td align="right"><?=displayPoint($_datCount['b0']!=""?$_datCount['b0']:0)?> </td>
-				<td>คน ยังไม่ประเมิน</td>
-				<td align="right"><?=displayPoint($_datCount['c0']!=""?$_datCount['c0']:0)?> </td>
-				<td>คน ยังไม่ประเมิน</td>
-				<td align="right"><?=displayPoint($_datCount['d0']!=""?$_datCount['d0']:0)?> </td>
-				<td>คน ยังไม่ประเมิน</td>
-			</tr>
-		</table>
-	  </th>
-    </tr>
-    <tr> 
-		<td class="key" width="40px" align="center">เลขที่</td>
-      	<td class="key" width="85px" align="center">เลขประจำตัว</td>
-      	<td class="key" width="200px" align="center">ชื่อ - นามสกุล</td>
-      	<td class="key" width="80px"  align="center">สถานภาพ</td>
-		<td class="key" width="100px" align="center">คะแนน<br/>ความประพฤติ</td>
-		<td class="key" width="70px" align="center">นักเรียน<br/>ประเมิน</td>
-		<td class="key" width="70px" align="center">ผู้ปกครอง<br/>ประเมิน</td>
-      	<td class="key" width="70px" align="center">ครูที่ปรึกษา<br/>ประเมิน</td>
-    </tr>
-	<? $sqlStudent = "select id,prefix,firstname,lastname,studstatus,points,c.status x,d.status y,e.status z
-						from students a 
-							 join sdq_student c on a.id = c.student_id
-							 join sdq_parent d on a.id = d.student_id
-							 join sdq_teacher e on a.id = e.student_id
-						where xlevel = '". $xlevel . "' and xyearth = '" . $xyearth . "' and room = '" . $room . "' 
-										and a.xedbe = '" .$acadyear ."'
-										and c.acadyear = '" .$acadyear ."'
-										and c.semester = '" .$acadsemester ."'
-										and d.acadyear = '" .$acadyear ."'
-										and d.semester = '" .$acadsemester ."'
-										and e.acadyear = '" .$acadyear ."'
-										and e.semester = '" .$acadsemester ."'
-						order by sex,convert(firstname using tis620),convert(lastname using tis620),ordinal";
-		$resStudent = mysqli_query($_connection,$sqlStudent); ?>
-	<?  $ordinal = 1; ?>
-	<?  while($dat = mysqli_fetch_array($resStudent)) { ?>
-		<tr onMouseOver="this.style.backgroundColor='#FFCCFF'; this.style.cursor='hand';" onMouseOut=this.style.backgroundColor="#FFFFFF"> 
-			<td align="center"><?=$ordinal++?></td>
-			<td align="center"><?=$dat['id']?></td>
-			<td><?=$dat['prefix'] . $dat['firstname'] . " " . $dat['lastname']?></td>
-			<td align="center"><?=displayStudentStatusColor($dat['studstatus'])?></td>
-			<td align="center"><?=displayPoint($dat['points'])?></td>
-			<td align="center"><?=($dat['x']==0?"<img src='../images/delete.png' alt='ยังไม่ได้ประเมิน' />":"<img src='../images/ball_green.png' alt='ประเมินแล้ว' />")?></td>
-			<td align="center"><?=($dat['y']==0?"<img src='../images/delete.png' alt='ยังไม่ได้ประเมิน' />":"<img src='../images/ball_green.png' alt='ประเมินแล้ว' />")?></td>
-			<td align="center"><?=($dat['z']==0?"<img src='../images/delete.png' alt='ยังไม่ได้ประเมิน' />":"<img src='../images/ball_green.png' alt='ประเมินแล้ว' />")?></td>
+  <div align="center">
+	<table class="admintable" align="center">
+		<tr> 
+		<th colspan="8" align="center">
+			<img src="../images/school_logo.png" width="120px"><br/>
+			สรุปผลการทำแบบประเมิน SDQ ห้อง <?=$_POST['roomID']?> ภาคเรียนที่ <?=$acadsemester?> ปีการศึกษา <?=$acadyear?><br />
+			<table align="center" bgcolor="#FFCCFF" cellpadding="1" cellspacing="1">
+				<tr bgcolor="#FFFFFF">
+					<td colspan="6">
+						<font color="#0000CC">จำนวนนักเรียนทั้งหมด </font><font color="#0000CC" size="4"> <?=$_datCount['b0']+$_datCount['b1']?></font> คน
+					</td>
+				</tr>
+				<tr bgcolor="#FFFFFF">
+					<td colspan="2" align="center">
+						<font color="#0000FF"><b>นักเรียน</b></font>
+					</td>
+					<td colspan="2" align="center">
+						<font color="#0000FF"><b>ผู้ปกครอง</b></font>
+					</td>
+					<td colspan="2" align="center">
+						<font color="#0000FF"><b>ครูที่ปรึกษา</b></font>
+					</td>
+				</tr>
+				<tr bgcolor="#FFFFFF">
+					<td align="right"><font color="green" size="4"><?=$_datCount['b1']!=""?$_datCount['b1']:0?></font> </td>
+					<td>คน ประเมินแล้ว</td>
+					<td align="right"><font color="green" size="4"><?=$_datCount['c1']!=""?$_datCount['c1']:0?></font> </td>
+					<td>คน ประเมินแล้ว</td>
+					<td align="right"><font color="green" size="4"><?=$_datCount['d1']!=""?$_datCount['d1']:0?></font> </td>
+					<td>คน ประเมินแล้ว</td>
+				</tr>
+				<tr bgcolor="#FFFFFF">
+					<td align="right"><?=displayPoint($_datCount['b0']!=""?$_datCount['b0']:0)?> </td>
+					<td>คน ยังไม่ประเมิน</td>
+					<td align="right"><?=displayPoint($_datCount['c0']!=""?$_datCount['c0']:0)?> </td>
+					<td>คน ยังไม่ประเมิน</td>
+					<td align="right"><?=displayPoint($_datCount['d0']!=""?$_datCount['d0']:0)?> </td>
+					<td>คน ยังไม่ประเมิน</td>
+				</tr>
+			</table>
+		</th>
 		</tr>
-	<? } ?>
-</table>
+		<tr> 
+			<td class="key" width="40px" align="center">เลขที่</td>
+			<td class="key" width="85px" align="center">เลขประจำตัว</td>
+			<td class="key" width="200px" align="center">ชื่อ - นามสกุล</td>
+			<td class="key" width="80px"  align="center">สถานภาพ</td>
+			<td class="key" width="100px" align="center">คะแนน<br/>ความประพฤติ</td>
+			<td class="key" width="70px" align="center">นักเรียน<br/>ประเมิน</td>
+			<td class="key" width="70px" align="center">ผู้ปกครอง<br/>ประเมิน</td>
+			<td class="key" width="70px" align="center">ครูที่ปรึกษา<br/>ประเมิน</td>
+		</tr>
+		<? $sqlStudent = "select id,prefix,firstname,lastname,studstatus,points,c.status x,d.status y,e.status z
+							from students a 
+								join sdq_student c on a.id = c.student_id
+								join sdq_parent d on a.id = d.student_id
+								join sdq_teacher e on a.id = e.student_id
+							where xlevel = '". $xlevel . "' and xyearth = '" . $xyearth . "' and room = '" . $room . "' 
+											and a.xedbe = '" .$acadyear ."'
+											and c.acadyear = '" .$acadyear ."'
+											and c.semester = '" .$acadsemester ."'
+											and d.acadyear = '" .$acadyear ."'
+											and d.semester = '" .$acadsemester ."'
+											and e.acadyear = '" .$acadyear ."'
+											and e.semester = '" .$acadsemester ."'
+							order by sex,convert(firstname using tis620),convert(lastname using tis620),ordinal";
+			$resStudent = mysqli_query($_connection,$sqlStudent); ?>
+		<?  $ordinal = 1; ?>
+		<?  while($dat = mysqli_fetch_array($resStudent)) { ?>
+			<tr onMouseOver="this.style.backgroundColor='#FFCCFF'; this.style.cursor='hand';" onMouseOut=this.style.backgroundColor="#FFFFFF"> 
+				<td align="center"><?=$ordinal++?></td>
+				<td align="center"><?=$dat['id']?></td>
+				<td><?=$dat['prefix'] . $dat['firstname'] . " " . $dat['lastname']?></td>
+				<td align="center"><?=displayStudentStatusColor($dat['studstatus'])?></td>
+				<td align="center"><?=displayPoint($dat['points'])?></td>
+				<td align="center"><?=($dat['x']==0?"<img src='../images/delete.png' alt='ยังไม่ได้ประเมิน' />":"<img src='../images/ball_green.png' alt='ประเมินแล้ว' />")?></td>
+				<td align="center"><?=($dat['y']==0?"<img src='../images/delete.png' alt='ยังไม่ได้ประเมิน' />":"<img src='../images/ball_green.png' alt='ประเมินแล้ว' />")?></td>
+				<td align="center"><?=($dat['z']==0?"<img src='../images/delete.png' alt='ยังไม่ได้ประเมิน' />":"<img src='../images/ball_green.png' alt='ประเมินแล้ว' />")?></td>
+			</tr>
+		<? } ?>
+	</table>
+  </div>
 <? } // end if ?>
 </div>
 
