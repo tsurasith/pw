@@ -71,7 +71,7 @@
 	}else
 	{
 ?>
-<form method="post" action=""/>
+<form method="post" action="" autocomplete="off"/>
 <table align="center" class="admintable" width="100%">
 				  	<tr>
 						<th  bgcolor="#FFCCFF" align="center" height="30px">สร้างวันที่บันทึกข้อมูล</th>
