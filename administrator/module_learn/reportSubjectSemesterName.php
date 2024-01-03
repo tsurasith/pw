@@ -237,11 +237,15 @@
 									student_learn t
 								where
 									1=1
-									and t.class_id = '" . $_sub[0] . "' 
-									and t.SubjectCode = '" . $_sub[1] . "'
+									and t.acadyear     = '" . $acadyear . "' 
+									and t.acadsemester = '" . $acadsemester . "' 
+									and t.class_id     = '" . $_sub[0] . "' 
+									and t.SubjectCode  = '" . $_sub[1] . "'
 								group by student_id
 						   ) as c
 				on (s.id = c.student_id and s.xEDBE = '" . $acadyear . "')
+			where
+				s.xedbe = '" . $acadyear . "' 
 			order by 
 				sex,
 				convert(firstname using tis620),

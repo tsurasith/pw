@@ -160,7 +160,7 @@
 								t.LASTNAME as t_lastname
 							from 
 							student_point_history h inner join students s 
-							on (h.student_id = s.ID) left join teachers t
+							on (h.student_id = s.ID and s.xedbe = h.acadyear) left join teachers t
 							on (h.updated_user = t.teacher_id)
 							where 1=1 
 						";
@@ -194,7 +194,7 @@
 								h.created_datetime
 							from 
 							student_point_history h inner join students s 
-							on (h.student_id = s.ID) left join teachers t
+							on (h.student_id = s.ID and s.xedbe = h.acadyear) left join teachers t
 							on (h.updated_user = t.teacher_id)
 							where 1=1 ";
 						$_sql_more .= trim($_POST['point_type'])==""?"":" and point_type = '" . $_POST['point_type'] . "'";
